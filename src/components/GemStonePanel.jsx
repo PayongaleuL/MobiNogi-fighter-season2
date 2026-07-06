@@ -14,13 +14,12 @@ export default function GemStonePanel({ gemStats, onGemStatsChange }) {
     onGemStatsChange(key, parseFloat(val) || 0);
   };
 
-  // 프리셋 설정 도우미 (보석 단계 일괄 적용)
+  // 프리셋 설정 도우미 (마비노기 모바일 보석 시스템 규격 적용)
   const applyPreset = (rank) => {
     let dmg = 0;
     let cd = 0;
-    if (rank === 'rare') { dmg = 10; cd = 5; } // 희귀 등급 기준
-    else if (rank === 'epic') { dmg = 20; cd = 10; } // 영웅 등급 기준
-    else if (rank === 'legendary') { dmg = 35; cd = 15; } // 전설 등급 기준
+    if (rank === 'starPrismS') { dmg = 2.10; cd = 0.70; } // 스타프리즘S
+    else if (rank === 'perfectStarPrism') { dmg = 2.20; cd = 0.75; } // 온전한 스타프리즘
 
     const updated = {};
     gemFields.forEach(f => {
@@ -52,22 +51,16 @@ export default function GemStonePanel({ gemStats, onGemStatsChange }) {
         {/* 프리셋 버튼 그룹 */}
         <div className="flex gap-2">
           <button
-            onClick={() => applyPreset('rare')}
-            className="px-2.5 py-1 bg-blue-950/20 hover:bg-blue-900/30 border border-blue-800/40 rounded-lg text-[10px] font-bold text-blue-300 transition-all active:scale-95"
+            onClick={() => applyPreset('starPrismS')}
+            className="px-3 py-1.5 bg-blue-950/20 hover:bg-blue-900/30 border border-blue-800/40 rounded-lg text-[10px] font-bold text-blue-300 transition-all active:scale-95"
           >
-            희귀보석 일괄
+            스타프리즘S 일괄
           </button>
           <button
-            onClick={() => applyPreset('epic')}
-            className="px-2.5 py-1 bg-purple-950/20 hover:bg-purple-900/30 border border-purple-800/40 rounded-lg text-[10px] font-bold text-purple-300 transition-all active:scale-95"
+            onClick={() => applyPreset('perfectStarPrism')}
+            className="px-3 py-1.5 bg-purple-950/20 hover:bg-purple-900/30 border border-purple-800/40 rounded-lg text-[10px] font-bold text-purple-300 transition-all active:scale-95"
           >
-            영웅보석 일괄
-          </button>
-          <button
-            onClick={() => applyPreset('legendary')}
-            className="px-2.5 py-1 bg-amber-950/20 hover:bg-amber-900/30 border border-amber-800/40 rounded-lg text-[10px] font-bold text-amber-300 transition-all active:scale-95"
-          >
-            전설보석 일괄
+            온전한 스타프리즘 일괄
           </button>
         </div>
       </div>
