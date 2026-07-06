@@ -29,8 +29,16 @@ export default function StatsInput({ stats, onStatsChange }) {
     { label: '6번 스킬 개조', key: 'skillLevel_6' }
   ];
 
+  // 30단계 스킬 개수 계산
+  const lv30SkillsCount = skillFields.reduce((count, f) => {
+    return stats[f.key] === 30 ? count + 1 : count;
+  }, 0);
+  const isSkillLimitExceeded = lv30SkillsCount > 3;
+
   return (
-    <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl flex flex-col gap-6">
+    <div className={`bg-slate-900 border rounded-2xl p-6 shadow-xl flex flex-col gap-6 transition-all duration-350 ${
+      isSkillLimitExceeded ? 'border-red-500/50 shadow-red-950/10' : 'border-slate-800'
+    }`}>
       
       {/* 캐릭터 스펙 입력 */}
       <div>
@@ -68,36 +76,64 @@ export default function StatsInput({ stats, onStatsChange }) {
 
       {/* 6개 스킬 개조 레벨 입력 */}
       <div>
-        <h3 className="text-lg font-bold text-slate-100 mb-4 flex items-center gap-2">
-          <Activity className="w-5 h-5 text-purple-400" />
-          스킬 개조 단계 설정 (1번 ~ 6번)
-        </h3>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
-          {skillFields.map(f => (
-            <div key={f.key} className="bg-slate-950/40 p-2.5 rounded-xl border border-slate-800/80 flex flex-col items-center gap-1">
-              <span className="text-[10px] text-slate-500 font-semibold">{f.label}</span>
-              <div className="flex items-center gap-1.5 mt-1">
-                <button
-                  type="button"
-                  onClick={() => handleInputChange(f.key, Math.max(0, (stats[f.key] || 10) - 1))}
-                  className="w-5 h-5 bg-slate-850 hover:bg-slate-800 rounded flex items-center justify-center text-xs font-bold text-slate-350 active:scale-95 transition-all"
-                >
-                  -
-                </button>
-                <span className="w-6 text-center text-xs font-bold text-slate-200">
-                  {stats[f.key] || 10}
-                </span>
-                <button
-                  type="button"
-                  onClick={() => handleInputChange(f.key, Math.min(30, (stats[f.key] || 10) + 1))}
-                  className="w-5 h-5 bg-slate-850 hover:bg-slate-800 rounded flex items-center justify-center text-xs font-bold text-slate-350 active:scale-95 transition-all"
-                >
-                  +
-                </button>
-              </div>
-            </div>
-          ))}
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-lg font-bold text-slate-100 flex items-center gap-2">
+            <Activity className="w-5 h-5 text-purple-400" />
+            스킬 개조 단계 설정
+          </h3>
+          <span className={`text-[10px] px-2 py-0.5 rounded font-extrabold border ${
+            isSkillLimitExceeded 
+              ? 'bg-red-950/30 border-red-500/30 text-red-400 animate-pulse'
+              : 'bg-slate-950/50 border-slate-800 text-slate-400'
+          }`}>
+            30단계 개조 스킬: {lv30SkillsCount} / 3개
+          </span>
         </div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
+          {skillFields.map(f => {
+            const is30 = stats[f.key] === 30;
+            return (
+              <div 
+                key={f.key} 
+                className={`p-2.5 rounded-xl border flex flex-col items-center gap-1 transition-all ${
+                  is30 
+                    ? 'bg-purple-950/20 border-purple-500/30 shadow-md shadow-purple-950/5' 
+                    : 'bg-slate-950/40 border-slate-800/80'
+                }`}
+              >
+                <span className={`text-[10px] font-semibold ${is30 ? 'text-purple-300' : 'text-slate-500'}`}>{f.label}</span>
+                <div className="flex items-center gap-1.5 mt-1">
+                  <button
+                    type="button"
+                    onClick={() => handleInputChange(f.key, Math.max(0, (stats[f.key] || 10) - 1))}
+                    className="w-5 h-5 bg-slate-850 hover:bg-slate-800 rounded flex items-center justify-center text-xs font-bold text-slate-350 active:scale-95 transition-all"
+                  >
+                    -
+                  </button>
+                  <span className={`w-6 text-center text-xs font-black ${is30 ? 'text-purple-400' : 'text-slate-200'}`}>
+                    {stats[f.key] || 10}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => handleInputChange(f.key, Math.min(30, (stats[f.key] || 10) + 1))}
+                    className="w-5 h-5 bg-slate-850 hover:bg-slate-800 rounded flex items-center justify-center text-xs font-bold text-slate-350 active:scale-95 transition-all"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* 개조 한도 초과 경고 배너 */}
+        {isSkillLimitExceeded && (
+          <div className="mt-4 bg-red-950/20 border border-red-800/30 text-red-400 text-xs p-3.5 rounded-xl font-bold flex items-center gap-2 animate-bounce">
+            <span>⚠️</span>
+            <span>30단계 개조 스킬은 최대 3개까지만 지정 가능합니다. 게임 설정을 확인해 주십시오.</span>
+          </div>
+        )}
       </div>
 
       <hr className="border-slate-800/80" />

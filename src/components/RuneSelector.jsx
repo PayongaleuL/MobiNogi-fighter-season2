@@ -7,6 +7,50 @@ export default function RuneSelector({ selectedRunes, onRuneChange }) {
   const [selectedTypeFilter, setSelectedTypeFilter] = useState('ALL');
   const [activeSlot, setActiveSlot] = useState(null); // { type, index }
 
+  // 룬 설명 극단적 간소화 포맷터 (피드백 반영: 주피증, 공증, 치확 등 짧은 용어로 정리)
+  const formatRuneDescCompact = (rune) => {
+    if (!rune) return "";
+    const specialRunes = {
+      "무너진 경계": "침식 시 추가타확 16.5% ~ 33% (가동률 70% 반영)",
+      "숲 길잡이": "이동/적중 시 주피증 21% 증가",
+      "백금 천칭": "스킬/평타 시 주피증 31.5% / 추가타확 31.5% 증가",
+      "초월": "추가타 5회 시 주피증 15% / 치명타 5회 시 치피 15% 증가",
+      "눈부신 잔영": "스킬 후 평타 시 주변 스킬피 8% 추가 및 공속 10% 증가",
+      "태초": "스킬피 20% 증가",
+      "악몽": "스킬 사용 시 불의정수 소모 도트피 (주피증 5% 근사 계산)",
+      "금 간 봉인": "체력 비례 공증 10% 및 받는피해 감소",
+      "타오르는 영광": "강타피 30% / 공증 23.5% 증가"
+    };
+
+    if (specialRunes[rune.name]) return specialRunes[rune.name];
+
+    const parts = [];
+    const mapping = {
+      "공격력%": "공증",
+      "조건부공증%": "조건공증",
+      "주는피해%": "주피증",
+      "받는피해%": "받는피감",
+      "강타피해%": "강타피",
+      "연타피해%": "연타피",
+      "추가타피해%": "추가타피",
+      "치명타피해%": "치피",
+      "콤보피해%": "콤보피",
+      "멀티피해%": "멀티피",
+      "스킬피해%": "스킬피",
+      "추가타확률%": "추가타확",
+      "치명타확률%": "치확",
+      "스킬속도%": "스킬속"
+    };
+
+    Object.entries(rune.stats).forEach(([k, v]) => {
+      if (v !== 0 && k !== '가동률' && mapping[k]) {
+        parts.push(`${mapping[k]} ${(v * 100).toFixed(1)}%`);
+      }
+    });
+
+    return parts.length > 0 ? parts.join(" / ") : (rune.description || "옵션 없음");
+  };
+
   // 룬 타입별로 슬롯 구분
   // 무기(1개), 방어구(5개), 장신구(3개), 엠블럼(1개)
   const slots = [
@@ -77,7 +121,7 @@ export default function RuneSelector({ selectedRunes, onRuneChange }) {
               }}
               className={`relative cursor-pointer flex items-center gap-3 p-4 rounded-xl border transition-all duration-300 ${
                 currentRune 
-                  ? 'bg-slate-800/80 border-mabi-accent hover:border-mabi-red' 
+                  ? 'bg-slate-850 border-mabi-accent hover:border-mabi-red' 
                   : 'bg-slate-950/60 border-slate-800 border-dashed hover:border-slate-700'
               } ${activeSlot?.type === slot.type && activeSlot?.index === slot.index ? 'ring-2 ring-mabi-red border-transparent' : ''}`}
             >
@@ -86,14 +130,20 @@ export default function RuneSelector({ selectedRunes, onRuneChange }) {
               </div>
 
               <div className="flex-1 min-w-0">
-                <span className="text-xs text-slate-500 font-medium block">{slot.label}</span>
-                <span className="text-sm font-semibold text-slate-200 truncate block">
+                <span className="text-[9px] text-slate-500 font-semibold block">{slot.label}</span>
+                <span className="text-xs font-bold text-slate-200 truncate block">
                   {currentRune ? currentRune.name : '룬을 선택해주세요'}
                 </span>
-                {currentRune?.element && currentRune.element !== '없음' && (
-                  <span className={`inline-block text-[10px] px-1.5 py-0.5 rounded border mt-1 font-bold ${getElementColor(currentRune.element)}`}>
-                    {currentRune.element}
+                {currentRune ? (
+                  <span className="text-[10px] text-emerald-400 font-bold block mt-1 truncate">
+                    {formatRuneDescCompact(currentRune)}
                   </span>
+                ) : (
+                  currentRune?.element && currentRune.element !== '없음' && (
+                    <span className={`inline-block text-[9px] px-1.5 py-0.5 rounded border mt-1 font-bold ${getElementColor(currentRune.element)}`}>
+                      {currentRune.element}
+                    </span>
+                  )
                 )}
               </div>
 
@@ -162,18 +212,16 @@ export default function RuneSelector({ selectedRunes, onRuneChange }) {
             <div className="p-4 overflow-y-auto flex-1 bg-slate-950/40">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {filteredRunes.map(rune => {
-                  const hasStats = Object.values(rune.stats).some(v => v !== 0 && v !== 1.0);
-                  
                   return (
                     <div
                       key={rune.file}
                       onClick={() => handleSelectRune(rune)}
-                      className="cursor-pointer bg-slate-900/90 hover:bg-slate-800/80 border border-slate-800 hover:border-slate-700 p-4 rounded-xl transition-all duration-200 flex flex-col justify-between"
+                      className="cursor-pointer bg-slate-900/90 hover:bg-slate-800/80 border border-slate-800 hover:border-slate-700 p-4 rounded-xl transition-all duration-200 flex flex-col justify-between gap-3"
                     >
                       <div>
-                        <div className="flex justify-between items-start gap-2 mb-2">
-                          <span className="font-bold text-slate-200 text-sm truncate">{rune.name}</span>
-                          <div className="flex gap-1.5">
+                        <div className="flex justify-between items-start gap-2">
+                          <span className="font-extrabold text-slate-100 text-sm truncate">{rune.name}</span>
+                          <div className="flex gap-1.5 shrink-0">
                             {rune.element && rune.element !== '없음' && (
                               <span className={`text-[9px] px-1 rounded border font-bold ${getElementColor(rune.element)}`}>
                                 {rune.element}
@@ -185,24 +233,17 @@ export default function RuneSelector({ selectedRunes, onRuneChange }) {
                           </div>
                         </div>
 
-                        {/* 스크린샷 룬 설명 */}
-                        <div className="text-[11px] text-slate-400 line-clamp-3 mb-3 bg-slate-950/40 p-2 rounded border border-slate-850">
-                          {rune.cleaned_text && rune.cleaned_text.slice(5).join(' ')}
+                        {/* 줄임말 설명 렌더링 - 가독성 극대화 */}
+                        <div className="text-xs font-black text-emerald-400 mt-2 bg-slate-950/60 border border-emerald-950/20 px-3 py-2 rounded-lg">
+                          {formatRuneDescCompact(rune)}
                         </div>
                       </div>
 
-                      {/* 추출 스탯 요약 */}
-                      {hasStats && (
-                        <div className="border-t border-slate-800/60 pt-2 flex flex-wrap gap-1.5">
-                          {Object.entries(rune.stats).map(([k, v]) => {
-                            if (v === 0 || k === '가동률') return null;
-                            return (
-                              <span key={k} className="text-[10px] bg-slate-950 text-emerald-400 px-2 py-0.5 rounded font-medium border border-emerald-950/40">
-                                {k.replace('%', '')}: +{(v * 100).toFixed(1)}%
-                              </span>
-                            );
-                          })}
-                        </div>
+                      {/* OCR 원문 */}
+                      {rune.cleaned_text && (
+                        <span className="text-[8px] text-slate-650 truncate block mt-1 border-t border-slate-850 pt-1 leading-none">
+                          원문: {rune.cleaned_text.slice(5).join(' ').substring(0, 40)}...
+                        </span>
                       )}
                     </div>
                   );
