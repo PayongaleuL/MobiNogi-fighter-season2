@@ -144,8 +144,12 @@ export default function Calculator() {
     setStats(prev => ({ ...prev, [key]: val }));
   };
 
-  const handleGemStatsChange = (key, val) => {
-    setGemStats(prev => ({ ...prev, [key]: val }));
+  const handleGemStatsChange = (updatesOrKey, val) => {
+    if (typeof updatesOrKey === 'object' && updatesOrKey !== null) {
+      setGemStats(prev => ({ ...prev, ...updatesOrKey }));
+    } else {
+      setGemStats(prev => ({ ...prev, [updatesOrKey]: val }));
+    }
   };
 
   const handleRuneChange = (type, index, rune) => {
