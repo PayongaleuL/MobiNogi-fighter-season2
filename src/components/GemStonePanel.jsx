@@ -14,12 +14,20 @@ export default function GemStonePanel({ gemStats, onGemStatsChange }) {
     onGemStatsChange(key, parseFloat(val) || 0);
   };
 
-  // 프리셋 설정 도우미 (마비노기 모바일 보석 시스템 규격 적용)
+  // 프리셋 설정 도우미 (마비노기 모바일 보석 시스템 규격 적용, 22개 슬롯 곱연산)
   const applyPreset = (rank) => {
     let dmg = 0;
     let cd = 0;
-    if (rank === 'starPrismS') { dmg = 2.10; cd = 0.70; } // 스타프리즘S
-    else if (rank === 'perfectStarPrism') { dmg = 2.20; cd = 0.75; } // 온전한 스타프리즘
+    const gemCount = 22; // 전체 보석 개수 22개 일괄 곱연산
+    
+    if (rank === 'starPrismS') { 
+      dmg = parseFloat((2.10 * gemCount).toFixed(2)); // 46.20%
+      cd = parseFloat((0.70 * gemCount).toFixed(2));  // 15.40%
+    } 
+    else if (rank === 'perfectStarPrism') { 
+      dmg = parseFloat((2.20 * gemCount).toFixed(2)); // 48.40%
+      cd = parseFloat((0.75 * gemCount).toFixed(2));  // 16.50%
+    }
 
     const updated = {};
     gemFields.forEach(f => {
