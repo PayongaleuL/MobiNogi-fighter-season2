@@ -31,14 +31,18 @@ export default function GemStonePanel({ gemStats, onGemStatsChange }) {
 
     const updated = {};
     gemFields.forEach(f => {
-      updated[`${f.key}Dmg`] = dmg;
-      updated[`${f.key}Cd`] = cd;
+      // 방해(disable) 및 생존(save) 계열은 0으로 공란 처리
+      if (f.key === 'disable' || f.key === 'save') {
+        updated[`${f.key}Dmg`] = 0;
+        updated[`${f.key}Cd`] = 0;
+      } else {
+        updated[`${f.key}Dmg`] = dmg;
+        updated[`${f.key}Cd`] = cd;
+      }
     });
     
-    // 일괄 갱신을 부모에 전달
-    Object.entries(updated).forEach(([k, v]) => {
-      onGemStatsChange(k, v);
-    });
+    // 객체 통째로 1회 전달하여 리액트 비동기 업데이트 씹힘 현상 방지
+    onGemStatsChange(updated);
   };
 
   return (
