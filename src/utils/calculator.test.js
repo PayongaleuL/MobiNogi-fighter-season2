@@ -71,4 +71,65 @@ describe('6스킬 및 보석 세공 연계 격투가 계산기 연산 검증', (
     expect(resultGem.weightedDps).toBeGreaterThan(resultNormal.weightedDps);
     expect(resultGem.totalAtk).toBe(resultNormal.totalAtk); // 공격력 자체는 보석세공으로 증가하지 않음
   });
+
+  it('스탠스 변형(소닉 피스트, 섬머솔트) 및 4대 패시브 연산 동작 검증', () => {
+    const stats = {
+      baseAttack: 27166.0,
+      critScore: 6925.0,
+      strongDmg: 2487.0,
+      chainDmg: 2989.0,
+      comboPower: 1532.0,
+      skillPower: 1577.0,
+      multiPower: 1082.0,
+      extraProb: 987.0,
+      fastAtk: 1484.0,
+      fastSkill: 1488.0,
+      ultScore: 1792.0,
+      enchantAtkPct: 6.8,
+      critBonusPct: 0.0,
+      skillLevel_1: 10,
+      skillLevel_2: 30,
+      skillLevel_3: 10,
+      skillLevel_4: 10,
+      skillLevel_5: 10,
+      skillLevel_6: 10
+    };
+
+    const selectedRunes = [];
+    const gimmicks = {
+      boss: '함선 허수아비',
+      ordinaryTime: 87,
+      unarmedTime: 0,
+      ultimateTime: 33,
+      gimmickDmgPct: 0.0,
+      healerDmgPct: 0.0,
+      skillDebuffDmgPct: 10.0,
+      hasSpdBuff: false
+    };
+
+    const cycles = {
+      ordinary: '45',
+      ordinaryBreak: '45',
+      ultimate: '45',
+      ultimateBreak: '45'
+    };
+
+    // 1) 순정 스탠스
+    const stancesNormal = {
+      skill_4: '순정',
+      skill_5: '순정'
+    };
+    const resNormal = calculateDPS(stats, selectedRunes, gimmicks, cycles, {}, {}, stancesNormal);
+
+    // 2) 소닉 피스트 & 섬머솔트 장착 스탠스
+    const stancesTransformed = {
+      skill_4: '소닉 피스트',
+      skill_5: '섬머솔트'
+    };
+    const resTransformed = calculateDPS(stats, selectedRunes, gimmicks, cycles, {}, {}, stancesTransformed);
+
+    // 소닉 피스트(2.98배 기댓값) 및 섬머솔트(1.53배 계수)는 순정 4번(버스트)/5번(비룡격)에 비해 단일 피해와 기대 DPS가 월등히 상승함
+    expect(resTransformed.weightedDps).toBeGreaterThan(resNormal.weightedDps);
+  });
 });
+
