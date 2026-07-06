@@ -4,7 +4,7 @@ import RuneSelector from './RuneSelector';
 import ConditionalPanel from './ConditionalPanel';
 import GemStonePanel from './GemStonePanel';
 import { calculateDPS } from '../utils/calculator';
-import { Play, RotateCcw, Save, Trash2, Check, TrendingUp, Info, Gem } from 'lucide-react';
+import { Play, RotateCcw, Save, Trash2, Check, TrendingUp, Info, Gem, Activity } from 'lucide-react';
 
 export default function Calculator() {
   // 1. 활성화 탭 관리 ('calculator' | 'gemstone')
@@ -73,10 +73,19 @@ export default function Calculator() {
   // 7. 조건부 룬 가동률 상태
   const [conditionalUptimes, setConditionalUptimes] = useState({});
 
-  // 8. 계산된 DPS 결과 상태
+  // 8. 6개 스킬 개별 스탠스(Stance) 선택 상태 (신규 추가)
+  const [skillStances, setSkillStances] = useState({
+    skill_1: '순정',
+    skill_2: '순정',
+    skill_3: '순정',
+    skill_4: '순정',
+    skill_5: '순정'
+  });
+
+  // 9. 계산된 DPS 결과 상태
   const [dpsResult, setDpsResult] = useState(null);
 
-  // 9. 세팅 비교용 슬롯 상태 (로컬 스토리지 연동)
+  // 10. 세팅 비교용 슬롯 상태 (로컬 스토리지 연동)
   const [presets, setPresets] = useState([
     { name: '셋팅 1', data: null },
     { name: '셋팅 2', data: null },
@@ -92,14 +101,14 @@ export default function Calculator() {
       });
     });
 
-    // gemStats 인자 추가 전달하여 연산 연계
-    const result = calculateDPS(stats, flattenedRunes, gimmicks, cycles, conditionalUptimes, gemStats);
+    // gemStats 및 skillStances 추가 전달하여 연산 연계
+    const result = calculateDPS(stats, flattenedRunes, gimmicks, cycles, conditionalUptimes, gemStats, skillStances);
     setDpsResult(result);
-  }, [stats, selectedRunes, gimmicks, cycles, conditionalUptimes, gemStats]);
+  }, [stats, selectedRunes, gimmicks, cycles, conditionalUptimes, gemStats, skillStances]);
 
   // 로컬 스토리지 프리셋 로드
   useEffect(() => {
-    const saved = localStorage.getItem('mabi_runes_presets_v2');
+    const saved = localStorage.getItem('mabi_runes_presets_v3');
     if (saved) {
       try {
         setPresets(JSON.parse(saved));
@@ -111,7 +120,7 @@ export default function Calculator() {
 
   // 마지막 입력 스탯 및 상태 자동 로드 (새로고침 대응)
   useEffect(() => {
-    const savedAutosave = localStorage.getItem('mabi_calculator_autosave');
+    const savedAutosave = localStorage.getItem('mabi_calculator_autosave_v3');
     if (savedAutosave) {
       try {
         const parsed = JSON.parse(savedAutosave);
@@ -121,6 +130,7 @@ export default function Calculator() {
         if (parsed.gemStats) setGemStats(parsed.gemStats);
         if (parsed.conditionalUptimes) setConditionalUptimes(parsed.conditionalUptimes);
         if (parsed.gimmicks) setGimmicks(parsed.gimmicks);
+        if (parsed.skillStances) setSkillStances(parsed.skillStances);
       } catch (e) {
         console.error("Autosave load failed:", e);
       }
@@ -135,10 +145,11 @@ export default function Calculator() {
       cycles,
       gemStats,
       conditionalUptimes,
-      gimmicks
+      gimmicks,
+      skillStances
     };
-    localStorage.setItem('mabi_calculator_autosave', JSON.stringify(dataToSave));
-  }, [stats, selectedRunes, cycles, gemStats, conditionalUptimes, gimmicks]);
+    localStorage.setItem('mabi_calculator_autosave_v3', JSON.stringify(dataToSave));
+  }, [stats, selectedRunes, cycles, gemStats, conditionalUptimes, gimmicks, skillStances]);
 
   const handleStatsChange = (key, val) => {
     setStats(prev => ({ ...prev, [key]: val }));
@@ -172,8 +183,12 @@ export default function Calculator() {
     setConditionalUptimes(prev => ({ ...prev, [runeName]: val }));
   };
 
+  const handleStanceChange = (key, val) => {
+    setSkillStances(prev => ({ ...prev, [key]: val }));
+  };
+
   const handleReset = () => {
-    if (window.confirm('모든 능력치, 룬, 보석 설정을 초기화하시겠습니까?')) {
+    if (window.confirm('모든 능력치, 룬, 보석, 스탠스 설정을 초기화하시겠습니까?')) {
       setStats({
         baseAttack: 27166.0,
         critScore: 6925.0,
@@ -208,6 +223,13 @@ export default function Calculator() {
         disableDmg: 0.0, disableCd: 0.0,
         saveDmg: 0.0, saveCd: 0.0
       });
+      setSkillStances({
+        skill_1: '순정',
+        skill_2: '순정',
+        skill_3: '순정',
+        skill_4: '순정',
+        skill_5: '순정'
+      });
       setConditionalUptimes({});
     }
   };
@@ -225,11 +247,12 @@ export default function Calculator() {
         cycles,
         conditionalUptimes,
         gemStats,
+        skillStances,
         weightedDps: dpsResult?.weightedDps || 0
       }
     };
     setPresets(newPresets);
-    localStorage.setItem('mabi_runes_presets_v2', JSON.stringify(newPresets));
+    localStorage.setItem('mabi_runes_presets_v3', JSON.stringify(newPresets));
   };
 
   const clearPreset = (slotIndex, e) => {
@@ -238,7 +261,7 @@ export default function Calculator() {
       const newPresets = [...presets];
       newPresets[slotIndex] = { name: `셋팅 ${slotIndex + 1}`, data: null };
       setPresets(newPresets);
-      localStorage.setItem('mabi_runes_presets_v2', JSON.stringify(newPresets));
+      localStorage.setItem('mabi_runes_presets_v3', JSON.stringify(newPresets));
     }
   };
 
@@ -258,6 +281,13 @@ export default function Calculator() {
         disableDmg: 0, disableCd: 0,
         saveDmg: 0, saveCd: 0
       });
+      setSkillStances(preset.data.skillStances || {
+        skill_1: '순정',
+        skill_2: '순정',
+        skill_3: '순정',
+        skill_4: '순정',
+        skill_5: '순정'
+      });
     }
   };
 
@@ -269,10 +299,10 @@ export default function Calculator() {
         <div>
           <h2 className="text-2xl font-black text-slate-100 flex items-center gap-2">
             <span className="text-mabi-red">Mabinogi Mobile</span> 격투가 종합 계산기
-            <span className="text-xs bg-slate-800 border border-slate-700 px-2 py-0.5 rounded-full text-slate-400 font-bold">시즌 2 스펙 확장</span>
+            <span className="text-xs bg-slate-800 border border-slate-700 px-2 py-0.5 rounded-full text-slate-400 font-bold">시즌 2 최종본</span>
           </h2>
           <p className="text-xs text-slate-400 mt-1 leading-relaxed">
-            6스킬 개조 레벨 연동, 보석 세공 전역 연동 및 시즌 2 간소화 룬 데이터베이스가 이식된 웹 계산기입니다.
+            장신구 룬에 의한 스킬 변형 모의실험 및 신규 파쇄권/충격파 패시브 공식이 완벽 이식된 최종 대시보드입니다.
           </p>
         </div>
 
@@ -323,6 +353,89 @@ export default function Calculator() {
             
             {/* 룬 슬롯 선택기 */}
             <RuneSelector selectedRunes={selectedRunes} onRuneChange={handleRuneChange} />
+
+            {/* 스킬별 스탠스(Stance) 개별 튜닝 패널 (신규 보강) */}
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
+              <h3 className="text-lg font-bold text-slate-100 mb-4 flex items-center gap-2">
+                <Activity className="w-5 h-5 text-emerald-400" />
+                스킬별 스탠스(Stance) 시뮬레이션 설정
+              </h3>
+              <p className="text-xs text-slate-400 mb-5 leading-normal">
+                장신구 룬 장착과 무관하게, 각 액티브 스킬들의 행동 변화(소닉 피스트, 섬머솔트 등 치환) 스탠스를 지정하여 딜사이클을 직접 가상 시뮬레이션합니다.
+              </p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                {/* 1번 스킬 */}
+                <div className="flex flex-col gap-1.5 bg-slate-950/40 p-3 rounded-xl border border-slate-800/80">
+                  <label className="text-[10px] font-semibold text-slate-400">1번 차징 피스트</label>
+                  <select
+                    value={skillStances.skill_1}
+                    onChange={(e) => handleStanceChange('skill_1', e.target.value)}
+                    className="bg-slate-900 border border-slate-800 rounded px-2.5 py-1.5 text-xs text-slate-200 font-bold focus:outline-none"
+                  >
+                    <option value="순정">순정 (1.475 계수)</option>
+                    <option value="충돌">충돌 (1.775 계수 / 범위피)</option>
+                    <option value="약점">약점 (0.92 계수 / 카운터 디버프)</option>
+                  </select>
+                </div>
+
+                {/* 2번 스킬 */}
+                <div className="flex flex-col gap-1.5 bg-slate-950/40 p-3 rounded-xl border border-slate-800/80">
+                  <label className="text-[10px] font-semibold text-slate-400">2번 연환격</label>
+                  <select
+                    value={skillStances.skill_2}
+                    onChange={(e) => handleStanceChange('skill_2', e.target.value)}
+                    className="bg-slate-900 border border-slate-800 rounded px-2.5 py-1.5 text-xs text-slate-200 font-bold focus:outline-none"
+                  >
+                    <option value="순정">순정 (0.405 계수)</option>
+                    <option value="전진">전진 (0.465 계수 / 콤보피증)</option>
+                    <option value="도약">도약 (0.64 계수 / 거리 비례피)</option>
+                  </select>
+                </div>
+
+                {/* 3번 스킬 */}
+                <div className="flex flex-col gap-1.5 bg-slate-950/40 p-3 rounded-xl border border-slate-800/80">
+                  <label className="text-[10px] font-semibold text-slate-400">3번 섬격</label>
+                  <select
+                    value={skillStances.skill_3}
+                    onChange={(e) => handleStanceChange('skill_3', e.target.value)}
+                    className="bg-slate-900 border border-slate-800 rounded px-2.5 py-1.5 text-xs text-slate-200 font-bold focus:outline-none"
+                  >
+                    <option value="순정">순정 (0.085 계수)</option>
+                    <option value="순발력">순발력 (0.24 계수 / 이속저하)</option>
+                  </select>
+                </div>
+
+                {/* 4번 스킬 */}
+                <div className="flex flex-col gap-1.5 bg-slate-950/40 p-3 rounded-xl border border-slate-800/80">
+                  <label className="text-[10px] font-semibold text-slate-400">4번 버스트 펀치</label>
+                  <select
+                    value={skillStances.skill_4}
+                    onChange={(e) => handleStanceChange('skill_4', e.target.value)}
+                    className="bg-slate-900 border border-slate-800 rounded px-2.5 py-1.5 text-xs text-slate-200 font-bold focus:outline-none"
+                  >
+                    <option value="순정">순정 (0.141~ 계수)</option>
+                    <option value="격파">격파 (0.188~ 계수 / 단일추가타)</option>
+                    <option value="소닉 피스트">소닉 피스트 (1.09 * 2.98배 기댓값)</option>
+                  </select>
+                </div>
+
+                {/* 5번 스킬 */}
+                <div className="flex flex-col gap-1.5 bg-slate-950/40 p-3 rounded-xl border border-slate-800/80">
+                  <label className="text-[10px] font-semibold text-slate-400">5번 비룡격</label>
+                  <select
+                    value={skillStances.skill_5}
+                    onChange={(e) => handleStanceChange('skill_5', e.target.value)}
+                    className="bg-slate-900 border border-slate-800 rounded px-2.5 py-1.5 text-xs text-slate-200 font-bold focus:outline-none"
+                  >
+                    <option value="순정">순정 (0.32~ 계수)</option>
+                    <option value="강격">강격 (0.32~ 계수 / 카운터 쿨감)</option>
+                    <option value="열혈">열혈 (0.435~ 계수 / 검날 범위피)</option>
+                    <option value="섬머솔트">섬머솔트 (1.53 계수 / 쿨감 9.5s)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
 
             {/* 전투 상황 및 딜사이클 설정 */}
             <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
@@ -401,7 +514,7 @@ export default function Calculator() {
                 </div>
                 <span className="text-[9px] text-slate-500 leading-normal mt-1 flex items-center gap-1">
                   <Info className="w-3.5 h-3.5 inline text-slate-600" />
-                  스킬 입력 약어: 1 (차징피스트 1-1, 1-2), 2 (연환격 2-1, 2-2), 3 (섬격 3), 4 (필사의 일격 4-1~3 연타), 5 (비룡격 5-1~3 연타), 6 (궁극기 6)
+                  스킬 입력 약어: 1 (차징피스트 1타/2타), 2 (연환격 1타/2타), 3 (섬격), 4 (버스트펀치/소닉피스트), 5 (비룡격/섬머솔트), 6 (궁극기)
                 </span>
               </div>
             </div>
@@ -442,7 +555,10 @@ export default function Calculator() {
 
               {/* 상황별 세부 DPS 리스트 */}
               <div>
-                <h4 className="text-sm font-bold text-slate-300 mb-3">상황별 세부 연산 내역</h4>
+                <h4 className="text-sm font-bold text-slate-300 mb-3 flex justify-between items-center">
+                  <span>상황별 세부 연산 내역</span>
+                  <span className="text-[10px] text-slate-500 font-medium">※ 파쇄권/충격파 패시브 피해 100% 상시 통합 연산됨</span>
+                </h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {dpsResult && Object.entries(dpsResult.states).map(([state, res]) => {
                     const label = state === 'ordinary' ? '평상시 딜링' :
@@ -458,7 +574,7 @@ export default function Calculator() {
                         </div>
                         <div className="flex flex-col gap-1.5 text-xs text-slate-400">
                           <div className="flex justify-between">
-                            <span>스킬/평타 DPS:</span>
+                            <span>스킬/패시브 DPS:</span>
                             <span className="font-medium text-slate-300">{res.skillDps.toLocaleString()}</span>
                           </div>
                           <div className="flex justify-between">
@@ -495,7 +611,7 @@ export default function Calculator() {
                       className={`p-4 rounded-xl border cursor-pointer flex flex-col justify-between transition-all ${
                         preset.data
                           ? 'bg-slate-950/40 border-slate-850 hover:border-mabi-accent'
-                          : 'bg-slate-950/20 border-slate-800 border-dashed hover:border-slate-800'
+                          : 'bg-slate-950/20 border-slate-800 border-dashed hover:border-slate-700'
                       }`}
                     >
                       <div>
