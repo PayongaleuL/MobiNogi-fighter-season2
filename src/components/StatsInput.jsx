@@ -14,14 +14,19 @@ export default function StatsInput({ stats, onStatsChange }) {
     { label: '콤보강화 수치', key: 'comboPower', min: 100, max: 10000, step: 1 },
     { label: '스킬위력 수치', key: 'skillPower', min: 100, max: 10000, step: 1 },
     { label: '광역강화 수치', key: 'multiPower', min: 100, max: 10000, step: 1 },
-    { label: '추가타 수치', key: 'extraProb', min: 100, max: 10000, step: 1 }
+    { label: '추가타 수치', key: 'extraProb', min: 100, max: 10000, step: 1 },
+    { label: '빠른공격 수치', key: 'fastAtk', min: 100, max: 5000, step: 1 },
+    { label: '빠른스킬 수치', key: 'fastSkill', min: 100, max: 5000, step: 1 },
+    { label: '궁극기 수치', key: 'ultScore', min: 100, max: 5000, step: 1 }
   ];
 
   const skillFields = [
-    { label: '1번 스킬 개조 레벨', key: 'skillLevel_1' },
-    { label: '2번 스킬 개조 레벨', key: 'skillLevel_2' },
-    { label: '3번 스킬 개조 레벨', key: 'skillLevel_3' },
-    { label: '4번 스킬 개조 레벨', key: 'skillLevel_4' }
+    { label: '1번 스킬 개조', key: 'skillLevel_1' },
+    { label: '2번 스킬 개조', key: 'skillLevel_2' },
+    { label: '3번 스킬 개조', key: 'skillLevel_3' },
+    { label: '4번 스킬 개조', key: 'skillLevel_4' },
+    { label: '5번 스킬 개조', key: 'skillLevel_5' },
+    { label: '6번 스킬 개조', key: 'skillLevel_6' }
   ];
 
   return (
@@ -61,31 +66,31 @@ export default function StatsInput({ stats, onStatsChange }) {
 
       <hr className="border-slate-800/80" />
 
-      {/* 세공 및 스킬 개조 레벨 입력 */}
+      {/* 6개 스킬 개조 레벨 입력 */}
       <div>
         <h3 className="text-lg font-bold text-slate-100 mb-4 flex items-center gap-2">
           <Activity className="w-5 h-5 text-purple-400" />
-          스킬 개조 단계 설정
+          스킬 개조 단계 설정 (1번 ~ 6번)
         </h3>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
           {skillFields.map(f => (
-            <div key={f.key} className="bg-slate-950/40 p-3 rounded-xl border border-slate-800/80 flex flex-col items-center gap-1.5">
-              <span className="text-[10px] text-slate-500 font-semibold">{f.label.replace(' 개조 레벨', '')}</span>
-              <div className="flex items-center gap-2 mt-1">
+            <div key={f.key} className="bg-slate-950/40 p-2.5 rounded-xl border border-slate-800/80 flex flex-col items-center gap-1">
+              <span className="text-[10px] text-slate-500 font-semibold">{f.label}</span>
+              <div className="flex items-center gap-1.5 mt-1">
                 <button
                   type="button"
                   onClick={() => handleInputChange(f.key, Math.max(0, (stats[f.key] || 10) - 1))}
-                  className="w-6 h-6 bg-slate-850 hover:bg-slate-800 rounded flex items-center justify-center text-xs font-bold text-slate-350 active:scale-95 transition-all"
+                  className="w-5 h-5 bg-slate-850 hover:bg-slate-800 rounded flex items-center justify-center text-xs font-bold text-slate-350 active:scale-95 transition-all"
                 >
                   -
                 </button>
-                <span className="w-8 text-center text-sm font-bold text-slate-200">
+                <span className="w-6 text-center text-xs font-bold text-slate-200">
                   {stats[f.key] || 10}
                 </span>
                 <button
                   type="button"
                   onClick={() => handleInputChange(f.key, Math.min(30, (stats[f.key] || 10) + 1))}
-                  className="w-6 h-6 bg-slate-850 hover:bg-slate-800 rounded flex items-center justify-center text-xs font-bold text-slate-350 active:scale-95 transition-all"
+                  className="w-5 h-5 bg-slate-850 hover:bg-slate-800 rounded flex items-center justify-center text-xs font-bold text-slate-350 active:scale-95 transition-all"
                 >
                   +
                 </button>
@@ -97,7 +102,7 @@ export default function StatsInput({ stats, onStatsChange }) {
 
       <hr className="border-slate-800/80" />
 
-      {/* 세공 공증 수치 */}
+      {/* 세공 추가 설정 */}
       <div>
         <h3 className="text-md font-bold text-slate-200 mb-3 flex items-center gap-2">
           <Settings className="w-4 h-4 text-slate-400" />
