@@ -109,6 +109,37 @@ export default function Calculator() {
     }
   }, []);
 
+  // 마지막 입력 스탯 및 상태 자동 로드 (새로고침 대응)
+  useEffect(() => {
+    const savedAutosave = localStorage.getItem('mabi_calculator_autosave');
+    if (savedAutosave) {
+      try {
+        const parsed = JSON.parse(savedAutosave);
+        if (parsed.stats) setStats(parsed.stats);
+        if (parsed.selectedRunes) setSelectedRunes(parsed.selectedRunes);
+        if (parsed.cycles) setCycles(parsed.cycles);
+        if (parsed.gemStats) setGemStats(parsed.gemStats);
+        if (parsed.conditionalUptimes) setConditionalUptimes(parsed.conditionalUptimes);
+        if (parsed.gimmicks) setGimmicks(parsed.gimmicks);
+      } catch (e) {
+        console.error("Autosave load failed:", e);
+      }
+    }
+  }, []);
+
+  // 능력치/룬/세공 등 상태 변경 시 자동 저장
+  useEffect(() => {
+    const dataToSave = {
+      stats,
+      selectedRunes,
+      cycles,
+      gemStats,
+      conditionalUptimes,
+      gimmicks
+    };
+    localStorage.setItem('mabi_calculator_autosave', JSON.stringify(dataToSave));
+  }, [stats, selectedRunes, cycles, gemStats, conditionalUptimes, gimmicks]);
+
   const handleStatsChange = (key, val) => {
     setStats(prev => ({ ...prev, [key]: val }));
   };
