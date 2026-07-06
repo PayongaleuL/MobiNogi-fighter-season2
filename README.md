@@ -1,16 +1,34 @@
-# React + Vite
+# 🥊 마비노기 모바일 시즌2 격투가 룬 계산기
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+시즌 2 개편에 따른 격투가 전용 신규 룬 데이터베이스(88종)와 기존 엑셀 계산기 v2.3의 연산 공식을 이식한 반응형 웹 계산기 프로그램입니다.
 
-Currently, two official plugins are available:
+## 🌟 주요 기능
+1. **시즌 2 신규 룬 연동**: 스크린샷 88장으로부터 자동 추출한 정밀 룬 데이터 탑재 (무기, 방어구, 장신구, 엠블럼)
+2. **실시간 DPS 시뮬레이션**: 마을 공격력, 치명타 수치 및 스킬 개조 단계 변경 시 즉각적인 DPS 예측 연산
+3. **조건부 가동률 슬라이더**: '무너진 경계', '초월', '백금 천칭' 등 조건부로 발동하는 버프들의 실전 가동률을 직접 입력하여 예측 정밀도 향상
+4. **셋팅 프리셋 비교**: 최대 3개까지 본인의 셋팅 조합을 임시 저장하고, 서로 간의 DPS 상승률(%)을 비교 분석
+5. **모바일 최적화**: 모바일 브라우저에서도 한 손으로 편하게 터치하여 스탯과 룬을 조절할 수 있는 반응형 UI
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🛠️ 수식 연산 명세
+- **방어도 계수**: `1 / (1 + 방어수치 / 10328)`
+- **스킬 개조 계수**: `1 + 0.03 * level + 0.02 * (보너스 단계 만족 여부)`
+- **직접피해 DPS 기댓값**: `(1 + 주는피해 + 콤보피해) * (1 + 받는피해) * (1 + 강타피해 + 연타피해 + 추가타피해) * (치명타 보정값) * (추가타 보정값) * 공격력 * 2`
+- **지속피해 DPS 기댓값**: `(1 + 주는피해) * (1 + 받는피해) * 지속피해계수 * 공격력 * 2`
 
-## React Compiler
+## 🚀 로컬 실행 방법
+```bash
+# 의존성 패키지 설치
+npm install
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+# 로컬 개발 서버 실행 (localhost:5173)
+npm run dev
 
-## Expanding the Oxlint configuration
+# 빌드 검증 및 빌드 파일 생성
+npm run build
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+## 🧪 유닛 테스트
+```bash
+# Vitest를 사용한 공식 계산 무결성 검증 실행
+npx vitest run
+```
