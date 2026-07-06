@@ -60,7 +60,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.015,
       "가동률": 1.0
-    }
+    },
+    "description": "초월 각인 단계당 주는 최종 피해량 1.5% 증가"
   },
   {
     "file": "MabinogiMobile_06Xe9bTWba.png",
@@ -133,7 +134,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "강타피해 35.0% 증가"
   },
   {
     "file": "MabinogiMobile_0B0D2zI6pr.png",
@@ -204,7 +206,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.015,
       "가동률": 1.0
-    }
+    },
+    "description": "초월 각인 단계당 주는 최종 피해량 1.5% 증가"
   },
   {
     "file": "MabinogiMobile_1lYaNNvWAN.png",
@@ -267,7 +270,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "공격력 7% 증가, 강타/연타/치명타/추가타 피해 7% 증가"
   },
   {
     "file": "MabinogiMobile_1tHNYqt5JE.png",
@@ -326,7 +330,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "연타 피해 13% 증가, 강타 피해 13% 증가"
   },
   {
     "file": "MabinogiMobile_363QoYQ6PR.png",
@@ -393,7 +398,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "주는피해 5.0% 증가"
   },
   {
     "file": "MabinogiMobile_3vKPl4ZS2O.png",
@@ -462,7 +468,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 0.7
-    }
+    },
+    "description": "침식 부여 시 추가타 확률 16.5% ~ 33% 증가 (가동률 70%)"
   },
   {
     "file": "MabinogiMobile_5nH7aSlrND.png",
@@ -527,7 +534,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "연타 피해 25% 증가"
   },
   {
     "file": "MabinogiMobile_6pXMSKdTlF.png",
@@ -592,7 +600,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "이동/적중 시 10초 동안 주는 피해 21% 증가"
   },
   {
     "file": "MabinogiMobile_6Wodg0IRCR.png",
@@ -667,7 +676,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "주는 피해 22% 증가"
   },
   {
     "file": "MabinogiMobile_8nXbWLqx1b.png",
@@ -738,7 +748,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "주는 피해 5% 증가, 치명타 피해 10% 증가"
   },
   {
     "file": "MabinogiMobile_95IRQ38TZf.png",
@@ -805,7 +816,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "주는 피해 10% 증가"
   },
   {
     "file": "MabinogiMobile_964zUrwVLv.png",
@@ -874,7 +886,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "공격력 16% 증가"
   },
   {
     "file": "MabinogiMobile_AnF0GZxjyf.png",
@@ -941,7 +954,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "공격력 24% 증가"
   },
   {
     "file": "MabinogiMobile_AwFgK0I0YW.png",
@@ -1014,7 +1028,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "주는 피해 21% 증가, 스킬 피해 3% 증가"
   },
   {
     "file": "MabinogiMobile_BZA9Ak5wU9.png",
@@ -1087,7 +1102,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "주는 피해 20% 증가, 치명타 피해 15% 증가"
   },
   {
     "file": "MabinogiMobile_CHjcQKMeIB.png",
@@ -1154,7 +1170,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "스킬/평타 사용 시 주는 피해 31.5%, 추가타 확률 31.5% 증가"
   },
   {
     "file": "MabinogiMobile_cL2OurrKAM.png",
@@ -1217,7 +1234,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.015,
       "가동률": 1.0
-    }
+    },
+    "description": "초월 각인 단계당 주는 최종 피해량 1.5% 증가"
   },
   {
     "file": "MabinogiMobile_d2O7IkjyWO.png",
@@ -1292,7 +1310,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "주는피해 20.0% 증가"
   },
   {
     "file": "MabinogiMobile_dG2reglDMi.png",
@@ -1355,7 +1374,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "주는 피해 33% 증가"
   },
   {
     "file": "MabinogiMobile_ELeXeId1dI.png",
@@ -1428,7 +1448,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "공격력 5.0% 증가, 주는피해 9.0% 증가"
   },
   {
     "file": "MabinogiMobile_euwVpXlfxw.png",
@@ -1489,7 +1510,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "주는피해 53.0% 증가"
   },
   {
     "file": "MabinogiMobile_eXjI0rAZRH.png",
@@ -1554,7 +1576,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.015,
       "가동률": 1.0
-    }
+    },
+    "description": "초월 각인 단계당 주는 최종 피해량 1.5% 증가"
   },
   {
     "file": "MabinogiMobile_F0Rp5lPxw5.png",
@@ -1625,7 +1648,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "강타피해 18.0% 증가"
   },
   {
     "file": "MabinogiMobile_fez3iTv5hd.png",
@@ -1692,7 +1716,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "주는피해 10.0% 증가, 추가타확률 12.5% 증가"
   },
   {
     "file": "MabinogiMobile_FGMVVzlB0G.png",
@@ -1753,7 +1778,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "공격력 20.0% 증가, 주는피해 20.0% 증가"
   },
   {
     "file": "MabinogiMobile_FOsCTZNMeS.png",
@@ -1820,7 +1846,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "공격력 15.0% 증가"
   },
   {
     "file": "MabinogiMobile_FZzdyizxEq.png",
@@ -1885,7 +1912,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.015,
       "가동률": 1.0
-    }
+    },
+    "description": "초월 각인 단계당 주는 최종 피해량 1.5% 증가"
   },
   {
     "file": "MabinogiMobile_g6uYPGIQz1.png",
@@ -1946,7 +1974,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "스킬 피해 20% 증가"
   },
   {
     "file": "MabinogiMobile_GvDZ7yejjJ.png",
@@ -2017,7 +2046,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "연타피해 18.0% 증가"
   },
   {
     "file": "MabinogiMobile_GZRdMd7iwq.png",
@@ -2082,7 +2112,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "스킬피해 24.0% 증가"
   },
   {
     "file": "MabinogiMobile_hAWWe7ss2U.png",
@@ -2147,7 +2178,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "주는피해 10.0% 증가, 치명타확률 12.5% 증가"
   },
   {
     "file": "MabinogiMobile_hIx51HHzHN.png",
@@ -2216,7 +2248,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "공격력 0.7% 증가, 치명타확률 0.5% 증가"
   },
   {
     "file": "MabinogiMobile_I9zIaJXl7i.png",
@@ -2287,7 +2320,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "주는피해 10.0% 증가"
   },
   {
     "file": "MabinogiMobile_iiABDNcggJ.png",
@@ -2360,7 +2394,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "공격력 17% 증가, 주는 피해 20% 증가"
   },
   {
     "file": "MabinogiMobile_IkJRYe6rbM.png",
@@ -2431,7 +2466,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "체력 비례 공격력 10% 증가 및 받는 피해량 감소"
   },
   {
     "file": "MabinogiMobile_IoPENyNvhy.png",
@@ -2506,7 +2542,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "공격력 30.0% 증가, 치명타피해 5.0% 증가"
   },
   {
     "file": "MabinogiMobile_IqP42MtmRC.png",
@@ -2579,7 +2616,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "주는피해 7.0% 증가"
   },
   {
     "file": "MabinogiMobile_ITPbLrxgXc.png",
@@ -2654,7 +2692,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "강타 피해 30% 증가, 공격력 23.5% 증가"
   },
   {
     "file": "MabinogiMobile_izEZmR5bIt.png",
@@ -2715,7 +2754,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "공격력 5.0% 증가, 주는피해 31.0% 증가"
   },
   {
     "file": "MabinogiMobile_jnGQRVa2O5.png",
@@ -2780,7 +2820,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "주는피해 26.0% 증가"
   },
   {
     "file": "MabinogiMobile_ky13oBUdne.png",
@@ -2845,7 +2886,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "주는피해 10.0% 증가, 강타피해 18.0% 증가"
   },
   {
     "file": "MabinogiMobile_KyqbA1qzyp.png",
@@ -2908,7 +2950,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "공격력 5.0% 증가"
   },
   {
     "file": "MabinogiMobile_LKOvNptqOm.png",
@@ -2973,7 +3016,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "주는피해 20.0% 증가"
   },
   {
     "file": "MabinogiMobile_lXx0bzCVeE.png",
@@ -3038,7 +3082,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.015,
       "가동률": 1.0
-    }
+    },
+    "description": "초월 각인 단계당 주는 최종 피해량 1.5% 증가"
   },
   {
     "file": "MabinogiMobile_LYDyg4BrZF.png",
@@ -3111,7 +3156,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "공격력 10.0% 증가, 주는피해 3.0% 증가"
   },
   {
     "file": "MabinogiMobile_MCs7izSchG.png",
@@ -3176,7 +3222,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.015,
       "가동률": 1.0
-    }
+    },
+    "description": "초월 각인 단계당 주는 최종 피해량 1.5% 증가"
   },
   {
     "file": "MabinogiMobile_Md7TrR0Esv.png",
@@ -3249,7 +3296,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "스킬 사용 후 기본 공격 시 주변 범위 8% 추가 스킬 피해 및 공격 속도 10% 증가"
   },
   {
     "file": "MabinogiMobile_N36zRBkrh1.png",
@@ -3324,7 +3372,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "강타피해 15.0% 증가, 스킬피해 10.0% 증가"
   },
   {
     "file": "MabinogiMobile_n69SDugvSB.png",
@@ -3391,7 +3440,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "공격력 10.0% 증가, 주는피해 15.0% 증가"
   },
   {
     "file": "MabinogiMobile_nc9ufOCJzq.png",
@@ -3460,7 +3510,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "주는피해 5.0% 증가, 치명타피해 10.0% 증가, 치명타확률 10.0% 증가"
   },
   {
     "file": "MabinogiMobile_ndZRGusyY7.png",
@@ -3525,7 +3576,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "주는피해 10.0% 증가, 연타피해 18.0% 증가"
   },
   {
     "file": "MabinogiMobile_nzi84n4prK.png",
@@ -3594,7 +3646,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "공격력 24.0% 증가, 주는피해 20.0% 증가"
   },
   {
     "file": "MabinogiMobile_OVDP2lM3ht.png",
@@ -3667,7 +3720,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "공격력 20.0% 증가"
   },
   {
     "file": "MabinogiMobile_Owu8gEfSae.png",
@@ -3734,7 +3788,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "주는피해 5.5% 증가"
   },
   {
     "file": "MabinogiMobile_OXY4EOfKWp.png",
@@ -3811,7 +3866,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "주는피해 5.0% 증가"
   },
   {
     "file": "MabinogiMobile_P0DLImthXq.png",
@@ -3876,7 +3932,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.015,
       "가동률": 1.0
-    }
+    },
+    "description": "초월 각인 단계당 주는 최종 피해량 1.5% 증가"
   },
   {
     "file": "MabinogiMobile_P4IinJo2sK.png",
@@ -3939,7 +3996,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "주는피해 38.0% 증가"
   },
   {
     "file": "MabinogiMobile_p4StxRN7MG.png",
@@ -4018,7 +4076,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "공격력 15.0% 증가"
   },
   {
     "file": "MabinogiMobile_Q54kQdupMi.png",
@@ -4091,7 +4150,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "주는피해 5.5% 증가"
   },
   {
     "file": "MabinogiMobile_q9WfLIXtIN.png",
@@ -4152,7 +4212,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "주는 피해 48% 증가"
   },
   {
     "file": "MabinogiMobile_Qj380JTJwh.png",
@@ -4215,7 +4276,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "공격력 15.0% 증가"
   },
   {
     "file": "MabinogiMobile_qxpC329SVz.png",
@@ -4286,7 +4348,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "주는피해 29.0% 증가"
   },
   {
     "file": "MabinogiMobile_soN2wveypq.png",
@@ -4349,7 +4412,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "주는피해 25.0% 증가"
   },
   {
     "file": "MabinogiMobile_t3qPhcpOXW.png",
@@ -4416,7 +4480,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "강타 피해 25% 증가"
   },
   {
     "file": "MabinogiMobile_TgEWKaLNk0.png",
@@ -4485,7 +4550,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "공격력 14.0% 증가, 주는피해 10.0% 증가"
   },
   {
     "file": "MabinogiMobile_tkeL1m7lwn.png",
@@ -4550,7 +4616,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "주는 피해 22% 증가"
   },
   {
     "file": "MabinogiMobile_uMXAAW3eWH.png",
@@ -4623,7 +4690,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "공격력 2.0% 증가, 스킬피해 27.0% 증가"
   },
   {
     "file": "MabinogiMobile_Us1sCiaoF7.png",
@@ -4690,7 +4758,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "공격력 25.0% 증가, 주는피해 26.0% 증가"
   },
   {
     "file": "MabinogiMobile_uVHraNHYie.png",
@@ -4759,7 +4828,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "주는피해 10.0% 증가"
   },
   {
     "file": "MabinogiMobile_uWqn5JM4Ov.png",
@@ -4822,7 +4892,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "주는피해 24.0% 증가"
   },
   {
     "file": "MabinogiMobile_vbjyl6OGtY.png",
@@ -4883,7 +4954,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "주는피해 29.0% 증가, 치명타피해 10.0% 증가"
   },
   {
     "file": "MabinogiMobile_VvJUOs21rI.png",
@@ -4946,7 +5018,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "공격력 15.0% 증가, 주는피해 10.0% 증가"
   },
   {
     "file": "MabinogiMobile_w8BHPzgHBI.png",
@@ -5011,7 +5084,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "공격력 16.0% 증가"
   },
   {
     "file": "MabinogiMobile_WkJX0n9Ubn.png",
@@ -5074,7 +5148,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "주는피해 13.0% 증가, 스킬피해 6.5% 증가"
   },
   {
     "file": "MabinogiMobile_WLKclE55ws.png",
@@ -5147,7 +5222,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "스킬 사용 시 불의 정수 소모하여 3초간 화염 지대 소환 (주는 피해 5% 근사 계산)"
   },
   {
     "file": "MabinogiMobile_WNpQzWUL8x.png",
@@ -5210,7 +5286,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.015,
       "가동률": 1.0
-    }
+    },
+    "description": "하위 능력치$ 하위 능력차 < 유일 격투가 액티브스킬: 1 격투가의 차징 피스트 스킬에 변..."
   },
   {
     "file": "MabinogiMobile_X2jvbzm3JN.png",
@@ -5285,7 +5362,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "주는 피해 22% 증가"
   },
   {
     "file": "MabinogiMobile_X3lihEk1iP.png",
@@ -5352,7 +5430,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "공격력 4.0% 증가, 강타피해 4.5% 증가"
   },
   {
     "file": "MabinogiMobile_X7a5FKHNNa.png",
@@ -5419,7 +5498,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "추가타 5회 적중 시 주는 피해 15% 증가, 치명타 5회 적중 시 치명타 피해 15% 증가"
   },
   {
     "file": "MabinogiMobile_XadA091QYH.png",
@@ -5490,7 +5570,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "공격력 15.0% 증가"
   },
   {
     "file": "MabinogiMobile_XWUvFKGkjG.png",
@@ -5557,7 +5638,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "공격력 15.0% 증가"
   },
   {
     "file": "MabinogiMobile_xX5loUGXZ7.png",
@@ -5630,7 +5712,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "공격력 16.0% 증가"
   },
   {
     "file": "MabinogiMobile_Y6ZUA7JhUr.png",
@@ -5693,7 +5776,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "공격력 6.0% 증가, 주는피해 6.0% 증가"
   },
   {
     "file": "MabinogiMobile_y8NgboSmXy.png",
@@ -5760,7 +5844,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "공격력 16.0% 증가"
   },
   {
     "file": "MabinogiMobile_Yw5vXGzqaU.png",
@@ -5835,7 +5920,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "공격력 5.0% 증가"
   },
   {
     "file": "MabinogiMobile_z7onjkxBUO.png",
@@ -5908,7 +5994,8 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "공격력 16.0% 증가, 주는피해 20.0% 증가"
   },
   {
     "file": "MabinogiMobile_ze1aSFzOuf.png",
@@ -5963,6 +6050,7 @@
       "재사용회복%": 0.0,
       "최종피해%": 0.0,
       "가동률": 1.0
-    }
+    },
+    "description": "주는피해 31.0% 증가"
   }
 ]
