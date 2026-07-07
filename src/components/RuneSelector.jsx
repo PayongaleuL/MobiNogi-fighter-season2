@@ -51,19 +51,32 @@ export default function RuneSelector({ selectedRunes, onRuneChange }) {
     return parts.length > 0 ? parts.join(" / ") : (rune.description || "옵션 없음");
   };
 
-  // 거래불가/각인부위 등의 노이즈 문장을 필터링하여 실제 핵심 고유 효과 텍스트만 추출
+  // 거래불가/각인부위/저주확률 등의 메타 데이터 및 초월/동작 안내 가이드를 지우고 핵심 스펙 텍스트만 추출
   const getCoreRuneTexts = (cleanedText) => {
     if (!cleanedText) return [];
     const ignoredPatterns = [
       '룬:', '전용 룬', '판매', '시즌보존', '시류보존', '기억가능', '각인', '마도 저항',
       '추가 체력', '하위 능력치', '유일', '방어력', '공격력', '전설 희귀도', '스킬 1강화', '스킬 2강화',
-      '거래 불가', '거래 불가', '거래불가', '판매기능', '판매가능', '엘불럽에', '방어구데', '임불럼', '엠블럼'
+      '거래 불가', '거래불가', '판매기능', '판매가능', '엘불럽에', '방어구데', '임불럼', '엠블럼',
+      '저주 확률', '저주 확출', '초월 각인', '최종 피해량', '최종 피해랑', '액티브 스킬', '액티브스킬',
+      '버스트 펀치', '버스트 편치', '차징 피스트', '차징 동작', '카운터 시', '약점 노출', '콤보스킬은',
+      '동일한 행동 불능', '행동 불능에', '오염의 지속', '용의 문장', '전투 중', '침식과 오염'
     ];
-    return cleanedText.filter(line => {
-      const trimmed = line.trim();
-      if (!trimmed) return false;
-      return !ignoredPatterns.some(pat => trimmed.includes(pat));
-    });
+    return cleanedText
+      .filter(line => {
+        const trimmed = line.trim();
+        if (!trimmed) return false;
+        return !ignoredPatterns.some(pat => trimmed.includes(pat));
+      })
+      .map(line => {
+        return line
+          .replace(/증가하다\.?/g, '증가')
+          .replace(/증가한다\.?/g, '증가')
+          .replace(/감소하다\.?/g, '감소')
+          .replace(/감소한다\.?/g, '감소')
+          .replace(/;/g, ',')
+          .trim();
+      });
   };
 
   // 룬 타입별로 슬롯 구분
