@@ -284,16 +284,21 @@ export default function GemStonePanel({ gems, onGemChange, setGems, selectedRune
                   const isWarning = gem.grade !== '미장착' && (!gem.options || gem.options.length < 3);
 
                   return (
-                    <div
-                      key={gem.id}
-                      className={`p-3.5 rounded-xl border flex flex-col gap-3.5 transition-all hover:border-slate-700 ${
-                        gem.grade === '미장착' 
-                          ? 'bg-slate-950/20 border-slate-900 border-dashed opacity-60' 
-                          : isWarning
-                            ? 'bg-red-950/15 border-red-500/40 shadow-md shadow-red-950/5 animate-pulse' // 3줄 미만 시 붉은 경고등 테마 적용
-                            : 'bg-slate-900/80 border-slate-850'
-                      }`}
-                    >
+                    <React.Fragment key={gem.id}>
+                      {/* 장신구 3종 소켓 간 세로선 분리 */}
+                      {config.part === '장신구' && subIdx > 0 && (
+                        <div className="hidden md:block w-px bg-slate-850 self-stretch my-1.5 shrink-0" />
+                      )}
+
+                      <div
+                        className={`p-3.5 rounded-xl border flex flex-col gap-3.5 transition-all hover:border-slate-700 ${
+                          gem.grade === '미장착' 
+                            ? 'bg-slate-950/20 border-slate-900 border-dashed opacity-60' 
+                            : isWarning
+                              ? 'bg-red-950/15 border-red-500/40 shadow-md shadow-red-950/5 animate-pulse' // 3줄 미만 시 붉은 경고등 테마 적용
+                              : 'bg-slate-900/80 border-slate-850'
+                        }`}
+                      >
                       {/* 보석 정보 라벨 및 경고 뱃지 */}
                       <div className="flex justify-between items-center">
                         <span className="text-[10px] font-black text-slate-350 flex items-center gap-1">
@@ -361,7 +366,8 @@ export default function GemStonePanel({ gems, onGemChange, setGems, selectedRune
                       </div>
 
                     </div>
-                  );
+                  </React.Fragment>
+                );
                 })}
               </div>
             </div>
