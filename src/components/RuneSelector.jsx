@@ -54,36 +54,40 @@ export default function RuneSelector({ selectedRunes, onRuneChange }) {
   // 거래불가/각인부위/저주확률 등의 메타 데이터 및 초월/동작 안내 가이드를 지우고 핵심 스펙 텍스트만 추출
   const getCoreRuneTexts = (cleanedText) => {
     if (!cleanedText) return [];
-    const ignoredPatterns = [
-      '룬:', '전용 룬', '판매', '시즌보존', '시류보존', '기억가능', '각인', '마도 저항',
-      '추가 체력', '하위 능력치', '유일', '방어력', '공격력', '전설 희귀도', '스킬 1강화', '스킬 2강화',
-      '거래 불가', '거래불가', '판매기능', '판매가능', '엘불럽에', '방어구데', '임불럼', '엠블럼',
-      '저주 확률', '저주 확출', '초월 각인', '최종 피해량', '최종 피해랑', '액티브 스킬', '액티브스킬'
+
+    // 1단계: 전체 줄을 공백으로 합침 (줄바꿈 끊김 방지)
+    let text = cleanedText.join(' ').replace(/\s+/g, ' ');
+
+    // 2단계: 문장 수준에서 메타데이터 및 유틸리티 텍스트를 정규식으로 정교하게 소거
+    const patternsToRemove = [
+      // 룬 정보 메타데이터
+      /(무기 룬:|방어구 룬:|장신구 룬:|엠블럼 룬:|임불럼 룬:|엠블럼 룬:|업늘럼 룬:)\s*[^ ]+/g,
+      /(전설 무기 전용 룬|전설 장신구 전용 룬|전설 방어구 전용 룬|전설 업늘럼 전용 룬|전설 엠블럼 전용 룬)/g,
+      /(거래 불가|거래불가|판매기능|판매가능|기억가능|기억 가능|각인 시즌보존|각인 시류보존|각인 시료보존)/g,
+      /(마도 저항 \+\d+|추가 체력 \+\d+|추가 체력 \d+|방어력 \+\d+|방어력 \d+|공격력 \+\d+|공격력 \d+)/g,
+      /(하위 능력치\s*<\s*|하위 능력치\s*\$\s*|하위 능력지\s*\$\s*|하위 능력차\s*<\s*|하위 능력차\s*\$\s*|하위 능력지\s*<\s*)/g,
+      /유일/g,
+      
+      // 초월 및 특수 강화 소거 (단, 룬 설명 사전에는 콤팩트 설명이 이미 노출되므로 세부 초월 반복 텍스트는 지움)
+      /(초월 각인 시|초월 각인 시;|초월 각인 시,|초월 각인 단계당)[^.]+단계마다[^.]+증가(하다|한다)\.?/g,
+      /(초월 각인 시|초월 각인 시;|초월 각인 시,|초월 각인 단계당)[^.]+최종[^.]+증가(하다|한다)\.?/g,
+      /전설 희귀도 효과 부여\.?/g,
+      /모든 스킬 \d+강화\.?/g,
+      /임의 \d+개 스킬 \d+강화\.?/g,
+      
+      // 저주 확률 소거 (사용자 12차 피드백 완벽 반영)
+      /(저주 확률|저주 확출)\s*\d+%\.?/g,
+      
+      // 한글자 노이즈 단독 매칭 소거
+      /\b(용|다|없음|어둠|빛|전투)\b/g
     ];
 
-    // 1단계: 라인 단위로 메타데이터 및 단순 깡 수치/속성 필터링
-    const filteredLines = cleanedText.filter(line => {
-      const trimmed = line.trim();
-      if (/^\d+$/.test(trimmed)) return false;
-      if (trimmed.length <= 2 && (trimmed === '용' || trimmed === '다' || trimmed === '없음' || trimmed === '빛' || trimmed === '어둠' || trimmed === '전투')) return false;
-      return !ignoredPatterns.some(pat => trimmed.includes(pat));
+    patternsToRemove.forEach(pat => {
+      text = text.replace(pat, '');
     });
 
-    // 2단계: 긴 문장으로 결합하고 연속된 공백 문자 통일
-    let combinedText = filteredLines.join(' ').replace(/\s+/g, ' ');
-
-    // 3단계: 문장 내 특정 노이즈 구문 소거 (초월/저주/등급 툴팁 등)
-    combinedText = combinedText
-      .replace(/초월 각인 시,? 적에게 주는 최종 피해량이 단계마다 [\d.]+% 증가하다\.?/g, '')
-      .replace(/초월 각인 시,? 적에게 주는 최종 피해량이 단계마다 [\d.]+% 증가한다\.?/g, '')
-      .replace(/저주 확률 \d+%\.?/g, '')
-      .replace(/저주 확출 \d+%\.?/g, '')
-      .replace(/전설 희귀도 효과 부여\.?/g, '')
-      .replace(/모든 스킬 \d+강화\.?/g, '')
-      .replace(/임의 \d+개 스킬 \d+강화\.?/g, '');
-
-    // 4단계: 마침표(.)를 기준으로 끊어 온전한 통문장 리스트 반환
-    const sentences = combinedText
+    // 3단계: 마침표(.)를 기준으로 끊어 온전한 통문장 리스트 반환
+    const sentences = text
       .split(/(?<=\.)/g)
       .map(s => s.trim())
       .filter(s => {
