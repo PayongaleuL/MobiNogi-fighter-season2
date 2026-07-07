@@ -276,22 +276,31 @@ export default function GemStonePanel({ gems, onGemChange, setGems, selectedRune
                 <span className="text-[9px] text-slate-500 font-bold">{config.count}개 소켓 장착됨</span>
               </div>
 
-              {/* 보석 슬롯 카드 그리드 (해당 장비 부위 하위에만 나열) */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3.5">
+              {/* 보석 슬롯 카드 그리드 (장신구는 flexbox로 모아 조밀하게 배치 및 세로선 보장) */}
+              <div className={config.part === '장신구' 
+                ? "flex flex-col md:flex-row items-stretch justify-start gap-4 md:gap-5"
+                : "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3.5"
+              }>
                 {partGems.map((gem, subIdx) => {
                   const globalIdx = config.startIndex + subIdx;
                   // 3줄 미충족 시 붉은 경고등 상태 계산
                   const isWarning = gem.grade !== '미장착' && (!gem.options || gem.options.length < 3);
+                  const isJangsinGu = config.part === '장신구';
 
                   return (
                     <React.Fragment key={gem.id}>
-                      {/* 장신구 3종 소켓 간 세로선 분리 */}
-                      {config.part === '장신구' && subIdx > 0 && (
-                        <div className="hidden md:block w-px bg-slate-850 self-stretch my-1.5 shrink-0" />
+                      {/* 장신구 3종 소켓 간 세로선/가로선 분리 (Flexbox 내부에서 높이 가득 채움) */}
+                      {isJangsinGu && subIdx > 0 && (
+                        <>
+                          <div className="hidden md:block w-px bg-slate-800 self-stretch my-1.5 shrink-0" />
+                          <div className="block md:hidden h-px bg-slate-800 w-full my-1.5 shrink-0" />
+                        </>
                       )}
 
                       <div
                         className={`p-3.5 rounded-xl border flex flex-col gap-3.5 transition-all hover:border-slate-700 ${
+                          isJangsinGu ? 'flex-1 w-full md:max-w-[240px]' : ''
+                        } ${
                           gem.grade === '미장착' 
                             ? 'bg-slate-950/20 border-slate-900 border-dashed opacity-60' 
                             : isWarning
