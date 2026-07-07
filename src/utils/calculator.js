@@ -298,13 +298,13 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
     skillDps += crashDps;
 
     // 추가타(직접피해) 계산
-    const baseDamageMultiplier = (1 + totalGivesDmg + totalComboDmg) * (1 + totalGetsDmg) * (1 + totalStrongDmg + totalChainDmg + totalExtraDmg);
+    const baseDamageMultiplier = (1 + totalGivesDmg + totalSkillDmg) * (1 + totalGetsDmg) * (1 + totalStrongDmg + totalChainDmg + totalComboDmg);
     const critMultiplier = (1 - totalCritProb) + (totalCritDmg * totalCritProb);
     const extraProbMultiplier = (1 - totalExtraProb) + (totalExtraDmg * totalExtraProb);
-    const directDps = baseDamageMultiplier * critMultiplier * extraProbMultiplier * attack * 2 * totalExtraProb;
+    const directDps = baseDamageMultiplier * critMultiplier * extraProbMultiplier * attack * 2 * totalExtraProb * armorCoeff;
 
     // 지속피해 계산
-    const dotDps = (1 + totalGivesDmg) * (1 + totalGetsDmg) * totalMultiDmg * attack * 2;
+    const dotDps = (1 + totalGivesDmg + totalSkillDmg) * (1 + totalGetsDmg) * totalMultiDmg * attack * 2 * armorCoeff;
 
     // 초월 룬 각인 보정
     const transcendCount = selectedRunes.filter(r => r && (r.name.includes("초월+") || r.name.includes("초월++"))).length;
