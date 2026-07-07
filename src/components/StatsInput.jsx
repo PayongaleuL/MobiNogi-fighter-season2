@@ -49,6 +49,32 @@ export default function StatsInput({ stats, onStatsChange }) {
   }, 0);
   const isSkillLimitExceeded = lv30SkillsCount > 3;
 
+  const getStatPercent = (key, val) => {
+    if (!val) return '';
+    let pct = 0;
+    if (key === 'critScore') {
+      const baseProb = 0.5 * (val / (val + 2000)) * 100;
+      return `실제: ${baseProb.toFixed(2)}% / 허수아비: ${(baseProb + 30).toFixed(2)}%`;
+    }
+    if (key === 'strongDmg' || key === 'chainDmg' || key === 'skillPower') {
+      pct = (val / 8500) * 100;
+      return `효율: +${pct.toFixed(2)}%`;
+    }
+    if (key === 'comboPower') {
+      pct = (val / 17500) * 100;
+      return `효율: +${pct.toFixed(2)}%`;
+    }
+    if (key === 'multiPower') {
+      pct = 8 + (val / 8500) * 100;
+      return `효율: +${pct.toFixed(2)}%`;
+    }
+    if (key === 'extraProb') {
+      pct = (val / 13000) * 100;
+      return `실제: ${pct.toFixed(2)}%`;
+    }
+    return '';
+  };
+
   return (
     <div className={`bg-slate-900 border rounded-2xl p-6 shadow-xl flex flex-col gap-6 transition-all duration-350 ${
       isSkillLimitExceeded ? 'border-red-500/50 shadow-red-950/10' : 'border-slate-800'
@@ -63,8 +89,15 @@ export default function StatsInput({ stats, onStatsChange }) {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {statFields.map(f => (
             <div key={f.key} className="bg-slate-950/40 p-3.5 rounded-xl border border-slate-800/80 flex flex-col gap-2">
-              <div className="flex justify-between items-center">
-                <label className="text-xs font-semibold text-slate-400">{f.label}</label>
+              <div className="flex justify-between items-start">
+                <div className="flex flex-col gap-0.5">
+                  <label className="text-xs font-semibold text-slate-400">{f.label}</label>
+                  {getStatPercent(f.key, stats[f.key]) && (
+                    <span className="text-[10px] text-emerald-400 font-medium">
+                      ({getStatPercent(f.key, stats[f.key])})
+                    </span>
+                  )}
+                </div>
                 <input
                   type="number"
                   value={stats[f.key] || 0}
