@@ -56,7 +56,16 @@ export default function RuneSelector({ selectedRunes, onRuneChange }) {
     if (!cleanedText) return [];
 
     // 1단계: 전체 줄을 공백으로 합침 (줄바꿈 끊김 방지)
-    let text = cleanedText.join(' ').replace(/\s+/g, ' ');
+    let text = cleanedText.join(' ');
+
+    // 소수점이 줄바꿈이나 기호(•, ·, º) 등에 의해 '1. • 5%' 처럼 찢겨 있는 현상 선제적 결합
+    text = text.replace(/(\d+)\.\s*[•·º·]?\s*(\d+)/g, '$1.$2');
+
+    // 잔여 글머리 기호(•, ·, º) 일괄 소거
+    text = text.replace(/[•·º]/g, '');
+
+    // 공백 정규화
+    text = text.replace(/\s+/g, ' ');
 
     // 2단계: 문장 수준에서 메타데이터 및 유틸리티 텍스트를 정규식으로 정교하게 소거
     const patternsToRemove = [
@@ -73,6 +82,9 @@ export default function RuneSelector({ selectedRunes, onRuneChange }) {
       /엠블럼에 각인/g,
       /엘불럽에 각인/g,
       
+      // 장신구 룬 스킬 변화 문장 통째 소거 (사용자 피드백 반영)
+      /[^. ]*(스킬에 변화를|스킬을 변화한|변화를 줌)[^.]*\.?/g,
+      
       // 초월 및 특수 강화 소거 (단, 룬 설명 사전에는 콤팩트 설명이 이미 노출되므로 세부 초월 반복 텍스트는 지움)
       /(초월 각인 시|초월 각인 시;|초월 각인 시,|초월 각인 단계당)[^.]+단계마다[^.]+증가(하다|한다)\.?/g,
       /(초월 각인 시|초월 각인 시;|초월 각인 시,|초월 각인 단계당)[^.]+최종[^.]+증가(하다|한다)\.?/g,
@@ -83,8 +95,9 @@ export default function RuneSelector({ selectedRunes, onRuneChange }) {
       // 저주 확률 소거 (사용자 12차 피드백 완벽 반영)
       /(저주 확률|저주 확출)\s*\d+%\.?/g,
       
-      // 사용자 15차 피드백: 용, 다, 없음, 어둠, 빛, 쥐, 벼, 분노, 명약, 태초, 전용류 등 무의미한 낱말 일괄 정밀 제거
-      /\b(용|다|없음|어둠|빛|전투|쥐|벼|분노|명약|태초|전용류)\b/g
+      // 사용자 15~17차 피드백: 용, 다, 없음, 어둠, 빛, 쥐, 벼, 분노, 명약, 태초, 전용류 등 무의미한 낱말 일괄 정밀 제거
+      /\b(용|다|없음|어둠|빛|전투|쥐|벼|분노|명약|태초|전용류)\b/g,
+      /\s+(용|다|쥐|벼|어둠|명약|분노|태초)\s+/g
     ];
 
     patternsToRemove.forEach(pat => {
