@@ -124,7 +124,7 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
   const totalExtraProb = (1 + baseExtraProb) * (1 + runeStats["추가타확률%"]) - 1;
 
   // 치명타
-  const baseCritProb = 0.5 * (characterStats.critScore / (characterStats.critScore + 2000)) + (boss === "허수아비" ? 0.3 : 0.0) + (characterStats.critBonusPct || 0);
+  const baseCritProb = 0.5 * (characterStats.critScore / (characterStats.critScore + 2000)) + (boss.includes("허수아비") ? 0.3 : 0.0) + (characterStats.critBonusPct || 0);
   const totalCritProb = Math.min(1.0, baseCritProb + runeStats["치명타확률%"]);
   
   const baseCritDmg = 1.4 + ((characterStats.critScore || 6925.0) / 5000.0);
