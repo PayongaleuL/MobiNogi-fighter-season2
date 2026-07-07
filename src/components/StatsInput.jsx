@@ -196,7 +196,7 @@ export default function StatsInput({ stats, onStatsChange }) {
         </h3>
         <div className="bg-slate-950/40 p-4 rounded-xl border border-slate-800/80 flex flex-col sm:flex-row gap-4 justify-between">
           <div className="flex-1 flex justify-between items-center gap-2">
-            <span className="text-xs font-semibold text-slate-400">세공 공격력 증가 (%)</span>
+            <span className="text-xs font-semibold text-slate-400">인챈트공증 (%)</span>
             <input
               type="number"
               step="0.1"
@@ -206,12 +206,22 @@ export default function StatsInput({ stats, onStatsChange }) {
             />
           </div>
           <div className="flex-1 flex justify-between items-center gap-2">
-            <span className="text-xs font-semibold text-slate-400">치명타확률 보정 (%)</span>
+            <span className="text-xs font-semibold text-slate-400">강타피해 (%)</span>
             <input
               type="number"
               step="0.1"
-              value={(stats.critBonusPct || 0) * 100}
-              onChange={(e) => handleInputChange('critBonusPct', (parseFloat(e.target.value) || 0) / 100)}
+              value={stats.strongDmgPct || 0}
+              onChange={(e) => handleInputChange('strongDmgPct', e.target.value)}
+              className="w-20 bg-slate-900 border border-slate-800 rounded px-2.5 py-1 text-xs text-right font-bold text-mabi-accent focus:outline-none"
+            />
+          </div>
+          <div className="flex-1 flex justify-between items-center gap-2">
+            <span className="text-xs font-semibold text-slate-400">연타피해 (%)</span>
+            <input
+              type="number"
+              step="0.1"
+              value={stats.chainDmgPct || 0}
+              onChange={(e) => handleInputChange('chainDmgPct', e.target.value)}
               className="w-20 bg-slate-900 border border-slate-800 rounded px-2.5 py-1 text-xs text-right font-bold text-mabi-accent focus:outline-none"
             />
           </div>
