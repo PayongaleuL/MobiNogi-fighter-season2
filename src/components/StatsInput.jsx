@@ -6,6 +6,20 @@ export default function StatsInput({ stats, onStatsChange }) {
     onStatsChange(key, parseFloat(val) || 0);
   };
 
+  const applySkillPreset = (presetType) => {
+    const presets = {
+      '156': { skillLevel_1: 30, skillLevel_2: 10, skillLevel_3: 10, skillLevel_4: 10, skillLevel_5: 30, skillLevel_6: 30 },
+      '256': { skillLevel_1: 10, skillLevel_2: 30, skillLevel_3: 10, skillLevel_4: 10, skillLevel_5: 30, skillLevel_6: 30 },
+      '456': { skillLevel_1: 10, skillLevel_2: 10, skillLevel_3: 10, skillLevel_4: 30, skillLevel_5: 30, skillLevel_6: 30 }
+    };
+    const config = presets[presetType];
+    if (config) {
+      Object.entries(config).forEach(([key, val]) => {
+        onStatsChange(key, val);
+      });
+    }
+  };
+
   const statFields = [
     { label: '마을 공격력', key: 'baseAttack', min: 1000, max: 100000, step: 1 },
     { label: '치명타 수치', key: 'critScore', min: 100, max: 20000, step: 1 },
@@ -90,6 +104,25 @@ export default function StatsInput({ stats, onStatsChange }) {
           </span>
         </div>
 
+        {/* 단축 프리셋 버튼군 */}
+        <div className="flex flex-wrap gap-2 mb-4 bg-slate-950/20 p-2.5 rounded-xl border border-slate-850">
+          <span className="text-[10px] font-bold text-slate-400 self-center mr-1">개조 단계 프리셋:</span>
+          {[
+            { label: '156 프리셋 (1/5/6번 30단)', key: '156' },
+            { label: '256 프리셋 (2/5/6번 30단)', key: '256' },
+            { label: '456 프리셋 (시즌2 격투가)', key: '456' }
+          ].map(preset => (
+            <button
+              key={preset.key}
+              type="button"
+              onClick={() => applySkillPreset(preset.key)}
+              className="px-2.5 py-1 bg-slate-850 hover:bg-slate-800 border border-slate-800 rounded-lg text-[10px] font-bold text-mabi-accent active:scale-95 transition-all"
+            >
+              {preset.label}
+            </button>
+          ))}
+        </div>
+
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
           {skillFields.map(f => {
             const is30 = stats[f.key] === 30;
@@ -106,17 +139,34 @@ export default function StatsInput({ stats, onStatsChange }) {
                 <div className="flex items-center gap-1.5 mt-1">
                   <button
                     type="button"
-                    onClick={() => handleInputChange(f.key, Math.max(0, (stats[f.key] || 10) - 1))}
+                    onClick={() => onStatsChange(f.key, Math.max(10, (stats[f.key] || 10) - 1))}
                     className="w-5 h-5 bg-slate-850 hover:bg-slate-800 rounded flex items-center justify-center text-xs font-bold text-slate-350 active:scale-95 transition-all"
                   >
                     -
                   </button>
-                  <span className={`w-6 text-center text-xs font-black ${is30 ? 'text-purple-400' : 'text-slate-200'}`}>
-                    {stats[f.key] || 10}
-                  </span>
+                  <input
+                    type="number"
+                    min="10"
+                    max="30"
+                    value={stats[f.key] !== undefined ? stats[f.key] : 10}
+                    onChange={(e) => {
+                      let val = parseInt(e.target.value);
+                      if (isNaN(val)) {
+                        onStatsChange(f.key, 10);
+                      } else {
+                        let checked = val;
+                        if (checked < 10) checked = 10;
+                        if (checked > 30) checked = 30;
+                        onStatsChange(f.key, checked);
+                      }
+                    }}
+                    className={`w-10 bg-slate-900 border border-slate-800 rounded py-0.5 text-center text-xs font-black focus:outline-none focus:border-mabi-accent [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${
+                      is30 ? 'text-purple-400 font-extrabold' : 'text-slate-200'
+                    }`}
+                  />
                   <button
                     type="button"
-                    onClick={() => handleInputChange(f.key, Math.min(30, (stats[f.key] || 10) + 1))}
+                    onClick={() => onStatsChange(f.key, Math.min(30, (stats[f.key] || 10) + 1))}
                     className="w-5 h-5 bg-slate-850 hover:bg-slate-800 rounded flex items-center justify-center text-xs font-bold text-slate-350 active:scale-95 transition-all"
                   >
                     +
