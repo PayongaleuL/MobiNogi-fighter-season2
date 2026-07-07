@@ -188,11 +188,11 @@ export default function StatsInput({ stats, onStatsChange }) {
 
       <hr className="border-slate-800/80" />
 
-      {/* 세공 추가 설정 */}
+      {/* 추가 인챈트 설정 */}
       <div>
         <h3 className="text-md font-bold text-slate-200 mb-3 flex items-center gap-2">
           <Settings className="w-4 h-4 text-slate-400" />
-          추가 세공 설정
+          추가 인챈트 설정
         </h3>
         <div className="bg-slate-950/40 p-4 rounded-xl border border-slate-800/80 flex flex-col sm:flex-row gap-4 justify-between">
           <div className="flex-1 flex justify-between items-center gap-2">
