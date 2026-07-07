@@ -10,12 +10,10 @@ export default function GemStonePanel({ gems, onGemChange, setGems, selectedRune
     '온전한 스타프리즘': { dmg: 2.20, cd: 0.75 }
   };
 
-  // 장비별 소켓 배치 구성표 (합계 22소켓 규격 완벽 싱크)
+  // 장비별 소켓 배치 구성표 (장신구 3종 통합 및 합계 22소켓 규격 완벽 매핑)
   const GEM_SLOT_CONFIGS = [
     { part: '무기', count: 3, startIndex: 0 },
-    { part: '장신구(목걸이)', count: 1, startIndex: 3 },
-    { part: '장신구(반지1)', count: 1, startIndex: 4 },
-    { part: '장신구(반지2)', count: 1, startIndex: 5 },
+    { part: '장신구', count: 3, startIndex: 3 }, // 목걸이, 반지1, 반지2 병합
     { part: '엠블럼', count: 1, startIndex: 6 },
     { part: '방어구1', count: 3, startIndex: 7 },
     { part: '방어구2', count: 3, startIndex: 10 },
@@ -27,20 +25,36 @@ export default function GemStonePanel({ gems, onGemChange, setGems, selectedRune
   // 메인 종합계산기 룬 구성과의 실시간 동기화 헬퍼 함수
   const getRuneNameForPart = (part) => {
     if (!selectedRunes) return '';
-    let name = '';
     
-    if (part === '무기') name = selectedRunes['무기']?.[0]?.name;
-    else if (part === '장신구(목걸이)') name = selectedRunes['장신구']?.[0]?.name;
-    else if (part === '장신구(반지1)') name = selectedRunes['장신구']?.[1]?.name;
-    else if (part === '장신구(반지2)') name = selectedRunes['장신구']?.[2]?.name;
-    else if (part === '엠블럼') name = selectedRunes['엠블럼']?.[0]?.name;
-    else if (part === '방어구1') name = selectedRunes['방어구']?.[0]?.name;
-    else if (part === '방어구2') name = selectedRunes['방어구']?.[1]?.name;
-    else if (part === '방어구3') name = selectedRunes['방어구']?.[2]?.name;
-    else if (part === '방어구4') name = selectedRunes['방어구']?.[3]?.name;
-    else if (part === '방어구5') name = selectedRunes['방어구']?.[4]?.name;
+    if (part === '무기') {
+      const name = selectedRunes['무기']?.[0]?.name;
+      return name ? ` - 무기(${name})` : ' - 무기(룬 미장착)';
+    }
+    if (part === '장신구') {
+      const necklace = selectedRunes['장신구']?.[0]?.name || '미장착';
+      const ring1 = selectedRunes['장신구']?.[1]?.name || '미장착';
+      const ring2 = selectedRunes['장신구']?.[2]?.name || '미장착';
+      return ` - 목걸이(${necklace}) / 반지1(${ring1}) / 반지2(${ring2})`;
+    }
+    if (part === '엠블럼') {
+      const name = selectedRunes['엠블럼']?.[0]?.name;
+      return name ? ` - 엠블럼(${name})` : ' - 엠블럼(룬 미장착)';
+    }
+    
+    // 방어구 1~5번
+    const armIdx = parseInt(part.replace('방어구', '')) - 1;
+    const name = selectedRunes['방어구']?.[armIdx]?.name;
+    return name ? ` - ${part}(${name})` : ` - ${part}(룬 미장착)`;
+  };
 
-    return name ? ` - ${name}` : ' - 룬 미장착';
+  // 장신구 또는 개별 소켓명 가독성 라벨링
+  const getSocketLabel = (part, subIdx) => {
+    if (part === '장신구') {
+      if (subIdx === 0) return '목걸이 소켓';
+      if (subIdx === 1) return '반지1 소켓';
+      return '반지2 소켓';
+    }
+    return `소켓 #${subIdx + 1}`;
   };
 
   // 22개 보석 인벤토리 실시간 합산 현황 연산
@@ -52,16 +66,18 @@ export default function GemStonePanel({ gems, onGemChange, setGems, selectedRune
     };
 
     gems.forEach(gem => {
-      if (gem.grade === '미장착' || !gem.option) return;
+      if (gem.grade === '미장착' || !gem.options || gem.options.length === 0) return;
       const values = gradeValues[gem.grade];
       if (!values) return;
 
-      if (gem.option === '강뎀') stats.strongDmg += values.dmg;
-      else if (gem.option === '강쿨') stats.strongCd += values.cd;
-      else if (gem.option === '이뎀') stats.moveDmg += values.dmg;
-      else if (gem.option === '이쿨') stats.moveCd += values.cd;
-      else if (gem.option === '보뎀') stats.subDmg += values.dmg;
-      else if (gem.option === '보쿨') stats.subCd += values.cd;
+      gem.options.forEach(opt => {
+        if (opt === '강뎀') stats.strongDmg += values.dmg;
+        else if (opt === '강쿨') stats.strongCd += values.cd;
+        else if (opt === '이뎀') stats.moveDmg += values.dmg;
+        else if (opt === '이쿨') stats.moveCd += values.cd;
+        else if (opt === '보뎀') stats.subDmg += values.dmg;
+        else if (opt === '보쿨') stats.subCd += values.cd;
+      });
     });
 
     // 소수점 둘째자리 반올림
@@ -73,14 +89,14 @@ export default function GemStonePanel({ gems, onGemChange, setGems, selectedRune
 
   const sumStats = getSumStats();
 
-  // 프리셋 설정 도우미 (22개 보석 일괄 세팅)
+  // 프리셋 설정 도우미 (22개 보석 일괄 세팅 - 강뎀+이뎀 2줄 다중선택 적용)
   const applyPreset = (presetType) => {
     if (presetType === 'perfectStarPrism') {
       setGems(
         Array.from({ length: 22 }, (_, idx) => ({
           id: idx + 1,
           grade: '온전한 스타프리즘',
-          option: '강뎀'
+          options: ['강뎀', '이뎀'] // 강이 2줄 기본 체크
         }))
       );
     } else if (presetType === 'starPrismS') {
@@ -88,7 +104,7 @@ export default function GemStonePanel({ gems, onGemChange, setGems, selectedRune
         Array.from({ length: 22 }, (_, idx) => ({
           id: idx + 1,
           grade: '스타프리즘S',
-          option: '강뎀'
+          options: ['강뎀', '이뎀']
         }))
       );
     } else if (presetType === 'starPrism') {
@@ -96,19 +112,35 @@ export default function GemStonePanel({ gems, onGemChange, setGems, selectedRune
         Array.from({ length: 22 }, (_, idx) => ({
           id: idx + 1,
           grade: '스타프리즘',
-          option: '강뎀'
+          options: ['강뎀', '이뎀']
         }))
       );
     } else if (presetType === 'clearOptions') {
-      setGems(prev => prev.map(gem => ({ ...gem, option: '' })));
+      setGems(prev => prev.map(gem => ({ ...gem, options: [] })));
     } else if (presetType === 'reset') {
       setGems(
         Array.from({ length: 22 }, (_, idx) => ({
           id: idx + 1,
           grade: '미장착',
-          option: ''
+          options: []
         }))
       );
+    }
+  };
+
+  // 세공 옵션 다중 선택 토글 핸들러 (최대 3개 한도)
+  const handleOptionClick = (globalIdx, optionValue, currentOptions) => {
+    const opts = currentOptions || [];
+    if (opts.includes(optionValue)) {
+      const nextOpts = opts.filter(o => o !== optionValue);
+      onGemChange(globalIdx, 'options', nextOpts);
+    } else {
+      if (opts.length >= 3) {
+        alert('보석 세공 옵션은 최대 3줄(3개)까지만 선택 가능합니다.');
+        return;
+      }
+      const nextOpts = [...opts, optionValue];
+      onGemChange(globalIdx, 'options', nextOpts);
     }
   };
 
@@ -144,25 +176,25 @@ export default function GemStonePanel({ gems, onGemChange, setGems, selectedRune
           </p>
         </div>
 
-        {/* 프리셋 버튼 그룹 */}
+        {/* 프리셋 버튼 그룹 (온전한 스타프리즘 명칭 교정) */}
         <div className="flex flex-wrap gap-2.5">
           <button
             onClick={() => applyPreset('perfectStarPrism')}
             className="px-3 py-1.5 bg-purple-950/30 hover:bg-purple-900/40 border border-purple-800/40 rounded-lg text-[10px] font-bold text-purple-300 transition-all active:scale-95"
           >
-            온전한 스타 일괄 (강뎀)
+            온전한 스타프리즘 일괄 (강이)
           </button>
           <button
             onClick={() => applyPreset('starPrismS')}
             className="px-3 py-1.5 bg-blue-950/30 hover:bg-blue-900/40 border border-blue-800/40 rounded-lg text-[10px] font-bold text-blue-300 transition-all active:scale-95"
           >
-            스타S 일괄 (강뎀)
+            스타프리즘S 일괄 (강이)
           </button>
           <button
             onClick={() => applyPreset('starPrism')}
             className="px-3 py-1.5 bg-slate-950/50 hover:bg-slate-800/50 border border-slate-700/50 rounded-lg text-[10px] font-bold text-slate-350 transition-all active:scale-95"
           >
-            스타 일괄 (강뎀)
+            스타프리즘 일괄 (강이)
           </button>
           <button
             onClick={() => applyPreset('clearOptions')}
@@ -219,10 +251,15 @@ export default function GemStonePanel({ gems, onGemChange, setGems, selectedRune
         </div>
       </div>
 
+      {/* 3줄 완성 권장 가이드 경고 배너 */}
+      <div className="bg-amber-950/20 border border-amber-800/30 text-amber-400 text-xs p-3.5 rounded-xl font-bold flex items-center gap-2.5 animate-pulse">
+        <span>💡</span>
+        <span>일괄 프리셋(강이) 적용 시 2줄(강뎀/이뎀)만 기본 설정됩니다. 나머지 3번째 줄 세공 옵션은 직접 클릭하여 3줄을 완성해 주십시오. (3줄 미만 시 소켓이 붉게 점멸합니다.)</span>
+      </div>
+
       {/* 장비 부위별 소켓 리스트 렌더링 구역 */}
       <div className="flex flex-col gap-6">
         {GEM_SLOT_CONFIGS.map(config => {
-          // 해당 장비에 연계된 보석 슬롯만 필터링해옴
           const partGems = gems.slice(config.startIndex, config.startIndex + config.count);
 
           return (
@@ -231,8 +268,8 @@ export default function GemStonePanel({ gems, onGemChange, setGems, selectedRune
               <div className="flex justify-between items-center border-b border-slate-800 pb-2.5">
                 <h4 className="text-xs font-black text-mabi-accent tracking-wider uppercase flex items-center gap-1.5">
                   <Layers className="w-3.5 h-3.5 text-slate-500" />
-                  {config.part}
-                  <span className="text-xs text-slate-350 font-bold ml-1.5 bg-slate-900 border border-slate-800 px-2 py-0.5 rounded-md leading-none">
+                  {config.part === '장신구' ? '장신구 통합 세공' : `${config.part} 보석 세공`}
+                  <span className="text-[11px] text-slate-350 font-bold ml-1.5 bg-slate-900 border border-slate-850 px-2.5 py-1 rounded-md leading-none">
                     {getRuneNameForPart(config.part)}
                   </span>
                 </h4>
@@ -243,6 +280,8 @@ export default function GemStonePanel({ gems, onGemChange, setGems, selectedRune
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3.5">
                 {partGems.map((gem, subIdx) => {
                   const globalIdx = config.startIndex + subIdx;
+                  // 3줄 미충족 시 붉은 경고등 상태 계산
+                  const isWarning = gem.grade !== '미장착' && (!gem.options || gem.options.length < 3);
 
                   return (
                     <div
@@ -250,10 +289,12 @@ export default function GemStonePanel({ gems, onGemChange, setGems, selectedRune
                       className={`p-3.5 rounded-xl border flex flex-col gap-3.5 transition-all hover:border-slate-700 ${
                         gem.grade === '미장착' 
                           ? 'bg-slate-950/20 border-slate-900 border-dashed opacity-60' 
-                          : 'bg-slate-900/80 border-slate-800'
+                          : isWarning
+                            ? 'bg-red-950/15 border-red-500/40 shadow-md shadow-red-950/5 animate-pulse' // 3줄 미만 시 붉은 경고등 테마 적용
+                            : 'bg-slate-900/80 border-slate-850'
                       }`}
                     >
-                      {/* 보석 정보 라벨 */}
+                      {/* 보석 정보 라벨 및 경고 뱃지 */}
                       <div className="flex justify-between items-center">
                         <span className="text-[10px] font-black text-slate-350 flex items-center gap-1">
                           <Gem className={`w-3.5 h-3.5 ${
@@ -261,11 +302,19 @@ export default function GemStonePanel({ gems, onGemChange, setGems, selectedRune
                             gem.grade === '스타프리즘S' ? 'text-blue-400' :
                             gem.grade === '스타프리즘' ? 'text-slate-400' : 'text-slate-650'
                           }`} />
-                          소켓 #{subIdx + 1}
+                          {getSocketLabel(config.part, subIdx)}
                         </span>
-                        <span className="text-[9px] text-slate-500 font-semibold leading-none">
-                          {getStatInfoString(gem.grade)}
-                        </span>
+                        {isWarning ? (
+                          <span className="text-[8px] bg-red-950/40 border border-red-900/40 text-red-400 px-1 rounded font-bold leading-none animate-pulse">
+                            옵션 {gem.options?.length || 0}/3
+                          </span>
+                        ) : (
+                          gem.grade !== '미장착' && (
+                            <span className="text-[8px] bg-emerald-950/40 border border-emerald-900/40 text-emerald-400 px-1 rounded font-bold leading-none">
+                              완료 3/3
+                            </span>
+                          )
+                        )}
                       </div>
 
                       {/* 등급 셀렉터 */}
@@ -280,12 +329,13 @@ export default function GemStonePanel({ gems, onGemChange, setGems, selectedRune
                         <option value="온전한 스타프리즘">💎 온전한 스타프리즘 (2.2%)</option>
                       </select>
 
-                      {/* 세공 옵션 토글 버튼 */}
+                      {/* 세공 옵션 다중 토글 */}
                       <div className="flex flex-col gap-1.5">
-                        <span className="text-[9px] text-slate-500 font-bold leading-none">세공 옵션 선택</span>
+                        <span className="text-[9px] text-slate-500 font-bold leading-none">옵션 다중 선택 (최대 3개)</span>
                         <div className="grid grid-cols-3 gap-1">
                           {optionTypes.map(opt => {
-                            const isActive = gem.option === opt.value;
+                            const opts = gem.options || [];
+                            const isActive = opts.includes(opt.value);
                             const isDisabled = gem.grade === '미장착';
 
                             return (
@@ -293,10 +343,7 @@ export default function GemStonePanel({ gems, onGemChange, setGems, selectedRune
                                 key={opt.value}
                                 type="button"
                                 disabled={isDisabled}
-                                onClick={() => {
-                                  const nextOption = isActive ? '' : opt.value;
-                                  onGemChange(globalIdx, 'option', nextOption);
-                                }}
+                                onClick={() => handleOptionClick(globalIdx, opt.value, gem.options)}
                                 title={opt.desc}
                                 className={`py-1 rounded text-[10px] font-bold transition-all border ${
                                   isDisabled 
