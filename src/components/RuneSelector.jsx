@@ -58,25 +58,63 @@ export default function RuneSelector({ selectedRunes, onRuneChange }) {
       '룬:', '전용 룬', '판매', '시즌보존', '시류보존', '기억가능', '각인', '마도 저항',
       '추가 체력', '하위 능력치', '유일', '방어력', '공격력', '전설 희귀도', '스킬 1강화', '스킬 2강화',
       '거래 불가', '거래불가', '판매기능', '판매가능', '엘불럽에', '방어구데', '임불럼', '엠블럼',
-      '저주 확률', '저주 확출', '초월 각인', '최종 피해량', '최종 피해랑', '액티브 스킬', '액티브스킬',
-      '버스트 펀치', '버스트 편치', '차징 피스트', '차징 동작', '카운터 시', '약점 노출', '콤보스킬은',
-      '동일한 행동 불능', '행동 불능에', '오염의 지속', '용의 문장', '전투 중', '침식과 오염'
+      '저주 확률', '저주 확출', '초월 각인', '최종 피해량', '최종 피해랑', '액티브 스킬', '액티브스킬'
     ];
-    return cleanedText
-      .filter(line => {
-        const trimmed = line.trim();
-        if (!trimmed) return false;
-        return !ignoredPatterns.some(pat => trimmed.includes(pat));
-      })
-      .map(line => {
-        return line
-          .replace(/증가하다\.?/g, '증가')
-          .replace(/증가한다\.?/g, '증가')
-          .replace(/감소하다\.?/g, '감소')
-          .replace(/감소한다\.?/g, '감소')
-          .replace(/;/g, ',')
-          .trim();
+
+    // 1단계: 라인 단위로 메타데이터 및 단순 깡 수치/속성 필터링
+    const filteredLines = cleanedText.filter(line => {
+      const trimmed = line.trim();
+      if (/^\d+$/.test(trimmed)) return false;
+      if (trimmed.length <= 2 && (trimmed === '용' || trimmed === '다' || trimmed === '없음' || trimmed === '빛' || trimmed === '어둠' || trimmed === '전투')) return false;
+      return !ignoredPatterns.some(pat => trimmed.includes(pat));
+    });
+
+    // 2단계: 긴 문장으로 결합하고 연속된 공백 문자 통일
+    let combinedText = filteredLines.join(' ').replace(/\s+/g, ' ');
+
+    // 3단계: 문장 내 특정 노이즈 구문 소거 (초월/저주/등급 툴팁 등)
+    combinedText = combinedText
+      .replace(/초월 각인 시,? 적에게 주는 최종 피해량이 단계마다 [\d.]+% 증가하다\.?/g, '')
+      .replace(/초월 각인 시,? 적에게 주는 최종 피해량이 단계마다 [\d.]+% 증가한다\.?/g, '')
+      .replace(/저주 확률 \d+%\.?/g, '')
+      .replace(/저주 확출 \d+%\.?/g, '')
+      .replace(/전설 희귀도 효과 부여\.?/g, '')
+      .replace(/모든 스킬 \d+강화\.?/g, '')
+      .replace(/임의 \d+개 스킬 \d+강화\.?/g, '');
+
+    // 4단계: 마침표(.)를 기준으로 끊어 온전한 통문장 리스트 반환
+    const sentences = combinedText
+      .split(/(?<=\.)/g)
+      .map(s => s.trim())
+      .filter(s => {
+        if (!s) return false;
+        if (s.startsWith('하위 능력치') || s.startsWith('하위 능력지')) return false;
+        if (s === '.') return false;
+        return s.length > 2;
       });
+
+    // 5단계: 한글 문법 및 오타 교정 피드백 적용
+    return sentences.map(s => {
+      return s
+        .replace(/증가하다\.?/g, '증가')
+        .replace(/증가한다\.?/g, '증가')
+        .replace(/감소하다\.?/g, '감소')
+        .replace(/감소한다\.?/g, '감소')
+        .replace(/중되다\.?/g, '중첩')
+        .replace(/중첩되다\.?/g, '중첩')
+        .replace(/중첩된다\.?/g, '중첩')
+        .replace(/해제되다\.?/g, '해제')
+        .replace(/해제된다\.?/g, '해제')
+        .replace(/;/g, ',')
+        .replace(/아난/g, '아닌')
+        .replace(/타켓에거/g, '타겟에게')
+        .replace(/타켓에게/g, '타겟에게')
+        .replace(/피해지 준다/g, '피해를 줌')
+        .replace(/피해름 주고/g, '피해를 주고')
+        .replace(/피해를 주고/g, '피해를 주고')
+        .replace(/추가 공격올/g, '추가 공격을')
+        .trim();
+    });
   };
 
   // 룬 타입별로 슬롯 구분
@@ -317,9 +355,10 @@ export default function RuneSelector({ selectedRunes, onRuneChange }) {
             list.map((rune, idx) => {
               if (!rune) return null;
               const coreLines = getCoreRuneTexts(rune.cleaned_text);
+              if (coreLines.length === 0) return null; // 빈 카드는 아예 렌더링 스킵 처리
               
               return (
-                <div key={`${type}-${idx}`} className="bg-slate-950/40 border border-slate-850 p-4 rounded-xl flex flex-col gap-2.5 transition-all hover:border-slate-750">
+                <div key={`${type}-${idx}`} className="bg-slate-950/40 border border-slate-850 p-4 rounded-xl flex flex-col gap-2.5 transition-all hover:border-slate-750 h-fit">
                   <div className="flex justify-between items-center border-b border-slate-850 pb-2">
                     <span className="text-xs font-black text-slate-100 flex items-center gap-1.5">
                       <span className="w-1.5 h-1.5 rounded-full bg-mabi-accent" />
@@ -330,23 +369,19 @@ export default function RuneSelector({ selectedRunes, onRuneChange }) {
                     </span>
                   </div>
                   <div className="text-[10px] text-slate-350 leading-relaxed flex flex-col gap-1 font-medium">
-                    {coreLines.length > 0 ? (
-                      coreLines.map((line, lIdx) => (
-                        <p key={lIdx} className="flex gap-1.5 items-start">
-                          <span className="text-mabi-accent shrink-0 font-black">•</span>
-                          <span>{line}</span>
-                        </p>
-                      ))
-                    ) : (
-                      <p className="text-slate-500 italic">상세 효과 정보 없음</p>
-                    )}
+                    {coreLines.map((line, lIdx) => (
+                      <p key={lIdx} className="flex gap-1.5 items-start">
+                        <span className="text-mabi-accent shrink-0 font-black">•</span>
+                        <span>{line}</span>
+                      </p>
+                    ))}
                   </div>
                 </div>
               );
             })
           ).filter(Boolean)}
           
-          {Object.values(selectedRunes).flat().filter(Boolean).length === 0 && (
+          {Object.values(selectedRunes).flat().filter(Boolean).filter(r => getCoreRuneTexts(r.cleaned_text).length > 0).length === 0 && (
             <div className="col-span-full py-8 text-center text-xs text-slate-500 border border-dashed border-slate-850 rounded-xl">
               현재 장착된 룬이 없습니다. 상단 슬롯을 클릭해 룬을 장착해 주세요.
             </div>
