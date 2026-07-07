@@ -8,7 +8,8 @@ export default function ConditionalPanel({ selectedRunes, conditionalUptimes, on
     { name: '숲 길잡이', desc: '이동 및 공격 스택 달성 시 10초간 주는 피해 21% 증가', defaultUptime: 100 },
     { name: '백금 천칭', desc: '콤보/기본 공격 조건부로 주는 피해 31.5% 및 추가타 확률 31.5% 적용', defaultUptime: 100 },
     { name: '초월', desc: '추가타/치명타 5회 적중 시 주는 피해 15% 및 치명타 피해 15% 증가', defaultUptime: 100 },
-    { name: '악몽', desc: '불의 정수 소물로 화염 지대 지속 피해 발생 (주는 피해 5% 근사 계산)', defaultUptime: 100 }
+    { name: '악몽', desc: '불의 정수 소물로 화염 지대 지속 피해 발생 (주는 피해 5% 근사 계산)', defaultUptime: 100 },
+    { name: '거대한 분노', desc: '강타 적중 시 스킬피해 3% 증가(최대 4회 중첩). 가동률에 비례하여 최대 12.0%의 스킬피증이 기댓값에 반영됩니다. (100% 설정 시 기본 +12.0% 스킬피증 자동 합산)', defaultUptime: 100 }
   ];
 
   // 현재 선택된 룬 중 조건부 룬에 해당하는 것 필터링
