@@ -41,7 +41,7 @@ export default function Calculator() {
     '엠블럼': [null]
   });
 
-  // 4. 보석 세공 상태
+  // 4. 보석 세공 수치 계산 결과 상태 (실시간 유도되어 하위 패널 전달용)
   const [gemStats, setGemStats] = useState({
     strongDmg: 0.0, strongCd: 0.0,
     moveDmg: 0.0, moveCd: 0.0,
@@ -49,6 +49,15 @@ export default function Calculator() {
     disableDmg: 0.0, disableCd: 0.0,
     saveDmg: 0.0, saveCd: 0.0
   });
+
+  // 4-1. 22개 보석 개별 슬롯 인벤토리 상태 (신규 추가)
+  const [gems, setGems] = useState(
+    Array.from({ length: 22 }, (_, idx) => ({
+      id: idx + 1,
+      grade: '온전한 스타프리즘', // '미장착' | '스타프리즘' | '스타프리즘S' | '온전한 스타프리즘'
+      option: '강뎀' // '강뎀' | '이뎀' | '보뎀' | '강쿨' | '이쿨' | '보쿨' | ''(옵션 없음)
+    }))
+  );
 
   // 5. 전투 및 보스 기믹 상태
   const [gimmicks, setGimmicks] = useState({
@@ -73,7 +82,7 @@ export default function Calculator() {
   // 7. 조건부 룬 가동률 상태
   const [conditionalUptimes, setConditionalUptimes] = useState({});
 
-  // 8. 6개 스킬 개별 스탠스(Stance) 선택 상태 (신규 추가)
+  // 8. 6개 스킬 개별 스탠스(Stance) 선택 상태
   const [skillStances, setSkillStances] = useState({
     skill_1: '순정',
     skill_2: '순정',
@@ -92,8 +101,44 @@ export default function Calculator() {
     { name: '셋팅 3', data: null }
   ]);
 
-  // 실시간 DPS 재계산 트리거
+  // 실시간 DPS 재계산 트리거 (gems 개별 상태 연산식 포함)
   useEffect(() => {
+    // gems로부터 gemStats 계산
+    const gradeValues = {
+      '스타프리즘': { dmg: 2.00, cd: 0.65 },
+      '스타프리즘S': { dmg: 2.10, cd: 0.70 },
+      '온전한 스타프리즘': { dmg: 2.20, cd: 0.75 }
+    };
+
+    const calculatedGemStats = {
+      strongDmg: 0.0, strongCd: 0.0,
+      moveDmg: 0.0, moveCd: 0.0,
+      subDmg: 0.0, subCd: 0.0,
+      disableDmg: 0.0, disableCd: 0.0,
+      saveDmg: 0.0, saveCd: 0.0
+    };
+
+    gems.forEach(gem => {
+      if (gem.grade === '미장착' || !gem.option) return;
+      const values = gradeValues[gem.grade];
+      if (!values) return;
+
+      if (gem.option === '강뎀') calculatedGemStats.strongDmg += values.dmg;
+      else if (gem.option === '강쿨') calculatedGemStats.strongCd += values.cd;
+      else if (gem.option === '이뎀') calculatedGemStats.moveDmg += values.dmg;
+      else if (gem.option === '이쿨') calculatedGemStats.moveCd += values.cd;
+      else if (gem.option === '보뎀') calculatedGemStats.subDmg += values.dmg;
+      else if (gem.option === '보쿨') calculatedGemStats.subCd += values.cd;
+    });
+
+    // 소수점 2자리 반올림
+    Object.keys(calculatedGemStats).forEach(k => {
+      calculatedGemStats[k] = parseFloat(calculatedGemStats[k].toFixed(2));
+    });
+
+    setGemStats(calculatedGemStats);
+
+    // 룬 정보 전개
     const flattenedRunes = [];
     Object.values(selectedRunes).forEach(arr => {
       arr.forEach(r => {
@@ -101,14 +146,14 @@ export default function Calculator() {
       });
     });
 
-    // gemStats 및 skillStances 추가 전달하여 연산 연계
-    const result = calculateDPS(stats, flattenedRunes, gimmicks, cycles, conditionalUptimes, gemStats, skillStances);
+    // DPS 실시간 연산
+    const result = calculateDPS(stats, flattenedRunes, gimmicks, cycles, conditionalUptimes, calculatedGemStats, skillStances);
     setDpsResult(result);
-  }, [stats, selectedRunes, gimmicks, cycles, conditionalUptimes, gemStats, skillStances]);
+  }, [stats, selectedRunes, gimmicks, cycles, conditionalUptimes, gems, skillStances]);
 
   // 로컬 스토리지 프리셋 로드
   useEffect(() => {
-    const saved = localStorage.getItem('mabi_runes_presets_v3');
+    const saved = localStorage.getItem('mabi_runes_presets_v4');
     if (saved) {
       try {
         setPresets(JSON.parse(saved));
@@ -120,17 +165,17 @@ export default function Calculator() {
 
   // 마지막 입력 스탯 및 상태 자동 로드 (새로고침 대응)
   useEffect(() => {
-    const savedAutosave = localStorage.getItem('mabi_calculator_autosave_v3');
+    const savedAutosave = localStorage.getItem('mabi_calculator_autosave_v4');
     if (savedAutosave) {
       try {
         const parsed = JSON.parse(savedAutosave);
         if (parsed.stats) setStats(parsed.stats);
         if (parsed.selectedRunes) setSelectedRunes(parsed.selectedRunes);
         if (parsed.cycles) setCycles(parsed.cycles);
-        if (parsed.gemStats) setGemStats(parsed.gemStats);
         if (parsed.conditionalUptimes) setConditionalUptimes(parsed.conditionalUptimes);
         if (parsed.gimmicks) setGimmicks(parsed.gimmicks);
         if (parsed.skillStances) setSkillStances(parsed.skillStances);
+        if (parsed.gems) setGems(parsed.gems);
       } catch (e) {
         console.error("Autosave load failed:", e);
       }
@@ -143,24 +188,24 @@ export default function Calculator() {
       stats,
       selectedRunes,
       cycles,
-      gemStats,
       conditionalUptimes,
       gimmicks,
-      skillStances
+      skillStances,
+      gems
     };
-    localStorage.setItem('mabi_calculator_autosave_v3', JSON.stringify(dataToSave));
-  }, [stats, selectedRunes, cycles, gemStats, conditionalUptimes, gimmicks, skillStances]);
+    localStorage.setItem('mabi_calculator_autosave_v4', JSON.stringify(dataToSave));
+  }, [stats, selectedRunes, cycles, conditionalUptimes, gimmicks, skillStances, gems]);
 
   const handleStatsChange = (key, val) => {
     setStats(prev => ({ ...prev, [key]: val }));
   };
 
-  const handleGemStatsChange = (updatesOrKey, val) => {
-    if (typeof updatesOrKey === 'object' && updatesOrKey !== null) {
-      setGemStats(prev => ({ ...prev, ...updatesOrKey }));
-    } else {
-      setGemStats(prev => ({ ...prev, [updatesOrKey]: val }));
-    }
+  const handleGemChange = (index, key, val) => {
+    setGems(prev => {
+      const copy = [...prev];
+      copy[index] = { ...copy[index], [key]: val };
+      return copy;
+    });
   };
 
   const handleRuneChange = (type, index, rune) => {
@@ -188,7 +233,7 @@ export default function Calculator() {
   };
 
   const handleReset = () => {
-    if (window.confirm('모든 능력치, 룬, 보석, 스탠스 설정을 초기화하시겠습니까?')) {
+    if (window.confirm('모든 능력치, 룬, 보석 세공, 스탠스 설정을 초기화하시겠습니까?')) {
       setStats({
         baseAttack: 27166.0,
         critScore: 6925.0,
@@ -216,13 +261,13 @@ export default function Calculator() {
         '장신구': [null, null, null],
         '엠블럼': [null]
       });
-      setGemStats({
-        strongDmg: 0.0, strongCd: 0.0,
-        moveDmg: 0.0, moveCd: 0.0,
-        subDmg: 0.0, subCd: 0.0,
-        disableDmg: 0.0, disableCd: 0.0,
-        saveDmg: 0.0, saveCd: 0.0
-      });
+      setGems(
+        Array.from({ length: 22 }, (_, idx) => ({
+          id: idx + 1,
+          grade: '온전한 스타프리즘',
+          option: '강뎀'
+        }))
+      );
       setSkillStances({
         skill_1: '순정',
         skill_2: '순정',
@@ -246,13 +291,13 @@ export default function Calculator() {
         selectedRunes,
         cycles,
         conditionalUptimes,
-        gemStats,
+        gems,
         skillStances,
         weightedDps: dpsResult?.weightedDps || 0
       }
     };
     setPresets(newPresets);
-    localStorage.setItem('mabi_runes_presets_v3', JSON.stringify(newPresets));
+    localStorage.setItem('mabi_runes_presets_v4', JSON.stringify(newPresets));
   };
 
   const clearPreset = (slotIndex, e) => {
@@ -261,7 +306,7 @@ export default function Calculator() {
       const newPresets = [...presets];
       newPresets[slotIndex] = { name: `셋팅 ${slotIndex + 1}`, data: null };
       setPresets(newPresets);
-      localStorage.setItem('mabi_runes_presets_v3', JSON.stringify(newPresets));
+      localStorage.setItem('mabi_runes_presets_v4', JSON.stringify(newPresets));
     }
   };
 
@@ -274,13 +319,7 @@ export default function Calculator() {
       setSelectedRunes(preset.data.selectedRunes);
       setCycles(preset.data.cycles);
       setConditionalUptimes(preset.data.conditionalUptimes || {});
-      setGemStats(preset.data.gemStats || {
-        strongDmg: 0, strongCd: 0,
-        moveDmg: 0, moveCd: 0,
-        subDmg: 0, subCd: 0,
-        disableDmg: 0, disableCd: 0,
-        saveDmg: 0, saveCd: 0
-      });
+      if (preset.data.gems) setGems(preset.data.gems);
       setSkillStances(preset.data.skillStances || {
         skill_1: '순정',
         skill_2: '순정',
@@ -302,7 +341,7 @@ export default function Calculator() {
             <span className="text-xs bg-slate-800 border border-slate-700 px-2 py-0.5 rounded-full text-slate-400 font-bold">시즌 2 최종본</span>
           </h2>
           <p className="text-xs text-slate-400 mt-1 leading-relaxed">
-            장신구 룬에 의한 스킬 변형 모의실험 및 신규 파쇄권/충격파 패시브 공식이 완벽 이식된 최종 대시보드입니다.
+            보석 세공 22개 인벤토리 개별 지정 및 스킬별 스탠스 시뮬레이션이 연계된 5차 완성 대시보드입니다.
           </p>
         </div>
 
@@ -332,9 +371,9 @@ export default function Calculator() {
         </div>
       </div>
 
-      {/* 탭 내용 분기 렌더링 */}
+      {/* 탭 내용 분기 렌더링 (22개 보석 지정 패널로 개조) */}
       {activeTab === 'gemstone' ? (
-        <GemStonePanel gemStats={gemStats} onGemStatsChange={handleGemStatsChange} />
+        <GemStonePanel gems={gems} onGemChange={handleGemChange} setGems={setGems} />
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start animate-fadeIn">
           
@@ -354,7 +393,7 @@ export default function Calculator() {
             {/* 룬 슬롯 선택기 */}
             <RuneSelector selectedRunes={selectedRunes} onRuneChange={handleRuneChange} />
 
-            {/* 스킬별 스탠스(Stance) 개별 튜닝 패널 (신규 보강) */}
+            {/* 스킬별 스탠스(Stance) 개별 튜닝 패널 */}
             <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
               <h3 className="text-lg font-bold text-slate-100 mb-4 flex items-center gap-2">
                 <Activity className="w-5 h-5 text-emerald-400" />
