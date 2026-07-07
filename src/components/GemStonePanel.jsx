@@ -1,13 +1,46 @@
 import React from 'react';
-import { Gem, ArrowRight, ShieldAlert, Sparkles, RefreshCw } from 'lucide-react';
+import { Gem, ArrowRight, ShieldAlert, Sparkles, RefreshCw, Layers } from 'lucide-react';
 
-export default function GemStonePanel({ gems, onGemChange, setGems }) {
+export default function GemStonePanel({ gems, onGemChange, setGems, selectedRunes }) {
   
   // 보석 등급별 고정 세공 증가율 계수
   const gradeValues = {
     '스타프리즘': { dmg: 2.00, cd: 0.65 },
     '스타프리즘S': { dmg: 2.10, cd: 0.70 },
     '온전한 스타프리즘': { dmg: 2.20, cd: 0.75 }
+  };
+
+  // 장비별 소켓 배치 구성표 (합계 22소켓 규격 완벽 싱크)
+  const GEM_SLOT_CONFIGS = [
+    { part: '무기', count: 3, startIndex: 0 },
+    { part: '장신구(목걸이)', count: 1, startIndex: 3 },
+    { part: '장신구(반지1)', count: 1, startIndex: 4 },
+    { part: '장신구(반지2)', count: 1, startIndex: 5 },
+    { part: '엠블럼', count: 1, startIndex: 6 },
+    { part: '방어구1', count: 3, startIndex: 7 },
+    { part: '방어구2', count: 3, startIndex: 10 },
+    { part: '방어구3', count: 3, startIndex: 13 },
+    { part: '방어구4', count: 3, startIndex: 16 },
+    { part: '방어구5', count: 3, startIndex: 19 }
+  ];
+
+  // 메인 종합계산기 룬 구성과의 실시간 동기화 헬퍼 함수
+  const getRuneNameForPart = (part) => {
+    if (!selectedRunes) return '';
+    let name = '';
+    
+    if (part === '무기') name = selectedRunes['무기']?.[0]?.name;
+    else if (part === '장신구(목걸이)') name = selectedRunes['장신구']?.[0]?.name;
+    else if (part === '장신구(반지1)') name = selectedRunes['장신구']?.[1]?.name;
+    else if (part === '장신구(반지2)') name = selectedRunes['장신구']?.[2]?.name;
+    else if (part === '엠블럼') name = selectedRunes['엠블럼']?.[0]?.name;
+    else if (part === '방어구1') name = selectedRunes['방어구']?.[0]?.name;
+    else if (part === '방어구2') name = selectedRunes['방어구']?.[1]?.name;
+    else if (part === '방어구3') name = selectedRunes['방어구']?.[2]?.name;
+    else if (part === '방어구4') name = selectedRunes['방어구']?.[3]?.name;
+    else if (part === '방어구5') name = selectedRunes['방어구']?.[4]?.name;
+
+    return name ? ` - ${name}` : ' - 룬 미장착';
   };
 
   // 22개 보석 인벤토리 실시간 합산 현황 연산
@@ -47,7 +80,7 @@ export default function GemStonePanel({ gems, onGemChange, setGems }) {
         Array.from({ length: 22 }, (_, idx) => ({
           id: idx + 1,
           grade: '온전한 스타프리즘',
-          option: '강뎀' // 기본 주력 옵션인 강타 데미지 일괄 적용
+          option: '강뎀'
         }))
       );
     } else if (presetType === 'starPrismS') {
@@ -67,7 +100,6 @@ export default function GemStonePanel({ gems, onGemChange, setGems }) {
         }))
       );
     } else if (presetType === 'clearOptions') {
-      // 등급은 유지하되 모든 옵션을 비워 방해/생존 등 원하는 형태로 수동 커스텀하기 수월하게 지원
       setGems(prev => prev.map(gem => ({ ...gem, option: '' })));
     } else if (presetType === 'reset') {
       setGems(
@@ -90,7 +122,7 @@ export default function GemStonePanel({ gems, onGemChange, setGems }) {
     { label: '보쿨', value: '보쿨', desc: '보조 쿨감' }
   ];
 
-  // 각 등급별 데미지/쿨감 수치 안내 가이던스 문자열
+  // 각 등급별 데미/쿨감 수치 안내 가이드
   const getStatInfoString = (grade) => {
     if (grade === '미장착') return '스탯 없음';
     const vals = gradeValues[grade];
@@ -108,7 +140,7 @@ export default function GemStonePanel({ gems, onGemChange, setGems }) {
             보석 세공 인벤토리 관리
           </h3>
           <p className="text-xs text-slate-400 mt-1">
-            22개의 소켓 보석 각각의 등급과 세공 옵션을 지정합니다. 등급과 선택한 세공 옵션에 의해 최종 능력치(%)가 계산판으로 자동 합산됩니다.
+            22개의 소켓 보석을 장비 부위별로 지정합니다. 장착한 장비 룬의 이름이 헤더에 실시간으로 표시됩니다.
           </p>
         </div>
 
@@ -187,79 +219,104 @@ export default function GemStonePanel({ gems, onGemChange, setGems }) {
         </div>
       </div>
 
-      {/* 22개 보석 슬롯 Bento Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3.5">
-        {gems.map((gem, idx) => {
+      {/* 장비 부위별 소켓 리스트 렌더링 구역 */}
+      <div className="flex flex-col gap-6">
+        {GEM_SLOT_CONFIGS.map(config => {
+          // 해당 장비에 연계된 보석 슬롯만 필터링해옴
+          const partGems = gems.slice(config.startIndex, config.startIndex + config.count);
+
           return (
-            <div
-              key={gem.id}
-              className={`p-3.5 rounded-xl border flex flex-col gap-3.5 transition-all hover:border-slate-700 ${
-                gem.grade === '미장착' 
-                  ? 'bg-slate-950/20 border-slate-800 border-dashed opacity-60' 
-                  : 'bg-slate-950/40 border-slate-800'
-              }`}
-            >
-              {/* 보석 라벨 및 스탯 요약 안내 */}
-              <div className="flex justify-between items-center">
-                <span className="text-xs font-black text-slate-350 flex items-center gap-1">
-                  <Gem className={`w-3.5 h-3.5 ${
-                    gem.grade === '온전한 스타프리즘' ? 'text-purple-400' :
-                    gem.grade === '스타프리즘S' ? 'text-blue-400' :
-                    gem.grade === '스타프리즘' ? 'text-slate-400' : 'text-slate-600'
-                  }`} />
-                  소켓 #{String(gem.id).padStart(2, '0')}
-                </span>
-                <span className="text-[9px] text-slate-500 font-semibold">
-                  {getStatInfoString(gem.grade)}
-                </span>
+            <div key={config.part} className="bg-slate-950/40 border border-slate-850 rounded-2xl p-5 flex flex-col gap-4">
+              {/* 장비명 & 장착된 룬 정보 연동 헤더 */}
+              <div className="flex justify-between items-center border-b border-slate-800 pb-2.5">
+                <h4 className="text-xs font-black text-mabi-accent tracking-wider uppercase flex items-center gap-1.5">
+                  <Layers className="w-3.5 h-3.5 text-slate-500" />
+                  {config.part}
+                  <span className="text-xs text-slate-350 font-bold ml-1.5 bg-slate-900 border border-slate-800 px-2 py-0.5 rounded-md leading-none">
+                    {getRuneNameForPart(config.part)}
+                  </span>
+                </h4>
+                <span className="text-[9px] text-slate-500 font-bold">{config.count}개 소켓 장착됨</span>
               </div>
 
-              {/* 등급 지정 셀렉터 */}
-              <select
-                value={gem.grade}
-                onChange={(e) => onGemChange(idx, 'grade', e.target.value)}
-                className="bg-slate-900 border border-slate-800 rounded px-2.5 py-1 text-[11px] text-slate-200 font-bold focus:outline-none focus:border-mabi-accent"
-              >
-                <option value="미장착">❌ 미장착</option>
-                <option value="스타프리즘">💎 스타프리즘 (2.0%)</option>
-                <option value="스타프리즘S">💎 스타프리즘S (2.1%)</option>
-                <option value="온전한 스타프리즘">💎 온전한 스타프리즘 (2.2%)</option>
-              </select>
+              {/* 보석 슬롯 카드 그리드 (해당 장비 부위 하위에만 나열) */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3.5">
+                {partGems.map((gem, subIdx) => {
+                  const globalIdx = config.startIndex + subIdx;
 
-              {/* 6대 세공 옵션 원클릭 선택 버튼군 */}
-              <div className="flex flex-col gap-1.5">
-                <span className="text-[9px] text-slate-500 font-bold">세공 옵션 선택</span>
-                <div className="grid grid-cols-3 gap-1">
-                  {optionTypes.map(opt => {
-                    const isActive = gem.option === opt.value;
-                    const isDisabled = gem.grade === '미장착';
+                  return (
+                    <div
+                      key={gem.id}
+                      className={`p-3.5 rounded-xl border flex flex-col gap-3.5 transition-all hover:border-slate-700 ${
+                        gem.grade === '미장착' 
+                          ? 'bg-slate-950/20 border-slate-900 border-dashed opacity-60' 
+                          : 'bg-slate-900/80 border-slate-800'
+                      }`}
+                    >
+                      {/* 보석 정보 라벨 */}
+                      <div className="flex justify-between items-center">
+                        <span className="text-[10px] font-black text-slate-350 flex items-center gap-1">
+                          <Gem className={`w-3.5 h-3.5 ${
+                            gem.grade === '온전한 스타프리즘' ? 'text-purple-400' :
+                            gem.grade === '스타프리즘S' ? 'text-blue-400' :
+                            gem.grade === '스타프리즘' ? 'text-slate-400' : 'text-slate-650'
+                          }`} />
+                          소켓 #{subIdx + 1}
+                        </span>
+                        <span className="text-[9px] text-slate-500 font-semibold leading-none">
+                          {getStatInfoString(gem.grade)}
+                        </span>
+                      </div>
 
-                    return (
-                      <button
-                        key={opt.value}
-                        type="button"
-                        disabled={isDisabled}
-                        onClick={() => {
-                          // 이미 선택된 옵션을 다시 클릭하면 선택 해제 (공란 처리)
-                          const nextOption = isActive ? '' : opt.value;
-                          onGemChange(idx, 'option', nextOption);
-                        }}
-                        title={opt.desc}
-                        className={`py-1 rounded text-[10px] font-bold transition-all border ${
-                          isDisabled 
-                            ? 'bg-slate-900/20 border-slate-900 text-slate-700 cursor-not-allowed'
-                            : isActive
-                              ? 'bg-mabi-accent border-transparent text-slate-950 font-black shadow-md'
-                              : 'bg-slate-900 border-slate-800/80 text-slate-400 hover:text-slate-200 hover:bg-slate-850'
-                        }`}
+                      {/* 등급 셀렉터 */}
+                      <select
+                        value={gem.grade}
+                        onChange={(e) => onGemChange(globalIdx, 'grade', e.target.value)}
+                        className="bg-slate-950 border border-slate-800 rounded px-2 py-0.5 text-[10px] text-slate-300 font-extrabold focus:outline-none"
                       >
-                        {opt.label}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
+                        <option value="미장착">❌ 미장착</option>
+                        <option value="스타프리즘">💎 스타프리즘 (2.0%)</option>
+                        <option value="스타프리즘S">💎 스타프리즘S (2.1%)</option>
+                        <option value="온전한 스타프리즘">💎 온전한 스타프리즘 (2.2%)</option>
+                      </select>
 
+                      {/* 세공 옵션 토글 버튼 */}
+                      <div className="flex flex-col gap-1.5">
+                        <span className="text-[9px] text-slate-500 font-bold leading-none">세공 옵션 선택</span>
+                        <div className="grid grid-cols-3 gap-1">
+                          {optionTypes.map(opt => {
+                            const isActive = gem.option === opt.value;
+                            const isDisabled = gem.grade === '미장착';
+
+                            return (
+                              <button
+                                key={opt.value}
+                                type="button"
+                                disabled={isDisabled}
+                                onClick={() => {
+                                  const nextOption = isActive ? '' : opt.value;
+                                  onGemChange(globalIdx, 'option', nextOption);
+                                }}
+                                title={opt.desc}
+                                className={`py-1 rounded text-[10px] font-bold transition-all border ${
+                                  isDisabled 
+                                    ? 'bg-slate-900/10 border-slate-950 text-slate-700 cursor-not-allowed'
+                                    : isActive
+                                      ? 'bg-mabi-accent border-transparent text-slate-950 font-black shadow-md'
+                                      : 'bg-slate-950 border-slate-800/80 text-slate-400 hover:text-slate-200 hover:bg-slate-800'
+                                }`}
+                              >
+                                {opt.label}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           );
         })}
