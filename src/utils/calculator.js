@@ -103,10 +103,14 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
 
   // 강타/연타피해
   const baseStrongDmg = (characterStats.strongDmg || 2487.0) / 8500.0;
-  const totalStrongDmg = baseStrongDmg * (1 + runeStats["강타피해%"]) + runeStats["강타피해%"];
+  // 추가 인챈트 강타피해% 가산 연동
+  const enchantStrongPct = (characterStats.strongDmgPct || 0.0) / 100.0;
+  const totalStrongDmg = baseStrongDmg * (1 + runeStats["강타피해%"]) + runeStats["강타피해%"] + enchantStrongPct;
   
   const baseChainDmg = (characterStats.chainDmg || 2989.0) / 8500.0;
-  const totalChainDmg = baseChainDmg * (1 + runeStats["연타피해%"]) + runeStats["연타피해%"];
+  // 추가 인챈트 연타피해% 가산 연동
+  const enchantChainPct = (characterStats.chainDmgPct || 0.0) / 100.0;
+  const totalChainDmg = baseChainDmg * (1 + runeStats["연타피해%"]) + runeStats["연타피해%"] + enchantChainPct;
 
   // 추가타
   const baseExtraDmg = 2.0;

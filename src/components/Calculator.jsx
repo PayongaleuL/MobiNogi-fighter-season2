@@ -25,6 +25,8 @@ export default function Calculator() {
     ultScore: 1792.0,
     enchantAtkPct: 6.8,
     critBonusPct: 0.0,
+    strongDmgPct: 0.0, // 추가 인챈트 강타피해%
+    chainDmgPct: 0.0,  // 추가 인챈트 연타피해%
     skillLevel_1: 10,
     skillLevel_2: 30,
     skillLevel_3: 10,
@@ -331,6 +333,8 @@ export default function Calculator() {
         ultScore: 1792.0,
         enchantAtkPct: 6.8,
         critBonusPct: 0.0,
+        strongDmgPct: 0.0,
+        chainDmgPct: 0.0,
         skillLevel_1: 10,
         skillLevel_2: 30,
         skillLevel_3: 10,
