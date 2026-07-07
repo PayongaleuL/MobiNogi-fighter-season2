@@ -74,13 +74,15 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
 
   // 2. 캐릭터 스펙 연산
   const baseAtk = characterStats.baseAttack || 27166.0;
+  // 특수 보석(헬리오도르, 그린 헬리오도르)으로 인한 모든능력치 공격력 환산 (1당 1.5 공격력 가산)
+  const extraGemAtk = (characterStats.extraAllStat || 0) * 1.5;
   const emblemAtkPct = 0.07; 
   const fastAtkScore = characterStats.fastAtk || 1484.0;
   const fastSkillScore = characterStats.fastSkill || 1488.0;
   const ultScore = characterStats.ultScore || 1792.0;
 
   const totalAtkPct = runeStats["공격력%"] + runeStats["조건부공증%"] + (characterStats.enchantAtkPct || 6.8) / 100.0 + emblemAtkPct;
-  const attack = baseAtk * (1 + totalAtkPct);
+  const attack = (baseAtk + extraGemAtk) * (1 + totalAtkPct);
 
   // 방어도 계수
   const boss = activeGimmicks.boss || "함선 허수아비";
@@ -94,7 +96,9 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
   const gimmicksDmgPct = (activeGimmicks.gimmickDmgPct || 0.0) / 100.0;
   const healerDmgPct = (activeGimmicks.healerDmgPct || 0.0) / 100.0;
   
-  const totalGivesDmg = runeStats["주는피해%"] + gimmicksDmgPct;
+  // 특수 보석(무기 헬리오도르 등)으로 인한 최종 주는피해% 증가 연동
+  const gemFinalDmgPct = (characterStats.extraFinalDmgPct || 0.0) / 100.0;
+  const totalGivesDmg = runeStats["주는피해%"] + gimmicksDmgPct + gemFinalDmgPct;
   const totalGetsDmg = runeStats["받는피해%"] + healerDmgPct + (activeGimmicks.skillDebuffDmgPct || 10.0) / 100.0;
 
   // 강타/연타피해

@@ -3,11 +3,17 @@ import { Gem, ArrowRight, ShieldAlert, Sparkles, RefreshCw, Layers } from 'lucid
 
 export default function GemStonePanel({ gems, onGemChange, setGems, selectedRunes }) {
   
-  // 보석 등급별 고정 세공 증가율 계수
+  // 보석 등급별 고정 세공 증가율 계수 (특수 보석은 스타프리즘S 수치 기본 매핑)
   const gradeValues = {
     '스타프리즘': { dmg: 2.00, cd: 0.65 },
     '스타프리즘S': { dmg: 2.10, cd: 0.70 },
-    '온전한 스타프리즘': { dmg: 2.20, cd: 0.75 }
+    '온전한 스타프리즘': { dmg: 2.20, cd: 0.75 },
+    '헬리오도르': { dmg: 2.10, cd: 0.70 },
+    '정제된 헬리오도르': { dmg: 2.10, cd: 0.70 },
+    '순수한 헬리오도르': { dmg: 2.10, cd: 0.70 },
+    '그린 헬리오도르': { dmg: 2.10, cd: 0.70 },
+    '정제된 그린 헬리오도르': { dmg: 2.10, cd: 0.70 },
+    '순수한 그린 헬리오도르': { dmg: 2.10, cd: 0.70 }
   };
 
   // 장비별 소켓 배치 구성표 (장신구 3종 통합 및 합계 22소켓 규격 완벽 매핑)
@@ -41,7 +47,6 @@ export default function GemStonePanel({ gems, onGemChange, setGems, selectedRune
       return name ? ` - 엠블럼(${name})` : ' - 엠블럼(룬 미장착)';
     }
     
-    // 방어구 1~5번
     const armIdx = parseInt(part.replace('방어구', '')) - 1;
     const name = selectedRunes['방어구']?.[armIdx]?.name;
     return name ? ` - ${part}(${name})` : ` - ${part}(룬 미장착)`;
@@ -57,16 +62,49 @@ export default function GemStonePanel({ gems, onGemChange, setGems, selectedRune
     return `소켓 #${subIdx + 1}`;
   };
 
-  // 22개 보석 인벤토리 실시간 합산 현황 연산
+  // 22개 보석 인벤토리 실시간 합산 현황 연산 (16대 세공 스탯 및 특수 보석 강화 반영)
   const getSumStats = () => {
     const stats = {
       strongDmg: 0.0, strongCd: 0.0,
       moveDmg: 0.0, moveCd: 0.0,
-      subDmg: 0.0, subCd: 0.0
+      subDmg: 0.0, subCd: 0.0,
+      saveDmg: 0.0, saveCd: 0.0,
+      disableDmg: 0.0, disableCd: 0.0,
+      doubleDmg: 0.0, doubleCd: 0.0,
+      summonDmg: 0.0, summonCd: 0.0,
+      elementDmg: 0.0, elementCd: 0.0
     };
 
+    let extraAllStat = 0;
+    let extraFinalDmgPct = 0.0;
+    let emblemSkillTagBoost = 0.0;
+
     gems.forEach(gem => {
-      if (gem.grade === '미장착' || !gem.options || gem.options.length === 0) return;
+      if (gem.grade === '미장착') return;
+
+      // 1. 특수 보석 고유 능력치 파싱
+      if (gem.grade === '헬리오도르') {
+        extraAllStat += 36;
+        extraFinalDmgPct += 5.0;
+      } else if (gem.grade === '정제된 헬리오도르') {
+        extraAllStat += 44;
+        extraFinalDmgPct += 5.2;
+      } else if (gem.grade === '순수한 헬리오도르') {
+        extraAllStat += 54;
+        extraFinalDmgPct += 5.4;
+      } else if (gem.grade === '그린 헬리오도르') {
+        extraAllStat += 36;
+        emblemSkillTagBoost += 1.50;
+      } else if (gem.grade === '정제된 그린 헬리오도르') {
+        extraAllStat += 44;
+        emblemSkillTagBoost += 2.10;
+      } else if (gem.grade === '순수한 그린 헬리오도르') {
+        extraAllStat += 54;
+        emblemSkillTagBoost += 2.20;
+      }
+
+      // 2. 세공 옵션 누적
+      if (!gem.options || gem.options.length === 0) return;
       const values = gradeValues[gem.grade];
       if (!values) return;
 
@@ -77,17 +115,45 @@ export default function GemStonePanel({ gems, onGemChange, setGems, selectedRune
         else if (opt === '이쿨') stats.moveCd += values.cd;
         else if (opt === '보뎀') stats.subDmg += values.dmg;
         else if (opt === '보쿨') stats.subCd += values.cd;
+        else if (opt === '생존뎀') stats.saveDmg += values.dmg;
+        else if (opt === '생존쿨') stats.saveCd += values.cd;
+        else if (opt === '방해뎀') stats.disableDmg += values.dmg;
+        else if (opt === '방해쿨') stats.disableCd += values.cd;
+        else if (opt === '연타뎀') stats.doubleDmg += values.dmg;
+        else if (opt === '연타쿨') stats.doubleCd += values.cd;
+        else if (opt === '소환뎀') stats.summonDmg += values.dmg;
+        else if (opt === '소환쿨') stats.summonCd += values.cd;
+        else if (opt === '원소뎀') stats.elementDmg += values.dmg;
+        else if (opt === '원소쿨') stats.elementCd += values.cd;
       });
     });
+
+    // 3. 그린 헬리오도르의 모든 태그 데미지 강화% 일괄 적용
+    if (emblemSkillTagBoost > 0) {
+      stats.strongDmg += emblemSkillTagBoost;
+      stats.moveDmg += emblemSkillTagBoost;
+      stats.subDmg += emblemSkillTagBoost;
+      stats.saveDmg += emblemSkillTagBoost;
+      stats.disableDmg += emblemSkillTagBoost;
+      stats.doubleDmg += emblemSkillTagBoost;
+      stats.summonDmg += emblemSkillTagBoost;
+      stats.elementDmg += emblemSkillTagBoost;
+    }
 
     // 소수점 둘째자리 반올림
     Object.keys(stats).forEach(k => {
       stats[k] = parseFloat(stats[k].toFixed(2));
     });
-    return stats;
+
+    return {
+      stats,
+      extraAllStat,
+      extraFinalDmgPct,
+      emblemSkillTagBoost
+    };
   };
 
-  const sumStats = getSumStats();
+  const { stats: sumStats, extraAllStat, extraFinalDmgPct, emblemSkillTagBoost } = getSumStats();
 
   // 프리셋 설정 도우미 (22개 보석 일괄 세팅 - 강뎀+이뎀 2줄 다중선택 적용)
   const applyPreset = (presetType) => {
@@ -144,19 +210,75 @@ export default function GemStonePanel({ gems, onGemChange, setGems, selectedRune
     }
   };
 
-  // 6대 세공 옵션 종류
+  // 16대 세공 옵션 종류 정의
   const optionTypes = [
     { label: '강뎀', value: '강뎀', desc: '강타 데미지' },
     { label: '이뎀', value: '이뎀', desc: '이동 데미지' },
     { label: '보뎀', value: '보뎀', desc: '보조 데미지' },
+    { label: '생존뎀', value: '생존뎀', desc: '생존 데미지' },
+    
     { label: '강쿨', value: '강쿨', desc: '강타 쿨감' },
     { label: '이쿨', value: '이쿨', desc: '이동 쿨감' },
-    { label: '보쿨', value: '보쿨', desc: '보조 쿨감' }
+    { label: '보쿨', value: '보쿨', desc: '보조 쿨감' },
+    { label: '생존쿨', value: '생존쿨', desc: '생존 쿨감' },
+    
+    { label: '방해뎀', value: '방해뎀', desc: '방해 데미지' },
+    { label: '연타뎀', value: '연타뎀', desc: '연타 데미지' },
+    { label: '소환뎀', value: '소환뎀', desc: '소환 데미지' },
+    { label: '원소뎀', value: '원소뎀', desc: '원소 데미지' },
+    
+    { label: '방해쿨', value: '방해쿨', desc: '방해 쿨감' },
+    { label: '연타쿨', value: '연타쿨', desc: '연타 쿨감' },
+    { label: '소환쿨', value: '소환쿨', desc: '소환 쿨감' },
+    { label: '원소쿨', value: '원소쿨', desc: '원소 쿨감' }
   ];
 
-  // 각 등급별 데미/쿨감 수치 안내 가이드
+  // 보석 위치(index)별 전용 보석 필터링 드롭다운 옵션 제공
+  const getGradeOptions = (globalIdx) => {
+    const base = (
+      <>
+        <option value="미장착">❌ 미장착</option>
+        <option value="스타프리즘">💎 스타프리즘 (2.0%)</option>
+        <option value="스타프리즘S">💎 스타프리즘S (2.1%)</option>
+        <option value="온전한 스타프리즘">💎 온전한 스타프리즘 (2.2%)</option>
+      </>
+    );
+    
+    if (globalIdx >= 0 && globalIdx <= 2) {
+      // 무기 소켓 (0, 1, 2) -> 헬리오도르 노출
+      return (
+        <>
+          {base}
+          <option value="헬리오도르">🔸 헬리오도르 (모든능력치+36 / 데미지+5.0%)</option>
+          <option value="정제된 헬리오도르">🔸 정제된 헬리오도르 (모든능력치+44 / 데미지+5.2%)</option>
+          <option value="순수한 헬리오도르">🔸 순수한 헬리오도르 (모든능력치+54 / 데미지+5.4%)</option>
+        </>
+      );
+    }
+    if (globalIdx === 6) {
+      // 엠블럼 소켓 (6) -> 그린 헬리오도르 노출
+      return (
+        <>
+          {base}
+          <option value="그린 헬리오도르">🟢 그린 헬리오도르 (모든능력치+36 / 태그강화+1.5%)</option>
+          <option value="정제된 그린 헬리오도르">🟢 정제된 그린 헬리오도르 (모든능력치+44 / 태그강화+2.1%)</option>
+          <option value="순수한 그린 헬리오도르">🟢 순수한 그린 헬리오도르 (모든능력치+54 / 태그강화+2.2%)</option>
+        </>
+      );
+    }
+    return base;
+  };
+
+  // 각 등급별 데미/쿨감 수치 및 특수 스탯 안내 가이드
   const getStatInfoString = (grade) => {
     if (grade === '미장착') return '스탯 없음';
+    if (grade === '헬리오도르') return '능력치+36 / 뎀+5%';
+    if (grade === '정제된 헬리오도르') return '능력치+44 / 뎀+5.2%';
+    if (grade === '순수한 헬리오도르') return '능력치+54 / 뎀+5.4%';
+    if (grade === '그린 헬리오도르') return '능력치+36 / 태그+1.5%';
+    if (grade === '정제된 그린 헬리오도르') return '능력치+44 / 태그+2.1%';
+    if (grade === '순수한 그린 헬리오도르') return '능력치+54 / 태그+2.2%';
+    
     const vals = gradeValues[grade];
     return `뎀+${vals.dmg}% / 쿨감+${vals.cd}%`;
   };
@@ -172,11 +294,11 @@ export default function GemStonePanel({ gems, onGemChange, setGems, selectedRune
             보석 세공 인벤토리 관리
           </h3>
           <p className="text-xs text-slate-400 mt-1">
-            22개의 소켓 보석을 장비 부위별로 지정합니다. 장착한 장비 룬의 이름이 헤더에 실시간으로 표시됩니다.
+            22개의 소켓 보석을 장비 부위별로 지정합니다. 무기 전용 헬리오도르, 엠블럼 전용 그린 헬리오도르 특수 보석을 장착할 수 있습니다.
           </p>
         </div>
 
-        {/* 프리셋 버튼 그룹 (온전한 스타프리즘 명칭 교정) */}
+        {/* 프리셋 버튼 그룹 */}
         <div className="flex flex-wrap gap-2.5">
           <button
             onClick={() => applyPreset('perfectStarPrism')}
@@ -212,41 +334,62 @@ export default function GemStonePanel({ gems, onGemChange, setGems, selectedRune
         </div>
       </div>
 
-      {/* 세공 실시간 합산 현황 보드 */}
-      <div className="bg-slate-950/60 border border-slate-850 rounded-2xl p-5">
-        <h4 className="text-xs font-black text-slate-400 mb-4 flex items-center gap-1.5 uppercase tracking-wider">
-          <Sparkles className="w-4 h-4 text-emerald-400" />
-          세공 합산 스탯 총합 보드
-        </h4>
-        <div className="grid grid-cols-2 md:grid-cols-6 gap-3">
-          {/* 강타 계열 */}
-          <div className="bg-slate-900/80 border border-slate-800 p-3 rounded-xl flex flex-col gap-0.5">
-            <span className="text-[10px] font-semibold text-red-400">강타 데미지</span>
-            <span className="text-lg font-black text-slate-100">{sumStats.strongDmg.toFixed(2)}%</span>
+      {/* 세공 실시간 합산 현황 보드 (16대 세공 옵션 종합) */}
+      <div className="bg-slate-950/60 border border-slate-850 rounded-2xl p-5 flex flex-col gap-4">
+        <div className="flex justify-between items-center">
+          <h4 className="text-xs font-black text-slate-400 flex items-center gap-1.5 uppercase tracking-wider">
+            <Sparkles className="w-4 h-4 text-emerald-400" />
+            보석 세공 및 특수 보석 합산 스탯 총합 보드
+          </h4>
+          {/* 특수 보석 가산 스탯 요약 */}
+          {(extraAllStat > 0 || extraFinalDmgPct > 0 || emblemSkillTagBoost > 0) && (
+            <div className="flex gap-3 text-[10px] text-mabi-accent font-bold">
+              {extraAllStat > 0 && <span>모든능력치 +{extraAllStat} (공격력 +{extraAllStat * 1.5})</span>}
+              {extraFinalDmgPct > 0 && <span>최종 주는피해 +{extraFinalDmgPct.toFixed(1)}%</span>}
+              {emblemSkillTagBoost > 0 && <span>스킬태그 데미지 추가강화 +{emblemSkillTagBoost.toFixed(1)}% (합산됨)</span>}
+            </div>
+          )}
+        </div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8 gap-3">
+          {/* 강타/이동 */}
+          <div className="bg-slate-900/80 border border-slate-800 p-2.5 rounded-xl flex flex-col">
+            <span className="text-[9px] font-semibold text-red-400">강타뎀 / 강타쿨</span>
+            <span className="text-sm font-black text-slate-100 mt-0.5">{sumStats.strongDmg.toFixed(1)}% / {sumStats.strongCd.toFixed(1)}%</span>
           </div>
-          <div className="bg-slate-900/80 border border-slate-800 p-3 rounded-xl flex flex-col gap-0.5">
-            <span className="text-[10px] font-semibold text-red-400">강타 쿨타임 감소</span>
-            <span className="text-lg font-black text-slate-100">{sumStats.strongCd.toFixed(2)}%</span>
+          <div className="bg-slate-900/80 border border-slate-800 p-2.5 rounded-xl flex flex-col">
+            <span className="text-[9px] font-semibold text-blue-400">이동뎀 / 이동쿨</span>
+            <span className="text-sm font-black text-slate-100 mt-0.5">{sumStats.moveDmg.toFixed(1)}% / {sumStats.moveCd.toFixed(1)}%</span>
           </div>
 
-          {/* 이동 계열 */}
-          <div className="bg-slate-900/80 border border-slate-800 p-3 rounded-xl flex flex-col gap-0.5">
-            <span className="text-[10px] font-semibold text-blue-400">이동 데미지</span>
-            <span className="text-lg font-black text-slate-100">{sumStats.moveDmg.toFixed(2)}%</span>
+          {/* 보조/생존 */}
+          <div className="bg-slate-900/80 border border-slate-800 p-2.5 rounded-xl flex flex-col">
+            <span className="text-[9px] font-semibold text-emerald-400">보조뎀 / 보조쿨</span>
+            <span className="text-sm font-black text-slate-100 mt-0.5">{sumStats.subDmg.toFixed(1)}% / {sumStats.subCd.toFixed(1)}%</span>
           </div>
-          <div className="bg-slate-900/80 border border-slate-800 p-3 rounded-xl flex flex-col gap-0.5">
-            <span className="text-[10px] font-semibold text-blue-400">이동 쿨타임 감소</span>
-            <span className="text-lg font-black text-slate-100">{sumStats.moveCd.toFixed(2)}%</span>
+          <div className="bg-slate-900/80 border border-slate-800 p-2.5 rounded-xl flex flex-col">
+            <span className="text-[9px] font-semibold text-amber-400">생존뎀 / 생존쿨</span>
+            <span className="text-sm font-black text-slate-100 mt-0.5">{sumStats.saveDmg.toFixed(1)}% / {sumStats.saveCd.toFixed(1)}%</span>
           </div>
 
-          {/* 보조 계열 */}
-          <div className="bg-slate-900/80 border border-slate-800 p-3 rounded-xl flex flex-col gap-0.5">
-            <span className="text-[10px] font-semibold text-emerald-400">보조 데미지</span>
-            <span className="text-lg font-black text-slate-100">{sumStats.subDmg.toFixed(2)}%</span>
+          {/* 방해/연타 */}
+          <div className="bg-slate-900/80 border border-slate-800 p-2.5 rounded-xl flex flex-col">
+            <span className="text-[9px] font-semibold text-purple-400">방해뎀 / 방해쿨</span>
+            <span className="text-sm font-black text-slate-100 mt-0.5">{sumStats.disableDmg.toFixed(1)}% / {sumStats.disableCd.toFixed(1)}%</span>
           </div>
-          <div className="bg-slate-900/80 border border-slate-800 p-3 rounded-xl flex flex-col gap-0.5">
-            <span className="text-[10px] font-semibold text-emerald-400">보조 쿨타임 감소</span>
-            <span className="text-lg font-black text-slate-100">{sumStats.subCd.toFixed(2)}%</span>
+          <div className="bg-slate-900/80 border border-slate-800 p-2.5 rounded-xl flex flex-col">
+            <span className="text-[9px] font-semibold text-rose-400">연타뎀 / 연타쿨</span>
+            <span className="text-sm font-black text-slate-100 mt-0.5">{sumStats.doubleDmg.toFixed(1)}% / {sumStats.doubleCd.toFixed(1)}%</span>
+          </div>
+
+          {/* 소환/원소 */}
+          <div className="bg-slate-900/80 border border-slate-800 p-2.5 rounded-xl flex flex-col">
+            <span className="text-[9px] font-semibold text-sky-400">소환뎀 / 소환쿨</span>
+            <span className="text-sm font-black text-slate-100 mt-0.5">{sumStats.summonDmg.toFixed(1)}% / {sumStats.summonCd.toFixed(1)}%</span>
+          </div>
+          <div className="bg-slate-900/80 border border-slate-800 p-2.5 rounded-xl flex flex-col">
+            <span className="text-[9px] font-semibold text-indigo-400">원소뎀 / 원소쿨</span>
+            <span className="text-sm font-black text-slate-100 mt-0.5">{sumStats.elementDmg.toFixed(1)}% / {sumStats.elementCd.toFixed(1)}%</span>
           </div>
         </div>
       </div>
@@ -283,7 +426,6 @@ export default function GemStonePanel({ gems, onGemChange, setGems, selectedRune
               }>
                 {partGems.map((gem, subIdx) => {
                   const globalIdx = config.startIndex + subIdx;
-                  // 3줄 미충족 시 붉은 경고등 상태 계산
                   const isWarning = gem.grade !== '미장착' && (!gem.options || gem.options.length < 3);
                   const isJangsinGu = config.part === '장신구';
 
@@ -308,75 +450,75 @@ export default function GemStonePanel({ gems, onGemChange, setGems, selectedRune
                               : 'bg-slate-900/80 border-slate-850'
                         }`}
                       >
-                      {/* 보석 정보 라벨 및 경고 뱃지 */}
-                      <div className="flex justify-between items-center">
-                        <span className="text-[10px] font-black text-slate-350 flex items-center gap-1">
-                          <Gem className={`w-3.5 h-3.5 ${
-                            gem.grade === '온전한 스타프리즘' ? 'text-purple-400' :
-                            gem.grade === '스타프리즘S' ? 'text-blue-400' :
-                            gem.grade === '스타프리즘' ? 'text-slate-400' : 'text-slate-650'
-                          }`} />
-                          {getSocketLabel(config.part, subIdx)}
-                        </span>
-                        {isWarning ? (
-                          <span className="text-[8px] bg-red-950/40 border border-red-900/40 text-red-400 px-1 rounded font-bold leading-none animate-pulse">
-                            옵션 {gem.options?.length || 0}/3
+                        {/* 보석 정보 라벨 및 경고 뱃지 */}
+                        <div className="flex justify-between items-center">
+                          <span className="text-[10px] font-black text-slate-350 flex items-center gap-1">
+                            <Gem className={`w-3.5 h-3.5 ${
+                              gem.grade.includes('순수한') ? 'text-mabi-accent' :
+                              gem.grade.includes('정제된') ? 'text-purple-400' :
+                              gem.grade.includes('헬리오도르') ? 'text-blue-400' :
+                              gem.grade === '온전한 스타프리즘' ? 'text-purple-400' :
+                              gem.grade === '스타프리즘S' ? 'text-blue-400' :
+                              gem.grade === '스타프리즘' ? 'text-slate-400' : 'text-slate-650'
+                            }`} />
+                            {getSocketLabel(config.part, subIdx)}
                           </span>
-                        ) : (
-                          gem.grade !== '미장착' && (
-                            <span className="text-[8px] bg-emerald-950/40 border border-emerald-900/40 text-emerald-400 px-1 rounded font-bold leading-none">
-                              완료 3/3
+                          {isWarning ? (
+                            <span className="text-[8px] bg-red-950/40 border border-red-900/40 text-red-400 px-1 rounded font-bold leading-none animate-pulse">
+                              옵션 {gem.options?.length || 0}/3
                             </span>
-                          )
-                        )}
-                      </div>
-
-                      {/* 등급 셀렉터 */}
-                      <select
-                        value={gem.grade}
-                        onChange={(e) => onGemChange(globalIdx, 'grade', e.target.value)}
-                        className="bg-slate-950 border border-slate-800 rounded px-2 py-0.5 text-[10px] text-slate-300 font-extrabold focus:outline-none"
-                      >
-                        <option value="미장착">❌ 미장착</option>
-                        <option value="스타프리즘">💎 스타프리즘 (2.0%)</option>
-                        <option value="스타프리즘S">💎 스타프리즘S (2.1%)</option>
-                        <option value="온전한 스타프리즘">💎 온전한 스타프리즘 (2.2%)</option>
-                      </select>
-
-                      {/* 세공 옵션 다중 토글 */}
-                      <div className="flex flex-col gap-1.5">
-                        <span className="text-[9px] text-slate-500 font-bold leading-none">옵션 다중 선택 (최대 3개)</span>
-                        <div className="grid grid-cols-3 gap-1">
-                          {optionTypes.map(opt => {
-                            const opts = gem.options || [];
-                            const isActive = opts.includes(opt.value);
-                            const isDisabled = gem.grade === '미장착';
-
-                            return (
-                              <button
-                                key={opt.value}
-                                type="button"
-                                disabled={isDisabled}
-                                onClick={() => handleOptionClick(globalIdx, opt.value, gem.options)}
-                                title={opt.desc}
-                                className={`py-1 rounded text-[10px] font-bold transition-all border ${
-                                  isDisabled 
-                                    ? 'bg-slate-900/10 border-slate-950 text-slate-700 cursor-not-allowed'
-                                    : isActive
-                                      ? 'bg-mabi-accent border-transparent text-slate-950 font-black shadow-md'
-                                      : 'bg-slate-950 border-slate-800/80 text-slate-400 hover:text-slate-200 hover:bg-slate-800'
-                                }`}
-                              >
-                                {opt.label}
-                              </button>
-                            );
-                          })}
+                          ) : (
+                            gem.grade !== '미장착' && (
+                              <span className="text-[8px] bg-emerald-950/40 border border-emerald-900/40 text-emerald-400 px-1 rounded font-bold leading-none">
+                                완료 3/3
+                              </span>
+                            )
+                          )}
                         </div>
-                      </div>
 
-                    </div>
-                  </React.Fragment>
-                );
+                        {/* 등급 셀렉터 (소켓 index에 특수 보석 드롭다운 조건부 필터 노출) */}
+                        <select
+                          value={gem.grade}
+                          onChange={(e) => onGemChange(globalIdx, 'grade', e.target.value)}
+                          className="bg-slate-950 border border-slate-800 rounded px-2 py-0.5 text-[10px] text-slate-300 font-extrabold focus:outline-none"
+                        >
+                          {getGradeOptions(globalIdx)}
+                        </select>
+
+                        {/* 세공 옵션 다중 토글 (16대 세공 옵션 4x4 그리드 배치) */}
+                        <div className="flex flex-col gap-1.5">
+                          <span className="text-[9px] text-slate-500 font-bold leading-none">옵션 다중 선택 (최대 3개)</span>
+                          <div className="grid grid-cols-4 gap-1">
+                            {optionTypes.map(opt => {
+                              const opts = gem.options || [];
+                              const isActive = opts.includes(opt.value);
+                              const isDisabled = gem.grade === '미장착';
+
+                              return (
+                                <button
+                                  key={opt.value}
+                                  type="button"
+                                  disabled={isDisabled}
+                                  onClick={() => handleOptionClick(globalIdx, opt.value, gem.options)}
+                                  title={opt.desc}
+                                  className={`py-1 rounded text-[9px] font-bold transition-all border leading-none ${
+                                    isDisabled 
+                                      ? 'bg-slate-900/10 border-slate-950 text-slate-700 cursor-not-allowed'
+                                      : isActive
+                                        ? 'bg-mabi-accent border-transparent text-slate-950 font-black shadow-md'
+                                        : 'bg-slate-950 border-slate-800/80 text-slate-400 hover:text-slate-200 hover:bg-slate-800'
+                                  }`}
+                                >
+                                  {opt.label}
+                                </button>
+                              );
+                            })}
+                          </div>
+                        </div>
+
+                      </div>
+                    </React.Fragment>
+                  );
                 })}
               </div>
             </div>
