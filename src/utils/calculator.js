@@ -66,8 +66,12 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
     const uptime = conditionalUptimes[name] !== undefined ? conditionalUptimes[name] / 100.0 : (rune.stats.가동률 !== undefined ? rune.stats.가동률 : 1.0);
     
     Object.keys(runeStats).forEach(key => {
-      if (rune.stats[key]) {
-        runeStats[key] += rune.stats[key] * uptime;
+      if (rune.stats[key] !== undefined) {
+        let val = rune.stats[key];
+        if (name === '거대한 분노' && key === '스킬피해%') {
+          val = 0.12; // 거대한 분노 최대 4회 중첩 시 스킬피해 12.0% 증가 반영
+        }
+        runeStats[key] += val * uptime;
       }
     });
   });
