@@ -51,6 +51,21 @@ export default function RuneSelector({ selectedRunes, onRuneChange }) {
     return parts.length > 0 ? parts.join(" / ") : (rune.description || "옵션 없음");
   };
 
+  // 거래불가/각인부위 등의 노이즈 문장을 필터링하여 실제 핵심 고유 효과 텍스트만 추출
+  const getCoreRuneTexts = (cleanedText) => {
+    if (!cleanedText) return [];
+    const ignoredPatterns = [
+      '룬:', '전용 룬', '판매', '시즌보존', '시류보존', '기억가능', '각인', '마도 저항',
+      '추가 체력', '하위 능력치', '유일', '방어력', '공격력', '전설 희귀도', '스킬 1강화', '스킬 2강화',
+      '거래 불가', '거래 불가', '거래불가', '판매기능', '판매가능', '엘불럽에', '방어구데', '임불럼', '엠블럼'
+    ];
+    return cleanedText.filter(line => {
+      const trimmed = line.trim();
+      if (!trimmed) return false;
+      return !ignoredPatterns.some(pat => trimmed.includes(pat));
+    });
+  };
+
   // 룬 타입별로 슬롯 구분
   // 무기(1개), 방어구(5개), 장신구(3개), 엠블럼(1개)
   const slots = [
@@ -212,11 +227,13 @@ export default function RuneSelector({ selectedRunes, onRuneChange }) {
             <div className="p-4 overflow-y-auto flex-1 bg-slate-950/40">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {filteredRunes.map(rune => {
+                  const coreTexts = getCoreRuneTexts(rune.cleaned_text);
+
                   return (
                     <div
                       key={rune.file}
                       onClick={() => handleSelectRune(rune)}
-                      className="cursor-pointer bg-slate-900/90 hover:bg-slate-800/80 border border-slate-800 hover:border-slate-700 p-4 rounded-xl transition-all duration-200 flex flex-col justify-between gap-3"
+                      className="cursor-pointer bg-slate-900/90 hover:bg-slate-800/80 border border-slate-800 hover:border-slate-700 p-4 rounded-xl transition-all duration-200 flex flex-col justify-between gap-3.5"
                     >
                       <div>
                         <div className="flex justify-between items-start gap-2">
@@ -239,11 +256,16 @@ export default function RuneSelector({ selectedRunes, onRuneChange }) {
                         </div>
                       </div>
 
-                      {/* OCR 원문 */}
-                      {rune.cleaned_text && (
-                        <span className="text-[8px] text-slate-650 truncate block mt-1 border-t border-slate-850 pt-1 leading-none">
-                          원문: {rune.cleaned_text.slice(5).join(' ').substring(0, 40)}...
-                        </span>
+                      {/* 정제된 한글 원본 상세 효과 리스트 출력 (조건부 텍스트 누락 방지) */}
+                      {coreTexts.length > 0 && (
+                        <div className="text-[10px] text-slate-400 leading-relaxed font-semibold border-t border-slate-850 pt-2 flex flex-col gap-1">
+                          {coreTexts.map((line, lIdx) => (
+                            <p key={lIdx} className="flex gap-1.5 items-start">
+                              <span className="text-mabi-accent shrink-0 font-black">•</span>
+                              <span>{line}</span>
+                            </p>
+                          ))}
+                        </div>
                       )}
                     </div>
                   );
@@ -270,6 +292,54 @@ export default function RuneSelector({ selectedRunes, onRuneChange }) {
           </div>
         </div>
       )}
+
+      {/* 장착 룬 상세 효과 사전 (실시간 연동 출력 대시보드) */}
+      <div className="mt-8 border-t border-slate-800 pt-6">
+        <h4 className="text-xs font-black text-slate-400 mb-4 flex items-center gap-1.5 uppercase tracking-wider">
+          <Star className="w-4 h-4 text-mabi-accent" />
+          장착 중인 룬 상세 효과 사전
+        </h4>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {Object.entries(selectedRunes).flatMap(([type, list]) => 
+            list.map((rune, idx) => {
+              if (!rune) return null;
+              const coreLines = getCoreRuneTexts(rune.cleaned_text);
+              
+              return (
+                <div key={`${type}-${idx}`} className="bg-slate-950/40 border border-slate-850 p-4 rounded-xl flex flex-col gap-2.5 transition-all hover:border-slate-750">
+                  <div className="flex justify-between items-center border-b border-slate-850 pb-2">
+                    <span className="text-xs font-black text-slate-100 flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-mabi-accent" />
+                      {rune.name} ({type} 룬)
+                    </span>
+                    <span className="text-[9px] bg-slate-900 border border-slate-800 px-2 py-0.5 rounded text-emerald-400 font-bold leading-none">
+                      {formatRuneDescCompact(rune)}
+                    </span>
+                  </div>
+                  <div className="text-[10px] text-slate-350 leading-relaxed flex flex-col gap-1 font-medium">
+                    {coreLines.length > 0 ? (
+                      coreLines.map((line, lIdx) => (
+                        <p key={lIdx} className="flex gap-1.5 items-start">
+                          <span className="text-mabi-accent shrink-0 font-black">•</span>
+                          <span>{line}</span>
+                        </p>
+                      ))
+                    ) : (
+                      <p className="text-slate-500 italic">상세 효과 정보 없음</p>
+                    )}
+                  </div>
+                </div>
+              );
+            })
+          ).filter(Boolean)}
+          
+          {Object.values(selectedRunes).flat().filter(Boolean).length === 0 && (
+            <div className="col-span-full py-8 text-center text-xs text-slate-500 border border-dashed border-slate-850 rounded-xl">
+              현재 장착된 룬이 없습니다. 상단 슬롯을 클릭해 룬을 장착해 주세요.
+            </div>
+          )}
+        </div>
+      </div>
 
     </div>
   );
