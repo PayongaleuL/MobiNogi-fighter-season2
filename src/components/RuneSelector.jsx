@@ -61,7 +61,7 @@ export default function RuneSelector({ selectedRunes, onRuneChange }) {
     '판매 가능', '판매가능', '판매 기능', '판매기능', '판매',
     '기억 가능', '기억가능',
     '각인 시즌보존', '각인 시류보존', '각인 시료보존', 
-    '각인시즌보존', '각인시류보존', '각인시료보존',
+    '각인시류보존', '각인시료보존', '각인시즌보존',
     '방어구에 각인', '장신구에 각인', '무기에 각인', '엠블럼에 각인', '엘불럽에 각인',
     '전설 무기 전용 룬', '전설 장신구 전용 룬', '전설 방어구 전용 룬', '전설 업늘럼 전용 룬', '전설 엠블럼 전용 룬',
     '전설 무기 전용문', '전설 장신구 전용률', '전설 방어구 전용률', '전설 방어구 전용문', '전설 업늘럼 전용문', '전설 업늘럼 전용률',
@@ -78,23 +78,47 @@ export default function RuneSelector({ selectedRunes, onRuneChange }) {
     '하위 능력치', '하위 능력지', '하위 능력차', '하위 능력', '하위 능력치$', '하위 능력치<', '하위 능력지$', '하위 능력지<'
   ];
 
+  // OCR 판독 오타 한글 맞춤법/어절 표준화 교정 사전
+  const KOREAN_SPELL_CORRECTIONS = {
+    '변화지 준다': '변화를 준다',
+    '변화지': '변화를',
+    '피해지 주며': '피해를 주며',
+    '피해지': '피해를',
+    '피해름 주고': '피해를 주고',
+    '추가 공격올': '추가 공격을',
+    '타켓에거': '타겟에게',
+    '타켓에게': '타겟에게',
+    '아난': '아닌'
+  };
+
   // 거래불가/각인부위/저주확률 등의 메타 데이터 및 초월/동작 안내 가이드를 지우고 핵심 스펙 텍스트만 추출
-  const getCoreRuneTexts = (cleanedText) => {
+  const getCoreRuneTexts = (cleanedText, runeName = '') => {
     if (!cleanedText) return [];
 
-    // 1단계: 전체 줄을 공백으로 합침 (줄바꿈 끊김 방지)
-    let text = cleanedText.join(' ');
+    // 1단계: 룬 이름 및 룬 고유 분류 헤더가 포함된 줄 조기 필터 제거 (문두 찌꺼기 원천 봉쇄)
+    const filteredLines = cleanedText.filter(line => {
+      if (!line) return false;
+      const cleanLine = line.trim();
+      // 룬 이름 자체를 포함하는 헤더 라인 제거
+      if (runeName && cleanLine.includes(runeName)) return false;
+      // 룬 분류 전용 표기 라인 제거
+      if (cleanLine.includes('전용 룬') || cleanLine.includes('전용문') || cleanLine.includes('전용률') || cleanLine.includes('전용류')) return false;
+      return true;
+    });
+
+    // 2단계: 전체 줄을 공백으로 합침 (줄바꿈 끊김 방지)
+    let text = filteredLines.join(' ');
 
     // 소수점이 줄바꿈이나 기호(•, ·, º) 등에 의해 '1. • 5%' 처럼 찢겨 있는 현상 선제적 결합
     text = text.replace(/(\d+)\.\s*[•·º·]?\s*(\d+)/g, '$1.$2');
 
-    // 잔여 글머리 기호(•, ·, º) 일괄 소거
-    text = text.replace(/[•·º]/g, '');
+    // 유니코드 기반 한글, 영문, 숫자, 공백 및 기본 문장 부호(.,%()~) 외의 모든 OCR 노이즈 특수문자 원천 세척
+    text = text.replace(/[^ㄱ-ㅎㅏ-ㅣ가-힣0-9a-zA-Z\s.,%()~]/g, '');
 
     // 공백 정규화
     text = text.replace(/\s+/g, ' ');
 
-    // 2단계: 사전 정의된 블랙리스트(NOISE_WORDS) 단어를 순회하며 일괄/구조적 제거
+    // 3단계: 사전 정의된 블랙리스트(NOISE_WORDS) 단어를 순회하며 일괄/구조적 제거
     NOISE_WORDS.forEach(word => {
       if (word.length === 1) {
         // 낱글자는 단어의 일부로 쓰인 정상 단어(예: '용의 문장')를 보존하기 위해 단어 경계 및 공백 기준으로 매칭
@@ -108,10 +132,11 @@ export default function RuneSelector({ selectedRunes, onRuneChange }) {
       }
     });
 
-    // 3단계: 특정 문맥 문장 통째 소거 정규식 적용 (초월/스킬 변화)
+    // 4단계: 특정 문맥 문장 통째 소거 정규식 적용 (초월/스킬 변화)
     const contextPatterns = [
-      // 마도 저항, 공격력, 체력 등 세부 스탯 및 저주 확률
-      /(마도 저항 \+\d+|추가 체력 \+\d+|추가 체력 \d+|방어력 \+\d+|방어력 \d+|공격력 \+\d+|공격력 \d+|마도 저항|마도 저향|추가 체력|방어력|공격력)/g,
+      // 깡스탯 데이터 숫자 결합형 소거 (공격력/피해 등의 일반 한글 단어 보존)
+      /(마도\s*저항\s*\d+|마도\s*저향\s*\d+|추가\s*체력\s*\d+|방어력\s*\d+|공격력\s*\d+)/g,
+      // 저주 확률 소거
       /(저주 확률|저주 확출)\s*\d+%\.?/g,
       
       // 장신구 룬 스킬 변화 문장 통째 소거
@@ -327,7 +352,7 @@ export default function RuneSelector({ selectedRunes, onRuneChange }) {
             <div className="p-4 overflow-y-auto flex-1 bg-slate-950/40">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {filteredRunes.map(rune => {
-                  const coreTexts = getCoreRuneTexts(rune.cleaned_text);
+                  const coreTexts = getCoreRuneTexts(rune.cleaned_text, rune.name);
 
                   return (
                     <div
@@ -403,7 +428,7 @@ export default function RuneSelector({ selectedRunes, onRuneChange }) {
           {Object.entries(selectedRunes).flatMap(([type, list]) => 
             list.map((rune, idx) => {
               if (!rune) return null;
-              const coreLines = getCoreRuneTexts(rune.cleaned_text);
+              const coreLines = getCoreRuneTexts(rune.cleaned_text, rune.name);
               if (coreLines.length === 0) return null; // 빈 카드는 아예 렌더링 스킵 처리
               
               return (
@@ -430,7 +455,7 @@ export default function RuneSelector({ selectedRunes, onRuneChange }) {
             })
           ).filter(Boolean)}
           
-          {Object.values(selectedRunes).flat().filter(Boolean).filter(r => getCoreRuneTexts(r.cleaned_text).length > 0).length === 0 && (
+          {Object.values(selectedRunes).flat().filter(Boolean).filter(r => getCoreRuneTexts(r.cleaned_text, r.name).length > 0).length === 0 && (
             <div className="col-span-full py-8 text-center text-xs text-slate-500 border border-dashed border-slate-850 rounded-xl">
               현재 장착된 룬이 없습니다. 상단 슬롯을 클릭해 룬을 장착해 주세요.
             </div>
