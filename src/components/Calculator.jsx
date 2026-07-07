@@ -373,7 +373,7 @@ export default function Calculator() {
 
       {/* 탭 내용 분기 렌더링 (22개 보석 지정 패널로 개조) */}
       {activeTab === 'gemstone' ? (
-        <GemStonePanel gems={gems} onGemChange={handleGemChange} setGems={setGems} />
+        <GemStonePanel gems={gems} onGemChange={handleGemChange} setGems={setGems} selectedRunes={selectedRunes} />
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start animate-fadeIn">
           
