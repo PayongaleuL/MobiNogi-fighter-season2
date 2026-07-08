@@ -76,24 +76,24 @@ export default function StatsInput({ stats, onStatsChange }) {
   };
 
   return (
-    <div className={`bg-slate-900 border rounded-2xl p-6 shadow-xl flex flex-col gap-6 transition-all duration-350 ${
-      isSkillLimitExceeded ? 'border-red-500/50 shadow-red-950/10' : 'border-slate-800'
+    <div className={`bg-theme-card border rounded-2xl p-6 shadow-theme flex flex-col gap-6 transition-all duration-350 ${
+      isSkillLimitExceeded ? 'border-red-500 shadow-red-100' : 'border-theme'
     }`}>
       
       {/* 캐릭터 스펙 입력 */}
       <div>
-        <h3 className="text-lg font-bold text-slate-100 mb-4 flex items-center gap-2">
-          <User className="w-5 h-5 text-mabi-accent" />
+        <h3 className="text-lg font-black text-theme-main mb-4 flex items-center gap-2">
+          <User className="w-5 h-5 text-orange-500" />
           캐릭터 기본 능력치 (마을 기준)
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {statFields.map(f => (
-            <div key={f.key} className="bg-slate-950/40 p-3.5 rounded-xl border border-slate-800/80 flex flex-col gap-2">
+            <div key={f.key} className="bg-theme-subcard p-3.5 rounded-xl border border-theme flex flex-col gap-2 theme-transition">
               <div className="flex justify-between items-start">
                 <div className="flex flex-col gap-0.5">
-                  <label className="text-xs font-semibold text-slate-400">{f.label}</label>
+                  <label className="text-xs font-bold text-theme-sub">{f.label}</label>
                   {getStatPercent(f.key, stats[f.key]) && (
-                    <span className="text-[10px] text-emerald-400 font-medium">
+                    <span className="text-[10px] text-emerald-600 font-bold">
                       ({getStatPercent(f.key, stats[f.key])})
                     </span>
                   )}
@@ -102,7 +102,7 @@ export default function StatsInput({ stats, onStatsChange }) {
                   type="number"
                   value={stats[f.key] || 0}
                   onChange={(e) => handleInputChange(f.key, e.target.value)}
-                  className="w-24 bg-slate-900 border border-slate-800 rounded px-2 py-0.5 text-xs text-right font-bold text-emerald-400 focus:outline-none focus:border-mabi-accent"
+                  className="w-24 bg-theme-card border border-theme rounded px-2 py-0.5 text-xs text-right font-black text-emerald-600 focus-orange-glow focus:outline-none theme-transition"
                 />
               </div>
               <input
@@ -112,34 +112,34 @@ export default function StatsInput({ stats, onStatsChange }) {
                 step={f.step}
                 value={stats[f.key] || 0}
                 onChange={(e) => handleInputChange(f.key, e.target.value)}
-                className="w-full h-1 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-mabi-accent"
+                className="w-full h-1 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-orange-500"
               />
             </div>
           ))}
         </div>
       </div>
 
-      <hr className="border-slate-800/80" />
+      <hr className="border-theme" />
 
       {/* 6개 스킬 개조 레벨 입력 */}
       <div>
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-bold text-slate-100 flex items-center gap-2">
-            <Activity className="w-5 h-5 text-purple-400" />
+          <h3 className="text-lg font-black text-theme-main flex items-center gap-2">
+            <Activity className="w-5 h-5 text-purple-600" />
             스킬 개조 단계 설정
           </h3>
           <span className={`text-[10px] px-2 py-0.5 rounded font-extrabold border ${
             isSkillLimitExceeded 
-              ? 'bg-red-950/30 border-red-500/30 text-red-400 animate-pulse'
-              : 'bg-slate-950/50 border-slate-800 text-slate-400'
+              ? 'bg-red-50 border-red-200 text-red-500 animate-pulse'
+              : 'bg-theme-subcard border-theme text-theme-sub'
           }`}>
             30단계 개조 스킬: {lv30SkillsCount} / 3개
           </span>
         </div>
 
         {/* 단축 프리셋 버튼군 */}
-        <div className="flex flex-wrap gap-2 mb-4 bg-slate-950/20 p-2.5 rounded-xl border border-slate-850">
-          <span className="text-[10px] font-bold text-slate-400 self-center mr-1">개조 단계 프리셋:</span>
+        <div className="flex flex-wrap gap-2 mb-4 bg-theme-subcard p-2.5 rounded-xl border border-theme theme-transition">
+          <span className="text-[10px] font-bold text-theme-sub self-center mr-1">개조 단계 프리셋:</span>
           {[
             { label: '156 프리셋 (1/5/6번 30단)', key: '156' },
             { label: '256 프리셋 (2/5/6번 30단)', key: '256' },
@@ -149,7 +149,7 @@ export default function StatsInput({ stats, onStatsChange }) {
               key={preset.key}
               type="button"
               onClick={() => applySkillPreset(preset.key)}
-              className="px-2.5 py-1 bg-slate-850 hover:bg-slate-800 border border-slate-800 rounded-lg text-[10px] font-bold text-mabi-accent active:scale-95 transition-all"
+              className="px-2.5 py-1 bg-theme-card hover:bg-theme-subcard border border-theme rounded-lg text-[10px] font-bold text-orange-500 active:scale-95 transition-all focus:outline-none"
             >
               {preset.label}
             </button>
@@ -164,16 +164,16 @@ export default function StatsInput({ stats, onStatsChange }) {
                 key={f.key} 
                 className={`p-2.5 rounded-xl border flex flex-col items-center gap-1 transition-all ${
                   is30 
-                    ? 'bg-purple-950/20 border-purple-500/30 shadow-md shadow-purple-950/5' 
-                    : 'bg-slate-950/40 border-slate-800/80'
+                    ? 'bg-purple-50 border-purple-300 shadow-sm' 
+                    : 'bg-theme-subcard border-theme'
                 }`}
               >
-                <span className={`text-[10px] font-semibold ${is30 ? 'text-purple-300' : 'text-slate-500'}`}>{f.label}</span>
+                <span className={`text-[10px] font-bold ${is30 ? 'text-purple-700' : 'text-theme-sub'}`}>{f.label}</span>
                 <div className="flex items-center gap-1.5 mt-1">
                   <button
                     type="button"
                     onClick={() => onStatsChange(f.key, Math.max(10, (stats[f.key] || 10) - 1))}
-                    className="w-5 h-5 bg-slate-850 hover:bg-slate-800 rounded flex items-center justify-center text-xs font-bold text-slate-350 active:scale-95 transition-all"
+                    className="w-5 h-5 bg-theme-card hover:bg-theme-subcard border border-theme rounded flex items-center justify-center text-xs font-bold text-theme-sub active:scale-95 transition-all focus:outline-none"
                   >
                     -
                   </button>
@@ -193,14 +193,14 @@ export default function StatsInput({ stats, onStatsChange }) {
                         onStatsChange(f.key, checked);
                       }
                     }}
-                    className={`w-10 bg-slate-900 border border-slate-800 rounded py-0.5 text-center text-xs font-black focus:outline-none focus:border-mabi-accent [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${
-                      is30 ? 'text-purple-400 font-extrabold' : 'text-slate-200'
+                    className={`w-10 bg-theme-card border border-theme rounded py-0.5 text-center text-xs font-black focus-orange-glow focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none theme-transition ${
+                      is30 ? 'text-purple-600 font-extrabold' : 'text-theme-main'
                     }`}
                   />
                   <button
                     type="button"
                     onClick={() => onStatsChange(f.key, Math.min(30, (stats[f.key] || 10) + 1))}
-                    className="w-5 h-5 bg-slate-850 hover:bg-slate-800 rounded flex items-center justify-center text-xs font-bold text-slate-350 active:scale-95 transition-all"
+                    className="w-5 h-5 bg-theme-card hover:bg-theme-subcard border border-theme rounded flex items-center justify-center text-xs font-bold text-theme-sub active:scale-95 transition-all focus:outline-none"
                   >
                     +
                   </button>
@@ -212,50 +212,50 @@ export default function StatsInput({ stats, onStatsChange }) {
 
         {/* 개조 한도 초과 경고 배너 */}
         {isSkillLimitExceeded && (
-          <div className="mt-4 bg-red-950/20 border border-red-800/30 text-red-400 text-xs p-3.5 rounded-xl font-bold flex items-center gap-2 animate-bounce">
+          <div className="mt-4 bg-red-50 border border-red-200 text-red-500 text-xs p-3.5 rounded-xl font-bold flex items-center gap-2 animate-bounce">
             <span>⚠️</span>
             <span>30단계 개조 스킬은 최대 3개까지만 지정 가능합니다. 게임 설정을 확인해 주십시오.</span>
           </div>
         )}
       </div>
 
-      <hr className="border-slate-800/80" />
+      <hr className="border-theme" />
 
       {/* 추가 인챈트 설정 */}
       <div>
-        <h3 className="text-md font-bold text-slate-200 mb-3 flex items-center gap-2">
-          <Settings className="w-4 h-4 text-slate-400" />
+        <h3 className="text-md font-black text-theme-main mb-3 flex items-center gap-2">
+          <Settings className="w-4 h-4 text-theme-muted" />
           추가 인챈트 설정
         </h3>
-        <div className="bg-slate-950/40 p-4 rounded-xl border border-slate-800/80 flex flex-col sm:flex-row gap-4 justify-between">
+        <div className="bg-theme-subcard p-4 rounded-xl border border-theme flex flex-col sm:flex-row gap-4 justify-between theme-transition">
           <div className="flex-1 flex justify-between items-center gap-2">
-            <span className="text-xs font-semibold text-slate-400">인챈트공증 (%)</span>
+            <span className="text-xs font-bold text-theme-sub">인챈트공증 (%)</span>
             <input
               type="number"
               step="0.1"
               value={stats.enchantAtkPct || 0}
               onChange={(e) => handleInputChange('enchantAtkPct', e.target.value)}
-              className="w-20 bg-slate-900 border border-slate-800 rounded px-2.5 py-1 text-xs text-right font-bold text-mabi-accent focus:outline-none"
+              className="w-20 bg-theme-card border border-theme rounded px-2.5 py-1 text-xs text-right font-black text-orange-500 focus-orange-glow focus:outline-none theme-transition"
             />
           </div>
           <div className="flex-1 flex justify-between items-center gap-2">
-            <span className="text-xs font-semibold text-slate-400">강타피해 (%)</span>
+            <span className="text-xs font-bold text-theme-sub">강타피해 (%)</span>
             <input
               type="number"
               step="0.1"
               value={stats.strongDmgPct || 0}
               onChange={(e) => handleInputChange('strongDmgPct', e.target.value)}
-              className="w-20 bg-slate-900 border border-slate-800 rounded px-2.5 py-1 text-xs text-right font-bold text-mabi-accent focus:outline-none"
+              className="w-20 bg-theme-card border border-theme rounded px-2.5 py-1 text-xs text-right font-black text-orange-500 focus-orange-glow focus:outline-none theme-transition"
             />
           </div>
           <div className="flex-1 flex justify-between items-center gap-2">
-            <span className="text-xs font-semibold text-slate-400">연타피해 (%)</span>
+            <span className="text-xs font-bold text-theme-sub">연타피해 (%)</span>
             <input
               type="number"
               step="0.1"
               value={stats.chainDmgPct || 0}
               onChange={(e) => handleInputChange('chainDmgPct', e.target.value)}
-              className="w-20 bg-slate-900 border border-slate-800 rounded px-2.5 py-1 text-xs text-right font-bold text-mabi-accent focus:outline-none"
+              className="w-20 bg-theme-card border border-theme rounded px-2.5 py-1 text-xs text-right font-black text-orange-500 focus-orange-glow focus:outline-none theme-transition"
             />
           </div>
         </div>

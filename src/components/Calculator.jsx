@@ -12,6 +12,21 @@ export default function Calculator() {
   // 1. 활성화 탭 관리 ('calculator' | 'gemstone' | 'runeAudit')
   const [activeTab, setActiveTab] = useState('calculator');
 
+  // 1-2. UI 테마 관리 ('silver' | 'pure' | 'orange')
+  const [uiTheme, setUiTheme] = useState(() => {
+    return localStorage.getItem('mabi_calculator_theme') || 'silver';
+  });
+
+  useEffect(() => {
+    localStorage.setItem('mabi_calculator_theme', uiTheme);
+    
+    // HTML root 요소에 테마 클래스 동적 주입
+    const root = document.documentElement;
+    root.classList.remove('theme-pure', 'theme-orange');
+    if (uiTheme === 'pure') root.classList.add('theme-pure');
+    if (uiTheme === 'orange') root.classList.add('theme-orange');
+  }, [uiTheme]);
+
   // 1-1. 룬 데이터베이스 수정 가능한 커스텀 룬 목록 상태
   const [customRunes, setCustomRunes] = useState(runesData);
 
@@ -528,62 +543,104 @@ export default function Calculator() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto flex flex-col gap-6">
+    <div className="max-w-7xl mx-auto flex flex-col gap-6 p-4 md:p-6 text-theme-main theme-transition">
       
       {/* 타이틀 및 탭 네비게이션 */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
+      <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center gap-4 bg-theme-card border border-theme rounded-2xl p-6 shadow-theme theme-transition">
         <div>
-          <h2 className="text-2xl font-black text-slate-100 flex items-center gap-2">
-            <span className="text-mabi-red">Mabinogi Mobile</span> 격투가 종합 계산기
-            <span className="text-xs bg-slate-800 border border-slate-700 px-2 py-0.5 rounded-full text-slate-400 font-bold">시즌 2 최종본</span>
+          <h2 className="text-2xl font-black text-theme-main flex items-center gap-2">
+            <span className="text-orange-500 font-extrabold">Mabinogi Mobile</span> 격투가 종합 계산기
+            <span className="text-xs bg-theme-subcard border border-theme px-2 py-0.5 rounded-full text-theme-sub font-bold">시즌 2 최종본</span>
           </h2>
-          <p className="text-xs text-slate-400 mt-1 leading-relaxed">
+          <p className="text-xs text-theme-sub mt-1 leading-relaxed">
             보석 세공 3줄 다중 지정, 장비 부위별 묶음 연동 및 3줄 미만 경고 시스템이 이식된 7차 완성 대시보드입니다.
           </p>
         </div>
 
-        {/* 상단 탭 버튼 */}
-        <div className="flex bg-slate-950 p-1 rounded-xl border border-slate-800 self-stretch md:self-auto">
-          <button
-            onClick={() => setActiveTab('calculator')}
-            className={`flex-1 md:flex-none px-5 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2 ${
-              activeTab === 'calculator'
-                ? 'bg-mabi-accent text-slate-950 shadow-md'
-                : 'text-slate-400 hover:text-slate-200'
-            }`}
-          >
-            종합 계산기
-          </button>
-          <button
-            onClick={() => setActiveTab('gemstone')}
-            className={`flex-1 md:flex-none px-5 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2 ${
-              activeTab === 'gemstone'
-                ? 'bg-mabi-accent text-slate-950 shadow-md'
-                : 'text-slate-400 hover:text-slate-200'
-            }`}
-          >
-            <Gem className="w-3.5 h-3.5" />
-            보석 세공
-          </button>
-          <button
-            onClick={() => setActiveTab('runeAudit')}
-            className={`flex-1 md:flex-none px-5 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2 ${
-              activeTab === 'runeAudit'
-                ? 'bg-mabi-accent text-slate-950 shadow-md'
-                : 'text-slate-400 hover:text-slate-200'
-            }`}
-          >
-            <Sliders className="w-3.5 h-3.5" />
-            룬 스탯 교정실
-          </button>
+        <div className="flex flex-col md:flex-row gap-4 w-full xl:w-auto items-stretch md:items-center">
+          {/* 테마 Tweaks 스위처 */}
+          <div className="flex flex-col gap-1">
+            <label className="text-[9px] font-black text-theme-muted uppercase tracking-wider">UI Style Switcher</label>
+            <div className="flex bg-theme-subcard p-1 rounded-xl border border-theme theme-transition">
+              <button
+                onClick={() => setUiTheme('silver')}
+                className={`px-3 py-1.5 rounded-lg text-[10px] font-black transition-all ${
+                  uiTheme === 'silver'
+                    ? 'bg-orange-500 text-white shadow-sm'
+                    : 'text-theme-sub hover:text-theme-main'
+                }`}
+              >
+                Silver Grey
+              </button>
+              <button
+                onClick={() => setUiTheme('pure')}
+                className={`px-3 py-1.5 rounded-lg text-[10px] font-black transition-all ${
+                  uiTheme === 'pure'
+                    ? 'bg-orange-500 text-white shadow-sm'
+                    : 'text-theme-sub hover:text-theme-main'
+                }`}
+              >
+                Pure White
+              </button>
+              <button
+                onClick={() => setUiTheme('orange')}
+                className={`px-3 py-1.5 rounded-lg text-[10px] font-black transition-all ${
+                  uiTheme === 'orange'
+                    ? 'bg-orange-500 text-white shadow-sm'
+                    : 'text-theme-sub hover:text-theme-main'
+                }`}
+              >
+                Warm Orange
+              </button>
+            </div>
+          </div>
+
+          {/* 상단 탭 버튼 */}
+          <div className="flex flex-col gap-1">
+            <label className="text-[9px] font-black text-theme-muted uppercase tracking-wider">Navigation Menu</label>
+            <div className="flex bg-theme-subcard p-1 rounded-xl border border-theme self-stretch md:self-auto theme-transition">
+              <button
+                onClick={() => setActiveTab('calculator')}
+                className={`flex-1 md:flex-none px-5 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2 ${
+                  activeTab === 'calculator'
+                    ? 'bg-orange-500 text-white shadow-md'
+                    : 'text-theme-sub hover:text-theme-main'
+                }`}
+              >
+                종합 계산기
+              </button>
+              <button
+                onClick={() => setActiveTab('gemstone')}
+                className={`flex-1 md:flex-none px-5 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2 ${
+                  activeTab === 'gemstone'
+                    ? 'bg-orange-500 text-white shadow-md'
+                    : 'text-theme-sub hover:text-theme-main'
+                }`}
+              >
+                <Gem className="w-3.5 h-3.5" />
+                보석 세공
+              </button>
+              <button
+                onClick={() => setActiveTab('runeAudit')}
+                className={`flex-1 md:flex-none px-5 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2 ${
+                  activeTab === 'runeAudit'
+                    ? 'bg-orange-500 text-white shadow-md'
+                    : 'text-theme-sub hover:text-theme-main'
+                }`}
+              >
+                <Sliders className="w-3.5 h-3.5" />
+                룬 스탯 교정실
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
       {/* 탭 내용 분기 렌더링 */}
       {activeTab === 'gemstone' ? (
-        <GemStonePanel gems={gems} onGemChange={handleGemChange} setGems={setGems} selectedRunes={selectedRunes} />
+        <GemStonePanel uiTheme={uiTheme} gems={gems} onGemChange={handleGemChange} setGems={setGems} selectedRunes={selectedRunes} />
       ) : activeTab === 'runeAudit' ? (
-        <RuneAuditDashboard runes={customRunes} onRunesUpdate={handleRunesUpdate} />
+        <RuneAuditDashboard uiTheme={uiTheme} runes={customRunes} onRunesUpdate={handleRunesUpdate} />
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start animate-fadeIn">
           
@@ -592,23 +649,23 @@ export default function Calculator() {
             <StatsInput stats={stats} onStatsChange={handleStatsChange} />
             
             {/* 스킬별 스탠스 시뮬레이션 설정 */}
-            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
-              <h3 className="text-lg font-bold text-slate-100 mb-4 flex items-center gap-2">
-                <Activity className="w-5 h-5 text-emerald-400" />
+            <div className="bg-theme-card border border-theme rounded-2xl p-6 shadow-theme theme-transition">
+              <h3 className="text-lg font-black text-theme-main mb-4 flex items-center gap-2">
+                <Activity className="w-5 h-5 text-orange-500" />
                 스킬별 스탠스(Stance) 시뮬레이션 설정
               </h3>
-              <p className="text-xs text-slate-400 mb-5 leading-normal">
+              <p className="text-xs text-theme-sub mb-5 leading-normal">
                 장신구 룬 장착과 무관하게, 각 액티브 스킬들의 행동 변화(소닉 피스트, 섬머솔트 등 치환) 스탠스를 지정하여 딜사이클을 직접 가상 시뮬레이션합니다.
               </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                 {/* 1번 스킬 */}
-                <div className="flex flex-col gap-1.5 bg-slate-950/40 p-3 rounded-xl border border-slate-800/80">
-                  <label className="text-[10px] font-semibold text-slate-400">1번 차징 피스트</label>
+                <div className="flex flex-col gap-1.5 bg-theme-subcard p-3 rounded-xl border border-theme theme-transition">
+                  <label className="text-[10px] font-black text-theme-sub">1번 차징 피스트</label>
                   <select
                     value={skillStances.skill_1}
                     onChange={(e) => handleStanceChange('skill_1', e.target.value)}
-                    className="bg-slate-900 border border-slate-800 rounded px-2.5 py-1.5 text-xs text-slate-200 font-bold focus:outline-none"
+                    className="bg-theme-card border border-theme rounded px-2.5 py-1.5 text-xs text-theme-main font-bold focus-orange-glow focus:outline-none theme-transition"
                   >
                     <option value="순정">순정 (1.475 계수)</option>
                     <option value="충돌">충돌 (1.775 계수 / 범위피)</option>
@@ -617,12 +674,12 @@ export default function Calculator() {
                 </div>
 
                 {/* 2번 스킬 */}
-                <div className="flex flex-col gap-1.5 bg-slate-950/40 p-3 rounded-xl border border-slate-800/80">
-                  <label className="text-[10px] font-semibold text-slate-400">2번 연환격</label>
+                <div className="flex flex-col gap-1.5 bg-theme-subcard p-3 rounded-xl border border-theme theme-transition">
+                  <label className="text-[10px] font-black text-theme-sub">2번 연환격</label>
                   <select
                     value={skillStances.skill_2}
                     onChange={(e) => handleStanceChange('skill_2', e.target.value)}
-                    className="bg-slate-900 border border-slate-800 rounded px-2.5 py-1.5 text-xs text-slate-200 font-bold focus:outline-none"
+                    className="bg-theme-card border border-theme rounded px-2.5 py-1.5 text-xs text-theme-main font-bold focus-orange-glow focus:outline-none theme-transition"
                   >
                     <option value="순정">순정 (0.405 계수)</option>
                     <option value="전진">전진 (0.465 계수 / 콤보피증)</option>
@@ -631,12 +688,12 @@ export default function Calculator() {
                 </div>
 
                 {/* 3번 스킬 */}
-                <div className="flex flex-col gap-1.5 bg-slate-950/40 p-3 rounded-xl border border-slate-800/80">
-                  <label className="text-[10px] font-semibold text-slate-400">3번 섬격</label>
+                <div className="flex flex-col gap-1.5 bg-theme-subcard p-3 rounded-xl border border-theme theme-transition">
+                  <label className="text-[10px] font-black text-theme-sub">3번 섬격</label>
                   <select
                     value={skillStances.skill_3}
                     onChange={(e) => handleStanceChange('skill_3', e.target.value)}
-                    className="bg-slate-900 border border-slate-800 rounded px-2.5 py-1.5 text-xs text-slate-200 font-bold focus:outline-none"
+                    className="bg-theme-card border border-theme rounded px-2.5 py-1.5 text-xs text-theme-main font-bold focus-orange-glow focus:outline-none theme-transition"
                   >
                     <option value="순정">순정 (0.085 계수)</option>
                     <option value="순발력">순발력 (0.24 계수 / 이속저하)</option>
@@ -644,12 +701,12 @@ export default function Calculator() {
                 </div>
 
                 {/* 4번 스킬 */}
-                <div className="flex flex-col gap-1.5 bg-slate-950/40 p-3 rounded-xl border border-slate-800/80">
-                  <label className="text-[10px] font-semibold text-slate-400">4번 버스트 펀치</label>
+                <div className="flex flex-col gap-1.5 bg-theme-subcard p-3 rounded-xl border border-theme theme-transition">
+                  <label className="text-[10px] font-black text-theme-sub">4번 버스트 펀치</label>
                   <select
                     value={skillStances.skill_4}
                     onChange={(e) => handleStanceChange('skill_4', e.target.value)}
-                    className="bg-slate-900 border border-slate-800 rounded px-2.5 py-1.5 text-xs text-slate-200 font-bold focus:outline-none"
+                    className="bg-theme-card border border-theme rounded px-2.5 py-1.5 text-xs text-theme-main font-bold focus-orange-glow focus:outline-none theme-transition"
                   >
                     <option value="순정">순정 (0.141~ 계수)</option>
                     <option value="격파">격파 (0.188~ 계수 / 단일추가타)</option>
@@ -658,12 +715,12 @@ export default function Calculator() {
                 </div>
 
                 {/* 5번 스킬 */}
-                <div className="flex flex-col gap-1.5 bg-slate-950/40 p-3 rounded-xl border border-slate-800/80">
-                  <label className="text-[10px] font-semibold text-slate-400">5번 비룡격</label>
+                <div className="flex flex-col gap-1.5 bg-theme-subcard p-3 rounded-xl border border-theme theme-transition">
+                  <label className="text-[10px] font-black text-theme-sub">5번 비룡격</label>
                   <select
                     value={skillStances.skill_5}
                     onChange={(e) => handleStanceChange('skill_5', e.target.value)}
-                    className="bg-slate-900 border border-slate-800 rounded px-2.5 py-1.5 text-xs text-slate-200 font-bold focus:outline-none"
+                    className="bg-theme-card border border-theme rounded px-2.5 py-1.5 text-xs text-theme-main font-bold focus-orange-glow focus:outline-none theme-transition"
                   >
                     <option value="순정">순정 (0.32~ 계수)</option>
                     <option value="강격">강격 (0.32~ 계수 / 카운터 쿨감)</option>
@@ -675,15 +732,15 @@ export default function Calculator() {
             </div>
 
             {/* 전투 상황 및 딜사이클 설정 */}
-            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
+            <div className="bg-theme-card border border-theme rounded-2xl p-6 shadow-theme theme-transition">
               <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-bold text-slate-100 flex items-center gap-2">
-                  <Play className="w-5 h-5 text-mabi-red" />
+                <h3 className="text-lg font-black text-theme-main flex items-center gap-2">
+                  <Play className="w-5 h-5 text-orange-500" />
                   전투 환경 및 딜사이클 설정
                 </h3>
                 <button
                   onClick={handleReset}
-                  className="flex items-center gap-1 px-2.5 py-1 bg-slate-850 hover:bg-slate-800 rounded text-[10px] font-bold text-slate-400 border border-slate-800 active:scale-95 transition-all"
+                  className="flex items-center gap-1 px-2.5 py-1 bg-theme-subcard hover:bg-theme-main border border-theme rounded text-[10px] font-bold text-theme-sub active:scale-95 transition-all"
                 >
                   <RotateCcw className="w-3 h-3" />
                   모두 초기화
@@ -691,12 +748,12 @@ export default function Calculator() {
               </div>
               
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-                <div className="flex flex-col gap-1.5 bg-slate-950/40 p-3 rounded-xl border border-slate-800/80">
-                  <label className="text-[10px] font-semibold text-slate-400">대상 몬스터 (방어지수)</label>
+                <div className="flex flex-col gap-1.5 bg-theme-subcard p-3 rounded-xl border border-theme theme-transition">
+                  <label className="text-[10px] font-black text-theme-sub">대상 몬스터 (방어지수)</label>
                   <select
                     value={gimmicks.boss}
                     onChange={(e) => handleGimmickChange('boss', e.target.value)}
-                    className="bg-slate-900 border border-slate-800 rounded px-2.5 py-1 text-xs text-slate-200 font-bold focus:outline-none"
+                    className="bg-theme-card border border-theme rounded px-2.5 py-1 text-xs text-theme-main font-bold focus-orange-glow focus:outline-none theme-transition"
                   >
                     <option value="함선 허수아비">함선 허수아비 (방어 30)</option>
                     <option value="허수아비">허수아비 (방어 30, 치적+30%)</option>
@@ -706,57 +763,58 @@ export default function Calculator() {
                     <option value="바리어비스">바리 어비스 (방어 15903)</option>
                   </select>
                 </div>
-                <div className="flex flex-col gap-1.5 bg-slate-950/40 p-3 rounded-xl border border-slate-800/80">
-                  <label className="text-[10px] font-semibold text-slate-400">평상시 딜 시간 (초)</label>
+                <div className="flex flex-col gap-1.5 bg-theme-subcard p-3 rounded-xl border border-theme theme-transition">
+                  <label className="text-[10px] font-black text-theme-sub">평상시 딜 시간 (초)</label>
                   <input
                     type="number"
                     value={gimmicks.ordinaryTime}
                     onChange={(e) => handleGimmickChange('ordinaryTime', parseInt(e.target.value) || 0)}
-                    className="bg-slate-900 border border-slate-800 rounded px-2.5 py-1 text-xs text-right font-bold text-slate-200"
+                    className="bg-theme-card border border-theme rounded px-2.5 py-1 text-xs text-right font-bold text-theme-main focus-orange-glow focus:outline-none theme-transition"
                   />
                 </div>
-                <div className="flex flex-col gap-1.5 bg-slate-950/40 p-3 rounded-xl border border-slate-800/80">
-                  <label className="text-[10px] font-semibold text-slate-400">궁극기 딜 시간 (초)</label>
+                <div className="flex flex-col gap-1.5 bg-theme-subcard p-3 rounded-xl border border-theme theme-transition">
+                  <label className="text-[10px] font-black text-theme-sub">궁극기 딜 시간 (초)</label>
                   <input
                     type="number"
                     value={gimmicks.ultimateTime}
                     onChange={(e) => handleGimmickChange('ultimateTime', parseInt(e.target.value) || 0)}
-                    className="bg-slate-900 border border-slate-800 rounded px-2.5 py-1 text-xs text-right font-bold text-slate-200"
+                    className="bg-theme-card border border-theme rounded px-2.5 py-1 text-xs text-right font-bold text-theme-main focus-orange-glow focus:outline-none theme-transition"
                   />
                 </div>
               </div>
 
               {/* 딜사이클 문자열 입력 */}
               <div className="flex flex-col gap-3">
-                <span className="text-xs font-semibold text-slate-400">딜사이클 문자열 설정</span>
+                <span className="text-xs font-black text-theme-sub">딜사이클 문자열 설정</span>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="bg-slate-950/40 p-3 rounded-xl border border-slate-800 flex flex-col gap-1">
-                    <span className="text-[10px] text-slate-500 font-semibold">평상시 사이클</span>
+                  <div className="bg-theme-subcard p-3 rounded-xl border border-theme flex flex-col gap-1 theme-transition">
+                    <span className="text-[10px] text-theme-muted font-semibold">평상시 사이클</span>
                     <input
                       type="text"
                       value={cycles.ordinary}
                       onChange={(e) => handleCycleChange('ordinary', e.target.value)}
-                      className="w-full bg-slate-900 border border-slate-800 rounded px-3 py-1 text-xs font-bold text-mabi-accent tracking-wider focus:outline-none"
+                      className="w-full bg-theme-card border border-theme rounded px-3 py-1 text-xs font-bold text-orange-500 tracking-wider focus-orange-glow focus:outline-none theme-transition"
                     />
                   </div>
-                  <div className="bg-slate-950/40 p-3 rounded-xl border border-slate-800 flex flex-col gap-1">
-                    <span className="text-[10px] text-slate-500 font-semibold">궁극기 활성 사이클</span>
+                  <div className="bg-theme-subcard p-3 rounded-xl border border-theme flex flex-col gap-1 theme-transition">
+                    <span className="text-[10px] text-theme-muted font-semibold">궁극기 활성 사이클</span>
                     <input
                       type="text"
                       value={cycles.ultimate}
                       onChange={(e) => handleCycleChange('ultimate', e.target.value)}
-                      className="w-full bg-slate-900 border border-slate-800 rounded px-3 py-1 text-xs font-bold text-mabi-accent tracking-wider focus:outline-none"
+                      className="w-full bg-theme-card border border-theme rounded px-3 py-1 text-xs font-bold text-orange-500 tracking-wider focus-orange-glow focus:outline-none theme-transition"
                     />
                   </div>
                 </div>
-                <span className="text-[9px] text-slate-500 leading-normal mt-1 flex items-center gap-1">
-                  <Info className="w-3.5 h-3.5 inline text-slate-600" />
+                <span className="text-[9px] text-theme-muted leading-normal mt-1 flex items-center gap-1">
+                  <Info className="w-3.5 h-3.5 inline text-theme-muted" />
                   스킬 입력 약어: 1 (차징피스트 1타/2타), 2 (연환격 1타/2타), 3 (섬격), 4 (버스트펀치/소닉피스트), 5 (비룡격/섬머솔트), 6 (궁극기)
                 </span>
               </div>
             </div>
 
             <ConditionalPanel
+              uiTheme={uiTheme}
               selectedRunes={selectedRunes}
               conditionalUptimes={conditionalUptimes}
               onUptimeChange={handleUptimeChange}
@@ -768,6 +826,7 @@ export default function Calculator() {
             
             {/* 룬 슬롯 선택기 */}
             <RuneSelector
+              uiTheme={uiTheme}
               selectedRunes={selectedRunes}
               onRuneChange={handleRuneChange}
               transcendLevels={transcendLevels}
@@ -775,52 +834,52 @@ export default function Calculator() {
             />
 
             {/* 최종 예상 DPS 대시보드 */}
-            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl flex flex-col gap-6">
+            <div className="bg-theme-card border border-theme rounded-2xl p-6 shadow-theme flex flex-col gap-6 theme-transition">
               
               {/* 결과 큰 숫자 */}
-              <div className="bg-gradient-to-br from-slate-950 to-slate-900 border border-slate-800/80 rounded-2xl p-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+              <div className="bg-theme-subcard border border-theme rounded-2xl p-6 flex flex-col sm:flex-row justify-between items-center gap-4 theme-transition">
                 <div>
-                  <span className="text-xs font-semibold text-slate-400 block">종합 실전 예상 DPS</span>
-                  <span className="text-3xl font-black text-emerald-400 tracking-tight mt-1 block">
+                  <span className="text-xs font-black text-theme-sub block">종합 실전 예상 DPS</span>
+                  <span className="text-3xl font-black text-orange-500 tracking-tight mt-1 block">
                     {dpsResult ? dpsResult.weightedDps.toLocaleString() : '0'}
-                    <span className="text-xs text-slate-500 font-bold ml-1">DPS</span>
+                    <span className="text-xs text-theme-muted font-bold ml-1">DPS</span>
                   </span>
                 </div>
                 
-                {/* 스펙 연동 결과 */}
+                {/* 스펙 연동 결과 - 은은한 파스텔톤 조합 */}
                 <div className="grid grid-cols-2 gap-4 text-xs">
-                  <div className="bg-slate-900/80 px-4 py-2 rounded-xl border border-slate-850">
+                  <div className="bg-slate-100/80 px-4 py-2 rounded-xl border border-slate-200">
                     <span className="text-slate-500 font-semibold block">적용 공격력</span>
-                    <span className="font-bold text-slate-350 mt-0.5 block">{dpsResult ? dpsResult.totalAtk.toLocaleString() : '0'}</span>
+                    <span className="font-bold text-slate-800 mt-0.5 block">{dpsResult ? dpsResult.totalAtk.toLocaleString() : '0'}</span>
                   </div>
-                  <div className="bg-slate-900/80 px-4 py-2 rounded-xl border border-slate-850">
-                    <span className="text-slate-500 font-semibold block">룬 공격력 가산</span>
-                    <span className="font-bold text-amber-400 mt-0.5 block">+{dpsResult ? dpsResult.runeAtkAdd.toLocaleString() : '0'}</span>
+                  <div className="bg-orange-50 px-4 py-2 rounded-xl border border-orange-100">
+                    <span className="text-orange-700 font-semibold block">룬 공격력 가산</span>
+                    <span className="font-bold text-orange-600 mt-0.5 block">+{dpsResult ? dpsResult.runeAtkAdd.toLocaleString() : '0'}</span>
                   </div>
-                  <div className="bg-slate-900/80 px-4 py-2 rounded-xl border border-slate-850">
-                    <span className="text-slate-500 font-semibold block">총 마도저항</span>
-                    <span className="font-bold text-blue-400 mt-0.5 block">{dpsResult ? dpsResult.totalResist.toLocaleString() : '0'}</span>
+                  <div className="bg-blue-50 px-4 py-2 rounded-xl border border-blue-100">
+                    <span className="text-blue-700 font-semibold block">총 마도저항</span>
+                    <span className="font-bold text-blue-600 mt-0.5 block">{dpsResult ? dpsResult.totalResist.toLocaleString() : '0'}</span>
                   </div>
-                  <div className="bg-slate-900/80 px-4 py-2 rounded-xl border border-slate-850">
-                    <span className="text-slate-500 font-semibold block">추가타 확률</span>
-                    <span className="font-bold text-emerald-400 mt-0.5 block">{dpsResult ? dpsResult.extraProb : '0.0'}%</span>
+                  <div className="bg-emerald-50 px-4 py-2 rounded-xl border border-emerald-100">
+                    <span className="text-emerald-700 font-semibold block">추가타 확률</span>
+                    <span className="font-bold text-emerald-600 mt-0.5 block">{dpsResult ? dpsResult.extraProb : '0.0'}%</span>
                   </div>
-                  <div className="bg-slate-900/80 px-4 py-2 rounded-xl border border-slate-850">
-                    <span className="text-slate-500 font-semibold block">치명타 확률</span>
-                    <span className="font-bold text-purple-400 mt-0.5 block">{dpsResult ? dpsResult.critProb : '0.0'}%</span>
+                  <div className="bg-purple-50 px-4 py-2 rounded-xl border border-purple-100 col-span-2 sm:col-span-1">
+                    <span className="text-purple-700 font-semibold block">치명타 확률</span>
+                    <span className="font-bold text-purple-600 mt-0.5 block">{dpsResult ? dpsResult.critProb : '0.0'}%</span>
                   </div>
-                  <div className="bg-slate-900/80 px-4 py-2 rounded-xl border border-slate-850">
-                    <span className="text-slate-500 font-semibold block">치명타 피해</span>
-                    <span className="font-bold text-purple-400 mt-0.5 block">{dpsResult ? dpsResult.critDmg : '0.0'}%</span>
+                  <div className="bg-purple-50 px-4 py-2 rounded-xl border border-purple-100 col-span-2 sm:col-span-1">
+                    <span className="text-purple-700 font-semibold block">치명타 피해</span>
+                    <span className="font-bold text-purple-600 mt-0.5 block">{dpsResult ? dpsResult.critDmg : '0.0'}%</span>
                   </div>
                 </div>
               </div>
 
               {/* 상황별 세부 DPS 리스트 */}
               <div>
-                <h4 className="text-sm font-bold text-slate-300 mb-3 flex justify-between items-center">
+                <h4 className="text-sm font-black text-theme-main mb-3 flex justify-between items-center">
                   <span>상황별 세부 연산 내역</span>
-                  <span className="text-[10px] text-slate-500 font-medium">※ 파쇄권/충격파 패시브 피해 100% 상시 통합 연산됨</span>
+                  <span className="text-[10px] text-theme-muted font-medium">※ 파쇄권/충격파 패시브 피해 100% 상시 통합 연산됨</span>
                 </h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {dpsResult && Object.entries(dpsResult.states).map(([state, res]) => {
@@ -830,27 +889,27 @@ export default function Calculator() {
                     if (state.includes('Break') && gimmicks.unarmedTime === 0) return null;
 
                     return (
-                      <div key={state} className="bg-slate-950/40 p-4 rounded-xl border border-slate-800 flex flex-col gap-3">
-                        <div className="flex justify-between items-center border-b border-slate-800/80 pb-2">
-                          <span className="text-xs font-bold text-slate-300">{label}</span>
-                          <span className="text-xs text-slate-500 font-semibold">{res.cycleTime}초 사이클</span>
+                      <div key={state} className="bg-theme-subcard p-4 rounded-xl border border-theme flex flex-col gap-3 theme-transition">
+                        <div className="flex justify-between items-center border-b border-theme pb-2">
+                          <span className="text-xs font-bold text-theme-main">{label}</span>
+                          <span className="text-xs text-theme-muted font-semibold">{res.cycleTime}초 사이클</span>
                         </div>
-                        <div className="flex flex-col gap-1.5 text-xs text-slate-400">
+                        <div className="flex flex-col gap-1.5 text-xs text-theme-sub">
                           <div className="flex justify-between">
                             <span>스킬/패시브 DPS:</span>
-                            <span className="font-medium text-slate-300">{res.skillDps.toLocaleString()}</span>
+                            <span className="font-semibold text-theme-main">{res.skillDps.toLocaleString()}</span>
                           </div>
                           <div className="flex justify-between">
                             <span>추가타(직접) DPS:</span>
-                            <span className="font-medium text-slate-300">{res.directDps.toLocaleString()}</span>
+                            <span className="font-semibold text-theme-main">{res.directDps.toLocaleString()}</span>
                           </div>
                           <div className="flex justify-between">
                             <span>지속/멀티 DPS:</span>
-                            <span className="font-medium text-slate-300">{res.dotDps.toLocaleString()}</span>
+                            <span className="font-semibold text-theme-main">{res.dotDps.toLocaleString()}</span>
                           </div>
-                          <div className="flex justify-between border-t border-slate-800/40 pt-1.5 font-bold mt-1">
-                            <span className="text-slate-200">합산 예상 DPS:</span>
-                            <span className="text-emerald-400">{res.totalDps.toLocaleString()}</span>
+                          <div className="flex justify-between border-t border-theme pt-1.5 font-black mt-1">
+                            <span className="text-theme-main">합산 예상 DPS:</span>
+                            <span className="text-orange-500 font-extrabold">{res.totalDps.toLocaleString()}</span>
                           </div>
                         </div>
                       </div>
@@ -860,9 +919,9 @@ export default function Calculator() {
               </div>
 
               {/* 프리셋 저장 및 비교 테이블 */}
-              <div className="border-t border-slate-800 pt-6">
-                <h4 className="text-sm font-bold text-slate-300 mb-3 flex items-center gap-2">
-                  <TrendingUp className="w-4 h-4 text-mabi-accent" />
+              <div className="border-t border-theme pt-6">
+                <h4 className="text-sm font-black text-theme-main mb-3 flex items-center gap-2">
+                  <TrendingUp className="w-4 h-4 text-orange-500" />
                   셋팅 비교 및 저장 (세션 프리셋)
                 </h4>
                 
@@ -873,17 +932,17 @@ export default function Calculator() {
                       onClick={() => preset.data && loadPreset(idx)}
                       className={`p-4 rounded-xl border cursor-pointer flex flex-col justify-between transition-all ${
                         preset.data
-                          ? 'bg-slate-950/40 border-slate-850 hover:border-mabi-accent'
-                          : 'bg-slate-950/20 border-slate-800 border-dashed hover:border-slate-700'
+                          ? 'bg-theme-subcard border-theme hover:border-orange-500 shadow-sm'
+                          : 'bg-theme-main border-theme border-dashed hover:border-theme-accent'
                       }`}
                     >
                       <div>
                         <div className="flex justify-between items-center mb-2">
-                          <span className="text-xs font-bold text-slate-300 truncate">{preset.name}</span>
+                          <span className="text-xs font-bold text-theme-main truncate">{preset.name}</span>
                           {preset.data && (
                             <button
                               onClick={(e) => clearPreset(idx, e)}
-                              className="text-slate-500 hover:text-red-400 text-sm font-bold p-1"
+                              className="text-theme-muted hover:text-red-500 text-sm font-bold p-1"
                             >
                               &times;
                             </button>
@@ -896,7 +955,7 @@ export default function Calculator() {
                         </span>
                         {preset.data && dpsResult && (
                           <span className={`text-[10px] font-bold block mt-1.5 ${
-                            dpsResult.weightedDps >= (preset.data.weightedDps || 0) ? 'text-emerald-400' : 'text-red-400'
+                            dpsResult.weightedDps >= (preset.data.weightedDps || 0) ? 'text-emerald-500' : 'text-red-500'
                           }`}>
                             {dpsResult.weightedDps >= (preset.data.weightedDps || 0) ? '현재보다 ' : '현재보다 '}
                             {(preset.data.weightedDps || 0) > 0 
@@ -912,7 +971,7 @@ export default function Calculator() {
                           e.stopPropagation();
                           savePreset(idx);
                         }}
-                        className="mt-3 w-full bg-slate-850 hover:bg-slate-800 border border-slate-800 text-[10px] font-bold text-slate-350 py-1 rounded transition-all"
+                        className="mt-3 w-full bg-theme-card hover:bg-theme-subcard border border-theme text-[10px] font-black text-theme-sub py-1 rounded transition-all focus:outline-none"
                       >
                         현재 셋팅 저장
                       </button>

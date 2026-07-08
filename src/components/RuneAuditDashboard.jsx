@@ -215,25 +215,25 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate }) {
   }, [auditList, searchTerm, selectedTypeFilter, statusFilter]);
 
   return (
-    <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl flex flex-col gap-6 animate-fadeIn text-slate-200">
+    <div className="bg-theme-card border border-theme rounded-2xl p-6 shadow-theme flex flex-col gap-6 animate-fadeIn text-theme-main theme-transition">
       
       {/* 타이틀 영역 */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-800 pb-5">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-theme pb-5 theme-transition">
         <div>
-          <h3 className="text-xl font-bold text-slate-100 flex items-center gap-2">
-            <Sliders className="w-5.5 h-5.5 text-mabi-accent" />
+          <h3 className="text-xl font-black text-theme-main flex items-center gap-2">
+            <Sliders className="w-5.5 h-5.5 text-orange-500" />
             룬 스탯 교정실 (Rune Customizer)
           </h3>
-          <p className="text-xs text-slate-400 mt-1">
+          <p className="text-xs text-theme-sub mt-1">
             룬설명 마스터 문장을 기반으로 각 룬의 연동 스탯을 실시간 교정 및 직접 커스텀하여 DPS 시뮬레이터에 적용합니다.
           </p>
         </div>
 
         {/* 상단 액션 버튼 그룹 및 상태 라이트 */}
         <div className="flex items-center gap-4 self-stretch md:self-auto justify-between">
-          <div className="flex items-center gap-2 text-xs bg-slate-950 px-3.5 py-2 rounded-xl border border-slate-800">
-            <span className={`w-2.5 h-2.5 rounded-full ${isUpdating ? 'bg-amber-400 animate-ping' : 'bg-emerald-500'} transition-all`} />
-            <span className="font-semibold text-slate-400">
+          <div className="flex items-center gap-2 text-xs bg-theme-subcard px-3.5 py-2 rounded-xl border border-theme theme-transition">
+            <span className={`w-2.5 h-2.5 rounded-full ${isUpdating ? 'bg-amber-500 animate-ping' : 'bg-emerald-500'} transition-all`} />
+            <span className="font-extrabold text-theme-sub">
               {isUpdating ? '계산기 스탯 동기화 중...' : '시뮬레이터 실시간 반영 중'}
             </span>
           </div>
@@ -241,7 +241,7 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate }) {
           <div className="flex gap-2">
             <button
               onClick={handleResetToMaster}
-              className="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shadow-md"
+              className="px-4 py-2.5 bg-theme-card hover:bg-theme-subcard text-theme-main border border-theme rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shadow-sm focus:outline-none"
               title="수동 변경된 값을 마스터 설명글 기준 기본 스탯으로 복원합니다."
             >
               <RotateCcw className="w-4 h-4" />
@@ -249,10 +249,10 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate }) {
             </button>
             <button
               onClick={handleCopyJson}
-              className={`px-4 py-2.5 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 shadow-md ${
+              className={`px-4 py-2.5 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 shadow-sm focus:outline-none ${
                 copySuccess 
-                  ? 'bg-blue-600 text-slate-100' 
-                  : 'bg-mabi-accent text-slate-950 hover:bg-amber-400 shadow-amber-950/20'
+                  ? 'bg-blue-600 text-white' 
+                  : 'bg-orange-500 text-white hover:bg-orange-600 shadow-orange-100'
               }`}
             >
               {copySuccess ? <CheckCircle className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
@@ -263,12 +263,12 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate }) {
       </div>
 
       {/* 게이머 친화적 가이드 및 팁 박스 */}
-      <div className="bg-slate-950/40 border border-slate-800/80 p-4 rounded-xl flex gap-3 text-xs leading-relaxed text-slate-300">
-        <Info className="w-5 h-5 text-mabi-accent flex-shrink-0 mt-0.5" />
+      <div className="bg-theme-subcard border border-theme p-4 rounded-xl flex gap-3 text-xs leading-relaxed text-theme-main theme-transition">
+        <Info className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
         <div className="flex flex-col gap-1.5">
-          <p className="font-semibold text-slate-200">💡 룬 스탯 교정실 안내:</p>
+          <p className="font-extrabold text-theme-main">💡 룬 스탯 교정실 안내:</p>
           <p>
-            본 교정실의 기본 스탯 데이터는 <span className="text-emerald-400 font-mono">results/260708_룬설명목록.md</span> 마스터 문서에 수동 정제 완료된 실제 게임 내 룬 효과 설명과 <strong>100% 일치하도록 검증 및 동기화가 완료된 상태</strong>입니다. 따라서 일반적인 상황에서는 스탯 수치를 굳이 직접 수정(교정)하실 필요가 없습니다.
+            본 교정실의 기본 스탯 데이터는 <span className="text-emerald-600 font-bold font-mono">results/260708_룬설명목록.md</span> 마스터 문서에 수동 정제 완료된 실제 게임 내 룬 효과 설명과 <strong>100% 일치하도록 검증 및 동기화가 완료된 상태</strong>입니다. 따라서 일반적인 상황에서는 스탯 수치를 굳이 직접 수정(교정)하실 필요가 없습니다.
           </p>
           <p>
             다만, <strong>직접 피해(깡피해)를 주는 룬들의 경우</strong>(예: 암운+, 부패+, 악몽, 아귀, 초월, 침묵 등 설명문에 고정 피해 수치가 들어있는 룬들) 인게임 깡데미지가 유저의 기본 공격력이나 레벨 스펙에 비례해 변동되므로, 필요에 따라 <strong>직피 데미지 수치(가장 우측의 깡공격력/가동률 등) 정도만 직접 수정하여</strong> 시뮬레이션해 보시는 것을 권장합니다.
@@ -278,38 +278,38 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate }) {
 
       {/* 대시보드 요약 메트릭 카드 */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-        <div className="bg-slate-950/40 border border-slate-800/80 p-3 rounded-xl flex flex-col justify-center">
-          <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">마스터 마크다운 룬</span>
-          <span className="text-lg font-extrabold text-slate-200 mt-0.5">{statsSummary.totalMd} 개</span>
+        <div className="bg-theme-subcard border border-theme p-3 rounded-xl flex flex-col justify-center theme-transition">
+          <span className="text-[10px] font-bold text-theme-sub uppercase tracking-wider">마스터 마크다운 룬</span>
+          <span className="text-lg font-black text-theme-main mt-0.5">{statsSummary.totalMd} 개</span>
         </div>
-        <div className="bg-slate-950/40 border border-slate-800/80 p-3 rounded-xl flex flex-col justify-center">
-          <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">현재 JSON 룬 총합</span>
-          <span className="text-lg font-extrabold text-slate-200 mt-0.5">{statsSummary.totalJson} 개</span>
+        <div className="bg-theme-subcard border border-theme p-3 rounded-xl flex flex-col justify-center theme-transition">
+          <span className="text-[10px] font-bold text-theme-sub uppercase tracking-wider">현재 JSON 룬 총합</span>
+          <span className="text-lg font-black text-theme-main mt-0.5">{statsSummary.totalJson} 개</span>
         </div>
-        <div className="bg-slate-900 border border-emerald-950/80 p-3 rounded-xl flex flex-col justify-center">
-          <span className="text-[10px] font-semibold text-emerald-400 uppercase tracking-wider">설명글 일치</span>
-          <span className="text-lg font-extrabold text-emerald-400 mt-0.5">{statsSummary.matchCount} 개</span>
+        <div className="bg-emerald-50/50 border border-emerald-250 p-3 rounded-xl flex flex-col justify-center">
+          <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider">설명글 일치</span>
+          <span className="text-lg font-black text-emerald-600 mt-0.5">{statsSummary.matchCount} 개</span>
         </div>
-        <div className="bg-slate-900 border border-amber-950/80 p-3 rounded-xl flex flex-col justify-center">
-          <span className="text-[10px] font-semibold text-amber-400 uppercase tracking-wider">수정됨 (커스텀)</span>
-          <span className="text-lg font-extrabold text-amber-400 mt-0.5">{statsSummary.mismatchCount} 개</span>
+        <div className="bg-amber-50/50 border border-amber-250 p-3 rounded-xl flex flex-col justify-center">
+          <span className="text-[10px] font-bold text-amber-700 uppercase tracking-wider">수정됨 (커스텀)</span>
+          <span className="text-lg font-black text-amber-700 mt-0.5">{statsSummary.mismatchCount} 개</span>
         </div>
-        <div className="bg-slate-900 border border-rose-950/80 p-3 rounded-xl flex flex-col justify-center">
-          <span className="text-[10px] font-semibold text-rose-400 uppercase tracking-wider">JSON 누락 (자동생성 대상)</span>
-          <span className="text-lg font-extrabold text-rose-400 mt-0.5">{statsSummary.missingCount} 개</span>
+        <div className="bg-rose-50/50 border border-rose-250 p-3 rounded-xl flex flex-col justify-center">
+          <span className="text-[10px] font-bold text-rose-600 uppercase tracking-wider">JSON 누락</span>
+          <span className="text-lg font-black text-rose-600 mt-0.5">{statsSummary.missingCount} 개</span>
         </div>
       </div>
 
       {/* 필터 및 검색 컨트롤 */}
-      <div className="flex flex-col md:flex-row gap-4 bg-slate-950/30 p-4 rounded-xl border border-slate-800/60">
+      <div className="flex flex-col md:flex-row gap-4 bg-theme-subcard p-4 rounded-xl border border-theme theme-transition">
         <div className="flex-1 relative">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-theme-muted" />
           <input
             type="text"
             placeholder="룬 이름 또는 설명 검색..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 bg-slate-900 border border-slate-800 rounded-lg text-xs focus:outline-none focus:border-mabi-accent text-slate-200 transition-colors"
+            className="w-full pl-10 pr-4 py-2 bg-theme-card border border-theme rounded-lg text-xs focus-orange-glow focus:outline-none text-theme-main placeholder-slate-400 theme-transition"
           />
         </div>
 
@@ -317,7 +317,7 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate }) {
           <select
             value={selectedTypeFilter}
             onChange={(e) => setSelectedTypeFilter(e.target.value)}
-            className="bg-slate-900 border border-slate-800 rounded-lg px-3 py-2 text-xs font-bold text-slate-300 focus:outline-none focus:border-mabi-accent"
+            className="bg-theme-card border border-theme rounded-lg px-3 py-2 text-xs font-black text-theme-sub focus-orange-glow focus:outline-none theme-transition"
           >
             <option value="ALL">모든 부위</option>
             <option value="무기">⚔️ 무기</option>
@@ -329,7 +329,7 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate }) {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="bg-slate-900 border border-slate-800 rounded-lg px-3 py-2 text-xs font-bold text-slate-300 focus:outline-none focus:border-mabi-accent"
+            className="bg-theme-card border border-theme rounded-lg px-3 py-2 text-xs font-black text-theme-sub focus-orange-glow focus:outline-none theme-transition"
           >
             <option value="ALL">모든 상태</option>
             <option value="MATCH">✅ 마스터 기본상태</option>
@@ -340,16 +340,16 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate }) {
       </div>
 
       {/* 룬 스탯 편집용 테이블 그리드 (가로 스크롤 & 룬 이름 열 sticky 고정) */}
-      <div className="overflow-x-auto border border-slate-800 rounded-xl bg-slate-950/20 max-h-[600px] overflow-y-auto">
-        <table className="w-full border-collapse text-left text-xs text-slate-300 min-w-[1500px]">
+      <div className="overflow-x-auto border border-theme rounded-xl bg-theme-subcard/30 max-h-[600px] overflow-y-auto theme-transition">
+        <table className="w-full border-collapse text-left text-xs text-theme-main min-w-[1500px]">
           <thead>
-            <tr className="bg-slate-950/80 border-b border-slate-800 text-slate-400 font-bold sticky top-0 z-20">
-              <th className="p-3 w-48 sticky left-0 bg-slate-950 z-30 shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">룬 정보</th>
+            <tr className="bg-theme-subcard border-b border-theme text-theme-sub font-bold sticky top-0 z-20 theme-transition">
+              <th className="p-3 w-48 sticky left-0 bg-theme-subcard z-30 shadow-[2px_0_4px_-2px_rgba(0,0,0,0.1)] theme-transition">룬 정보</th>
               {STAT_COLUMNS.map(col => (
-                <th key={col.key} className="p-3 text-center w-28 border-l border-slate-800/80">
+                <th key={col.key} className="p-3 text-center w-28 border-l border-theme theme-transition">
                   <div className="flex flex-col items-center justify-center gap-0.5">
-                    <span className="text-slate-200">{col.label}</span>
-                    <span className="text-[9px] text-slate-500 font-medium font-mono">
+                    <span className="text-theme-main font-black">{col.label}</span>
+                    <span className="text-[9px] text-theme-muted font-bold font-mono">
                       {col.isPercent ? '백분율 (%)' : '깡스탯'}
                     </span>
                   </div>
@@ -357,39 +357,39 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate }) {
               ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-800/60">
+          <tbody className="divide-y divide-theme">
             {filteredList.length === 0 ? (
               <tr>
-                <td colSpan={STAT_COLUMNS.length + 1} className="p-8 text-center text-slate-500 font-medium">
+                <td colSpan={STAT_COLUMNS.length + 1} className="p-8 text-center text-theme-muted font-bold">
                   조건에 부합하는 룬 목록이 없습니다.
                 </td>
               </tr>
             ) : (
               filteredList.map((item, idx) => (
-                <tr key={idx} className="hover:bg-slate-900/10 transition-colors">
+                <tr key={idx} className="hover:bg-theme-subcard/40 transition-colors">
                   
                   {/* 룬 정보 열 (Sticky 고정) */}
-                  <td className="p-3 sticky left-0 bg-slate-900/90 backdrop-blur-sm z-10 shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)] border-r border-slate-800/50">
+                  <td className="p-3 sticky left-0 bg-theme-card/95 backdrop-blur-sm z-10 shadow-[2px_0_4px_-2px_rgba(0,0,0,0.1)] border-r border-theme theme-transition">
                     <div className="flex flex-col gap-1.5 justify-center">
                       {/* 줄 1: 이름 및 누락 뱃지 */}
                       <div className="flex flex-row items-center gap-1.5">
-                        <span className="text-sm font-bold text-slate-100 whitespace-nowrap">{item.name}</span>
+                        <span className="text-sm font-black text-theme-main whitespace-nowrap">{item.name}</span>
                         {item.status === 'MISSING' && (
-                          <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-rose-950 text-rose-400 border border-rose-900">
+                          <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-rose-50 text-rose-600 border border-rose-200">
                             누락
                           </span>
                         )}
                       </div>
                       {/* 줄 2: 부위 및 속성 뱃지 */}
                       <div className="flex flex-row items-center gap-1">
-                        <span className="px-1.5 py-0.2 bg-slate-850 border border-slate-700 text-slate-400 rounded text-[9px] font-bold whitespace-nowrap">
+                        <span className="px-1.5 py-0.2 bg-theme-subcard border border-theme text-theme-sub rounded text-[9px] font-bold whitespace-nowrap theme-transition">
                           {item.type}
                         </span>
                         <span className={`px-1.5 py-0.2 rounded text-[9px] font-bold border whitespace-nowrap ${
-                          item.element === '빛' ? 'bg-amber-950/20 border-amber-900 text-amber-400' :
-                          item.element === '어둠' ? 'bg-purple-950/20 border-purple-900 text-purple-400' :
-                          item.element === '용' ? 'bg-rose-950/20 border-rose-900 text-rose-400' :
-                          'bg-slate-800/20 border-slate-700 text-slate-500'
+                          item.element === '빛' ? 'bg-amber-50 border-amber-250 text-amber-700' :
+                          item.element === '어둠' ? 'bg-purple-50 border-purple-250 text-purple-700' :
+                          item.element === '용' ? 'bg-rose-50 border-rose-250 text-rose-700' :
+                          'bg-slate-50 border-slate-200 text-slate-500'
                         }`}>
                           {item.element}
                         </span>
@@ -416,10 +416,10 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate }) {
                     return (
                       <td 
                         key={col.key} 
-                        className={`p-1.5 border-l border-slate-850 text-center transition-all ${
+                        className={`p-1.5 border-l border-theme text-center transition-all theme-transition ${
                           isActive 
-                            ? 'bg-emerald-950/15 hover:bg-emerald-950/25' 
-                            : 'opacity-40 hover:opacity-100 bg-slate-950/10'
+                            ? 'bg-emerald-50/20 hover:bg-emerald-50/45' 
+                            : 'opacity-50 hover:opacity-100 bg-slate-100/10'
                         }`}
                       >
                         <div className="flex flex-col items-center justify-center gap-1">
@@ -429,13 +429,13 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate }) {
                             disabled={item.status === 'MISSING'} // 누락된 룬은 먼저 싱크를 맞춰서 추가해야 수정 가능
                             value={item.status === 'MISSING' ? (col.isPercent ? (masterVal * 100).toFixed(1) : masterVal) : displayVal}
                             onChange={(e) => handleStatChange(item.name, col.key, e.target.value, col.isPercent)}
-                            className={`w-20 text-center py-1 bg-transparent text-xs font-mono font-bold rounded focus:outline-none transition-all ${
-                              item.status === 'MISSING' ? 'text-slate-600 cursor-not-allowed' :
+                            className={`w-20 text-center py-1 bg-transparent text-xs font-mono font-black rounded focus:outline-none transition-all ${
+                              item.status === 'MISSING' ? 'text-slate-400 cursor-not-allowed' :
                               isCustomCell 
-                                ? 'text-amber-400 bg-amber-950/30 border border-amber-500/50 shadow-inner' 
+                                ? 'text-amber-700 bg-amber-50 border border-amber-300 shadow-inner' 
                                 : isActive 
-                                  ? 'text-emerald-300 focus:bg-slate-900 focus:border focus:border-emerald-500/60' 
-                                  : 'text-slate-500 focus:bg-slate-900 focus:text-slate-200 focus:border focus:border-slate-700'
+                                  ? 'text-emerald-700 focus:bg-theme-card focus:border focus:border-emerald-500/60' 
+                                  : 'text-theme-sub focus:bg-theme-card focus:text-theme-main focus:border focus:border-theme'
                             }`}
                             placeholder="0"
                             title={isCustomCell ? `마스터 기본값: ${col.isPercent ? (masterVal * 100).toFixed(1) + '%' : masterVal}` : `기본값`}
@@ -443,12 +443,12 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate }) {
                           
                           {/* 스탯 변경 시 마스터 값과 미세하게 다른 경우 뱃지 제공 */}
                           {isCustomCell && !col.isPercent && (
-                            <span className="text-[8px] text-amber-500 font-bold">
+                            <span className="text-[8px] text-amber-700 font-bold">
                               (원래: {masterVal})
                             </span>
                           )}
                           {isCustomCell && col.isPercent && (
-                            <span className="text-[8px] text-amber-500 font-bold">
+                            <span className="text-[8px] text-amber-700 font-bold">
                               (원래: {(masterVal * 100).toFixed(1)}%)
                             </span>
                           )}

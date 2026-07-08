@@ -42,8 +42,8 @@ export default function ConditionalPanel({ selectedRunes, conditionalUptimes, on
 
   if (activeConditionalRunes.length === 0) {
     return (
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl text-center text-slate-500 text-sm flex flex-col items-center justify-center min-h-[120px]">
-        <Info className="w-8 h-8 text-slate-600 mb-2" />
+      <div className="bg-theme-card border border-theme rounded-2xl p-6 shadow-theme text-center text-theme-sub text-sm flex flex-col items-center justify-center min-h-[120px] theme-transition">
+        <Info className="w-8 h-8 text-theme-muted mb-2" />
         장착된 룬 중 조건부/트리거형 옵션을 가진 룬이 없습니다.<br />
         조건부 룬을 장착하면 여기에 미세 조절 패널이 노출됩니다.
       </div>
@@ -51,12 +51,12 @@ export default function ConditionalPanel({ selectedRunes, conditionalUptimes, on
   }
 
   return (
-    <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
-      <h3 className="text-xl font-bold text-slate-100 mb-2 flex items-center gap-2">
-        <ToggleLeft className="w-6 h-6 text-emerald-400" />
+    <div className="bg-theme-card border border-theme rounded-2xl p-6 shadow-theme theme-transition">
+      <h3 className="text-xl font-black text-theme-main mb-2 flex items-center gap-2">
+        <ToggleLeft className="w-6 h-6 text-emerald-600" />
         조건부 버프 및 가동률 조절
       </h3>
-      <p className="text-xs text-slate-400 mb-6">
+      <p className="text-xs text-theme-sub mb-6">
         전설 룬들의 고유 조건부 옵션 가동률(유지율)을 조절하여 실전 딜을 더욱 정밀하게 가상 예측합니다.
       </p>
 
@@ -67,21 +67,21 @@ export default function ConditionalPanel({ selectedRunes, conditionalUptimes, on
             : rune.defaultUptime;
 
           return (
-            <div key={rune.name} className="bg-slate-950/50 p-4 rounded-xl border border-slate-800 flex flex-col gap-3">
+            <div key={rune.name} className="bg-theme-subcard p-4 rounded-xl border border-theme flex flex-col gap-3 theme-transition">
               <div className="flex justify-between items-start gap-2">
                 <div>
-                  <span className="text-sm font-bold text-slate-200">{rune.name}</span>
-                  <span className="text-[10px] text-slate-500 block leading-relaxed mt-0.5">{rune.desc}</span>
+                  <span className="text-sm font-black text-theme-main">{rune.name}</span>
+                  <span className="text-[10px] text-theme-sub block leading-relaxed mt-0.5">{rune.desc}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-bold text-emerald-400 bg-slate-900 px-2 py-0.5 rounded border border-slate-800">
+                  <span className="text-xs font-black text-emerald-650 bg-theme-card px-2 py-0.5 rounded border border-theme theme-transition">
                     {currentVal}%
                   </span>
                 </div>
               </div>
 
               <div className="flex items-center gap-4">
-                <Sliders className="w-4 h-4 text-slate-500" />
+                <Sliders className="w-4 h-4 text-theme-muted" />
                 <input
                   type="range"
                   min="0"
@@ -89,14 +89,14 @@ export default function ConditionalPanel({ selectedRunes, conditionalUptimes, on
                   step="5"
                   value={currentVal}
                   onChange={(e) => onUptimeChange(rune.name, parseInt(e.target.value))}
-                  className="flex-1 h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-500"
+                  className="flex-1 h-1.5 bg-slate-250 rounded-lg appearance-none cursor-pointer accent-emerald-500"
                 />
                 <button
                   onClick={() => onUptimeChange(rune.name, currentVal === 100 ? 0 : 100)}
-                  className={`text-[10px] px-2 py-1 rounded font-bold border transition-all ${
+                  className={`text-[10px] px-2 py-1 rounded font-bold border transition-all focus:outline-none ${
                     currentVal === 100
-                      ? 'bg-emerald-950/30 border-emerald-800 text-emerald-400'
-                      : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200'
+                      ? 'bg-emerald-50 border-emerald-200 text-emerald-600'
+                      : 'bg-theme-card border-theme text-theme-sub hover:text-theme-main'
                   }`}
                 >
                   {currentVal === 100 ? '항시 버프' : '수정'}
