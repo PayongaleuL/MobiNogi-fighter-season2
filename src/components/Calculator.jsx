@@ -610,10 +610,10 @@ export default function Calculator() {
           {/* 상단 탭 버튼 */}
           <div className="flex flex-col gap-1">
             <label className="text-[9px] font-black text-theme-muted uppercase tracking-wider">Navigation Menu</label>
-            <div className="flex bg-theme-subcard p-1 rounded-xl border border-theme self-stretch md:self-auto theme-transition">
+            <div className="flex bg-theme-subcard p-1 rounded-xl border border-theme self-stretch md:self-auto theme-transition overflow-x-auto whitespace-nowrap max-w-full">
               <button
                 onClick={() => setActiveTab('calculator')}
-                className={`flex-1 md:flex-none px-5 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2 ${
+                className={`flex-1 md:flex-none px-5 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2 whitespace-nowrap flex-shrink-0 focus:outline-none ${
                   activeTab === 'calculator'
                     ? 'bg-orange-500 text-white shadow-md'
                     : 'text-theme-sub hover:text-theme-main'
@@ -623,7 +623,7 @@ export default function Calculator() {
               </button>
               <button
                 onClick={() => setActiveTab('gemstone')}
-                className={`flex-1 md:flex-none px-5 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2 ${
+                className={`flex-1 md:flex-none px-5 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2 whitespace-nowrap flex-shrink-0 focus:outline-none ${
                   activeTab === 'gemstone'
                     ? 'bg-orange-500 text-white shadow-md'
                     : 'text-theme-sub hover:text-theme-main'
@@ -634,7 +634,7 @@ export default function Calculator() {
               </button>
               <button
                 onClick={() => setActiveTab('runeAudit')}
-                className={`flex-1 md:flex-none px-5 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2 ${
+                className={`flex-1 md:flex-none px-5 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2 whitespace-nowrap flex-shrink-0 focus:outline-none ${
                   activeTab === 'runeAudit'
                     ? 'bg-orange-500 text-white shadow-md'
                     : 'text-theme-sub hover:text-theme-main'

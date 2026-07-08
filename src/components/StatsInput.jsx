@@ -169,11 +169,11 @@ export default function StatsInput({ stats, onStatsChange }) {
                 }`}
               >
                 <span className={`text-[10px] font-bold ${is30 ? 'text-purple-700' : 'text-theme-sub'}`}>{f.label}</span>
-                <div className="flex items-center gap-1.5 mt-1">
+                <div className="flex items-center mt-1.5 border border-theme rounded-lg overflow-hidden theme-transition shadow-sm">
                   <button
                     type="button"
                     onClick={() => onStatsChange(f.key, Math.max(10, (stats[f.key] || 10) - 1))}
-                    className="w-5 h-5 bg-theme-card hover:bg-theme-subcard border border-theme rounded flex items-center justify-center text-xs font-bold text-theme-sub active:scale-95 transition-all focus:outline-none"
+                    className="w-5 h-6 bg-theme-subcard hover:bg-theme-card text-xs font-black text-theme-sub active:scale-95 transition-all focus:outline-none flex items-center justify-center border-none"
                   >
                     -
                   </button>
@@ -193,14 +193,14 @@ export default function StatsInput({ stats, onStatsChange }) {
                         onStatsChange(f.key, checked);
                       }
                     }}
-                    className={`w-10 bg-theme-card border border-theme rounded py-0.5 text-center text-xs font-black focus-orange-glow focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none theme-transition ${
+                    className={`w-8 h-6 bg-theme-card text-center text-xs font-black focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none border-l border-r border-theme theme-transition ${
                       is30 ? 'text-purple-600 font-extrabold' : 'text-theme-main'
                     }`}
                   />
                   <button
                     type="button"
                     onClick={() => onStatsChange(f.key, Math.min(30, (stats[f.key] || 10) + 1))}
-                    className="w-5 h-5 bg-theme-card hover:bg-theme-subcard border border-theme rounded flex items-center justify-center text-xs font-bold text-theme-sub active:scale-95 transition-all focus:outline-none"
+                    className="w-5 h-6 bg-theme-subcard hover:bg-theme-card text-xs font-black text-theme-sub active:scale-95 transition-all focus:outline-none flex items-center justify-center border-none"
                   >
                     +
                   </button>
