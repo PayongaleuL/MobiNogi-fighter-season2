@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import runesData from '../data/runes.json';
 import { Search, Shield, ShieldAlert, Award, Star } from 'lucide-react';
 
-export default function RuneSelector({ selectedRunes, onRuneChange }) {
+export default function RuneSelector({ selectedRunes, onRuneChange, transcendLevels, onTranscendChange }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedTypeFilter, setSelectedTypeFilter] = useState('ALL');
   const [activeSlot, setActiveSlot] = useState(null); // { type, index }
@@ -251,6 +251,9 @@ export default function RuneSelector({ selectedRunes, onRuneChange }) {
         {slots.map((slot, idx) => {
           const key = `${slot.type}-${slot.index}`;
           const currentRune = selectedRunes[slot.type] ? selectedRunes[slot.type][slot.index] : null;
+          const currentLevel = transcendLevels ? transcendLevels[slot.type][slot.index] : 0;
+          const levelLabels = ['', ' [초월+]', ' [초월++]'];
+          const levelBadgeColor = currentLevel === 1 ? 'text-amber-400' : 'text-red-400';
 
           return (
             <div
@@ -259,41 +262,83 @@ export default function RuneSelector({ selectedRunes, onRuneChange }) {
                 setActiveSlot({ type: slot.type, index: slot.index });
                 setSelectedTypeFilter(slot.type);
               }}
-              className={`relative cursor-pointer flex items-center gap-3 p-4 rounded-xl border transition-all duration-300 ${
+              className={`relative cursor-pointer flex flex-col gap-2.5 p-4 rounded-xl border transition-all duration-300 ${
                 currentRune 
                   ? 'bg-slate-850 border-mabi-accent hover:border-mabi-red' 
                   : 'bg-slate-950/60 border-slate-800 border-dashed hover:border-slate-700'
               } ${activeSlot?.type === slot.type && activeSlot?.index === slot.index ? 'ring-2 ring-mabi-red border-transparent' : ''}`}
             >
-              <div className="p-2 bg-slate-900 rounded-lg">
-                {getRuneIcon(slot.type)}
-              </div>
-
-              <div className="flex-1 min-w-0">
-                <span className="text-[9px] text-slate-500 font-semibold block">{slot.label}</span>
-                <span className="text-xs font-bold text-slate-200 truncate block">
-                  {currentRune ? currentRune.name : '룬을 선택해주세요'}
-                </span>
-                {currentRune ? (
-                  <span className="text-[10px] text-emerald-400 font-bold block mt-1 truncate">
-                    {formatRuneDescCompact(currentRune)}
-                  </span>
-                ) : (
-                  currentRune?.element && currentRune.element !== '없음' && (
-                    <span className={`inline-block text-[9px] px-1.5 py-0.5 rounded border mt-1 font-bold ${getElementColor(currentRune.element)}`}>
-                      {currentRune.element}
+              <div className="flex items-center justify-between w-full">
+                <div className="flex items-center gap-2.5">
+                  <div className="p-1.5 bg-slate-900 rounded-lg">
+                    {getRuneIcon(slot.type)}
+                  </div>
+                  <div>
+                    <span className="text-[9px] text-slate-500 font-semibold block leading-none">{slot.label}</span>
+                    <span className="text-xs font-bold text-slate-200 mt-1.5 block">
+                      {currentRune ? (
+                        <>
+                          {currentRune.name}
+                          {currentLevel > 0 && (
+                            <span className={`text-[10px] font-black ${levelBadgeColor}`}>
+                              {levelLabels[currentLevel]}
+                            </span>
+                          )}
+                        </>
+                      ) : (
+                        '룬을 선택해주세요'
+                      )}
                     </span>
-                  )
+                  </div>
+                </div>
+
+                {currentRune && (
+                  <button
+                    onClick={(e) => handleClearSlot(slot.type, slot.index, e)}
+                    className="p-1 hover:bg-slate-700/60 rounded-full text-slate-400 hover:text-red-400 transition-colors leading-none text-lg"
+                  >
+                    &times;
+                  </button>
                 )}
               </div>
 
-              {currentRune && (
-                <button
-                  onClick={(e) => handleClearSlot(slot.type, slot.index, e)}
-                  className="p-1 hover:bg-slate-700/60 rounded-full text-slate-400 hover:text-red-400 transition-colors"
-                >
-                  &times;
-                </button>
+              {currentRune ? (
+                <div className="flex flex-col gap-2.5 w-full mt-0.5">
+                  <span className="text-[10px] text-emerald-400 font-bold truncate block">
+                    {formatRuneDescCompact(currentRune)}
+                  </span>
+                  
+                  {/* 초월 레벨 선택 버튼 세그먼트 */}
+                  <div className="flex gap-1 border-t border-slate-800/80 pt-2.5" onClick={(e) => e.stopPropagation()}>
+                    {[0, 1, 2].map((lvl) => {
+                      const labels = ['미초월', '초월+', '초월++'];
+                      const activeColor = lvl === 0 
+                        ? 'bg-slate-850 border-slate-700 text-slate-250 font-bold' 
+                        : lvl === 1 
+                          ? 'bg-amber-600/20 border-amber-500/80 text-amber-300 font-bold shadow-[0_0_8px_rgba(217,119,6,0.15)]' 
+                          : 'bg-red-600/20 border-red-500/80 text-red-300 font-bold shadow-[0_0_8px_rgba(220,38,38,0.15)]';
+                      return (
+                        <button
+                          key={lvl}
+                          onClick={() => onTranscendChange(slot.type, slot.index, lvl)}
+                          className={`text-[9px] px-2.5 py-1 rounded border transition-all ${
+                            currentLevel === lvl 
+                              ? activeColor 
+                              : 'bg-slate-900/60 border-slate-800 text-slate-500 hover:text-slate-350 hover:bg-slate-800'
+                          }`}
+                        >
+                          {labels[lvl]}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              ) : (
+                currentRune?.element && currentRune.element !== '없음' && (
+                  <span className={`inline-block text-[9px] px-1.5 py-0.5 rounded border mt-0.5 font-bold w-fit ${getElementColor(currentRune.element)}`}>
+                    {currentRune.element}
+                  </span>
+                )
               )}
             </div>
           );

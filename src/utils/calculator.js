@@ -57,7 +57,13 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
     "치명타확률%": 0.0,
     "스킬속도%": 0.0,
     "재사용회복%": 0.0,
-    "최종피해%": 0.0
+    "최종피해%": 0.0,
+    // 깡 스탯 및 스킬 강화 추가
+    "공격력": 0.0,
+    "방어력": 0.0,
+    "마도저항": 0.0,
+    "모든스킬강화": 0.0,
+    "임의스킬강화": 0.0
   };
 
   selectedRunes.forEach(rune => {
@@ -65,13 +71,23 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
     const name = rune.name;
     const uptime = conditionalUptimes[name] !== undefined ? conditionalUptimes[name] / 100.0 : (rune.stats.가동률 !== undefined ? rune.stats.가동률 : 1.0);
     
+    // 장신구가 아닌 룬들의 초월(1: 1.1배, 2: 1.25배) 스케일링 배율 계산
+    let scale = 1.0;
+    if (rune.type !== '장신구' && rune.transcendLevel) {
+      if (rune.transcendLevel === 1) scale = 1.10;
+      else if (rune.transcendLevel === 2) scale = 1.25;
+    }
+
     Object.keys(runeStats).forEach(key => {
       if (rune.stats[key] !== undefined) {
         let val = rune.stats[key];
         if (name === '거대한 분노' && key === '스킬피해%') {
           val = 0.12; // 거대한 분노 최대 4회 중첩 시 스킬피해 12.0% 증가 반영
         }
-        runeStats[key] += val * uptime;
+        
+        const isMetaKey = ['가동률', '모든스킬강화', '임의스킬강화', '마도저항'].includes(key);
+        const finalVal = isMetaKey ? val : val * scale;
+        runeStats[key] += finalVal * uptime;
       }
     });
   });
@@ -86,7 +102,8 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
   const ultScore = characterStats.ultScore || 1792.0;
 
   const totalAtkPct = runeStats["공격력%"] + runeStats["조건부공증%"] + (characterStats.enchantAtkPct || 6.8) / 100.0 + emblemAtkPct;
-  const attack = (baseAtk + extraGemAtk) * (1 + totalAtkPct);
+  // 룬의 깡 공격력 추가 가산
+  const attack = (baseAtk + extraGemAtk + runeStats["공격력"]) * (1 + totalAtkPct);
 
   // 방어도 계수
   const boss = activeGimmicks.boss || "함선 허수아비";
@@ -253,7 +270,10 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
 
       // 6번 스킬은 스킬 6의 개조레벨, 5-x는 5번, 4-x는 4번, 3은 3번...
       let skillGroup = skillName.startsWith("sonic") ? "4" : (skillName.startsWith("somersault") ? "5" : skillName.charAt(0));
-      const level = characterStats[`skillLevel_${skillGroup}`] || 10;
+      // 모든스킬강화 및 임의스킬강화(3개 스킬 2강화 기댓값 60%) 누적 반영
+      const allSkillBoost = runeStats["모든스킬강화"] || 0;
+      const randSkillBoost = (runeStats["임의스킬강화"] || 0) * 0.6;
+      const level = (characterStats[`skillLevel_${skillGroup}`] || 10) + allSkillBoost + randSkillBoost;
       const coeff = getModifiedCoeff(sk.baseCoeff, level);
 
       // 스킬속도% 및 빠른스킬 스탯(fastSkill) 반영
@@ -306,9 +326,9 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
     // 지속피해 계산
     const dotDps = (1 + totalGivesDmg + totalSkillDmg) * (1 + totalGetsDmg) * totalMultiDmg * attack * 2 * armorCoeff;
 
-    // 초월 룬 각인 보정
-    const transcendCount = selectedRunes.filter(r => r && (r.name.includes("초월+") || r.name.includes("초월++"))).length;
-    const transcendCoeff = 1.015 ** transcendCount;
+    // 초월 룬 각인 보정 (각 룬의 transcendLevel 누적 합)
+    const totalTranscendLevel = selectedRunes.reduce((acc, r) => acc + (r && r.transcendLevel ? r.transcendLevel : 0), 0);
+    const transcendCoeff = 1.015 ** totalTranscendLevel;
 
     const totalDps = (skillDps + directDps + dotDps) * transcendCoeff;
 

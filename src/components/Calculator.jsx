@@ -3,12 +3,17 @@ import StatsInput from './StatsInput';
 import RuneSelector from './RuneSelector';
 import ConditionalPanel from './ConditionalPanel';
 import GemStonePanel from './GemStonePanel';
+import RuneDbEditor from './RuneDbEditor';
 import { calculateDPS } from '../utils/calculator';
-import { Play, RotateCcw, Save, Trash2, Check, TrendingUp, Info, Gem, Activity } from 'lucide-react';
+import { Play, RotateCcw, Save, Trash2, Check, TrendingUp, Info, Gem, Activity, FileSpreadsheet } from 'lucide-react';
+import runesData from '../data/runes.json';
 
 export default function Calculator() {
-  // 1. 활성화 탭 관리 ('calculator' | 'gemstone')
+  // 1. 활성화 탭 관리 ('calculator' | 'gemstone' | 'runeEditor')
   const [activeTab, setActiveTab] = useState('calculator');
+
+  // 1-1. 룬 데이터베이스 수정 가능한 커스텀 룬 목록 상태
+  const [customRunes, setCustomRunes] = useState(runesData);
 
   // 2. 캐릭터 스펙 상태
   const [stats, setStats] = useState({
@@ -41,6 +46,14 @@ export default function Calculator() {
     '방어구': [null, null, null, null, null],
     '장신구': [null, null, null],
     '엠블럼': [null]
+  });
+
+  // 3-1. 장착 룬 초월 단계 상태 (0: 미초월, 1: 초월+, 2: 초월++)
+  const [transcendLevels, setTranscendLevels] = useState({
+    '무기': [0],
+    '방어구': [0, 0, 0, 0, 0],
+    '장신구': [0, 0, 0],
+    '엠블럼': [0]
   });
 
   // 4. 보석 세공 수치 계산 결과 상태 (실시간 유도되어 하위 패널 전달용)
@@ -204,11 +217,18 @@ export default function Calculator() {
 
     setGemStats(calculatedGemStats);
 
-    // 룬 정보 전개
+    // 룬 정보 전개 및 개별 초월 레벨 주입
     const flattenedRunes = [];
-    Object.values(selectedRunes).forEach(arr => {
-      arr.forEach(r => {
-        if (r) flattenedRunes.push(r);
+    Object.keys(selectedRunes).forEach(type => {
+      selectedRunes[type].forEach((r, idx) => {
+        if (r) {
+          const latestRune = customRunes.find(cr => cr.name === r.name) || r;
+          const rCopy = {
+            ...latestRune,
+            transcendLevel: transcendLevels[type] ? transcendLevels[type][idx] : 0
+          };
+          flattenedRunes.push(rCopy);
+        }
       });
     });
 
@@ -222,7 +242,7 @@ export default function Calculator() {
     // DPS 실시간 연산
     const result = calculateDPS(statsWithGems, flattenedRunes, gimmicks, cycles, conditionalUptimes, calculatedGemStats, skillStances);
     setDpsResult(result);
-  }, [stats, selectedRunes, gimmicks, cycles, conditionalUptimes, gems, skillStances]);
+  }, [stats, selectedRunes, gimmicks, cycles, conditionalUptimes, gems, skillStances, customRunes]);
 
   // 로컬 스토리지 프리셋 로드
   useEffect(() => {
@@ -244,6 +264,7 @@ export default function Calculator() {
         const parsed = JSON.parse(savedAutosave);
         if (parsed.stats) setStats(parsed.stats);
         if (parsed.selectedRunes) setSelectedRunes(parsed.selectedRunes);
+        if (parsed.transcendLevels) setTranscendLevels(parsed.transcendLevels);
         if (parsed.cycles) setCycles(parsed.cycles);
         if (parsed.conditionalUptimes) setConditionalUptimes(parsed.conditionalUptimes);
         if (parsed.gimmicks) setGimmicks(parsed.gimmicks);
@@ -272,6 +293,7 @@ export default function Calculator() {
     const dataToSave = {
       stats,
       selectedRunes,
+      transcendLevels,
       cycles,
       conditionalUptimes,
       gimmicks,
@@ -279,7 +301,7 @@ export default function Calculator() {
       gems
     };
     localStorage.setItem('mabi_calculator_autosave_v5', JSON.stringify(dataToSave));
-  }, [stats, selectedRunes, cycles, conditionalUptimes, gimmicks, skillStances, gems]);
+  }, [stats, selectedRunes, transcendLevels, cycles, conditionalUptimes, gimmicks, skillStances, gems]);
 
   const handleStatsChange = (key, val) => {
     setStats(prev => ({ ...prev, [key]: val }));
@@ -297,6 +319,22 @@ export default function Calculator() {
     setSelectedRunes(prev => {
       const copy = [...prev[type]];
       copy[index] = rune;
+      return { ...prev, [type]: copy };
+    });
+    // 룬이 해제되면 초월 레벨도 0으로 복원
+    if (!rune) {
+      setTranscendLevels(prev => {
+        const copy = [...prev[type]];
+        copy[index] = 0;
+        return { ...prev, [type]: copy };
+      });
+    }
+  };
+
+  const handleTranscendChange = (type, index, level) => {
+    setTranscendLevels(prev => {
+      const copy = [...prev[type]];
+      copy[index] = level;
       return { ...prev, [type]: copy };
     });
   };
@@ -348,6 +386,12 @@ export default function Calculator() {
         '장신구': [null, null, null],
         '엠블럼': [null]
       });
+      setTranscendLevels({
+        '무기': [0],
+        '방어구': [0, 0, 0, 0, 0],
+        '장신구': [0, 0, 0],
+        '엠블럼': [0]
+      });
       setGems(
         Array.from({ length: 22 }, (_, idx) => ({
           id: idx + 1,
@@ -366,6 +410,21 @@ export default function Calculator() {
     }
   };
 
+  const handleRunesUpdate = (updatedRunes) => {
+    setCustomRunes(updatedRunes);
+    setSelectedRunes(prev => {
+      const next = { ...prev };
+      Object.keys(next).forEach(type => {
+        next[type] = next[type].map(selectedRune => {
+          if (!selectedRune) return null;
+          const matched = updatedRunes.find(ur => ur.name === selectedRune.name);
+          return matched ? matched : selectedRune;
+        });
+      });
+      return next;
+    });
+  };
+
   const savePreset = (slotIndex) => {
     const presetName = prompt(`${slotIndex + 1}번 셋팅 프리셋의 이름을 입력하세요:`, presets[slotIndex].name || `셋팅 ${slotIndex + 1}`);
     if (!presetName) return;
@@ -376,6 +435,7 @@ export default function Calculator() {
       data: {
         stats,
         selectedRunes,
+        transcendLevels,
         cycles,
         conditionalUptimes,
         gems,
@@ -404,6 +464,12 @@ export default function Calculator() {
     if (window.confirm(`'${preset.name}' 셋팅을 불러오시겠습니까? 현재 구성은 덮어씌워집니다.`)) {
       setStats(preset.data.stats);
       setSelectedRunes(preset.data.selectedRunes);
+      setTranscendLevels(preset.data.transcendLevels || {
+        '무기': [0],
+        '방어구': [0, 0, 0, 0, 0],
+        '장신구': [0, 0, 0],
+        '엠블럼': [0]
+      });
       setCycles(preset.data.cycles);
       setConditionalUptimes(preset.data.conditionalUptimes || {});
       if (preset.data.gems) {
@@ -467,12 +533,25 @@ export default function Calculator() {
             <Gem className="w-3.5 h-3.5" />
             보석 세공
           </button>
+          <button
+            onClick={() => setActiveTab('runeEditor')}
+            className={`flex-1 md:flex-none px-5 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2 ${
+              activeTab === 'runeEditor'
+                ? 'bg-mabi-accent text-slate-950 shadow-md'
+                : 'text-slate-400 hover:text-slate-200'
+            }`}
+          >
+            <FileSpreadsheet className="w-3.5 h-3.5" />
+            룬 DB 검수기
+          </button>
         </div>
       </div>
 
       {/* 탭 내용 분기 렌더링 */}
       {activeTab === 'gemstone' ? (
         <GemStonePanel gems={gems} onGemChange={handleGemChange} setGems={setGems} selectedRunes={selectedRunes} />
+      ) : activeTab === 'runeEditor' ? (
+        <RuneDbEditor runes={customRunes} onRunesUpdate={handleRunesUpdate} />
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start animate-fadeIn">
           
@@ -490,7 +569,12 @@ export default function Calculator() {
           <div className="lg:col-span-7 flex flex-col gap-6">
             
             {/* 룬 슬롯 선택기 */}
-            <RuneSelector selectedRunes={selectedRunes} onRuneChange={handleRuneChange} />
+            <RuneSelector
+              selectedRunes={selectedRunes}
+              onRuneChange={handleRuneChange}
+              transcendLevels={transcendLevels}
+              onTranscendChange={handleTranscendChange}
+            />
 
             {/* 스킬별 스탠스 시뮬레이션 설정 */}
             <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
