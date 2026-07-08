@@ -75,6 +75,12 @@ function finalizeRune(rune) {
   // 수집된 cleaned_text 기반으로 스탯 파싱 진행
   const combinedText = rune.cleaned_text.join(' ');
   rune.stats = parseStatsFromText(combinedText);
+  
+  // 무기, 방어구, 장신구 룬의 마도저항 기본값은 300 (엠블럼 룬은 0)
+  if (rune.type === '무기' || rune.type === '방어구' || rune.type === '장신구') {
+    rune.stats["마도저항"] = 300.0;
+  }
+  
   return rune;
 }
 

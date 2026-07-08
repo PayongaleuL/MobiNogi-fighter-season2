@@ -28,6 +28,14 @@ export default function ConditionalPanel({ selectedRunes, conditionalUptimes, on
       const config = conditionalRunesConfig.find(c => c.name === rune.name);
       if (config) {
         activeConditionalRunes.push({ ...rune, ...config });
+      } else if (rune.stats && rune.stats.가동률 !== undefined && rune.stats.가동률 < 1.0) {
+        // 가동률이 100% 미만인 룬 동적 추가
+        activeConditionalRunes.push({
+          ...rune,
+          name: rune.name,
+          desc: `실전 가동률 기댓값 반영 대상 룬 (기본 가동률: ${Math.round(rune.stats.가동률 * 100)}%) - 옵션: ${rune.description || '옵션 설명 없음'}`,
+          defaultUptime: Math.round(rune.stats.가동률 * 100)
+        });
       }
     });
   });
