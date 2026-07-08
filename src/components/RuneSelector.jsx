@@ -405,7 +405,7 @@ export default function RuneSelector({ selectedRunes, onRuneChange, transcendLev
                     <div
                       key={rune.file}
                       onClick={() => handleSelectRune(rune)}
-                      className="cursor-pointer bg-slate-900/90 hover:bg-slate-800/80 border border-slate-800 hover:border-slate-700 p-4 rounded-xl transition-all duration-200 flex flex-col justify-between gap-3.5"
+                      className="cursor-pointer bg-slate-900/90 hover:bg-slate-800/80 border border-slate-800 hover:border-slate-700 p-4 rounded-xl transition-all duration-200 flex flex-col justify-start gap-3"
                     >
                       <div>
                         <div className="flex justify-between items-start gap-2">
