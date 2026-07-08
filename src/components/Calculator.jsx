@@ -4,12 +4,13 @@ import RuneSelector from './RuneSelector';
 import ConditionalPanel from './ConditionalPanel';
 import GemStonePanel from './GemStonePanel';
 import RuneDbEditor from './RuneDbEditor';
+import RuneAuditDashboard from './RuneAuditDashboard';
 import { calculateDPS } from '../utils/calculator';
-import { Play, RotateCcw, Save, Trash2, Check, TrendingUp, Info, Gem, Activity, FileSpreadsheet } from 'lucide-react';
+import { Play, RotateCcw, Save, Trash2, Check, TrendingUp, Info, Gem, Activity, FileSpreadsheet, FileText } from 'lucide-react';
 import runesData from '../data/runes.json';
 
 export default function Calculator() {
-  // 1. 활성화 탭 관리 ('calculator' | 'gemstone' | 'runeEditor')
+  // 1. 활성화 탭 관리 ('calculator' | 'gemstone' | 'runeEditor' | 'runeAudit')
   const [activeTab, setActiveTab] = useState('calculator');
 
   // 1-1. 룬 데이터베이스 수정 가능한 커스텀 룬 목록 상태
@@ -544,6 +545,17 @@ export default function Calculator() {
             <FileSpreadsheet className="w-3.5 h-3.5" />
             룬 DB 검수기
           </button>
+          <button
+            onClick={() => setActiveTab('runeAudit')}
+            className={`flex-1 md:flex-none px-5 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2 ${
+              activeTab === 'runeAudit'
+                ? 'bg-mabi-accent text-slate-950 shadow-md'
+                : 'text-slate-400 hover:text-slate-200'
+            }`}
+          >
+            <FileText className="w-3.5 h-3.5" />
+            룬 설명 검수
+          </button>
         </div>
       </div>
 
@@ -552,6 +564,8 @@ export default function Calculator() {
         <GemStonePanel gems={gems} onGemChange={handleGemChange} setGems={setGems} selectedRunes={selectedRunes} />
       ) : activeTab === 'runeEditor' ? (
         <RuneDbEditor runes={customRunes} onRunesUpdate={handleRunesUpdate} />
+      ) : activeTab === 'runeAudit' ? (
+        <RuneAuditDashboard runes={customRunes} onRunesUpdate={handleRunesUpdate} />
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start animate-fadeIn">
           
