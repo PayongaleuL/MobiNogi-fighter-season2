@@ -19,9 +19,7 @@ const STAT_COLUMNS = [
   { key: "재사용회복%", label: "재사용회복", isPercent: true },
   { key: "최종피해%", label: "최종피해", isPercent: true },
   { key: "가동률", label: "가동률", isPercent: false },
-  { key: "공격력", label: "깡공격력", isPercent: false },
-  { key: "방어력", label: "깡방어력", isPercent: false },
-  { key: "마도저항", label: "마도저항", isPercent: false }
+  { key: "공격력", label: "깡공격력", isPercent: false }
 ];
 
 export default function RuneAuditDashboard({ runes, onRunesUpdate }) {
