@@ -370,24 +370,30 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate }) {
                   
                   {/* 룬 정보 열 (Sticky 고정) */}
                   <td className="p-3 sticky left-0 bg-slate-900/90 backdrop-blur-sm z-10 shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)] border-r border-slate-800/50">
-                    <div className="flex flex-row items-center gap-1.5 flex-wrap">
-                      <span className="text-sm font-bold text-slate-100 whitespace-nowrap">{item.name}</span>
-                      {item.status === 'MISSING' && (
-                        <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-rose-950 text-rose-400 border border-rose-900">
-                          누락
+                    <div className="flex flex-col gap-1.5 justify-center">
+                      {/* 줄 1: 이름 및 누락 뱃지 */}
+                      <div className="flex flex-row items-center gap-1.5">
+                        <span className="text-sm font-bold text-slate-100 whitespace-nowrap">{item.name}</span>
+                        {item.status === 'MISSING' && (
+                          <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-rose-950 text-rose-400 border border-rose-900">
+                            누락
+                          </span>
+                        )}
+                      </div>
+                      {/* 줄 2: 부위 및 속성 뱃지 */}
+                      <div className="flex flex-row items-center gap-1">
+                        <span className="px-1.5 py-0.2 bg-slate-850 border border-slate-700 text-slate-400 rounded text-[9px] font-bold whitespace-nowrap">
+                          {item.type}
                         </span>
-                      )}
-                      <span className="px-1.5 py-0.2 bg-slate-850 border border-slate-700 text-slate-400 rounded text-[9px] font-bold">
-                        {item.type}
-                      </span>
-                      <span className={`px-1.5 py-0.2 rounded text-[9px] font-bold border ${
-                        item.element === '빛' ? 'bg-amber-950/20 border-amber-900 text-amber-400' :
-                        item.element === '어둠' ? 'bg-purple-950/20 border-purple-900 text-purple-400' :
-                        item.element === '용' ? 'bg-rose-950/20 border-rose-900 text-rose-400' :
-                        'bg-slate-800/20 border-slate-700 text-slate-500'
-                      }`}>
-                        {item.element}
-                      </span>
+                        <span className={`px-1.5 py-0.2 rounded text-[9px] font-bold border whitespace-nowrap ${
+                          item.element === '빛' ? 'bg-amber-950/20 border-amber-900 text-amber-400' :
+                          item.element === '어둠' ? 'bg-purple-950/20 border-purple-900 text-purple-400' :
+                          item.element === '용' ? 'bg-rose-950/20 border-rose-900 text-rose-400' :
+                          'bg-slate-800/20 border-slate-700 text-slate-500'
+                        }`}>
+                          {item.element}
+                        </span>
+                      </div>
                     </div>
                   </td>
 
