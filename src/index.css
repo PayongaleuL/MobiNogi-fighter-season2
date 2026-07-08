@@ -3,68 +3,34 @@
 @tailwind utilities;
 
 :root {
-  /* Default: Silver Grey Theme */
-  --bg-main: #f1f5f9;        /* slate-100 */
-  --bg-card: #ffffff;        /* white */
-  --bg-subcard: #f8fafc;     /* slate-50 */
-  --text-main: #0f172a;      /* slate-900 */
-  --text-sub: #475569;       /* slate-600 */
-  --text-muted: #64748b;     /* slate-500 */
-  --border-color: #cbd5e1;   /* slate-300 */
-  --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(0, 0, 0, 0.02);
-  --accent-color: #f97316;   /* orange-500 */
-  --accent-bg: #fff7ed;      /* orange-50 */
-  --accent-hover: #ea580c;   /* orange-600 */
-  --input-bg: #ffffff;
-  --input-border: #cbd5e1;   /* slate-300 */
-}
-
-/* Pure White Theme */
-.theme-pure {
-  --bg-main: #ffffff;
-  --bg-card: #ffffff;
-  --bg-subcard: #fafafa;     /* neutral-50 */
-  --text-main: #171717;      /* neutral-900 */
-  --text-sub: #525252;       /* neutral-600 */
-  --text-muted: #737373;     /* neutral-500 */
-  --border-color: #e5e5e5;   /* neutral-200 */
-  --shadow-card: 0 10px 15px -3px rgba(0, 0, 0, 0.04), 0 4px 6px -4px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(0, 0, 0, 0.02);
-  --accent-color: #ea580c;
-  --accent-bg: #fff7ed;
-  --accent-hover: #c2410c;
-  --input-bg: #ffffff;
-  --input-border: #d4d4d4;
-}
-
-/* Warm Orange Theme */
-.theme-orange {
+  /* Default: Warm Ivory (Mabinogi Light Theme) */
   --bg-main: #fffcf9;        /* soft warm ivory */
-  --bg-card: #ffffff;
-  --bg-subcard: #fff7ed;     /* orange-50 */
+  --bg-card: #ffffff;        /* pure white */
+  --bg-subcard: #fff8f2;     /* warm beige-orange */
   --text-main: #431407;      /* warm deep brown */
   --text-sub: #7c2d12;       /* warm orange-900 */
   --text-muted: #9a3412;     /* warm orange-700 */
-  --border-color: #fed7aa;   /* orange-200 */
-  --shadow-card: 0 4px 6px -1px rgba(124, 45, 18, 0.04), 0 2px 4px -2px rgba(124, 45, 18, 0.03);
-  --accent-color: #f97316;
+  --border-color: #fdd8b5;   /* warm orange-200 */
+  --shadow-card: 0 4px 6px -1px rgba(124, 45, 18, 0.05), 0 2px 4px -2px rgba(124, 45, 18, 0.03);
+  --accent-color: #f97316;   /* orange-500 */
   --accent-bg: #ffedd5;      /* orange-100 */
-  --accent-hover: #ea580c;
+  --accent-hover: #ea580c;   /* orange-600 */
   --input-bg: #ffffff;
   --input-border: #fdba74;   /* orange-300 */
 }
 
 /* Dark Mode Theme */
 .theme-dark {
-  --bg-main: #0b0f19;        /* slate-950 */
-  --bg-card: #0f172a;        /* slate-900 */
-  --bg-subcard: #020617;     /* slate-950/deep black */
+  --bg-main: #0b0f19;        /* slate-950 (deep navy) */
+  --bg-card: #0f172a;        /* slate-900 (slate navy) */
+  --bg-subcard: #020617;     /* deep dark navy/black */
   --text-main: #f1f5f9;      /* slate-100 */
   --text-sub: #cbd5e1;       /* slate-300 */
   --text-muted: #94a3b8;     /* slate-400 */
   --border-color: #1e293b;   /* slate-800 */
   --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.25), 0 2px 4px -2px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.02);
   --accent-color: #f97316;   /* orange-500 */
-  --accent-bg: #431407;      /* warm orange-950/dark brown */
+  --accent-bg: #431407;      /* dark warm brown */
   --accent-hover: #ea580c;
   --input-bg: #0b0f19;
   --input-border: #1e293b;
@@ -74,7 +40,7 @@ body {
   background-color: var(--bg-main);
   color: var(--text-main);
   font-family: 'Inter', sans-serif;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 /* Custom Semantic Theme Classes */
@@ -102,7 +68,23 @@ body {
   box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.2) !important;
 }
 
+/* Premium Card Lift & Orange Glow Transitions */
+.card-lift-glow {
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.25s ease;
+}
+
+.card-lift-glow:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(124, 45, 18, 0.06), 0 4px 6px -4px rgba(124, 45, 18, 0.05), 0 0 12px rgba(249, 115, 22, 0.25);
+  border-color: var(--accent-color);
+}
+
+.theme-dark .card-lift-glow:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.35), 0 4px 6px -4px rgba(0, 0, 0, 0.3), 0 0 12px rgba(249, 115, 22, 0.25);
+  border-color: var(--accent-color);
+}
+
 /* Custom Transitions for UI elements */
 .theme-transition {
-  transition: background-color 0.2s ease, border-color 0.2s ease, text-decoration-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+  transition: background-color 0.25s ease, border-color 0.25s ease, text-decoration-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
 }

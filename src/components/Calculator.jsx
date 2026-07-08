@@ -5,16 +5,18 @@ import ConditionalPanel from './ConditionalPanel';
 import GemStonePanel from './GemStonePanel';
 import RuneAuditDashboard from './RuneAuditDashboard';
 import { calculateDPS } from '../utils/calculator';
-import { Play, RotateCcw, Save, Trash2, Check, TrendingUp, Info, Gem, Activity, Sliders } from 'lucide-react';
+import { Play, RotateCcw, Save, Trash2, Check, TrendingUp, Info, Gem, Activity, Sliders, Sun, Moon } from 'lucide-react';
 import runesData from '../data/runes.json';
 
 export default function Calculator() {
   // 1. 활성화 탭 관리 ('calculator' | 'gemstone' | 'runeAudit')
   const [activeTab, setActiveTab] = useState('calculator');
 
-  // 1-2. UI 테마 관리 ('silver' | 'pure' | 'orange')
+  // 1-2. UI 테마 관리 ('light' | 'dark')
   const [uiTheme, setUiTheme] = useState(() => {
-    return localStorage.getItem('mabi_calculator_theme') || 'silver';
+    const saved = localStorage.getItem('mabi_calculator_theme');
+    if (saved === 'dark') return 'dark';
+    return 'light';
   });
 
   useEffect(() => {
@@ -22,10 +24,10 @@ export default function Calculator() {
     
     // HTML root 요소에 테마 클래스 동적 주입
     const root = document.documentElement;
-    root.classList.remove('theme-pure', 'theme-orange', 'theme-dark');
-    if (uiTheme === 'pure') root.classList.add('theme-pure');
-    if (uiTheme === 'orange') root.classList.add('theme-orange');
-    if (uiTheme === 'dark') root.classList.add('theme-dark');
+    root.classList.remove('theme-dark');
+    if (uiTheme === 'dark') {
+      root.classList.add('theme-dark');
+    }
   }, [uiTheme]);
 
   // 1-1. 룬 데이터베이스 수정 가능한 커스텀 룬 목록 상태
@@ -560,51 +562,25 @@ export default function Calculator() {
         </div>
 
         <div className="flex flex-col md:flex-row gap-4 w-full xl:w-auto items-stretch md:items-center">
-          {/* 테마 Tweaks 스위처 */}
+          {/* 테마 토글 스위처 */}
           <div className="flex flex-col gap-1">
-            <label className="text-[9px] font-black text-theme-muted uppercase tracking-wider">UI Style Switcher</label>
-            <div className="flex bg-theme-subcard p-1 rounded-xl border border-theme theme-transition">
-              <button
-                onClick={() => setUiTheme('silver')}
-                className={`px-3 py-1.5 rounded-lg text-[10px] font-black transition-all ${
-                  uiTheme === 'silver'
-                    ? 'bg-orange-500 text-white shadow-sm'
-                    : 'text-theme-sub hover:text-theme-main'
-                }`}
-              >
-                Silver Grey
-              </button>
-              <button
-                onClick={() => setUiTheme('pure')}
-                className={`px-3 py-1.5 rounded-lg text-[10px] font-black transition-all ${
-                  uiTheme === 'pure'
-                    ? 'bg-orange-500 text-white shadow-sm'
-                    : 'text-theme-sub hover:text-theme-main'
-                }`}
-              >
-                Pure White
-              </button>
-              <button
-                onClick={() => setUiTheme('orange')}
-                className={`px-3 py-1.5 rounded-lg text-[10px] font-black transition-all ${
-                  uiTheme === 'orange'
-                    ? 'bg-orange-500 text-white shadow-sm'
-                    : 'text-theme-sub hover:text-theme-main'
-                }`}
-              >
-                Warm Orange
-              </button>
-              <button
-                onClick={() => setUiTheme('dark')}
-                className={`px-3 py-1.5 rounded-lg text-[10px] font-black transition-all ${
-                  uiTheme === 'dark'
-                    ? 'bg-orange-500 text-white shadow-sm'
-                    : 'text-theme-sub hover:text-theme-main'
-                }`}
-              >
-                Dark Mode
-              </button>
-            </div>
+            <label className="text-[9px] font-black text-theme-muted uppercase tracking-wider">UI Theme</label>
+            <button
+              onClick={() => setUiTheme(uiTheme === 'light' ? 'dark' : 'light')}
+              className="flex items-center gap-2 px-4 py-2 rounded-xl border border-theme bg-theme-subcard hover:bg-theme-card text-xs font-black text-theme-main transition-all focus:outline-none shadow-sm group active:scale-95 theme-transition"
+            >
+              {uiTheme === 'dark' ? (
+                <>
+                  <Moon className="w-3.5 h-3.5 text-indigo-400 group-hover:rotate-12 transition-transform duration-300" />
+                  <span>Dark Mode</span>
+                </>
+              ) : (
+                <>
+                  <Sun className="w-3.5 h-3.5 text-orange-500 group-hover:rotate-45 transition-transform duration-500" />
+                  <span>Light Mode</span>
+                </>
+              )}
+            </button>
           </div>
 
           {/* 상단 탭 버튼 */}

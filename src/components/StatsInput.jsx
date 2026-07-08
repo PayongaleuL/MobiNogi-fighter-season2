@@ -88,7 +88,7 @@ export default function StatsInput({ stats, onStatsChange }) {
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {statFields.map(f => (
-            <div key={f.key} className="bg-theme-subcard p-3.5 rounded-xl border border-theme flex flex-col gap-2 theme-transition">
+            <div key={f.key} className="bg-theme-subcard p-3.5 rounded-xl border border-theme flex flex-col gap-2 theme-transition card-lift-glow">
               <div className="flex justify-between items-start">
                 <div className="flex flex-col gap-0.5">
                   <label className="text-xs font-bold text-theme-sub">{f.label}</label>

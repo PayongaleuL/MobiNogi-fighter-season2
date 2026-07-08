@@ -265,10 +265,10 @@ export default function RuneSelector({ uiTheme, selectedRunes, onRuneChange, tra
                 setActiveSlot({ type: slot.type, index: slot.index });
                 setSelectedTypeFilter(slot.type);
               }}
-              className={`relative cursor-pointer flex flex-col gap-2.5 p-4 rounded-xl border transition-all duration-300 theme-transition ${
+              className={`relative cursor-pointer flex flex-col gap-2.5 p-4 rounded-xl border transition-all duration-300 theme-transition card-lift-glow ${
                 currentRune 
-                  ? 'bg-theme-subcard border-orange-500/80 hover:border-orange-600 shadow-sm' 
-                  : 'bg-theme-main border-theme border-dashed hover:border-theme-accent'
+                  ? 'bg-theme-subcard border-orange-500/80 shadow-sm' 
+                  : 'bg-theme-main border-theme border-dashed'
               } ${activeSlot?.type === slot.type && activeSlot?.index === slot.index ? 'ring-2 ring-orange-500 border-transparent shadow-md' : ''}`}
             >
               <div className="flex items-center justify-between w-full">
