@@ -890,16 +890,18 @@ export default function Calculator() {
                         </div>
                         <span className="text-xs font-black block mt-1">
                           {preset.data 
-                            ? `${preset.data.weightedDps.toLocaleString()} DPS` 
+                            ? `${(preset.data.weightedDps || 0).toLocaleString()} DPS` 
                             : '비어있음'}
                         </span>
                         {preset.data && dpsResult && (
                           <span className={`text-[10px] font-bold block mt-1.5 ${
-                            dpsResult.weightedDps >= preset.data.weightedDps ? 'text-emerald-400' : 'text-red-400'
+                            dpsResult.weightedDps >= (preset.data.weightedDps || 0) ? 'text-emerald-400' : 'text-red-400'
                           }`}>
-                            {dpsResult.weightedDps >= preset.data.weightedDps ? '현재보다 ' : '현재보다 '}
-                            {Math.abs(((dpsResult.weightedDps / preset.data.weightedDps - 1) * 100)).toFixed(1)}% 
-                            {dpsResult.weightedDps >= preset.data.weightedDps ? ' 낮음' : ' 높음'}
+                            {dpsResult.weightedDps >= (preset.data.weightedDps || 0) ? '현재보다 ' : '현재보다 '}
+                            {(preset.data.weightedDps || 0) > 0 
+                              ? Math.abs(((dpsResult.weightedDps / (preset.data.weightedDps || 0) - 1) * 100)).toFixed(1) 
+                              : '0.0'}% 
+                            {dpsResult.weightedDps >= (preset.data.weightedDps || 0) ? ' 낮음' : ' 높음'}
                           </span>
                         )}
                       </div>
