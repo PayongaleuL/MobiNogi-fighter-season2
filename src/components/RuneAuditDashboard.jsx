@@ -372,13 +372,11 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate }) {
                   <td className="p-3 sticky left-0 bg-slate-900/90 backdrop-blur-sm z-10 shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)] border-r border-slate-800/50">
                     <div className="flex flex-row items-center gap-1.5 flex-wrap">
                       <span className="text-sm font-bold text-slate-100 whitespace-nowrap">{item.name}</span>
-                      <span className={`px-1.5 py-0.5 rounded text-[9px] font-bold ${
-                        item.status === 'MISSING' ? 'bg-rose-950 text-rose-400 border border-rose-900' :
-                        item.isCustomized ? 'bg-amber-950 text-amber-400 border border-amber-900' :
-                        'bg-emerald-950 text-emerald-400 border border-emerald-900'
-                      }`}>
-                        {item.status === 'MISSING' ? '누락' : item.isCustomized ? '수정됨' : '기본'}
-                      </span>
+                      {item.status === 'MISSING' && (
+                        <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-rose-950 text-rose-400 border border-rose-900">
+                          누락
+                        </span>
+                      )}
                       <span className="px-1.5 py-0.2 bg-slate-850 border border-slate-700 text-slate-400 rounded text-[9px] font-bold">
                         {item.type}
                       </span>
