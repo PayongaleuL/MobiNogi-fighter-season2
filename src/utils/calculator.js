@@ -363,6 +363,8 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
     totalAtk: Math.round(attack),
     extraProb: parseFloat((totalExtraProb * 100).toFixed(1)),
     critProb: parseFloat((totalCritProb * 100).toFixed(1)),
-    critDmg: parseFloat((totalCritDmg * 100).toFixed(1))
+    critDmg: parseFloat((totalCritDmg * 100).toFixed(1)),
+    totalResist: Math.round(runeStats["마도저항"]),
+    runeAtkAdd: Math.round(runeStats["공격력"])
   };
 }

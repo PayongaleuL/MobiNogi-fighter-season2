@@ -3,7 +3,6 @@ import { Search, Copy, RotateCcw, Sliders, Info, CheckCircle } from 'lucide-reac
 import { parseRuneMarkdown } from '../utils/runeMdParser';
 import mdText from '../../results/260708_룬설명목록.md?raw';
 
-// 교정실에서 노출하고 직접 편집할 17가지 실효 스탯 키 정의
 const STAT_COLUMNS = [
   { key: "공격력%", label: "공격력", isPercent: true },
   { key: "조건부공증%", label: "조건부공증", isPercent: true },
@@ -19,7 +18,7 @@ const STAT_COLUMNS = [
   { key: "재사용회복%", label: "재사용회복", isPercent: true },
   { key: "최종피해%", label: "최종피해", isPercent: true },
   { key: "가동률", label: "가동률", isPercent: false },
-  { key: "공격력", label: "깡공격력", isPercent: false }
+  { key: "마도저항", label: "마도저항", isPercent: false }
 ];
 
 export default function RuneAuditDashboard({ runes, onRunesUpdate }) {

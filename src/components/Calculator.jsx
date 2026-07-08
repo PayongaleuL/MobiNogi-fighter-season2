@@ -775,6 +775,14 @@ export default function Calculator() {
                     <span className="font-bold text-slate-350 mt-0.5 block">{dpsResult ? dpsResult.totalAtk.toLocaleString() : '0'}</span>
                   </div>
                   <div className="bg-slate-900/80 px-4 py-2 rounded-xl border border-slate-850">
+                    <span className="text-slate-500 font-semibold block">룬 공격력 가산</span>
+                    <span className="font-bold text-amber-400 mt-0.5 block">+{dpsResult ? dpsResult.runeAtkAdd.toLocaleString() : '0'}</span>
+                  </div>
+                  <div className="bg-slate-900/80 px-4 py-2 rounded-xl border border-slate-850">
+                    <span className="text-slate-500 font-semibold block">총 마도저항</span>
+                    <span className="font-bold text-blue-400 mt-0.5 block">{dpsResult ? dpsResult.totalResist.toLocaleString() : '0'}</span>
+                  </div>
+                  <div className="bg-slate-900/80 px-4 py-2 rounded-xl border border-slate-850">
                     <span className="text-slate-500 font-semibold block">추가타 확률</span>
                     <span className="font-bold text-emerald-400 mt-0.5 block">{dpsResult ? dpsResult.extraProb : '0.0'}%</span>
                   </div>
