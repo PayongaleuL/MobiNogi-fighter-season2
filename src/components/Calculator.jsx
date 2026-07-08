@@ -551,7 +551,7 @@ export default function Calculator() {
         <div>
           <h2 className="text-2xl font-black text-theme-main flex items-center gap-2">
             <span className="text-orange-500 font-extrabold">Mabinogi Mobile</span> 격투가 종합 계산기
-            <span className="text-xs bg-theme-subcard border border-theme px-2 py-0.5 rounded-full text-theme-sub font-bold">시즌 2 최종본</span>
+            <span className="text-xs bg-theme-subcard border border-theme px-2 py-0.5 rounded-full text-theme-sub font-bold">시즌2.ver (260709)</span>
           </h2>
           <p className="text-xs text-theme-sub mt-1 leading-relaxed">
             보석 세공 3줄 다중 지정, 장비 부위별 묶음 연동 및 3줄 미만 경고 시스템이 이식된 7차 완성 대시보드입니다.
