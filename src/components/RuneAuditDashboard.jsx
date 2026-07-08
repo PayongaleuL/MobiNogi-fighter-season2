@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Search, Copy, RotateCcw, Sliders, Info } from 'lucide-react';
+import { Search, Copy, RotateCcw, Sliders, Info, CheckCircle } from 'lucide-react';
 import { parseRuneMarkdown } from '../utils/runeMdParser';
 import mdText from '../../results/260708_룬설명목록.md?raw';
 
@@ -347,7 +347,7 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate }) {
         <table className="w-full border-collapse text-left text-xs text-slate-300 min-w-[1500px]">
           <thead>
             <tr className="bg-slate-950/80 border-b border-slate-800 text-slate-400 font-bold sticky top-0 z-20">
-              <th className="p-3 w-72 sticky left-0 bg-slate-950 z-30 shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">룬 정보 / 설명</th>
+              <th className="p-3 w-48 sticky left-0 bg-slate-950 z-30 shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)]">룬 정보</th>
               {STAT_COLUMNS.map(col => (
                 <th key={col.key} className="p-3 text-center w-28 border-l border-slate-800/80">
                   <div className="flex flex-col items-center justify-center gap-0.5">
@@ -398,12 +398,6 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate }) {
                       </span>
                     </div>
 
-                    {/* 정제 설명 */}
-                    <div className="text-[10px] text-slate-400 leading-normal max-w-xs mt-1 border-t border-slate-800/30 pt-1">
-                      {item.cleaned_text.map((txt, i) => (
-                        <p key={i}>• {txt}</p>
-                      ))}
-                    </div>
                   </td>
 
                   {/* 각 스탯 컬럼 및 수정 입력 필드 */}
