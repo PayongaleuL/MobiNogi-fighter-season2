@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import runesData from '../data/runes.json';
-import { Search, Shield, ShieldAlert, Award, Star } from 'lucide-react';
+import { Search, Shield, ShieldAlert, Award, Star, ChevronDown, ChevronUp } from 'lucide-react';
 
 export default function RuneSelector({ selectedRunes, onRuneChange, transcendLevels, onTranscendChange }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedTypeFilter, setSelectedTypeFilter] = useState('ALL');
   const [activeSlot, setActiveSlot] = useState(null); // { type, index }
+  const [isDetailOpen, setIsDetailOpen] = useState(true); // 장착 룬 상세 사전 열기/닫기 토글 상태
 
   // 룬 설명 극단적 간소화 포맷터 (피드백 반영: 주피증, 공증, 치확 등 짧은 용어로 정리)
   const formatRuneDescCompact = (rune) => {
@@ -467,47 +468,60 @@ export default function RuneSelector({ selectedRunes, onRuneChange, transcendLev
 
       {/* 장착 룬 상세 효과 사전 (실시간 연동 출력 대시보드) */}
       <div className="mt-8 border-t border-slate-800 pt-6">
-        <h4 className="text-xs font-black text-slate-400 mb-4 flex items-center gap-1.5 uppercase tracking-wider">
-          <Star className="w-4 h-4 text-mabi-accent" />
-          장착 중인 룬 상세 효과 사전
-        </h4>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {Object.entries(selectedRunes).flatMap(([type, list]) => 
-            list.map((rune, idx) => {
-              if (!rune) return null;
-              const coreLines = getCoreRuneTexts(rune.cleaned_text, rune.name);
-              if (coreLines.length === 0) return null; // 빈 카드는 아예 렌더링 스킵 처리
-              
-              return (
-                <div key={`${type}-${idx}`} className="bg-slate-950/40 border border-slate-850 p-4 rounded-xl flex flex-col gap-2.5 transition-all hover:border-slate-750 h-fit">
-                  <div className="flex justify-between items-center border-b border-slate-850 pb-2">
-                    <span className="text-xs font-black text-slate-100 flex items-center gap-1.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-mabi-accent" />
-                      {rune.name} ({type} 룬)
-                    </span>
-                    <span className="text-[9px] bg-slate-900 border border-slate-800 px-2 py-0.5 rounded text-emerald-400 font-bold leading-none">
-                      {formatRuneDescCompact(rune)}
-                    </span>
-                  </div>
-                  <div className="text-[10px] text-slate-350 leading-relaxed flex flex-col gap-1 font-medium">
-                    {coreLines.map((line, lIdx) => (
-                      <p key={lIdx} className="flex gap-1.5 items-start">
-                        <span className="text-mabi-accent shrink-0 font-black">•</span>
-                        <span>{line}</span>
-                      </p>
-                    ))}
-                  </div>
-                </div>
-              );
-            })
-          ).filter(Boolean)}
-          
-          {Object.values(selectedRunes).flat().filter(Boolean).filter(r => getCoreRuneTexts(r.cleaned_text, r.name).length > 0).length === 0 && (
-            <div className="col-span-full py-8 text-center text-xs text-slate-500 border border-dashed border-slate-850 rounded-xl">
-              현재 장착된 룬이 없습니다. 상단 슬롯을 클릭해 룬을 장착해 주세요.
-            </div>
+        <button 
+          onClick={() => setIsDetailOpen(!isDetailOpen)}
+          className="w-full flex items-center justify-between text-xs font-black text-slate-400 mb-4 uppercase tracking-wider hover:text-slate-200 transition-colors focus:outline-none"
+        >
+          <span className="flex items-center gap-1.5">
+            <Star className="w-4 h-4 text-mabi-accent" />
+            장착 중인 룬 상세 효과 사전
+          </span>
+          {isDetailOpen ? (
+            <ChevronUp className="w-4 h-4 text-slate-500" />
+          ) : (
+            <ChevronDown className="w-4 h-4 text-slate-500" />
           )}
-        </div>
+        </button>
+
+        {isDetailOpen && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-fadeIn">
+            {Object.entries(selectedRunes).flatMap(([type, list]) => 
+              list.map((rune, idx) => {
+                if (!rune) return null;
+                const coreLines = getCoreRuneTexts(rune.cleaned_text, rune.name);
+                if (coreLines.length === 0) return null; // 빈 카드는 아예 렌더링 스킵 처리
+                
+                return (
+                  <div key={`${type}-${idx}`} className="bg-slate-950/40 border border-slate-850 p-4 rounded-xl flex flex-col gap-2.5 transition-all hover:border-slate-750 h-fit">
+                    <div className="flex justify-between items-center border-b border-slate-850 pb-2">
+                      <span className="text-xs font-black text-slate-100 flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-mabi-accent" />
+                        {rune.name} ({type} 룬)
+                      </span>
+                      <span className="text-[9px] bg-slate-900 border border-slate-800 px-2 py-0.5 rounded text-emerald-400 font-bold leading-none">
+                        {formatRuneDescCompact(rune)}
+                      </span>
+                    </div>
+                    <div className="text-[10px] text-slate-350 leading-relaxed flex flex-col gap-1 font-medium">
+                      {coreLines.map((line, lIdx) => (
+                        <p key={lIdx} className="flex gap-1.5 items-start">
+                          <span className="text-mabi-accent shrink-0 font-black">•</span>
+                          <span>{line}</span>
+                        </p>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })
+            ).filter(Boolean)}
+            
+            {Object.values(selectedRunes).flat().filter(Boolean).filter(r => getCoreRuneTexts(r.cleaned_text, r.name).length > 0).length === 0 && (
+              <div className="col-span-full py-8 text-center text-xs text-slate-500 border border-dashed border-slate-850 rounded-xl">
+                현재 장착된 룬이 없습니다. 상단 슬롯을 클릭해 룬을 장착해 주세요.
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
     </div>
