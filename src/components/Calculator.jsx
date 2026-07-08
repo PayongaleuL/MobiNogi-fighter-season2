@@ -549,9 +549,10 @@ export default function Calculator() {
       {/* 타이틀 및 탭 네비게이션 */}
       <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center gap-4 bg-theme-card border border-theme rounded-2xl p-6 shadow-theme theme-transition">
         <div>
-          <h2 className="text-2xl font-black text-theme-main flex items-center gap-2">
-            <span className="text-orange-500 font-extrabold">Mabinogi Mobile</span> 격투가 종합 계산기
-            <span className="text-xs bg-theme-subcard border border-theme px-2 py-0.5 rounded-full text-theme-sub font-bold">시즌2.ver (260709)</span>
+          <h2 className="text-2xl font-black text-theme-main flex flex-wrap items-center gap-x-2 gap-y-1.5 leading-tight">
+            <span className="text-orange-500 font-extrabold whitespace-nowrap">Mabinogi Mobile</span>
+            <span className="whitespace-nowrap">격투가 종합 계산기</span>
+            <span className="text-xs bg-theme-subcard border border-theme px-2 py-0.5 rounded-full text-theme-sub font-bold whitespace-nowrap">시즌2.ver (260709)</span>
           </h2>
           <p className="text-xs text-theme-sub mt-1 leading-relaxed">
             보석 세공 3줄 다중 지정, 장비 부위별 묶음 연동 및 3줄 미만 경고 시스템이 이식된 7차 완성 대시보드입니다.
@@ -666,7 +667,7 @@ export default function Calculator() {
                 스킬별 스탠스(Stance) 시뮬레이션 설정
               </h3>
               <p className="text-xs text-theme-sub mb-5 leading-normal">
-                장신구 룬 장착과 무관하게, 각 액티브 스킬들의 행동 변화(소닉 피스트, 섬머솔트 등 치환) 스탠스를 지정하여 딜사이클을 직접 가상 시뮬레이션합니다.
+                장신구 룬 장착과 무관하게, 각 액티브 스킬들의 행동 변화(승천, 섬머솔트 등 치환) 스탠스를 지정하여 딜사이클을 직접 가상 시뮬레이션합니다.
               </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
@@ -721,7 +722,7 @@ export default function Calculator() {
                   >
                     <option value="순정">순정 (0.141~ 계수)</option>
                     <option value="격파">격파 (0.188~ 계수 / 단일추가타)</option>
-                    <option value="소닉 피스트">소닉 피스트 (1.09 * 2.98배 기댓값)</option>
+                    <option value="승천">승천 (1.09 * 2.98배 기댓값)</option>
                   </select>
                 </div>
 

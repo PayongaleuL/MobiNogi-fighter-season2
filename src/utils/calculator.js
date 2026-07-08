@@ -248,7 +248,7 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
       } else if (char === '3') {
         listSkills.push("3");
       } else if (char === '4') {
-        if (s4Stance === '소닉 피스트') {
+        if (s4Stance === '소닉 피스트' || s4Stance === '승천') {
           listSkills.push("sonic");
         } else {
           listSkills.push("4-1", "4-2", "4-3");
