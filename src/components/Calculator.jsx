@@ -6,7 +6,7 @@ import GemStonePanel from './GemStonePanel';
 import RuneDbEditor from './RuneDbEditor';
 import RuneAuditDashboard from './RuneAuditDashboard';
 import { calculateDPS } from '../utils/calculator';
-import { Play, RotateCcw, Save, Trash2, Check, TrendingUp, Info, Gem, Activity, FileSpreadsheet, FileText } from 'lucide-react';
+import { Play, RotateCcw, Save, Trash2, Check, TrendingUp, Info, Gem, Activity, FileSpreadsheet, Sliders } from 'lucide-react';
 import runesData from '../data/runes.json';
 
 export default function Calculator() {
@@ -553,8 +553,8 @@ export default function Calculator() {
                 : 'text-slate-400 hover:text-slate-200'
             }`}
           >
-            <FileText className="w-3.5 h-3.5" />
-            룬 설명 검수
+            <Sliders className="w-3.5 h-3.5" />
+            룬 스탯 교정실
           </button>
         </div>
       </div>
