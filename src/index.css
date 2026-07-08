@@ -53,6 +53,23 @@
   --input-border: #fdba74;   /* orange-300 */
 }
 
+/* Dark Mode Theme */
+.theme-dark {
+  --bg-main: #0b0f19;        /* slate-950 */
+  --bg-card: #0f172a;        /* slate-900 */
+  --bg-subcard: #020617;     /* slate-950/deep black */
+  --text-main: #f1f5f9;      /* slate-100 */
+  --text-sub: #cbd5e1;       /* slate-300 */
+  --text-muted: #94a3b8;     /* slate-400 */
+  --border-color: #1e293b;   /* slate-800 */
+  --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.25), 0 2px 4px -2px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.02);
+  --accent-color: #f97316;   /* orange-500 */
+  --accent-bg: #431407;      /* warm orange-950/dark brown */
+  --accent-hover: #ea580c;
+  --input-bg: #0b0f19;
+  --input-border: #1e293b;
+}
+
 body {
   background-color: var(--bg-main);
   color: var(--text-main);

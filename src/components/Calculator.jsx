@@ -22,9 +22,10 @@ export default function Calculator() {
     
     // HTML root 요소에 테마 클래스 동적 주입
     const root = document.documentElement;
-    root.classList.remove('theme-pure', 'theme-orange');
+    root.classList.remove('theme-pure', 'theme-orange', 'theme-dark');
     if (uiTheme === 'pure') root.classList.add('theme-pure');
     if (uiTheme === 'orange') root.classList.add('theme-orange');
+    if (uiTheme === 'dark') root.classList.add('theme-dark');
   }, [uiTheme]);
 
   // 1-1. 룬 데이터베이스 수정 가능한 커스텀 룬 목록 상태
@@ -591,6 +592,16 @@ export default function Calculator() {
                 }`}
               >
                 Warm Orange
+              </button>
+              <button
+                onClick={() => setUiTheme('dark')}
+                className={`px-3 py-1.5 rounded-lg text-[10px] font-black transition-all ${
+                  uiTheme === 'dark'
+                    ? 'bg-orange-500 text-white shadow-sm'
+                    : 'text-theme-sub hover:text-theme-main'
+                }`}
+              >
+                Dark Mode
               </button>
             </div>
           </div>
