@@ -590,24 +590,7 @@ export default function Calculator() {
           {/* 좌측 패널 */}
           <div className="lg:col-span-5 flex flex-col gap-6">
             <StatsInput stats={stats} onStatsChange={handleStatsChange} />
-            <ConditionalPanel
-              selectedRunes={selectedRunes}
-              conditionalUptimes={conditionalUptimes}
-              onUptimeChange={handleUptimeChange}
-            />
-          </div>
-
-          {/* 우측 패널 */}
-          <div className="lg:col-span-7 flex flex-col gap-6">
             
-            {/* 룬 슬롯 선택기 */}
-            <RuneSelector
-              selectedRunes={selectedRunes}
-              onRuneChange={handleRuneChange}
-              transcendLevels={transcendLevels}
-              onTranscendChange={handleTranscendChange}
-            />
-
             {/* 스킬별 스탠스 시뮬레이션 설정 */}
             <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
               <h3 className="text-lg font-bold text-slate-100 mb-4 flex items-center gap-2">
@@ -772,6 +755,24 @@ export default function Calculator() {
                 </span>
               </div>
             </div>
+
+            <ConditionalPanel
+              selectedRunes={selectedRunes}
+              conditionalUptimes={conditionalUptimes}
+              onUptimeChange={handleUptimeChange}
+            />
+          </div>
+
+          {/* 우측 패널 */}
+          <div className="lg:col-span-7 flex flex-col gap-6">
+            
+            {/* 룬 슬롯 선택기 */}
+            <RuneSelector
+              selectedRunes={selectedRunes}
+              onRuneChange={handleRuneChange}
+              transcendLevels={transcendLevels}
+              onTranscendChange={handleTranscendChange}
+            />
 
             {/* 최종 예상 DPS 대시보드 */}
             <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl flex flex-col gap-6">
