@@ -146,6 +146,7 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
   
   const baseCritDmg = 1.4 + ((characterStats.critScore || 6925.0) / 5000.0);
   const totalCritDmg = baseCritDmg * (1 + runeStats["치명타피해%"]);
+  const critMultiplier = (1 - totalCritProb) + (totalCritDmg * totalCritProb);
 
   // 4대 패시브 스킬 기댓값 통합
   // 1) 연계 공격: 스킬피해 상시 +5% 보정
@@ -303,8 +304,8 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
     const isUnarmed = state.includes("Break");
     const unarmedDmgCoeff = isUnarmed ? (1 + (characterStats.comboPower || 1532.0) / 5250.0 + 0.4 + 0.05) : 1.0;
 
-    // DPS 계산
-    let skillDps = attack * totalCycleCoeff * (1 + totalGetsDmg) * armorCoeff * unarmedDmgCoeff / totalCycleTime;
+    // DPS 계산 (주는피해% 및 치명타 기댓값 배율 반영)
+    let skillDps = attack * totalCycleCoeff * (1 + totalGivesDmg) * (1 + totalGetsDmg) * critMultiplier * armorCoeff * unarmedDmgCoeff / totalCycleTime;
 
     // 3) 충격파 패시브 가산 (스킬 3회당 공격력의 98% 피해)
     const waveCount = Math.floor(nonUltSkillCount / 3);
@@ -319,7 +320,6 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
 
     // 추가타(직접피해) 계산
     const baseDamageMultiplier = (1 + totalGivesDmg + totalSkillDmg) * (1 + totalGetsDmg) * (1 + totalStrongDmg + totalChainDmg + totalComboDmg);
-    const critMultiplier = (1 - totalCritProb) + (totalCritDmg * totalCritProb);
     const extraProbMultiplier = (1 - totalExtraProb) + (totalExtraDmg * totalExtraProb);
     const directDps = baseDamageMultiplier * critMultiplier * extraProbMultiplier * attack * 2 * totalExtraProb * armorCoeff;
 
