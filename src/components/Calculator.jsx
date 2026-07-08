@@ -244,9 +244,25 @@ export default function Calculator() {
     setDpsResult(result);
   }, [stats, selectedRunes, gimmicks, cycles, conditionalUptimes, gems, skillStances, customRunes]);
 
-  // 로컬 스토리지 프리셋 로드
+  // 로컬 스토리지 프리셋 로드 및 하위 호환 마이그레이션
   useEffect(() => {
-    const saved = localStorage.getItem('mabi_runes_presets_v5');
+    let saved = localStorage.getItem('mabi_runes_presets_v5');
+    if (!saved) {
+      const legacyKeys = [
+        'mabi_runes_presets_v4',
+        'mabi_runes_presets_v3',
+        'mabi_runes_presets_v2',
+        'mabi_runes_presets'
+      ];
+      for (const legacyKey of legacyKeys) {
+        const legacyData = localStorage.getItem(legacyKey);
+        if (legacyData) {
+          saved = legacyData;
+          localStorage.setItem('mabi_runes_presets_v5', legacyData);
+          break;
+        }
+      }
+    }
     if (saved) {
       try {
         setPresets(JSON.parse(saved));
@@ -256,9 +272,25 @@ export default function Calculator() {
     }
   }, []);
 
-  // 마지막 입력 스탯 및 상태 자동 로드 (새로고침 대응)
+  // 마지막 입력 스탯 및 상태 자동 로드 (새로고침 및 하위 호환 마이그레이션 대응)
   useEffect(() => {
-    const savedAutosave = localStorage.getItem('mabi_calculator_autosave_v5');
+    let savedAutosave = localStorage.getItem('mabi_calculator_autosave_v5');
+    if (!savedAutosave) {
+      const legacyAutosaveKeys = [
+        'mabi_calculator_autosave_v4',
+        'mabi_calculator_autosave_v3',
+        'mabi_calculator_autosave_v2',
+        'mabi_calculator_autosave'
+      ];
+      for (const legacyKey of legacyAutosaveKeys) {
+        const legacyData = localStorage.getItem(legacyKey);
+        if (legacyData) {
+          savedAutosave = legacyData;
+          localStorage.setItem('mabi_calculator_autosave_v5', legacyData);
+          break;
+        }
+      }
+    }
     if (savedAutosave) {
       try {
         const parsed = JSON.parse(savedAutosave);
