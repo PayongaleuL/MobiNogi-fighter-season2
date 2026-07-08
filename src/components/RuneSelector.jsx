@@ -39,7 +39,9 @@ export default function RuneSelector({ selectedRunes, onRuneChange, transcendLev
       "스킬피해%": "스킬피",
       "추가타확률%": "추가타확",
       "치명타확률%": "치확",
-      "스킬속도%": "스킬속"
+      "스킬속도%": "스킬속",
+      "재사용회복%": "쿨감",
+      "최종피해%": "최종피"
     };
 
     Object.entries(rune.stats).forEach(([k, v]) => {

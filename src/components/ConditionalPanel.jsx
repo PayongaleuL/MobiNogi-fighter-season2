@@ -5,6 +5,12 @@ export default function ConditionalPanel({ selectedRunes, conditionalUptimes, on
   // 조건부 옵션을 가진 룬 리스트 정의
   const conditionalRunesConfig = [
     { name: '무너진 경계', desc: '침식 부여 시 추가타 확률 16.5% 증가 (100% 이상 시 2배인 33% 적용, 오염 시 소실)', defaultUptime: 70 },
+    { name: '흐릿한 형상', desc: '침식 부여 시 강타 피해 18% 증가 (100% 이상 시 2배인 36% 적용, 오염 시 소실)', defaultUptime: 70 },
+    { name: '잿빛 장막', desc: '침식 부여 시 연타 피해 18% 증가 (100% 이상 시 2배인 36% 적용, 오염 시 소실)', defaultUptime: 70 },
+    { name: '금 간 봉인', desc: '침식 부여 시 치명타 확률 16.5% 증가 (100% 이상 시 2배인 33% 적용, 오염 시 소실)', defaultUptime: 70 },
+    { name: '복수+', desc: '피해를 입을 시 12초간 공격력 5% / 받는 회복량 2% 증가 (최대 5회 중첩)', defaultUptime: 70 },
+    { name: '거두는 손길', desc: '전투 시작 시 15초간 주는 피해 26% 증가 (적 처치 시 재발동)', defaultUptime: 70 },
+    { name: '부서진 왕관', desc: '마력의 원 위에서 15초간 공격력 4% / 강타 피해 4.5% 증가 (최대 3회 중첩)', defaultUptime: 70 },
     { name: '숲 길잡이', desc: '이동 및 공격 스택 달성 시 10초간 주는 피해 21% 증가', defaultUptime: 100 },
     { name: '백금 천칭', desc: '콤보/기본 공격 조건부로 주는 피해 31.5% 및 추가타 확률 31.5% 적용', defaultUptime: 100 },
     { name: '초월', desc: '추가타/치명타 5회 적중 시 주는 피해 15% 및 치명타 피해 15% 증가', defaultUptime: 100 },
