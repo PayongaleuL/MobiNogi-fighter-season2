@@ -369,9 +369,9 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate }) {
                 <tr key={idx} className="hover:bg-slate-900/10 transition-colors">
                   
                   {/* 룬 정보 열 (Sticky 고정) */}
-                  <td className="p-3 sticky left-0 bg-slate-900/90 backdrop-blur-sm z-10 shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)] flex flex-col gap-1.5 justify-center border-r border-slate-800/50">
-                    <div className="flex items-center gap-2">
-                      <span className="text-sm font-bold text-slate-100">{item.name}</span>
+                  <td className="p-3 sticky left-0 bg-slate-900/90 backdrop-blur-sm z-10 shadow-[4px_0_8px_-4px_rgba(0,0,0,0.5)] border-r border-slate-800/50">
+                    <div className="flex flex-row items-center gap-1.5 flex-wrap">
+                      <span className="text-sm font-bold text-slate-100 whitespace-nowrap">{item.name}</span>
                       <span className={`px-1.5 py-0.5 rounded text-[9px] font-bold ${
                         item.status === 'MISSING' ? 'bg-rose-950 text-rose-400 border border-rose-900' :
                         item.isCustomized ? 'bg-amber-950 text-amber-400 border border-amber-900' :
@@ -379,9 +379,6 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate }) {
                       }`}>
                         {item.status === 'MISSING' ? '누락' : item.isCustomized ? '수정됨' : '기본'}
                       </span>
-                    </div>
-
-                    <div className="flex gap-1">
                       <span className="px-1.5 py-0.2 bg-slate-850 border border-slate-700 text-slate-400 rounded text-[9px] font-bold">
                         {item.type}
                       </span>
@@ -394,7 +391,6 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate }) {
                         {item.element}
                       </span>
                     </div>
-
                   </td>
 
                   {/* 각 스탯 컬럼 및 수정 입력 필드 */}
