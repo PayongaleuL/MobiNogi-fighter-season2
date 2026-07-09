@@ -381,7 +381,7 @@ export default function GemStonePanel({ uiTheme, gems, onGemChange, setGems, sel
       </div>
 
       {/* 3줄 완성 권장 가이드 경고 배너 */}
-      <div className="bg-amber-500/10 border border-amber-300 dark:border-amber-800/30 text-amber-700 dark:text-amber-400 text-xs p-3.5 rounded-xl font-bold flex items-center gap-2.5 animate-pulse theme-transition">
+      <div className="bg-amber-600 border border-amber-500 text-white text-xs p-3.5 rounded-xl font-bold flex items-center gap-2.5 animate-pulse shadow-sm">
         <span>💡</span>
         <span>일괄 프리셋(강이) 적용 시 2줄(강뎀/이뎀)만 기본 설정됩니다. 나머지 3번째 줄 세공 옵션은 직접 클릭하여 3줄을 완성해 주십시오. (3줄 미만 시 소켓이 붉게 점멸합니다.)</span>
       </div>
