@@ -21,7 +21,7 @@ const STAT_COLUMNS = [
   { key: "마도저항", label: "마도저항", isPercent: false }
 ];
 
-export default function RuneAuditDashboard({ runes, onRunesUpdate, selectedRunes, onEquipRune }) {
+export default function RuneAuditDashboard({ runes, onRunesUpdate, selectedRunes }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedTypeFilter, setSelectedTypeFilter] = useState('ALL');
   const [statusFilter, setStatusFilter] = useState('ALL'); // 'ALL' | 'EQUIPPED' | 'MATCH' | 'MISMATCH' | 'MISSING' | 'CUSTOMIZED'
@@ -425,19 +425,6 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate, selectedRunes
                           {item.element}
                         </span>
                       </div>
-                      {/* 줄 3: 장착/해제 즉시 토글 */}
-                      {onEquipRune && item.status !== 'MISSING' && (
-                        <button
-                          onClick={() => onEquipRune(item.existingRune || { name: item.name, type: item.type, stats: item.parsedStats, element: item.element })}
-                          className={`mt-1.5 w-full py-1 rounded text-[10px] font-black border transition-all focus:outline-none ${
-                            item.isEquipped
-                              ? 'bg-rose-500/10 border-rose-300 dark:border-rose-800 text-rose-700 dark:text-rose-400 hover:bg-rose-600 hover:text-white hover:border-transparent'
-                              : 'bg-emerald-500/10 border-emerald-300 dark:border-emerald-800 text-emerald-700 dark:text-emerald-400 hover:bg-emerald-600 hover:text-white hover:border-transparent'
-                          }`}
-                        >
-                          {item.isEquipped ? '❌ 장착 해제' : '💍 즉시 장착'}
-                        </button>
-                      )}
                     </div>
                   </td>
 

@@ -271,12 +271,14 @@ export default function Calculator() {
 
     // 룬 정보 전개 및 개별 초월 레벨 주입
     const flattenedRunes = [];
+    const getCoreName = (name) => name ? name.replace(/\+/g, '').replace(/\s+/g, '').trim() : '';
     Object.keys(selectedRunes).forEach(type => {
       selectedRunes[type].forEach((r, idx) => {
         if (r) {
-          const latestRune = customRunes.find(cr => cr.name === r.name) || r;
+          const latestRune = customRunes.find(cr => getCoreName(cr.name) === getCoreName(r.name)) || r;
           const rCopy = {
             ...latestRune,
+            stats: latestRune.stats || {},
             transcendLevel: transcendLevels[type] ? transcendLevels[type][idx] : 0
           };
           flattenedRunes.push(rCopy);
@@ -498,37 +500,15 @@ export default function Calculator() {
     setCustomRunes(updatedRunes);
     setSelectedRunes(prev => {
       const next = { ...prev };
+      const getCoreName = (name) => name ? name.replace(/\+/g, '').replace(/\s+/g, '').trim() : '';
       Object.keys(next).forEach(type => {
         next[type] = next[type].map(selectedRune => {
           if (!selectedRune) return null;
-          const matched = updatedRunes.find(ur => ur.name === selectedRune.name);
+          const matched = updatedRunes.find(ur => getCoreName(ur.name) === getCoreName(selectedRune.name));
           return matched ? matched : selectedRune;
         });
       });
       return next;
-    });
-  };
-
-  const handleEquipToggle = (rune) => {
-    setSelectedRunes(prev => {
-      const type = rune.type;
-      const arr = [...prev[type]];
-      const existingIdx = arr.findIndex(r => r && (r.name.replace(/\+/g, '').trim() === rune.name.replace(/\+/g, '').trim()));
-      
-      if (existingIdx !== -1) {
-        arr[existingIdx] = null;
-      } else {
-        const emptyIdx = arr.indexOf(null);
-        if (emptyIdx !== -1) {
-          arr[emptyIdx] = rune;
-        } else {
-          arr[0] = rune;
-        }
-      }
-      return {
-        ...prev,
-        [type]: arr
-      };
     });
   };
 
@@ -703,7 +683,7 @@ export default function Calculator() {
       {activeTab === 'gemstone' ? (
         <GemStonePanel uiTheme={uiTheme} gems={gems} onGemChange={handleGemChange} setGems={setGems} selectedRunes={selectedRunes} />
       ) : activeTab === 'runeAudit' ? (
-        <RuneAuditDashboard uiTheme={uiTheme} runes={customRunes} onRunesUpdate={handleRunesUpdate} selectedRunes={selectedRunes} onEquipRune={handleEquipToggle} />
+        <RuneAuditDashboard uiTheme={uiTheme} runes={customRunes} onRunesUpdate={handleRunesUpdate} selectedRunes={selectedRunes} />
       ) : activeTab === 'seals' ? (
         <SealControlPanel seals={seals} onSealChange={(slot, val) => setSeals(prev => ({ ...prev, [slot]: val }))} />
       ) : (
