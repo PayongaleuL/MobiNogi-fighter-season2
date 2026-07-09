@@ -92,33 +92,20 @@ export default function Calculator() {
     localStorage.setItem('mabi_calculator_seals', JSON.stringify(seals));
   }, [seals]);
 
-  // 3. 장착 룬 상태 (기초 디폴트 세팅: 격투가 전용 1티어 실전 룬)
-  const [selectedRunes, setSelectedRunes] = useState(() => {
-    const getRune = (name) => runesData.find(r => r.name === name) || null;
-    return {
-      '무기': [getRune('태초')],
-      '방어구': [
-        getRune('도약+'),
-        getRune('승천+'),
-        getRune('강격+'),
-        getRune('격파+'),
-        getRune('약점+')
-      ],
-      '장신구': [
-        getRune('초월'),
-        getRune('무너진 경계'),
-        getRune('숲 길잡이')
-      ],
-      '엠블럼': [getRune('백금 천칭')]
-    };
+  // 3. 장착 룬 상태
+  const [selectedRunes, setSelectedRunes] = useState({
+    '무기': [null],
+    '방어구': [null, null, null, null, null],
+    '장신구': [null, null, null],
+    '엠블럼': [null]
   });
 
-  // 3-1. 장착 룬 초월 단계 상태 (기본 1단계 초월+)
+  // 3-1. 장착 룬 초월 단계 상태 (0: 미초월, 1: 초월+, 2: 초월++)
   const [transcendLevels, setTranscendLevels] = useState({
-    '무기': [1],
-    '방어구': [1, 1, 1, 1, 1],
-    '장신구': [1, 1, 1],
-    '엠블럼': [1]
+    '무기': [0],
+    '방어구': [0, 0, 0, 0, 0],
+    '장신구': [0, 0, 0],
+    '엠블럼': [0]
   });
 
   // 4. 보석 세공 수치 계산 결과 상태 (실시간 유도되어 하위 패널 전달용)
@@ -360,43 +347,8 @@ export default function Calculator() {
       try {
         const parsed = JSON.parse(savedAutosave);
         if (parsed.stats) setStats(parsed.stats);
-        if (parsed.selectedRunes) {
-          const hasAnyRune = Object.values(parsed.selectedRunes).some(arr => arr && arr.some(r => r !== null));
-          if (hasAnyRune) {
-            setSelectedRunes(parsed.selectedRunes);
-          } else {
-            const getRune = (name) => runesData.find(r => r.name === name) || null;
-            setSelectedRunes({
-              '무기': [getRune('태초')],
-              '방어구': [
-                getRune('도약+'),
-                getRune('승천+'),
-                getRune('강격+'),
-                getRune('격파+'),
-                getRune('약점+')
-              ],
-              '장신구': [
-                getRune('초월'),
-                getRune('무너진 경계'),
-                getRune('숲 길잡이')
-              ],
-              '엠블럼': [getRune('백금 천칭')]
-            });
-            setTranscendLevels({
-              '무기': [1],
-              '방어구': [1, 1, 1, 1, 1],
-              '장신구': [1, 1, 1],
-              '엠블럼': [1]
-            });
-          }
-        }
-        if (parsed.transcendLevels) {
-          // selectedRunes가 복원되었는데 transcendLevels가 구형(전부 0)인 경우도 복원하기 위함
-          const hasAnyRune = Object.values(parsed.selectedRunes || {}).some(arr => arr && arr.some(r => r !== null));
-          if (hasAnyRune) {
-            setTranscendLevels(parsed.transcendLevels);
-          }
-        }
+        if (parsed.selectedRunes) setSelectedRunes(parsed.selectedRunes);
+        if (parsed.transcendLevels) setTranscendLevels(parsed.transcendLevels);
         if (parsed.cycles) setCycles(parsed.cycles);
         if (parsed.conditionalUptimes) setConditionalUptimes(parsed.conditionalUptimes);
         if (parsed.gimmicks) setGimmicks(parsed.gimmicks);
@@ -512,28 +464,17 @@ export default function Calculator() {
         skillLevel_5: 10,
         skillLevel_6: 10
       });
-      const getRune = (name) => runesData.find(r => r.name === name) || null;
       setSelectedRunes({
-        '무기': [getRune('태초')],
-        '방어구': [
-          getRune('도약+'),
-          getRune('승천+'),
-          getRune('강격+'),
-          getRune('격파+'),
-          getRune('약점+')
-        ],
-        '장신구': [
-          getRune('초월'),
-          getRune('무너진 경계'),
-          getRune('숲 길잡이')
-        ],
-        '엠블럼': [getRune('백금 천칭')]
+        '무기': [null],
+        '방어구': [null, null, null, null, null],
+        '장신구': [null, null, null],
+        '엠블럼': [null]
       });
       setTranscendLevels({
-        '무기': [1],
-        '방어구': [1, 1, 1, 1, 1],
-        '장신구': [1, 1, 1],
-        '엠블럼': [1]
+        '무기': [0],
+        '방어구': [0, 0, 0, 0, 0],
+        '장신구': [0, 0, 0],
+        '엠블럼': [0]
       });
       setGems(
         Array.from({ length: 22 }, (_, idx) => ({
