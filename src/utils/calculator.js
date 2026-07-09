@@ -244,6 +244,12 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
   const s4Stance = stances.skill_4 || '순정';
   const s5Stance = stances.skill_5 || '순정';
 
+  // 스탠스 키워드 매칭 보조 함수 (유저가 도약+, 도약, 강격+, 강격 등을 셋팅하더라도 정교하게 매칭)
+  const matchStance = (val, keyword) => {
+    if (!val) return false;
+    return val.replace(/\+/g, '').replace(/\s+/g, '').trim().includes(keyword);
+  };
+
   // 3. 상황별 딜사이클 연산
   const states = ["ordinary", "ordinaryBreak", "ultimate", "ultimateBreak"];
   const results = {};
@@ -255,35 +261,35 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
     const skillData = {
       // 1번 스킬 (차징 피스트)
       "1-1": { 
-        baseCoeff: s1Stance === '충돌' ? 1.775 : (s1Stance === '약점' ? 0.92 : 1.475), 
-        baseCast: s1Stance === '약점' ? 1.0 : 4.0 
+        baseCoeff: matchStance(s1Stance, '충돌') ? 1.775 : (matchStance(s1Stance, '약점') ? 0.92 : 1.475), 
+        baseCast: matchStance(s1Stance, '약점') ? 1.0 : 4.0 
       },
       "1-2": { baseCoeff: 0.81, baseCast: 1.45 },
       
       // 2번 스킬 (연환격)
       "2-1": { 
-        baseCoeff: s2Stance === '전진' ? 0.465 : (s2Stance === '도약' ? 0.64 : 0.405), 
+        baseCoeff: matchStance(s2Stance, '전진') ? 0.465 : (matchStance(s2Stance, '도약') ? 0.64 : 0.405), 
         baseCast: 1.0 
       },
       "2-2": { baseCoeff: 0.525, baseCast: 1.3 },
       
       // 3번 스킬 (섬격)
       "3": { 
-        baseCoeff: s3Stance === '순발력' ? 0.24 : 0.085, 
+        baseCoeff: matchStance(s3Stance, '순발력') ? 0.24 : 0.085, 
         baseCast: 0.85 
       },
       
       // 4번 스킬 (버스트 펀치 / 소닉 피스트)
       "4-1": { 
-        baseCoeff: s4Stance === '격파' ? 0.188 : 0.141, 
+        baseCoeff: matchStance(s4Stance, '격파') ? 0.188 : 0.141, 
         baseCast: 0.8 
       },
       "4-2": { 
-        baseCoeff: s4Stance === '격파' ? 0.328 : 0.25, 
+        baseCoeff: matchStance(s4Stance, '격파') ? 0.328 : 0.25, 
         baseCast: 0.8 
       },
       "4-3": { 
-        baseCoeff: s4Stance === '격파' ? 0.468 : 0.354, 
+        baseCoeff: matchStance(s4Stance, '격파') ? 0.468 : 0.354, 
         baseCast: 0.8 
       },
       
@@ -295,15 +301,15 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
 
       // 5번 스킬 (비룡격 / 섬머솔트)
       "5-1": { 
-        baseCoeff: s5Stance === '열혈' ? 0.435 : 0.32, 
+        baseCoeff: matchStance(s5Stance, '열혈') ? 0.435 : 0.32, 
         baseCast: 1.0 
       },
       "5-2": { 
-        baseCoeff: s5Stance === '열혈' ? 0.60 : 0.435, 
+        baseCoeff: matchStance(s5Stance, '열혈') ? 0.60 : 0.435, 
         baseCast: 1.0 
       },
       "5-3": { 
-        baseCoeff: s5Stance === '열혈' ? 0.86 : 0.63, 
+        baseCoeff: matchStance(s5Stance, '열혈') ? 0.86 : 0.63, 
         baseCast: 1.0 
       },
       
@@ -316,6 +322,7 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
       // 6번 스킬 (궁극기)
       "6": { baseCoeff: 16.5, baseCast: 3.0 }
     };
+
 
     let totalCycleCoeff = 0.0;
     let totalCycleTime = 0.0;
@@ -349,17 +356,21 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
       if (char === '1') {
         listSkills.push("1-1", "1-2");
       } else if (char === '2') {
-        listSkills.push("2-1", "2-2");
+        if (matchStance(s2Stance, '도약') || matchStance(s2Stance, '전진')) {
+          listSkills.push("2-1"); // 단일 격투 콤보형
+        } else {
+          listSkills.push("2-1", "2-2");
+        }
       } else if (char === '3') {
         listSkills.push("3");
       } else if (char === '4') {
-        if (s4Stance === '소닉 피스트' || s4Stance === '승천') {
+        if (matchStance(s4Stance, '소닉') || matchStance(s4Stance, '승천')) {
           listSkills.push("sonic");
         } else {
           listSkills.push("4-1", "4-2", "4-3");
         }
       } else if (char === '5') {
-        if (s5Stance === '섬머솔트') {
+        if (matchStance(s5Stance, '섬머') || matchStance(s5Stance, '강격')) {
           listSkills.push("somersault");
         } else {
           listSkills.push("5-1", "5-2", "5-3");
@@ -459,11 +470,12 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
 
     const totalDps = (skillDps + directDps + dotDps) * transcendCoeff;
 
+    const scaleFactor = 10.0;
     results[state] = {
-      skillDps: Math.round(skillDps),
-      directDps: Math.round(directDps),
-      dotDps: Math.round(dotDps),
-      totalDps: Math.round(totalDps),
+      skillDps: Math.round(skillDps * scaleFactor),
+      directDps: Math.round(directDps * scaleFactor),
+      dotDps: Math.round(dotDps * scaleFactor),
+      totalDps: Math.round(totalDps * scaleFactor),
       cycleTime: parseFloat(totalCycleTime.toFixed(2)),
       cycleCoeff: parseFloat(totalCycleCoeff.toFixed(3))
     };
