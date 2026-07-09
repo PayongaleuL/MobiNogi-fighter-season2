@@ -141,8 +141,8 @@ export default function StatsInput({ stats, onStatsChange }) {
         <div className="flex flex-wrap gap-2 mb-4 bg-theme-subcard p-2.5 rounded-xl border border-theme theme-transition">
           <span className="text-[10px] font-bold text-theme-sub self-center mr-1">개조 단계 프리셋:</span>
           {[
-            { label: '156 프리셋 (1/5/6번 30단)', key: '156' },
-            { label: '256 프리셋 (2/5/6번 30단)', key: '256' },
+            { label: '156 프리셋', key: '156' },
+            { label: '256 프리셋', key: '256' },
             { label: '456 프리셋 (시즌2 격투가)', key: '456' }
           ].map(preset => (
             <button
