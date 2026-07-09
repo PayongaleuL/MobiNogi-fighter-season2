@@ -344,12 +344,12 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate }) {
         <table className="w-full border-collapse text-left text-xs text-theme-main min-w-[1500px]">
           <thead>
             <tr className="bg-theme-subcard border-b border-theme text-theme-sub font-bold sticky top-0 z-20 theme-transition">
-              <th className="p-3 w-48 sticky left-0 bg-theme-subcard z-30 shadow-[2px_0_4px_-2px_rgba(0,0,0,0.1)] theme-transition">룬 정보</th>
+              <th className="p-3 w-48 text-sm sticky left-0 bg-theme-subcard z-30 shadow-[2px_0_4px_-2px_rgba(0,0,0,0.1)] theme-transition">룬 정보</th>
               {STAT_COLUMNS.map(col => (
-                <th key={col.key} className="p-3 text-center w-28 border-l border-theme theme-transition">
+                <th key={col.key} className="p-3 text-center w-32 border-l border-theme theme-transition">
                   <div className="flex flex-col items-center justify-center gap-0.5">
-                    <span className="text-theme-main font-black">{col.label}</span>
-                    <span className="text-[9px] text-theme-muted font-bold font-mono">
+                    <span className="text-sm font-black text-theme-main">{col.label}</span>
+                    <span className="text-[10px] text-theme-muted font-bold font-mono">
                       {col.isPercent ? '백분율 (%)' : '깡스탯'}
                     </span>
                   </div>
@@ -429,7 +429,7 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate }) {
                             disabled={item.status === 'MISSING'} // 누락된 룬은 먼저 싱크를 맞춰서 추가해야 수정 가능
                             value={item.status === 'MISSING' ? (col.isPercent ? (masterVal * 100).toFixed(1) : masterVal) : displayVal}
                             onChange={(e) => handleStatChange(item.name, col.key, e.target.value, col.isPercent)}
-                            className={`w-20 text-center py-1 bg-transparent text-xs font-mono font-black rounded focus:outline-none transition-all ${
+                            className={`w-24 text-center py-1 bg-transparent text-sm font-mono font-black rounded focus:outline-none transition-all ${
                               item.status === 'MISSING' ? 'text-theme-muted/50 cursor-not-allowed' :
                               isCustomCell 
                                 ? 'text-amber-700 dark:text-amber-400 bg-amber-500/10 border border-amber-300 dark:border-amber-800/40 shadow-inner' 
@@ -443,12 +443,12 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate }) {
                           
                           {/* 스탯 변경 시 마스터 값과 미세하게 다른 경우 뱃지 제공 */}
                           {isCustomCell && !col.isPercent && (
-                            <span className="text-[8px] text-amber-700 font-bold">
+                            <span className="text-[10px] text-amber-700 dark:text-amber-400 font-extrabold">
                               (원래: {masterVal})
                             </span>
                           )}
                           {isCustomCell && col.isPercent && (
-                            <span className="text-[8px] text-amber-700 font-bold">
+                            <span className="text-[10px] text-amber-700 dark:text-amber-400 font-extrabold">
                               (원래: {(masterVal * 100).toFixed(1)}%)
                             </span>
                           )}

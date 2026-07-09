@@ -843,29 +843,29 @@ export default function Calculator() {
                 
                 {/* 스펙 연동 결과 - 은은한 파스텔톤 조합 */}
                 <div className="grid grid-cols-2 gap-4 text-xs">
-                  <div className="bg-slate-100/80 px-4 py-2 rounded-xl border border-slate-200">
-                    <span className="text-slate-500 font-semibold block">적용 공격력</span>
-                    <span className="font-bold text-slate-800 mt-0.5 block">{dpsResult ? dpsResult.totalAtk.toLocaleString() : '0'}</span>
+                  <div className="bg-theme-card px-4 py-2 rounded-xl border border-theme theme-transition">
+                    <span className="text-theme-muted font-semibold block">적용 공격력</span>
+                    <span className="font-bold text-theme-main mt-0.5 block">{dpsResult ? dpsResult.totalAtk.toLocaleString() : '0'}</span>
                   </div>
-                  <div className="bg-orange-50 px-4 py-2 rounded-xl border border-orange-100">
-                    <span className="text-orange-700 font-semibold block">룬 공격력 가산</span>
-                    <span className="font-bold text-orange-600 mt-0.5 block">+{dpsResult ? dpsResult.runeAtkAdd.toLocaleString() : '0'}</span>
+                  <div className="bg-orange-500/10 px-4 py-2 rounded-xl border border-orange-300 dark:border-orange-850/30 theme-transition">
+                    <span className="text-orange-700 dark:text-orange-400 font-semibold block">룬 공격력 가산</span>
+                    <span className="font-bold text-orange-600 dark:text-orange-300 mt-0.5 block">+{dpsResult ? dpsResult.runeAtkAdd.toLocaleString() : '0'}</span>
                   </div>
-                  <div className="bg-blue-50 px-4 py-2 rounded-xl border border-blue-100">
-                    <span className="text-blue-700 font-semibold block">총 마도저항</span>
-                    <span className="font-bold text-blue-600 mt-0.5 block">{dpsResult ? dpsResult.totalResist.toLocaleString() : '0'}</span>
+                  <div className="bg-blue-500/10 px-4 py-2 rounded-xl border border-blue-300 dark:border-blue-850/30 theme-transition">
+                    <span className="text-blue-700 dark:text-blue-400 font-semibold block">총 마도저항</span>
+                    <span className="font-bold text-blue-600 dark:text-blue-300 mt-0.5 block">{dpsResult ? dpsResult.totalResist.toLocaleString() : '0'}</span>
                   </div>
-                  <div className="bg-emerald-50 px-4 py-2 rounded-xl border border-emerald-100">
-                    <span className="text-emerald-700 font-semibold block">추가타 확률</span>
-                    <span className="font-bold text-emerald-600 mt-0.5 block">{dpsResult ? dpsResult.extraProb : '0.0'}%</span>
+                  <div className="bg-emerald-500/10 px-4 py-2 rounded-xl border border-emerald-300 dark:border-emerald-850/30 theme-transition">
+                    <span className="text-emerald-700 dark:text-emerald-400 font-semibold block">추가타 확률</span>
+                    <span className="font-bold text-emerald-600 dark:text-emerald-300 mt-0.5 block">{dpsResult ? dpsResult.extraProb : '0.0'}%</span>
                   </div>
-                  <div className="bg-purple-50 px-4 py-2 rounded-xl border border-purple-100 col-span-2 sm:col-span-1">
-                    <span className="text-purple-700 font-semibold block">치명타 확률</span>
-                    <span className="font-bold text-purple-600 mt-0.5 block">{dpsResult ? dpsResult.critProb : '0.0'}%</span>
+                  <div className="bg-purple-500/10 px-4 py-2 rounded-xl border border-purple-300 dark:border-purple-850/30 col-span-2 sm:col-span-1 theme-transition">
+                    <span className="text-purple-700 dark:text-purple-400 font-semibold block">치명타 확률</span>
+                    <span className="font-bold text-purple-600 dark:text-purple-300 mt-0.5 block">{dpsResult ? dpsResult.critProb : '0.0'}%</span>
                   </div>
-                  <div className="bg-purple-50 px-4 py-2 rounded-xl border border-purple-100 col-span-2 sm:col-span-1">
-                    <span className="text-purple-700 font-semibold block">치명타 피해</span>
-                    <span className="font-bold text-purple-600 mt-0.5 block">{dpsResult ? dpsResult.critDmg : '0.0'}%</span>
+                  <div className="bg-purple-500/10 px-4 py-2 rounded-xl border border-purple-300 dark:border-purple-850/30 col-span-2 sm:col-span-1 theme-transition">
+                    <span className="text-purple-700 dark:text-purple-400 font-semibold block">치명타 피해</span>
+                    <span className="font-bold text-purple-600 dark:text-purple-300 mt-0.5 block">{dpsResult ? dpsResult.critDmg : '0.0'}%</span>
                   </div>
                 </div>
               </div>

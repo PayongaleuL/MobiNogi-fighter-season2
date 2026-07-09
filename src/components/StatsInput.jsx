@@ -91,9 +91,9 @@ export default function StatsInput({ stats, onStatsChange }) {
             <div key={f.key} className="bg-theme-subcard p-3.5 rounded-xl border border-theme flex flex-col gap-2 theme-transition card-lift-glow">
               <div className="flex justify-between items-start">
                 <div className="flex flex-col gap-0.5">
-                  <label className="text-xs font-bold text-theme-sub">{f.label}</label>
+                  <label className="text-sm font-black text-theme-sub">{f.label}</label>
                   {getStatPercent(f.key, stats[f.key]) && (
-                    <span className="text-[10px] text-emerald-600 font-bold">
+                    <span className="text-[11.5px] text-emerald-600 dark:text-emerald-400 font-extrabold theme-transition">
                       ({getStatPercent(f.key, stats[f.key])})
                     </span>
                   )}
@@ -102,7 +102,7 @@ export default function StatsInput({ stats, onStatsChange }) {
                   type="number"
                   value={stats[f.key] || 0}
                   onChange={(e) => handleInputChange(f.key, e.target.value)}
-                  className="w-24 bg-theme-card border border-theme rounded px-2 py-0.5 text-xs text-right font-black text-emerald-600 focus-orange-glow focus:outline-none theme-transition"
+                  className="w-24 bg-theme-card border border-theme rounded px-2.5 py-1 text-sm font-mono font-black text-emerald-600 dark:text-emerald-400 focus-orange-glow focus:outline-none theme-transition"
                 />
               </div>
               <input
@@ -112,7 +112,7 @@ export default function StatsInput({ stats, onStatsChange }) {
                 step={f.step}
                 value={stats[f.key] || 0}
                 onChange={(e) => handleInputChange(f.key, e.target.value)}
-                className="w-full h-1 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-orange-500"
+                className="w-full h-1.5 bg-theme-main rounded-lg appearance-none cursor-pointer accent-orange-500 theme-transition"
               />
             </div>
           ))}
@@ -162,13 +162,13 @@ export default function StatsInput({ stats, onStatsChange }) {
             return (
               <div 
                 key={f.key} 
-                className={`p-2.5 rounded-xl border flex flex-col items-center gap-1 transition-all ${
+                className={`p-2.5 rounded-xl border flex flex-col items-center gap-1 transition-all theme-transition ${
                   is30 
-                    ? 'bg-purple-50 border-purple-300 shadow-sm' 
+                    ? 'bg-purple-500/10 border-purple-300 dark:border-purple-800/60 shadow-sm shadow-purple-500/5' 
                     : 'bg-theme-subcard border-theme'
                 }`}
               >
-                <span className={`text-[10px] font-bold ${is30 ? 'text-purple-700' : 'text-theme-sub'}`}>{f.label}</span>
+                <span className={`text-[10px] font-bold theme-transition ${is30 ? 'text-purple-750 dark:text-purple-300' : 'text-theme-sub'}`}>{f.label}</span>
                 <div className="flex items-center mt-1.5 border border-theme rounded-lg overflow-hidden theme-transition shadow-sm">
                   <button
                     type="button"
@@ -194,7 +194,7 @@ export default function StatsInput({ stats, onStatsChange }) {
                       }
                     }}
                     className={`w-8 h-6 bg-theme-card text-center text-xs font-black focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none border-l border-r border-theme theme-transition ${
-                      is30 ? 'text-purple-600 font-extrabold' : 'text-theme-main'
+                      is30 ? 'text-purple-700 dark:text-purple-300 font-extrabold' : 'text-theme-main'
                     }`}
                   />
                   <button

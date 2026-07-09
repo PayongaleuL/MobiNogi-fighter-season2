@@ -6,7 +6,7 @@ export default function RuneSelector({ uiTheme, selectedRunes, onRuneChange, tra
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedTypeFilter, setSelectedTypeFilter] = useState('ALL');
   const [activeSlot, setActiveSlot] = useState(null); // { type, index }
-  const [isDetailOpen, setIsDetailOpen] = useState(true); // 장착 룬 상세 사전 열기/닫기 토글 상태
+  const [isDetailOpen, setIsDetailOpen] = useState(false); // 장착 룬 상세 사전 열기/닫기 토글 상태
 
   // 룬 설명 극단적 간소화 포맷터 (피드백 반영: 주피증, 공증, 치확 등 짧은 용어로 정리)
   const formatRuneDescCompact = (rune) => {
@@ -277,13 +277,13 @@ export default function RuneSelector({ uiTheme, selectedRunes, onRuneChange, tra
                     {getRuneIcon(slot.type)}
                   </div>
                   <div>
-                    <span className="text-[9px] text-theme-muted font-bold block leading-none">{slot.label}</span>
-                    <span className="text-xs font-black text-theme-main mt-1.5 block">
+                    <span className="text-[10.5px] text-theme-muted font-bold block leading-none">{slot.label}</span>
+                    <span className="text-sm font-black text-theme-main mt-1.5 block">
                       {currentRune ? (
                         <>
                           {currentRune.name}
                           {currentLevel > 0 && (
-                            <span className={`text-[10px] font-black ${levelBadgeColor}`}>
+                            <span className={`text-[10.5px] font-black ${levelBadgeColor}`}>
                               {levelLabels[currentLevel]}
                             </span>
                           )}
@@ -470,17 +470,13 @@ export default function RuneSelector({ uiTheme, selectedRunes, onRuneChange, tra
       <div className="mt-8 border-t border-theme pt-6 theme-transition">
         <button 
           onClick={() => setIsDetailOpen(!isDetailOpen)}
-          className="w-full flex items-center justify-between text-xs font-black text-theme-muted mb-4 uppercase tracking-wider hover:text-theme-main transition-colors focus:outline-none theme-transition"
+          className="w-full flex items-center justify-between text-xs font-black text-theme-main bg-theme-subcard hover:bg-theme-card border border-theme rounded-xl p-4 shadow-sm transition-all duration-300 card-lift-glow focus:outline-none theme-transition mb-4"
         >
-          <span className="flex items-center gap-1.5">
-            <Star className="w-4 h-4 text-orange-500" />
-            장착 중인 룬 상세 효과 사전
+          <span className="flex items-center gap-2">
+            <Star className={`w-4 h-4 text-orange-500 transition-transform duration-500 ${isDetailOpen ? 'rotate-180 scale-110' : 'rotate-0'}`} />
+            <span className="font-extrabold tracking-wide text-theme-main">장착 중인 룬 상세 효과 사전 {isDetailOpen ? '(열림)' : '(닫힘)'}</span>
           </span>
-          {isDetailOpen ? (
-            <ChevronUp className="w-4 h-4 text-theme-muted" />
-          ) : (
-            <ChevronDown className="w-4 h-4 text-theme-muted" />
-          )}
+          <ChevronDown className={`w-4 h-4 text-theme-muted transition-transform duration-300 ${isDetailOpen ? 'rotate-180' : 'rotate-0'}`} />
         </button>
 
         {isDetailOpen && (
