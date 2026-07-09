@@ -396,6 +396,39 @@ export default function RuneSelector({ uiTheme, selectedRunes, onRuneChange, tra
               </div>
             </div>
 
+            {/* 추천/자주 쓰는 룬 퀵보드 */}
+            <div className="px-4 pb-4 bg-theme-subcard border-b border-theme theme-transition">
+              <span className="text-[10px] font-black text-theme-muted uppercase block mb-2">💡 격투가 추천/자주 쓰는 룬 빠른 장착</span>
+              <div className="flex flex-wrap gap-2">
+                {(() => {
+                  let names = [];
+                  if (activeSlot.type === '무기') {
+                    names = ['태초', '초월', '무너진 경계', '숲 길잡이', '백금 천칭', '눈부신 잔영', '금 간 봉인', '타오르는 영광'];
+                  } else if (activeSlot.type === '장신구') {
+                    names = ['태초', '초월', '무너진 경계', '숲 길잡이', '백금 천칭', '눈부신 잔영', '금 간 봉인', '타오르는 영광'];
+                  } else if (activeSlot.type === '방어구') {
+                    names = ['도약+', '승천+', '강격+', '격파+', '약점+', '충돌+', '전진+', '열혈+', '순발력+'];
+                  } else if (activeSlot.type === '엠블럼') {
+                    names = ['태초', '초월'];
+                  }
+                  
+                  return names.map(name => {
+                    return runesData.find(r => r.name === name);
+                  }).filter(Boolean).map(r => (
+                    <button
+                      key={r.name}
+                      onClick={() => handleSelectRune(r)}
+                      className="px-2.5 py-1.5 rounded-lg text-xs font-black bg-theme-card border border-theme hover:border-orange-500/80 text-theme-main transition-all flex items-center gap-1.5 theme-transition hover:bg-orange-500/5"
+                    >
+                      <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
+                      <span>{r.name}</span>
+                      <span className="text-[9px] text-emerald-500 font-extrabold">({formatRuneDescCompact(r).split(' ')[0]})</span>
+                    </button>
+                  ));
+                })()}
+              </div>
+            </div>
+
             {/* 룬 리스트 */}
             <div className="p-4 overflow-y-auto flex-1 bg-theme-main theme-transition">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
