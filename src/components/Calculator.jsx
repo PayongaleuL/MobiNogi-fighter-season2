@@ -55,7 +55,12 @@ export default function Calculator() {
     skillLevel_3: 10,
     skillLevel_4: 10,
     skillLevel_5: 10,
-    skillLevel_6: 10
+    skillLevel_6: 10,
+    // 시즌2 격투가 신규 시즌스킬 및 패시브 초기 플래그
+    useNightTrace: true,
+    useDeadlyImpact: true,
+    useHitCombo: true,
+    nightBlessingUptime: 25
   });
 
   // 3. 장착 룬 상태
@@ -813,6 +818,8 @@ export default function Calculator() {
               selectedRunes={selectedRunes}
               conditionalUptimes={conditionalUptimes}
               onUptimeChange={handleUptimeChange}
+              nightBlessingUptime={stats.nightBlessingUptime}
+              onNightBlessingChange={(val) => setStats(prev => ({ ...prev, nightBlessingUptime: val }))}
             />
           </div>
 

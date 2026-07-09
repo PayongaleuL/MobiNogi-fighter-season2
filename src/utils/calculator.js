@@ -29,6 +29,24 @@ const SKILL_CATEGORIES = {
   "somersault": { dmg: "strong", cd: "strong" } // 섬머솔트 (강타)
 };
 
+// 스킬별 히트 수(적중 타수) 매핑 테이블 (시즌2 히트콤보 연산 용)
+const SKILL_HITS = {
+  "1-1": 1,
+  "1-2": 1,
+  "2-1": 1,
+  "2-2": 1,
+  "3": 0,
+  "4-1": 1,
+  "4-2": 1,
+  "4-3": 1,
+  "sonic": 4,
+  "5-1": 1,
+  "5-2": 1,
+  "5-3": 2,
+  "somersault": 2,
+  "6": 10
+};
+
 /**
  * 캐릭터 스탯, 룬 선택 정보, 보석 세공 스탯, 가동률 조절 값을 입력받아 최종 DPS를 계산합니다.
  * @param {Object} characterStats 캐릭터 기본 능력치
@@ -92,8 +110,9 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
     });
   });
 
-  // 2. 캐릭터 스펙 연산
-  const baseAtk = characterStats.baseAttack || 27166.0;
+  // 2. 캐릭터 스펙 연산 (시즌2 격투가 패시브: 밤의 흔적 활성 시 힘/의지/행운 +71에 따른 공격력 보정 추가)
+  const nightTraceAtk = characterStats.useNightTrace ? 106.5 : 0.0;
+  const baseAtk = (characterStats.baseAttack || 27166.0) + nightTraceAtk;
   // 특수 보석(헬리오도르, 그린 헬리오도르)으로 인한 모든능력치 공격력 환산 (1당 1.5 공격력 가산)
   const extraGemAtk = (characterStats.extraAllStat || 0) * 1.5;
   const emblemAtkPct = 0.07; 
@@ -101,7 +120,9 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
   const fastSkillScore = characterStats.fastSkill || 1488.0;
   const ultScore = characterStats.ultScore || 1792.0;
 
-  const totalAtkPct = runeStats["공격력%"] + runeStats["조건부공증%"] + (characterStats.enchantAtkPct || 6.8) / 100.0 + emblemAtkPct;
+  // 시즌2 격투가 시즌스킬: 밤의 축복 (15% 공격력 증가 버프 * 가동률 반영)
+  const nightBlessingBoost = ((characterStats.nightBlessingUptime || 0) / 100.0) * 0.15;
+  const totalAtkPct = runeStats["공격력%"] + runeStats["조건부공증%"] + (characterStats.enchantAtkPct || 6.8) / 100.0 + emblemAtkPct + nightBlessingBoost;
   // 룬의 깡 공격력 추가 가산
   const attack = (baseAtk + extraGemAtk + runeStats["공격력"]) * (1 + totalAtkPct);
 
@@ -140,11 +161,13 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
   const baseExtraProb = (characterStats.extraProb || 987.0) / 13000.0;
   const totalExtraProb = (1 + baseExtraProb) * (1 + runeStats["추가타확률%"]) - 1;
 
-  // 치명타
-  const baseCritProb = 0.5 * (characterStats.critScore / (characterStats.critScore + 2000)) + (boss.includes("허수아비") ? 0.3 : 0.0) + (characterStats.critBonusPct || 0);
+  // 치명타 (시즌2 격투가 패시브: 밤의 흔적 활성 시 행운 +71에 따른 치명타 수치 보정 추가)
+  const nightTraceCrit = characterStats.useNightTrace ? 71.0 : 0.0;
+  const effectiveCritScore = (characterStats.critScore || 6925.0) + nightTraceCrit;
+  const baseCritProb = 0.5 * (effectiveCritScore / (effectiveCritScore + 2000)) + (boss.includes("허수아비") ? 0.3 : 0.0) + (characterStats.critBonusPct || 0);
   const totalCritProb = Math.min(1.0, baseCritProb + runeStats["치명타확률%"]);
   
-  const baseCritDmg = 1.4 + ((characterStats.critScore || 6925.0) / 5000.0);
+  const baseCritDmg = 1.4 + (effectiveCritScore / 5000.0);
   const totalCritDmg = baseCritDmg * (1 + runeStats["치명타피해%"]);
   const critMultiplier = (1 - totalCritProb) + (totalCritDmg * totalCritProb);
 
@@ -238,6 +261,8 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
     let totalCycleCoeff = 0.0;
     let totalCycleTime = 0.0;
     let nonUltSkillCount = 0; // 패시브 '충격파' 기댓값 스택 카운트
+    let totalHits = 0;        // 딜사이클 당 누적 적중 타수
+    let s3Count = 0;          // 딜사이클 내 백 스텝 시전 수
 
     // 딜사이클 문자열 쪼개기 매핑
     const listSkills = [];
@@ -296,6 +321,12 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
       if (skillGroup !== '6') {
         nonUltSkillCount += 1;
       }
+
+      // 시즌2 격투가 신규 시즌스킬을 위한 타수 및 백 스텝(3번스킬) 시전 횟수 집계
+      totalHits += SKILL_HITS[skillName] || 0;
+      if (skillName === "3") {
+        s3Count += 1;
+      }
     });
 
     if (totalCycleTime === 0) totalCycleTime = 1;
@@ -317,6 +348,23 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
     // 4) 파쇄권 패시브 가산 (3초 쿨타임마다 공격력의 1.78배 피해 상시 발생)
     const crashDps = (attack * 1.78 * (1 + totalGivesDmg) * (1 + totalGetsDmg) * armorCoeff * unarmedDmgCoeff) / 3;
     skillDps += crashDps;
+
+    // 5) 시즌2 시즌스킬: 데들리 임팩트 가산 (강타강화 수치 strongDmg 비례 추가타, 3번 스킬 사용횟수 연동)
+    if (characterStats.useDeadlyImpact && s3Count > 0) {
+      const strongRatio = Math.min(1.0, (characterStats.strongDmg || 0) / 5000);
+      const deadlyImpactBaseDmg = 15073 + (75365 - 15073) * strongRatio;
+      // 일반 주는피해% 및 받는피해% 보정, 치명타 기댓값 배율 및 방어 계수 가산
+      const deadlyImpactFinalDmg = deadlyImpactBaseDmg * (1 + totalGivesDmg) * (1 + totalGetsDmg) * critMultiplier * armorCoeff * unarmedDmgCoeff;
+      skillDps += (deadlyImpactFinalDmg * s3Count) / totalCycleTime;
+    }
+
+    // 6) 시즌2 시즌스킬: 히트 콤보 가산 (10적중 시 100% 확정 치명타 폭발 피해)
+    if (characterStats.useHitCombo && totalHits >= 10) {
+      const hitComboCount = Math.floor(totalHits / 10);
+      // 147777 피해량은 치명타 100% 적용으로, 치명적중과 무관하게 totalCritDmg을 곱연산
+      const hitComboBaseDmg = 147777 * totalCritDmg * (1 + totalGivesDmg) * (1 + totalGetsDmg) * armorCoeff * unarmedDmgCoeff;
+      skillDps += (hitComboBaseDmg * hitComboCount) / totalCycleTime;
+    }
 
     // 추가타(직접피해) 계산
     const baseDamageMultiplier = (1 + totalGivesDmg + totalSkillDmg) * (1 + totalGetsDmg) * (1 + totalStrongDmg + totalChainDmg + totalComboDmg);

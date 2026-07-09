@@ -1,7 +1,7 @@
 import React from 'react';
 import { ToggleLeft, Sliders, Info } from 'lucide-react';
 
-export default function ConditionalPanel({ selectedRunes, conditionalUptimes, onUptimeChange }) {
+export default function ConditionalPanel({ selectedRunes, conditionalUptimes, onUptimeChange, nightBlessingUptime, onNightBlessingChange }) {
   // 조건부 옵션을 가진 룬 리스트 정의
   const conditionalRunesConfig = [
     { name: '무너진 경계', desc: '침식 부여 시 추가타 확률 16.5% 증가 (100% 이상 시 2배인 33% 적용, 오염 시 소실)', defaultUptime: 70 },
@@ -106,6 +106,53 @@ export default function ConditionalPanel({ selectedRunes, conditionalUptimes, on
           );
         })}
       </div>
+
+      {/* 시즌2 시즌스킬 버프 가동률 연동 슬라이더 */}
+      {onNightBlessingChange && (
+        <div className="mt-6 border-t border-theme pt-6 theme-transition">
+          <h4 className="text-xs font-black text-theme-muted uppercase tracking-wider mb-4 flex items-center gap-1.5">
+            <Info className="w-4 h-4 text-orange-500" />
+            시즌2 신규스킬 버프 가동률 조절
+          </h4>
+          <div className="bg-theme-subcard p-4 rounded-xl border border-theme flex flex-col gap-3 theme-transition">
+            <div className="flex justify-between items-start gap-2">
+              <div>
+                <span className="text-sm font-black text-theme-main">밤의 축복 (백 스텝 버프)</span>
+                <span className="text-[10px] text-theme-sub block leading-relaxed mt-0.5">3번 스킬 사용 시 15초간 공격력 15% 증가 (쿨타임 60초, 기본 기댓값 25%)</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-black text-emerald-600 dark:text-emerald-400 bg-theme-card px-2 py-0.5 rounded border border-theme theme-transition">
+                  {nightBlessingUptime || 25}%
+                </span>
+              </div>
+            </div>
+            <div className="flex items-center gap-4">
+              <Sliders className="w-4 h-4 text-theme-muted" />
+              <input
+                type="range"
+                min="0"
+                max="100"
+                step="5"
+                value={nightBlessingUptime || 25}
+                onChange={(e) => onNightBlessingChange(parseInt(e.target.value))}
+                className="flex-1 h-1.5 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-orange-500 theme-transition"
+              />
+              <button
+                type="button"
+                onClick={() => onNightBlessingChange((nightBlessingUptime || 25) === 100 ? 0 : 100)}
+                className={`text-[10px] px-2 py-1 rounded font-bold border transition-all focus:outline-none theme-transition ${
+                  (nightBlessingUptime || 25) === 100
+                    ? 'bg-emerald-500/10 border-emerald-300 dark:border-emerald-800/40 text-emerald-700 dark:text-emerald-400'
+                    : 'bg-theme-card border-theme text-theme-sub hover:text-theme-main'
+                }`}
+              >
+                {(nightBlessingUptime || 25) === 100 ? '항시 버프' : '수정'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }

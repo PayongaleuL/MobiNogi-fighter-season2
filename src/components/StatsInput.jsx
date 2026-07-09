@@ -261,6 +261,55 @@ export default function StatsInput({ stats, onStatsChange }) {
         </div>
       </div>
 
+      {/* 시즌2 격투가 시즌스킬 및 패시브 제어 섹션 */}
+      <div className="bg-theme-subcard/50 border border-theme rounded-2xl p-5 flex flex-col gap-4 mt-6 theme-transition card-lift-glow">
+        <h4 className="text-sm font-black text-theme-main flex items-center gap-2">
+          <Settings className="w-4 h-4 text-orange-500" />
+          시즌2 격투가 시즌 스킬 & 패시브 설정
+        </h4>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {/* 밤의 흔적 패시브 */}
+          <div className="bg-theme-card border border-theme rounded-xl p-3.5 flex justify-between items-center gap-2 theme-transition">
+            <div className="flex flex-col gap-0.5">
+              <span className="text-xs font-black text-theme-main">밤의 흔적 패시브 (Lv.30)</span>
+              <span className="text-[10px] text-theme-muted font-semibold">체크 시 5대스탯 +71 / 체력 +1148 가산</span>
+            </div>
+            <input
+              type="checkbox"
+              checked={stats.useNightTrace || false}
+              onChange={(e) => onStatsChange('useNightTrace', e.target.checked)}
+              className="w-4.5 h-4.5 accent-orange-500 rounded border-theme cursor-pointer"
+            />
+          </div>
+          {/* 데들리 임팩트 */}
+          <div className="bg-theme-card border border-theme rounded-xl p-3.5 flex justify-between items-center gap-2 theme-transition">
+            <div className="flex flex-col gap-0.5">
+              <span className="text-xs font-black text-theme-main">데들리 임팩트 활성화</span>
+              <span className="text-[10px] text-theme-muted font-semibold">백스텝 시 강타비례 추가 범위피해</span>
+            </div>
+            <input
+              type="checkbox"
+              checked={stats.useDeadlyImpact || false}
+              onChange={(e) => onStatsChange('useDeadlyImpact', e.target.checked)}
+              className="w-4.5 h-4.5 accent-orange-500 rounded border-theme cursor-pointer"
+            />
+          </div>
+          {/* 히트 콤보 */}
+          <div className="bg-theme-card border border-theme rounded-xl p-3.5 flex justify-between items-center gap-2 theme-transition">
+            <div className="flex flex-col gap-0.5">
+              <span className="text-xs font-black text-theme-main">히트 콤보 활성화</span>
+              <span className="text-[10px] text-theme-muted font-semibold">10회 적중시 확정 치명타 폭발피해</span>
+            </div>
+            <input
+              type="checkbox"
+              checked={stats.useHitCombo || false}
+              onChange={(e) => onStatsChange('useHitCombo', e.target.checked)}
+              className="w-4.5 h-4.5 accent-orange-500 rounded border-theme cursor-pointer"
+            />
+          </div>
+        </div>
+      </div>
+
     </div>
   );
 }
