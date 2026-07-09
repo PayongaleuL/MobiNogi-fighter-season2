@@ -37,7 +37,7 @@ export default function Calculator() {
   const [customRunes, setCustomRunes] = useState(() => {
     try {
       const parsed = parseRuneMarkdown(mdText);
-      if (parsed && parsed.length > 0) {
+      if (parsed && parsed.length > 40) {
         const getCore = (name) => name ? name.replace(/\+/g, '').replace(/\s+/g, '').trim() : '';
         return parsed.map(p => {
           const original = runesData.find(o => getCore(o.name) === getCore(p.name)) || {};
@@ -294,7 +294,9 @@ export default function Calculator() {
     Object.keys(selectedRunes).forEach(type => {
       selectedRunes[type].forEach((r, idx) => {
         if (r) {
-          const latestRune = customRunes.find(cr => getCoreName(cr.name) === getCoreName(r.name)) || r;
+          const latestRune = customRunes.find(cr => getCoreName(cr.name) === getCoreName(r.name)) || 
+                             runesData.find(o => getCoreName(o.name) === getCoreName(r.name)) || 
+                             r;
           const rCopy = {
             ...latestRune,
             stats: latestRune.stats || {},

@@ -2101,14 +2101,16 @@
       "추가타확률%": 0,
       "치명타확률%": 0,
       "스킬속도%": 0,
-      "재사용회복%": 0.13,
+      "재사용회복%": 0,
       "최종피해%": 0,
       "가동률": 1,
       "공격력": 0,
       "방어력": 445,
       "마도저항": 300,
       "모든스킬강화": 1,
-      "임의스킬강화": 2
+      "임의스킬강화": 2,
+      "밤축_스킬속도%": 0.13,
+      "밤축_재사용회복%": 0.13
     },
     "description": "공격력이 15% 증가한다.\n밤의 축복 스킬 활성화 시, 스킬 사용 속도,캐스팅 및 차지 속도, 재사용 대기시간 회복 속도가 13% 증가한다."
   },
@@ -2969,7 +2971,7 @@
   },
   {
     "file": "MabinogiMobile_lzk7riw6dt.png",
-    "type": "장신구",
+    "type": "방어구",
     "name": "도약+",
     "element": "없음",
     "raw_text": [
@@ -3010,7 +3012,7 @@
   },
   {
     "file": "MabinogiMobile_mnrkcfnuuq.png",
-    "type": "장신구",
+    "type": "방어구",
     "name": "순발력+",
     "element": "없음",
     "raw_text": [
@@ -3051,7 +3053,7 @@
   },
   {
     "file": "MabinogiMobile_pq8rj3jo4i.png",
-    "type": "장신구",
+    "type": "방어구",
     "name": "격파+",
     "element": "없음",
     "raw_text": [
@@ -3092,7 +3094,7 @@
   },
   {
     "file": "MabinogiMobile_aw55div74h.png",
-    "type": "장신구",
+    "type": "방어구",
     "name": "약점+",
     "element": "없음",
     "raw_text": [
@@ -3135,7 +3137,7 @@
   },
   {
     "file": "MabinogiMobile_53lxnbw4fw.png",
-    "type": "장신구",
+    "type": "방어구",
     "name": "충돌+",
     "element": "없음",
     "raw_text": [
@@ -3176,7 +3178,7 @@
   },
   {
     "file": "MabinogiMobile_ncxjnfgweo.png",
-    "type": "장신구",
+    "type": "방어구",
     "name": "열혈+",
     "element": "없음",
     "raw_text": [
@@ -3217,7 +3219,7 @@
   },
   {
     "file": "MabinogiMobile_eg9lz0d7dk.png",
-    "type": "장신구",
+    "type": "방어구",
     "name": "강격+",
     "element": "없음",
     "raw_text": [
@@ -3258,7 +3260,7 @@
   },
   {
     "file": "MabinogiMobile_qvkjblgqc8.png",
-    "type": "장신구",
+    "type": "방어구",
     "name": "전진+",
     "element": "없음",
     "raw_text": [
@@ -3299,7 +3301,7 @@
   },
   {
     "file": "MabinogiMobile_a7uhsyzd6w.png",
-    "type": "장신구",
+    "type": "방어구",
     "name": "승천+",
     "element": "없음",
     "raw_text": [

@@ -17,8 +17,6 @@ const STAT_COLUMNS = [
   { key: "스킬속도%", label: "스킬속도", isPercent: true },
   { key: "재사용회복%", label: "재사용회복", isPercent: true },
   { key: "최종피해%", label: "최종피해", isPercent: true },
-  { key: "밤축_스킬속도%", label: "밤축스킬속도", isPercent: true },
-  { key: "밤축_재사용회복%", label: "밤축쿨감", isPercent: true },
   { key: "가동률", label: "가동률", isPercent: false },
   { key: "마도저항", label: "마도저항", isPercent: false }
 ];
