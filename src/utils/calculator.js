@@ -96,16 +96,25 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
       else if (rune.transcendLevel === 2) scale = 1.25;
     }
 
-    Object.keys(runeStats).forEach(key => {
-      if (rune.stats[key] !== undefined) {
-        let val = rune.stats[key];
-        if (name === '거대한 분노' && key === '스킬피해%') {
-          val = 0.12; // 거대한 분노 최대 4회 중첩 시 스킬피해 12.0% 증가 반영
+    Object.keys(rune.stats).forEach(key => {
+      let val = rune.stats[key];
+      if (val === undefined || val === 0) return;
+
+      const isMetaKey = ['가동률', '모든스킬강화', '임의스킬강화', '마도저항'].includes(key);
+      const finalVal = isMetaKey ? val : val * scale;
+
+      if (key.startsWith("밤축_")) {
+        const targetKey = key.replace("밤축_", "");
+        const nbUptime = (characterStats.nightBlessingUptime || 0) / 100.0;
+        if (runeStats[targetKey] !== undefined) {
+          runeStats[targetKey] += finalVal * uptime * nbUptime;
         }
-        
-        const isMetaKey = ['가동률', '모든스킬강화', '임의스킬강화', '마도저항'].includes(key);
-        const finalVal = isMetaKey ? val : val * scale;
-        runeStats[key] += finalVal * uptime;
+      } else {
+        if (name === '거대한 분노' && key === '스킬피해%') {
+          runeStats[key] += 0.12 * uptime;
+        } else if (runeStats[key] !== undefined) {
+          runeStats[key] += finalVal * uptime;
+        }
       }
     });
   });

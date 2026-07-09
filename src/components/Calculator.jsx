@@ -8,6 +8,8 @@ import SealControlPanel from './SealControlPanel';
 import { calculateDPS } from '../utils/calculator';
 import { Play, RotateCcw, Save, Trash2, Check, TrendingUp, Info, Gem, Activity, Sliders, Sun, Moon, Shield } from 'lucide-react';
 import runesData from '../data/runes.json';
+import { parseRuneMarkdown } from '../utils/runeMdParser';
+import mdText from '../../results/260708_룬설명목록.md?raw';
 
 export default function Calculator() {
   // 1. 활성화 탭 관리 ('calculator' | 'gemstone' | 'runeAudit' | 'seals')
@@ -31,8 +33,25 @@ export default function Calculator() {
     }
   }, [uiTheme]);
 
-  // 1-1. 룬 데이터베이스 수정 가능한 커스텀 룬 목록 상태
-  const [customRunes, setCustomRunes] = useState(runesData);
+  // 1-1. 룬 데이터베이스 수정 가능한 커스텀 룬 목록 상태 (마스터 마크다운 자동 파싱 연동)
+  const [customRunes, setCustomRunes] = useState(() => {
+    try {
+      const parsed = parseRuneMarkdown(mdText);
+      if (parsed && parsed.length > 0) {
+        const getCore = (name) => name ? name.replace(/\+/g, '').replace(/\s+/g, '').trim() : '';
+        return parsed.map(p => {
+          const original = runesData.find(o => getCore(o.name) === getCore(p.name)) || {};
+          return {
+            ...original,
+            ...p
+          };
+        });
+      }
+    } catch (e) {
+      console.error("Master markdown parsing failed, falling back to runes.json:", e);
+    }
+    return runesData;
+  });
 
   // 2. 캐릭터 스펙 상태
   const [stats, setStats] = useState({
