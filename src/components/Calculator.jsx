@@ -4,12 +4,13 @@ import RuneSelector from './RuneSelector';
 import ConditionalPanel from './ConditionalPanel';
 import GemStonePanel from './GemStonePanel';
 import RuneAuditDashboard from './RuneAuditDashboard';
+import SealControlPanel from './SealControlPanel';
 import { calculateDPS } from '../utils/calculator';
-import { Play, RotateCcw, Save, Trash2, Check, TrendingUp, Info, Gem, Activity, Sliders, Sun, Moon } from 'lucide-react';
+import { Play, RotateCcw, Save, Trash2, Check, TrendingUp, Info, Gem, Activity, Sliders, Sun, Moon, Shield } from 'lucide-react';
 import runesData from '../data/runes.json';
 
 export default function Calculator() {
-  // 1. 활성화 탭 관리 ('calculator' | 'gemstone' | 'runeAudit')
+  // 1. 활성화 탭 관리 ('calculator' | 'gemstone' | 'runeAudit' | 'seals')
   const [activeTab, setActiveTab] = useState('calculator');
 
   // 1-2. UI 테마 관리 ('light' | 'dark')
@@ -62,6 +63,34 @@ export default function Calculator() {
     useHitCombo: true,
     nightBlessingUptime: 25
   });
+
+  // 3-2. 시즌2 달의 인장 설정 상태
+  const [seals, setSeals] = useState(() => {
+    const saved = localStorage.getItem('mabi_calculator_seals');
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    return {
+      weapon: { type: 'none', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 40 },
+      necklace: { type: 'none', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 40 },
+      ring1: { type: 'none', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 40 },
+      ring2: { type: 'none', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 40 },
+      emblem: { type: 'none', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 40 },
+      hat: { type: 'none', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 40 },
+      top: { type: 'none', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 40 },
+      bottom: { type: 'none', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 40 },
+      gloves: { type: 'none', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 40 },
+      shoes: { type: 'none', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 40 }
+    };
+  });
+
+  useEffect(() => {
+    localStorage.setItem('mabi_calculator_seals', JSON.stringify(seals));
+  }, [seals]);
 
   // 3. 장착 룬 상태
   const [selectedRunes, setSelectedRunes] = useState({
@@ -262,10 +291,10 @@ export default function Calculator() {
       extraFinalDmgPct
     };
 
-    // DPS 실시간 연산
-    const result = calculateDPS(statsWithGems, flattenedRunes, gimmicks, cycles, conditionalUptimes, calculatedGemStats, skillStances);
+    // DPS 실시간 연산 (인장 설정 데이터 seals 결합 전달)
+    const result = calculateDPS(statsWithGems, flattenedRunes, gimmicks, cycles, conditionalUptimes, calculatedGemStats, skillStances, seals);
     setDpsResult(result);
-  }, [stats, selectedRunes, gimmicks, cycles, conditionalUptimes, gems, skillStances, customRunes]);
+  }, [stats, selectedRunes, gimmicks, cycles, conditionalUptimes, gems, skillStances, customRunes, seals]);
 
   // 로컬 스토리지 프리셋 로드 및 하위 호환 마이그레이션
   useEffect(() => {
@@ -631,6 +660,17 @@ export default function Calculator() {
                 <Sliders className="w-3.5 h-3.5" />
                 룬 스탯 교정실
               </button>
+              <button
+                onClick={() => setActiveTab('seals')}
+                className={`flex-1 md:flex-none px-5 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2 whitespace-nowrap flex-shrink-0 focus:outline-none ${
+                  activeTab === 'seals'
+                    ? 'bg-orange-500 text-white shadow-md'
+                    : 'text-theme-sub hover:text-theme-main'
+                }`}
+              >
+                <Shield className="w-3.5 h-3.5" />
+                인장 설정실
+              </button>
             </div>
           </div>
         </div>
@@ -641,6 +681,8 @@ export default function Calculator() {
         <GemStonePanel uiTheme={uiTheme} gems={gems} onGemChange={handleGemChange} setGems={setGems} selectedRunes={selectedRunes} />
       ) : activeTab === 'runeAudit' ? (
         <RuneAuditDashboard uiTheme={uiTheme} runes={customRunes} onRunesUpdate={handleRunesUpdate} />
+      ) : activeTab === 'seals' ? (
+        <SealControlPanel seals={seals} onSealChange={(slot, val) => setSeals(prev => ({ ...prev, [slot]: val }))} />
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start animate-fadeIn">
           

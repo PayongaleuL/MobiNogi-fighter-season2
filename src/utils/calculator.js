@@ -57,7 +57,7 @@ const SKILL_HITS = {
  * @param {Object} gemStats 보석 세공 입력 수치 (뎀증% / 쿨감%)
  * @param {Object} skillStances 스킬별 스탠스(Stance) 선택값
  */
-export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycleText, conditionalUptimes = {}, gemStats = {}, skillStances = {}) {
+export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycleText, conditionalUptimes = {}, gemStats = {}, skillStances = {}, seals = {}) {
   // 1. 적용된 룬의 스탯 합산
   const runeStats = {
     "공격력%": 0.0,
@@ -112,10 +112,60 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
 
   // 2. 캐릭터 스펙 연산 (시즌2 격투가 패시브: 밤의 흔적 활성 시 힘/의지/행운 +71에 따른 공격력 보정 추가)
   const nightTraceAtk = characterStats.useNightTrace ? 106.5 : 0.0;
-  const baseAtk = (characterStats.baseAttack || 27166.0) + nightTraceAtk;
+
+  // 2-1. 시즌2 달의 인장 (별의 인장, 푸른 달, 붉은 달) 스탯 연산
+  let sealBaseAtk = 0; // 인장 장비 슬롯 강화로 인한 깡공 가산
+  let sealEmblemAtkPct = 0.07; // 엠블럼 기본 7%
+  let sealStr = 0, sealWil = 0, sealLuk = 0; // 인장 추가 옵션 스탯 합산
+
+  const sealSlots = [
+    'weapon', 'necklace', 'ring1', 'ring2', 'emblem', 
+    'hat', 'top', 'bottom', 'gloves', 'shoes'
+  ];
+
+  sealSlots.forEach(slot => {
+    const seal = seals && seals[slot];
+    if (!seal || seal.type === 'none') return;
+
+    // A. 장비 슬롯 강화 효과
+    if (slot === 'weapon') {
+      if (seal.type === 'star') sealBaseAtk += 300;
+      else if (seal.type === 'blue_moon') sealBaseAtk += 500;
+      else if (seal.type === 'red_moon') sealBaseAtk += 800;
+    } else if (slot === 'necklace') {
+      if (seal.type === 'star') sealBaseAtk += 150;
+      else if (seal.type === 'blue_moon') sealBaseAtk += 250;
+      else if (seal.type === 'red_moon') sealBaseAtk += 400;
+    } else if (slot === 'emblem') {
+      if (seal.type === 'star') sealEmblemAtkPct = 0.10;
+      else if (seal.type === 'blue_moon') sealEmblemAtkPct = 0.11;
+      else if (seal.type === 'red_moon') sealEmblemAtkPct = 0.12;
+    }
+
+    // B. 추가 능력치 가산
+    if (seal.type === 'blue_moon') {
+      // 1군 스탯 (힘/솜씨/지력) 중 1종
+      if (seal.blueStat1Type === 'str') sealStr += seal.blueStat1Value || 27;
+      // 2군 스탯 (의지/행운) 중 1종
+      if (seal.blueStat2Type === 'wil') sealWil += seal.blueStat2Value || 27;
+      else if (seal.blueStat2Type === 'luk') sealLuk += seal.blueStat2Value || 27;
+    } else if (seal.type === 'red_moon') {
+      // 모든 능력치 가산
+      const redVal = seal.redMoonStatValue || 40;
+      sealStr += redVal;
+      sealWil += redVal;
+      sealLuk += redVal;
+    }
+  });
+
+  // 스탯의 공격력 및 치명타 수치 환산
+  const sealAtkFromStats = (sealStr + sealWil) * 1.5;
+  const sealCritFromStats = sealLuk * 1.0;
+
+  const baseAtk = (characterStats.baseAttack || 27166.0) + nightTraceAtk + sealBaseAtk + sealAtkFromStats;
   // 특수 보석(헬리오도르, 그린 헬리오도르)으로 인한 모든능력치 공격력 환산 (1당 1.5 공격력 가산)
   const extraGemAtk = (characterStats.extraAllStat || 0) * 1.5;
-  const emblemAtkPct = 0.07; 
+  const emblemAtkPct = sealEmblemAtkPct; 
   const fastAtkScore = characterStats.fastAtk || 1484.0;
   const fastSkillScore = characterStats.fastSkill || 1488.0;
   const ultScore = characterStats.ultScore || 1792.0;
@@ -161,9 +211,9 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
   const baseExtraProb = (characterStats.extraProb || 987.0) / 13000.0;
   const totalExtraProb = (1 + baseExtraProb) * (1 + runeStats["추가타확률%"]) - 1;
 
-  // 치명타 (시즌2 격투가 패시브: 밤의 흔적 활성 시 행운 +71에 따른 치명타 수치 보정 추가)
+  // 치명타 (시즌2 격투가 패시브: 밤의 흔적 활성 시 행운 +71 및 달의 인장 스탯 보정 추가)
   const nightTraceCrit = characterStats.useNightTrace ? 71.0 : 0.0;
-  const effectiveCritScore = (characterStats.critScore || 6925.0) + nightTraceCrit;
+  const effectiveCritScore = (characterStats.critScore || 6925.0) + nightTraceCrit + (sealCritFromStats || 0.0);
   const baseCritProb = 0.5 * (effectiveCritScore / (effectiveCritScore + 2000)) + (boss.includes("허수아비") ? 0.3 : 0.0) + (characterStats.critBonusPct || 0);
   const totalCritProb = Math.min(1.0, baseCritProb + runeStats["치명타확률%"]);
   

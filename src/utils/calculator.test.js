@@ -202,5 +202,66 @@ describe('6스킬 및 보석 세공 연계 격투가 계산기 연산 검증', (
     const resCombo = calculateDPS(statsWithCombo, selectedRunes, gimmicks, cycles, {}, {});
     expect(resCombo.weightedDps).toBeGreaterThan(resNormal.weightedDps);
   });
+
+  it('시즌2 달의 인장 (무기공격력, 붉은달 스탯 가산 등) 적용 연산 검증', () => {
+    const baseStats = {
+      baseAttack: 27166.0,
+      critScore: 6925.0,
+      strongDmg: 2487.0,
+      chainDmg: 2989.0,
+      comboPower: 1532.0,
+      skillPower: 1577.0,
+      multiPower: 1082.0,
+      extraProb: 987.0,
+      fastAtk: 1484.0,
+      fastSkill: 1488.0,
+      ultScore: 1792.0,
+      enchantAtkPct: 6.8,
+      critBonusPct: 0.0,
+      skillLevel_1: 10,
+      skillLevel_2: 30,
+      skillLevel_3: 10,
+      skillLevel_4: 10,
+      skillLevel_5: 10,
+      skillLevel_6: 10
+    };
+
+    const selectedRunes = [];
+    const gimmicks = {
+      boss: '함선 허수아비',
+      ordinaryTime: 87,
+      unarmedTime: 0,
+      ultimateTime: 33,
+      gimmickDmgPct: 0.0,
+      healerDmgPct: 0.0,
+      skillDebuffDmgPct: 10.0,
+      hasSpdBuff: false
+    };
+
+    const cycles = {
+      ordinary: '123456',
+      ordinaryBreak: '123456',
+      ultimate: '123456',
+      ultimateBreak: '123456'
+    };
+
+    // 1. 인장 미적용
+    const resNormal = calculateDPS(baseStats, selectedRunes, gimmicks, cycles, {}, {}, {}, {});
+
+    // 2. 무기에 붉은 달의 인장 장착 (공격력 +800 가산)
+    const sealsWeaponRed = {
+      weapon: { type: 'red_moon', redMoonStatValue: 40 }
+    };
+    const resWeaponRed = calculateDPS(baseStats, selectedRunes, gimmicks, cycles, {}, {}, {}, sealsWeaponRed);
+    // 무기 자체 공격력 +800과 붉은달 스탯 40(Str/Wil 각 +40 = 합 +80 * 1.5 = +120 공격력) 가산 확인
+    expect(resWeaponRed.totalAtk).toBeGreaterThan(resNormal.totalAtk);
+
+    // 3. 엠블럼에 푸른 달의 인장 장착 (추가공격력% 7% -> 11% 상승)
+    const sealsEmblemBlue = {
+      emblem: { type: 'blue_moon', blueStat1Type: 'str', blueStat1Value: 30, blueStat2Type: 'wil', blueStat2Value: 30 }
+    };
+    const resEmblemBlue = calculateDPS(baseStats, selectedRunes, gimmicks, cycles, {}, {}, {}, sealsEmblemBlue);
+    expect(resEmblemBlue.totalAtk).toBeGreaterThan(resNormal.totalAtk);
+  });
 });
 
