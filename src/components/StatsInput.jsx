@@ -93,7 +93,7 @@ export default function StatsInput({ stats, onStatsChange }) {
                 <div className="flex flex-col gap-0.5">
                   <label className="text-sm font-black text-theme-sub">{f.label}</label>
                   {getStatPercent(f.key, stats[f.key]) && (
-                    <span className="text-[11.5px] text-emerald-600 dark:text-emerald-400 font-extrabold theme-transition">
+                    <span className="text-[9.5px] text-emerald-600 dark:text-emerald-400 font-extrabold theme-transition">
                       ({getStatPercent(f.key, stats[f.key])})
                     </span>
                   )}
@@ -112,7 +112,7 @@ export default function StatsInput({ stats, onStatsChange }) {
                 step={f.step}
                 value={stats[f.key] || 0}
                 onChange={(e) => handleInputChange(f.key, e.target.value)}
-                className="w-full h-1.5 bg-theme-main rounded-lg appearance-none cursor-pointer accent-orange-500 theme-transition"
+                className="w-full h-1.5 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-orange-500 theme-transition"
               />
             </div>
           ))}

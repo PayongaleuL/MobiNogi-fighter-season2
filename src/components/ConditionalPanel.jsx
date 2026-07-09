@@ -89,7 +89,7 @@ export default function ConditionalPanel({ selectedRunes, conditionalUptimes, on
                   step="5"
                   value={currentVal}
                   onChange={(e) => onUptimeChange(rune.name, parseInt(e.target.value))}
-                  className="flex-1 h-1.5 bg-theme-main rounded-lg appearance-none cursor-pointer accent-orange-500 theme-transition"
+                  className="flex-1 h-1.5 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-orange-500 theme-transition"
                 />
                 <button
                   onClick={() => onUptimeChange(rune.name, currentVal === 100 ? 0 : 100)}
