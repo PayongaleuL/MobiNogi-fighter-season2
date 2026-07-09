@@ -286,17 +286,17 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate }) {
           <span className="text-[10px] font-bold text-theme-sub uppercase tracking-wider">현재 JSON 룬 총합</span>
           <span className="text-lg font-black text-theme-main mt-0.5">{statsSummary.totalJson} 개</span>
         </div>
-        <div className="bg-emerald-50/50 border border-emerald-250 p-3 rounded-xl flex flex-col justify-center">
-          <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider">설명글 일치</span>
-          <span className="text-lg font-black text-emerald-600 mt-0.5">{statsSummary.matchCount} 개</span>
+        <div className="bg-emerald-500/10 border border-emerald-300 dark:border-emerald-800/40 p-3 rounded-xl flex flex-col justify-center text-emerald-700 dark:text-emerald-400 theme-transition">
+          <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">설명글 일치</span>
+          <span className="text-lg font-black text-emerald-600 dark:text-emerald-350 mt-0.5">{statsSummary.matchCount} 개</span>
         </div>
-        <div className="bg-amber-50/50 border border-amber-250 p-3 rounded-xl flex flex-col justify-center">
-          <span className="text-[10px] font-bold text-amber-700 uppercase tracking-wider">수정됨 (커스텀)</span>
-          <span className="text-lg font-black text-amber-700 mt-0.5">{statsSummary.mismatchCount} 개</span>
+        <div className="bg-amber-500/10 border border-amber-300 dark:border-amber-800/40 p-3 rounded-xl flex flex-col justify-center text-amber-700 dark:text-amber-400 theme-transition">
+          <span className="text-[10px] font-bold text-amber-700 dark:text-amber-400 uppercase tracking-wider">수정됨 (커스텀)</span>
+          <span className="text-lg font-black text-amber-700 dark:text-amber-350 mt-0.5">{statsSummary.mismatchCount} 개</span>
         </div>
-        <div className="bg-rose-50/50 border border-rose-250 p-3 rounded-xl flex flex-col justify-center">
-          <span className="text-[10px] font-bold text-rose-600 uppercase tracking-wider">JSON 누락</span>
-          <span className="text-lg font-black text-rose-600 mt-0.5">{statsSummary.missingCount} 개</span>
+        <div className="bg-rose-500/10 border border-rose-300 dark:border-rose-800/40 p-3 rounded-xl flex flex-col justify-center text-rose-700 dark:text-rose-450 theme-transition">
+          <span className="text-[10px] font-bold text-rose-600 dark:text-rose-400 uppercase tracking-wider">JSON 누락</span>
+          <span className="text-lg font-black text-rose-600 dark:text-rose-350 mt-0.5">{statsSummary.missingCount} 개</span>
         </div>
       </div>
 
@@ -385,11 +385,11 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate }) {
                         <span className="px-1.5 py-0.2 bg-theme-subcard border border-theme text-theme-sub rounded text-[9px] font-bold whitespace-nowrap theme-transition">
                           {item.type}
                         </span>
-                        <span className={`px-1.5 py-0.2 rounded text-[9px] font-bold border whitespace-nowrap ${
-                          item.element === '빛' ? 'bg-amber-50 border-amber-250 text-amber-700' :
-                          item.element === '어둠' ? 'bg-purple-50 border-purple-250 text-purple-700' :
-                          item.element === '용' ? 'bg-rose-50 border-rose-250 text-rose-700' :
-                          'bg-slate-50 border-slate-200 text-slate-500'
+                        <span className={`px-1.5 py-0.2 rounded text-[9px] font-bold border whitespace-nowrap theme-transition ${
+                          item.element === '빛' ? 'bg-amber-500/15 border-amber-300 dark:border-amber-800/50 text-amber-700 dark:text-amber-300' :
+                          item.element === '어둠' ? 'bg-purple-500/15 border-purple-300 dark:border-purple-800/50 text-purple-700 dark:text-purple-300' :
+                          item.element === '용' ? 'bg-rose-500/15 border-rose-300 dark:border-rose-800/50 text-rose-700 dark:text-rose-300' :
+                          'bg-theme-subcard border-theme text-theme-sub'
                         }`}>
                           {item.element}
                         </span>
@@ -418,8 +418,8 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate }) {
                         key={col.key} 
                         className={`p-1.5 border-l border-theme text-center transition-all theme-transition ${
                           isActive 
-                            ? 'bg-emerald-50/20 hover:bg-emerald-50/45' 
-                            : 'opacity-50 hover:opacity-100 bg-slate-100/10'
+                            ? 'bg-emerald-500/10 hover:bg-emerald-500/20' 
+                            : 'opacity-50 hover:opacity-100 bg-theme-main/10'
                         }`}
                       >
                         <div className="flex flex-col items-center justify-center gap-1">
@@ -430,12 +430,12 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate }) {
                             value={item.status === 'MISSING' ? (col.isPercent ? (masterVal * 100).toFixed(1) : masterVal) : displayVal}
                             onChange={(e) => handleStatChange(item.name, col.key, e.target.value, col.isPercent)}
                             className={`w-20 text-center py-1 bg-transparent text-xs font-mono font-black rounded focus:outline-none transition-all ${
-                              item.status === 'MISSING' ? 'text-slate-400 cursor-not-allowed' :
+                              item.status === 'MISSING' ? 'text-theme-muted/50 cursor-not-allowed' :
                               isCustomCell 
-                                ? 'text-amber-700 bg-amber-50 border border-amber-300 shadow-inner' 
+                                ? 'text-amber-700 dark:text-amber-400 bg-amber-500/10 border border-amber-300 dark:border-amber-800/40 shadow-inner' 
                                 : isActive 
-                                  ? 'text-emerald-700 focus:bg-theme-card focus:border focus:border-emerald-500/60' 
-                                  : 'text-theme-sub focus:bg-theme-card focus:text-theme-main focus:border focus:border-theme'
+                                  ? 'text-emerald-700 dark:text-emerald-400 focus:bg-theme-card focus:border focus:border-emerald-500/60' 
+                                  : 'text-theme-sub dark:text-theme-main focus:bg-theme-card focus:text-theme-main focus:border focus:border-theme'
                             }`}
                             placeholder="0"
                             title={isCustomCell ? `마스터 기본값: ${col.isPercent ? (masterVal * 100).toFixed(1) + '%' : masterVal}` : `기본값`}

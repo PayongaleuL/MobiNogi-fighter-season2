@@ -565,22 +565,29 @@ export default function Calculator() {
           {/* 테마 토글 스위처 */}
           <div className="flex flex-col gap-1">
             <label className="text-[9px] font-black text-theme-muted uppercase tracking-wider">UI Theme</label>
-            <button
+            <div 
               onClick={() => setUiTheme(uiTheme === 'light' ? 'dark' : 'light')}
-              className="flex items-center gap-2 px-4 py-2 rounded-xl border border-theme bg-theme-subcard hover:bg-theme-card text-xs font-black text-theme-main transition-all focus:outline-none shadow-sm group active:scale-95 theme-transition"
+              className="relative w-18 h-8 bg-theme-subcard hover:bg-theme-card border border-theme rounded-full p-1 cursor-pointer transition-all duration-300 shadow-sm flex items-center justify-between group select-none theme-transition"
             >
-              {uiTheme === 'dark' ? (
-                <>
-                  <Moon className="w-3.5 h-3.5 text-indigo-400 group-hover:rotate-12 transition-transform duration-300" />
-                  <span>Dark Mode</span>
-                </>
-              ) : (
-                <>
-                  <Sun className="w-3.5 h-3.5 text-orange-500 group-hover:rotate-45 transition-transform duration-500" />
-                  <span>Light Mode</span>
-                </>
-              )}
-            </button>
+              {/* 배경 아이콘들 */}
+              <Sun className="w-3.5 h-3.5 text-orange-500 ml-1 opacity-50 group-hover:opacity-100 transition-opacity" />
+              <Moon className="w-3.5 h-3.5 text-indigo-400 mr-1 opacity-50 group-hover:opacity-100 transition-opacity" />
+              
+              {/* 슬라이딩 동그라미 노브 */}
+              <div 
+                className={`absolute w-5.5 h-5.5 rounded-full shadow-md flex items-center justify-center transition-all duration-300 ease-in-out ${
+                  uiTheme === 'dark' 
+                    ? 'translate-x-9 bg-indigo-600' 
+                    : 'translate-x-0 bg-orange-500'
+                }`}
+              >
+                {uiTheme === 'dark' ? (
+                  <Moon className="w-2.5 h-2.5 text-white animate-pulse" />
+                ) : (
+                  <Sun className="w-2.5 h-2.5 text-white animate-spin-slow" />
+                )}
+              </div>
+            </div>
           </div>
 
           {/* 상단 탭 버튼 */}

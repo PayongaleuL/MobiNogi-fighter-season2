@@ -74,7 +74,7 @@ export default function ConditionalPanel({ selectedRunes, conditionalUptimes, on
                   <span className="text-[10px] text-theme-sub block leading-relaxed mt-0.5">{rune.desc}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-black text-emerald-650 bg-theme-card px-2 py-0.5 rounded border border-theme theme-transition">
+                  <span className="text-xs font-black text-emerald-600 dark:text-emerald-400 bg-theme-card px-2 py-0.5 rounded border border-theme theme-transition">
                     {currentVal}%
                   </span>
                 </div>
@@ -89,13 +89,13 @@ export default function ConditionalPanel({ selectedRunes, conditionalUptimes, on
                   step="5"
                   value={currentVal}
                   onChange={(e) => onUptimeChange(rune.name, parseInt(e.target.value))}
-                  className="flex-1 h-1.5 bg-slate-250 rounded-lg appearance-none cursor-pointer accent-emerald-500"
+                  className="flex-1 h-1.5 bg-theme-main rounded-lg appearance-none cursor-pointer accent-orange-500 theme-transition"
                 />
                 <button
                   onClick={() => onUptimeChange(rune.name, currentVal === 100 ? 0 : 100)}
-                  className={`text-[10px] px-2 py-1 rounded font-bold border transition-all focus:outline-none ${
+                  className={`text-[10px] px-2 py-1 rounded font-bold border transition-all focus:outline-none theme-transition ${
                     currentVal === 100
-                      ? 'bg-emerald-50 border-emerald-200 text-emerald-600'
+                      ? 'bg-emerald-500/10 border-emerald-300 dark:border-emerald-800/40 text-emerald-700 dark:text-emerald-400'
                       : 'bg-theme-card border-theme text-theme-sub hover:text-theme-main'
                   }`}
                 >

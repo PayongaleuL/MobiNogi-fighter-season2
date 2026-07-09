@@ -384,9 +384,9 @@ export default function RuneSelector({ uiTheme, selectedRunes, onRuneChange, tra
                   <button
                     key={t}
                     onClick={() => setSelectedTypeFilter(t)}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-bold border transition-all focus:outline-none ${
+                    className={`px-3 py-1.5 rounded-lg text-xs font-bold border transition-all focus:outline-none theme-transition ${
                       selectedTypeFilter === t
-                        ? 'bg-orange-50 border-orange-500 text-orange-600 font-extrabold shadow-sm'
+                        ? 'bg-orange-500/10 border-orange-500 text-orange-600 dark:text-orange-400 font-extrabold shadow-sm'
                         : 'border-theme text-theme-sub hover:bg-theme-card'
                     }`}
                   >
@@ -424,7 +424,7 @@ export default function RuneSelector({ uiTheme, selectedRunes, onRuneChange, tra
                         </div>
 
                         {/* 줄임말 설명 렌더링 - 가독성 극대화 */}
-                        <div className="text-xs font-black text-emerald-600 mt-2 bg-emerald-50/50 border border-emerald-100 px-3 py-2 rounded-lg">
+                        <div className="text-xs font-black text-emerald-700 dark:text-emerald-400 mt-2 bg-emerald-500/10 border border-emerald-300 dark:border-emerald-800/40 px-3 py-2 rounded-lg theme-transition">
                           {formatRuneDescCompact(rune)}
                         </div>
                       </div>
@@ -467,19 +467,19 @@ export default function RuneSelector({ uiTheme, selectedRunes, onRuneChange, tra
       )}
 
       {/* 장착 룬 상세 효과 사전 (실시간 연동 출력 대시보드) */}
-      <div className="mt-8 border-t border-slate-800 pt-6">
+      <div className="mt-8 border-t border-theme pt-6 theme-transition">
         <button 
           onClick={() => setIsDetailOpen(!isDetailOpen)}
-          className="w-full flex items-center justify-between text-xs font-black text-slate-400 mb-4 uppercase tracking-wider hover:text-slate-200 transition-colors focus:outline-none"
+          className="w-full flex items-center justify-between text-xs font-black text-theme-muted mb-4 uppercase tracking-wider hover:text-theme-main transition-colors focus:outline-none theme-transition"
         >
           <span className="flex items-center gap-1.5">
-            <Star className="w-4 h-4 text-mabi-accent" />
+            <Star className="w-4 h-4 text-orange-500" />
             장착 중인 룬 상세 효과 사전
           </span>
           {isDetailOpen ? (
-            <ChevronUp className="w-4 h-4 text-slate-500" />
+            <ChevronUp className="w-4 h-4 text-theme-muted" />
           ) : (
-            <ChevronDown className="w-4 h-4 text-slate-500" />
+            <ChevronDown className="w-4 h-4 text-theme-muted" />
           )}
         </button>
 
@@ -492,20 +492,20 @@ export default function RuneSelector({ uiTheme, selectedRunes, onRuneChange, tra
                 if (coreLines.length === 0) return null; // 빈 카드는 아예 렌더링 스킵 처리
                 
                 return (
-                  <div key={`${type}-${idx}`} className="bg-slate-950/40 border border-slate-850 p-4 rounded-xl flex flex-col gap-2.5 transition-all hover:border-slate-750 h-fit">
-                    <div className="flex justify-between items-center border-b border-slate-850 pb-2">
-                      <span className="text-xs font-black text-slate-100 flex items-center gap-1.5">
-                        <span className="w-1.5 h-1.5 rounded-full bg-mabi-accent" />
+                  <div key={`${type}-${idx}`} className="bg-theme-subcard/50 border border-theme p-4 rounded-xl flex flex-col gap-2.5 transition-all hover:border-orange-500/50 card-lift-glow h-fit theme-transition">
+                    <div className="flex justify-between items-center border-b border-theme pb-2 theme-transition">
+                      <span className="text-xs font-black text-theme-main flex items-center gap-1.5 theme-transition">
+                        <span className="w-1.5 h-1.5 rounded-full bg-orange-500" />
                         {rune.name} ({type} 룬)
                       </span>
-                      <span className="text-[9px] bg-slate-900 border border-slate-800 px-2 py-0.5 rounded text-emerald-400 font-bold leading-none">
+                      <span className="text-[9px] bg-theme-card border border-theme px-2 py-0.5 rounded text-emerald-600 dark:text-emerald-400 font-bold leading-none theme-transition">
                         {formatRuneDescCompact(rune)}
                       </span>
                     </div>
-                    <div className="text-[10px] text-slate-350 leading-relaxed flex flex-col gap-1 font-medium">
+                    <div className="text-[10px] text-theme-sub leading-relaxed flex flex-col gap-1 font-medium theme-transition">
                       {coreLines.map((line, lIdx) => (
                         <p key={lIdx} className="flex gap-1.5 items-start">
-                          <span className="text-mabi-accent shrink-0 font-black">•</span>
+                          <span className="text-orange-500 shrink-0 font-black">•</span>
                           <span>{line}</span>
                         </p>
                       ))}
@@ -516,7 +516,7 @@ export default function RuneSelector({ uiTheme, selectedRunes, onRuneChange, tra
             ).filter(Boolean)}
             
             {Object.values(selectedRunes).flat().filter(Boolean).filter(r => getCoreRuneTexts(r.cleaned_text, r.name).length > 0).length === 0 && (
-              <div className="col-span-full py-8 text-center text-xs text-slate-500 border border-dashed border-slate-850 rounded-xl">
+              <div className="col-span-full py-8 text-center text-xs text-theme-muted border border-dashed border-theme rounded-xl theme-transition">
                 현재 장착된 룬이 없습니다. 상단 슬롯을 클릭해 룬을 장착해 주세요.
               </div>
             )}
