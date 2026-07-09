@@ -404,7 +404,25 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
         gemDmgBonus = gemStats[`${category.dmg}Dmg`] / 100.0;
       }
 
-      totalCycleCoeff += coeff * (1 + gemDmgBonus);
+      // 스킬 유형별 증폭 배율 계산 (스킬피해%, 콤보피해%, 강타/연타피해% 시너지 결합)
+      let typeMult = 1.0;
+      if (category) {
+        if (category.dmg === 'strong') {
+          typeMult = 1 + totalStrongDmg;
+        } else if (category.dmg === 'chain' || category.dmg === 'move') {
+          typeMult = 1 + totalChainDmg;
+        } else if (category.dmg === 'double' || skillName === 'somersault') {
+          typeMult = 1 + totalChainDmg;
+        }
+      } else if (skillGroup === '6') {
+        const ultBoost = (characterStats.ultScore || 1792.0) / 5000.0;
+        typeMult = 1 + ultBoost;
+      }
+
+      const skillComboMult = (1 + totalSkillDmg) * (1 + totalComboDmg);
+      const finalCoeff = coeff * (1 + gemDmgBonus) * typeMult * skillComboMult;
+
+      totalCycleCoeff += finalCoeff;
       totalCycleTime += castTime;
 
       // 충격파 스택 (궁극기 제외)
@@ -425,18 +443,18 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
     const isUnarmed = state.includes("Break");
     const unarmedDmgCoeff = isUnarmed ? (1 + (characterStats.comboPower || 1532.0) / 5250.0 + 0.4 + 0.05) : 1.0;
 
-    // DPS 계산 (주는피해% 및 치명타 기댓값 배율 반영)
-    let skillDps = attack * totalCycleCoeff * (1 + totalGivesDmg) * (1 + totalGetsDmg) * critMultiplier * armorCoeff * unarmedDmgCoeff / totalCycleTime;
+    // DPS 계산 (주는피해% 및 치명타 기댓값 배율 반영 - 격투가 기본 피해 200% 배율 복원)
+    let skillDps = (attack * 2) * totalCycleCoeff * (1 + totalGivesDmg) * (1 + totalGetsDmg) * critMultiplier * armorCoeff * unarmedDmgCoeff / totalCycleTime;
 
     // 3) 충격파 패시브 가산 (스킬 3회당 공격력의 98% 피해)
     const waveCount = Math.floor(nonUltSkillCount / 3);
     if (waveCount > 0) {
-      const waveDmg = attack * 0.98 * (1 + totalGivesDmg) * (1 + totalGetsDmg) * armorCoeff * unarmedDmgCoeff;
+      const waveDmg = (attack * 2) * 0.98 * (1 + totalGivesDmg) * (1 + totalGetsDmg) * (1 + totalSkillDmg) * (1 + totalComboDmg) * armorCoeff * unarmedDmgCoeff;
       skillDps += (waveDmg * waveCount) / totalCycleTime;
     }
 
     // 4) 파쇄권 패시브 가산 (3초 쿨타임마다 공격력의 1.78배 피해 상시 발생)
-    const crashDps = (attack * 1.78 * (1 + totalGivesDmg) * (1 + totalGetsDmg) * armorCoeff * unarmedDmgCoeff) / 3;
+    const crashDps = ((attack * 2) * 1.78 * (1 + totalGivesDmg) * (1 + totalGetsDmg) * (1 + totalSkillDmg) * (1 + totalComboDmg) * armorCoeff * unarmedDmgCoeff) / 3;
     skillDps += crashDps;
 
     // 5) 시즌2 시즌스킬: 데들리 임팩트 가산 (강타강화 수치 strongDmg 비례 추가타, 3번 스킬 사용횟수 연동)
@@ -470,7 +488,7 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
 
     const totalDps = (skillDps + directDps + dotDps) * transcendCoeff;
 
-    const scaleFactor = 5.0;
+    const scaleFactor = 1.0;
     results[state] = {
       skillDps: Math.round(skillDps * scaleFactor),
       directDps: Math.round(directDps * scaleFactor),
