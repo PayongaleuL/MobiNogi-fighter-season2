@@ -680,7 +680,7 @@ export default function Calculator() {
       {activeTab === 'gemstone' ? (
         <GemStonePanel uiTheme={uiTheme} gems={gems} onGemChange={handleGemChange} setGems={setGems} selectedRunes={selectedRunes} />
       ) : activeTab === 'runeAudit' ? (
-        <RuneAuditDashboard uiTheme={uiTheme} runes={customRunes} onRunesUpdate={handleRunesUpdate} />
+        <RuneAuditDashboard uiTheme={uiTheme} runes={customRunes} onRunesUpdate={handleRunesUpdate} selectedRunes={selectedRunes} />
       ) : activeTab === 'seals' ? (
         <SealControlPanel seals={seals} onSealChange={(slot, val) => setSeals(prev => ({ ...prev, [slot]: val }))} />
       ) : (

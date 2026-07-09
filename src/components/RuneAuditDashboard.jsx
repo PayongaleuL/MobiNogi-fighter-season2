@@ -21,12 +21,31 @@ const STAT_COLUMNS = [
   { key: "마도저항", label: "마도저항", isPercent: false }
 ];
 
-export default function RuneAuditDashboard({ runes, onRunesUpdate }) {
+export default function RuneAuditDashboard({ runes, onRunesUpdate, selectedRunes }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedTypeFilter, setSelectedTypeFilter] = useState('ALL');
-  const [statusFilter, setStatusFilter] = useState('ALL'); // 'ALL' | 'MATCH' | 'MISMATCH' | 'MISSING' | 'CUSTOMIZED'
+  const [statusFilter, setStatusFilter] = useState('ALL'); // 'ALL' | 'EQUIPPED' | 'MATCH' | 'MISMATCH' | 'MISSING' | 'CUSTOMIZED'
   const [copySuccess, setCopySuccess] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
+
+  // 0. 현재 장착 중인 룬 이름 목록 세트 수집
+  const equippedRuneNames = useMemo(() => {
+    const names = new Set();
+    if (selectedRunes) {
+      Object.values(selectedRunes).forEach(arr => {
+        if (arr) {
+          arr.forEach(r => {
+            if (r && r.name) {
+              const name = r.name.trim();
+              names.add(name);
+              names.add(name.replace(/\+/g, '').trim());
+            }
+          });
+        }
+      });
+    }
+    return names;
+  }, [selectedRunes]);
 
   // 1. 마스터 마크다운 파싱 결과 생성 (읽기 전용 기준 스탯)
   const parsedRunes = useMemo(() => {
@@ -64,6 +83,10 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate }) {
         });
       }
 
+      // 장착 중인지 여부 감지
+      const isEquipped = equippedRuneNames.has(parsed.name.trim()) || 
+                         equippedRuneNames.has(parsed.name.replace(/\+/g, '').trim());
+
       return {
         name: parsed.name,
         type: parsed.type,
@@ -73,10 +96,11 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate }) {
         existingRune: existing,
         status,
         isCustomized,
-        mismatches
+        mismatches,
+        isEquipped
       };
     });
-  }, [parsedRunes, runes]);
+  }, [parsedRunes, runes, equippedRuneNames]);
 
   // 3. 통계 데이터 계산
   const statsSummary = useMemo(() => {
@@ -205,11 +229,12 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate }) {
       const typeMatch = selectedTypeFilter === 'ALL' || item.type === selectedTypeFilter;
       
       let statusMatch = true;
-      if (statusFilter === 'MATCH') statusMatch = item.status === 'MATCH' && !item.isCustomized;
+      if (statusFilter === 'EQUIPPED') statusMatch = item.isEquipped;
+      else if (statusFilter === 'MATCH') statusMatch = item.status === 'MATCH' && !item.isCustomized;
       else if (statusFilter === 'MISMATCH') statusMatch = item.status === 'MISMATCH';
       else if (statusFilter === 'MISSING') statusMatch = item.status === 'MISSING';
       else if (statusFilter === 'CUSTOMIZED') statusMatch = item.isCustomized;
-
+      
       return nameMatch && typeMatch && statusMatch;
     });
   }, [auditList, searchTerm, selectedTypeFilter, statusFilter]);
@@ -332,6 +357,7 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate }) {
             className="bg-theme-card border border-theme rounded-lg px-3 py-2 text-xs font-black text-theme-sub focus-orange-glow focus:outline-none theme-transition"
           >
             <option value="ALL">모든 상태</option>
+            <option value="EQUIPPED">💍 장착 중인 룬</option>
             <option value="MATCH">✅ 마스터 기본상태</option>
             <option value="CUSTOMIZED">🛠️ 수동 수정됨 (커스텀)</option>
             <option value="MISSING">❌ JSON 누락</option>
@@ -371,9 +397,14 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate }) {
                   {/* 룬 정보 열 (Sticky 고정) */}
                   <td className="p-3 sticky left-0 bg-theme-card/95 backdrop-blur-sm z-10 shadow-[2px_0_4px_-2px_rgba(0,0,0,0.1)] border-r border-theme theme-transition">
                     <div className="flex flex-col gap-1.5 justify-center">
-                      {/* 줄 1: 이름 및 누락 뱃지 */}
-                      <div className="flex flex-row items-center gap-1.5">
+                      {/* 줄 1: 이름 및 누락/장착 뱃지 */}
+                      <div className="flex flex-row items-center gap-1.5 flex-wrap">
                         <span className="text-sm font-black text-theme-main whitespace-nowrap">{item.name}</span>
+                        {item.isEquipped && (
+                          <span className="px-1.5 py-0.5 rounded text-[9px] font-black bg-emerald-500/10 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-800 text-emerald-700 dark:text-emerald-450 whitespace-nowrap">
+                            장착 중
+                          </span>
+                        )}
                         {item.status === 'MISSING' && (
                           <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-rose-50 text-rose-600 border border-rose-200">
                             누락
