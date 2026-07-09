@@ -314,9 +314,29 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
     let totalHits = 0;        // 딜사이클 당 누적 적중 타수
     let s3Count = 0;          // 딜사이클 내 백 스텝 시전 수
 
-    // 딜사이클 문자열 쪼개기 매핑
+    // 딜사이클 문자열 쪼개기 매핑 (한글 스탠스명 및 특수기호 혼용 지원 보정)
     const listSkills = [];
-    for (let char of cycle.replace(/\s+/g, '')) {
+    let parsedCycle = cycle.replace(/\s+/g, '');
+    
+    if (/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/.test(parsedCycle)) {
+      const tokens = parsedCycle.match(/(도약|승천|강격|격파|약점|충돌|전진|순발력|열혈|섬머솔트|소닉|비룡|연환|차징|궁극)/g) || [];
+      if (tokens.length > 0) {
+        let tempCycleStr = "";
+        tokens.forEach(tok => {
+          if (tok === '약점' || tok === '충돌' || tok === '차징') tempCycleStr += "1";
+          else if (tok === '도약' || tok === '전진' || tok === '연환') tempCycleStr += "2";
+          else if (tok === '순발력') tempCycleStr += "3";
+          else if (tok === '승천' || tok === '격파' || tok === '소닉') tempCycleStr += "4";
+          else if (tok === '강격' || tok === '열혈' || tok === '섬머솔트' || tok === '비룡') tempCycleStr += "5";
+          else if (tok === '궁극') tempCycleStr += "6";
+        });
+        parsedCycle = tempCycleStr;
+      }
+    } else {
+      parsedCycle = parsedCycle.replace(/[^1-6]/g, '');
+    }
+
+    for (let char of parsedCycle) {
       if (char === '1') {
         listSkills.push("1-1", "1-2");
       } else if (char === '2') {
