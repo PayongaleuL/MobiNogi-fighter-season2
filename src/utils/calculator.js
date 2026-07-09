@@ -470,7 +470,7 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
 
     const totalDps = (skillDps + directDps + dotDps) * transcendCoeff;
 
-    const scaleFactor = 10.0;
+    const scaleFactor = 5.0;
     results[state] = {
       skillDps: Math.round(skillDps * scaleFactor),
       directDps: Math.round(directDps * scaleFactor),
