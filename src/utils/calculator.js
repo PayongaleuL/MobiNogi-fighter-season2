@@ -441,9 +441,17 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
   });
 
   // 상황 비중별 혼합 DPS 연산
-  const ordTime = activeGimmicks.ordinaryTime || 87;
-  const breakTime = activeGimmicks.unarmedTime || 0;
-  const ultTime = activeGimmicks.ultimateTime || 33;
+  let ordTime = activeGimmicks.ordinaryTime || 87;
+  let breakTime = activeGimmicks.unarmedTime || 0;
+  let ultTime = activeGimmicks.ultimateTime || 33;
+
+  if (boss === "허수아비") {
+    // 그냥 허수아비는 실전 데이터 기준 90% 이상 무방비(Break) 상태가 유지됨
+    const total = ordTime + breakTime + ultTime || 120;
+    breakTime = total * 0.90;
+    ordTime = total * 0.10;
+    ultTime = 0.0;
+  }
   const totalTime = ordTime + breakTime + ultTime;
 
   let weightedDps = 0.0;
