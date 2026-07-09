@@ -214,7 +214,7 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
   // 치명타 (시즌2 격투가 패시브: 밤의 흔적 활성 시 행운 +71 및 달의 인장 스탯 보정 추가)
   const nightTraceCrit = characterStats.useNightTrace ? 71.0 : 0.0;
   const effectiveCritScore = (characterStats.critScore || 6925.0) + nightTraceCrit + (sealCritFromStats || 0.0);
-  const baseCritProb = 0.5 * (effectiveCritScore / (effectiveCritScore + 2000)) + (boss.includes("허수아비") ? 0.3 : 0.0) + (characterStats.critBonusPct || 0);
+  const baseCritProb = 0.5 * (effectiveCritScore / (effectiveCritScore + 2000)) + (boss === "허수아비" ? 0.3 : 0.0) + (characterStats.critBonusPct || 0);
   const totalCritProb = Math.min(1.0, baseCritProb + runeStats["치명타확률%"]);
   
   const baseCritDmg = 1.4 + (effectiveCritScore / 5000.0);

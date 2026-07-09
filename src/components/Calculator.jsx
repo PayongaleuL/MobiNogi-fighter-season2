@@ -799,10 +799,7 @@ export default function Calculator() {
                   >
                     <option value="함선 허수아비">함선 허수아비 (방어 30)</option>
                     <option value="허수아비">허수아비 (방어 30, 치적+30%)</option>
-                    <option value="글라스기브넨">글라스기브넨 (방어 6410)</option>
                     <option value="화이트서큐버스">화이트서큐버스 (방어 6410)</option>
-                    <option value="어비스 지옥2">어비스 지옥 2 (방어 9153)</option>
-                    <option value="바리어비스">바리 어비스 (방어 15903)</option>
                   </select>
                 </div>
                 <div className="flex flex-col gap-1.5 bg-theme-subcard p-3 rounded-xl border border-theme theme-transition">
