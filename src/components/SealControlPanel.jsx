@@ -46,7 +46,7 @@ export default function SealControlPanel({ seals, onSealChange }) {
 
   // 실시간 합산 결과 연산
   let totalAtk = 0;
-  let totalEmblemPct = 0;
+  let totalEmblemPct = 7; // 기본 엠블럼 7%
   let totalStr = 0;
   let totalWil = 0;
   let totalLuk = 0;
@@ -67,9 +67,9 @@ export default function SealControlPanel({ seals, onSealChange }) {
       else if (seal.type === 'blue_moon') totalAtk += 250;
       else if (seal.type === 'red_moon') totalAtk += 400;
     } else if (slot === 'emblem') {
-      if (seal.type === 'star') totalEmblemPct += 3; // +7% -> +10% (+3%)
-      else if (seal.type === 'blue_moon') totalEmblemPct += 4; // +7% -> +11% (+4%)
-      else if (seal.type === 'red_moon') totalEmblemPct += 5; // +7% -> +12% (+5%)
+      if (seal.type === 'star') totalEmblemPct = 10;
+      else if (seal.type === 'blue_moon') totalEmblemPct = 11;
+      else if (seal.type === 'red_moon') totalEmblemPct = 12;
     }
 
     // B. 추가 능력치 합산
@@ -105,7 +105,7 @@ export default function SealControlPanel({ seals, onSealChange }) {
         </div>
         <div className="flex flex-col gap-1 md:border-r border-theme pr-4 last:border-0 theme-transition">
           <span className="text-[10px] font-black text-theme-muted uppercase">엠블럼 추가공격력 배율</span>
-          <span className="text-xl font-black text-emerald-500">+{totalEmblemPct}%</span>
+          <span className="text-xl font-black text-emerald-500">{totalEmblemPct}%</span>
           <span className="text-[9.5px] text-theme-sub font-bold mt-0.5">엠블럼 인장 등급 보정치</span>
         </div>
         <div className="flex flex-col gap-1 md:border-r border-theme pr-4 last:border-0 theme-transition">
