@@ -567,24 +567,24 @@ export default function Calculator() {
             <label className="text-[9px] font-black text-theme-muted uppercase tracking-wider">UI Theme</label>
             <div 
               onClick={() => setUiTheme(uiTheme === 'light' ? 'dark' : 'light')}
-              className="relative w-18 h-8 bg-theme-subcard hover:bg-theme-card border border-theme rounded-full p-1 cursor-pointer transition-all duration-300 shadow-sm flex items-center justify-between group select-none theme-transition"
+              className="relative w-16 h-8 bg-theme-subcard hover:bg-theme-card border border-theme rounded-full p-1 cursor-pointer transition-all duration-300 shadow-sm flex items-center justify-between group select-none theme-transition"
             >
               {/* 배경 아이콘들 */}
-              <Sun className="w-3.5 h-3.5 text-orange-500 ml-1 opacity-50 group-hover:opacity-100 transition-opacity" />
-              <Moon className="w-3.5 h-3.5 text-indigo-400 mr-1 opacity-50 group-hover:opacity-100 transition-opacity" />
+              <Sun className="w-3.5 h-3.5 text-orange-500 ml-0.5 opacity-55 group-hover:opacity-100 transition-opacity shrink-0" />
+              <Moon className="w-3.5 h-3.5 text-indigo-400 mr-0.5 opacity-55 group-hover:opacity-100 transition-opacity shrink-0" />
               
               {/* 슬라이딩 동그라미 노브 */}
               <div 
-                className={`absolute w-5.5 h-5.5 rounded-full shadow-md flex items-center justify-center transition-all duration-300 ease-in-out ${
+                className={`absolute w-6 h-6 rounded-full shadow-md flex items-center justify-center transition-all duration-300 ease-in-out ${
                   uiTheme === 'dark' 
-                    ? 'translate-x-9 bg-indigo-600' 
+                    ? 'translate-x-8 bg-indigo-600' 
                     : 'translate-x-0 bg-orange-500'
                 }`}
               >
                 {uiTheme === 'dark' ? (
-                  <Moon className="w-2.5 h-2.5 text-white animate-pulse" />
+                  <Moon className="w-3 h-3 text-white animate-pulse" />
                 ) : (
-                  <Sun className="w-2.5 h-2.5 text-white animate-spin-slow" />
+                  <Sun className="w-3 h-3 text-white animate-spin-slow" />
                 )}
               </div>
             </div>
