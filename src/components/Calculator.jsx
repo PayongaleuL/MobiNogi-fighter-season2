@@ -509,6 +509,29 @@ export default function Calculator() {
     });
   };
 
+  const handleEquipToggle = (rune) => {
+    setSelectedRunes(prev => {
+      const type = rune.type;
+      const arr = [...prev[type]];
+      const existingIdx = arr.findIndex(r => r && (r.name.replace(/\+/g, '').trim() === rune.name.replace(/\+/g, '').trim()));
+      
+      if (existingIdx !== -1) {
+        arr[existingIdx] = null;
+      } else {
+        const emptyIdx = arr.indexOf(null);
+        if (emptyIdx !== -1) {
+          arr[emptyIdx] = rune;
+        } else {
+          arr[0] = rune;
+        }
+      }
+      return {
+        ...prev,
+        [type]: arr
+      };
+    });
+  };
+
   const savePreset = (slotIndex) => {
     const presetName = prompt(`${slotIndex + 1}번 셋팅 프리셋의 이름을 입력하세요:`, presets[slotIndex].name || `셋팅 ${slotIndex + 1}`);
     if (!presetName) return;
@@ -680,7 +703,7 @@ export default function Calculator() {
       {activeTab === 'gemstone' ? (
         <GemStonePanel uiTheme={uiTheme} gems={gems} onGemChange={handleGemChange} setGems={setGems} selectedRunes={selectedRunes} />
       ) : activeTab === 'runeAudit' ? (
-        <RuneAuditDashboard uiTheme={uiTheme} runes={customRunes} onRunesUpdate={handleRunesUpdate} selectedRunes={selectedRunes} />
+        <RuneAuditDashboard uiTheme={uiTheme} runes={customRunes} onRunesUpdate={handleRunesUpdate} selectedRunes={selectedRunes} onEquipRune={handleEquipToggle} />
       ) : activeTab === 'seals' ? (
         <SealControlPanel seals={seals} onSealChange={(slot, val) => setSeals(prev => ({ ...prev, [slot]: val }))} />
       ) : (
