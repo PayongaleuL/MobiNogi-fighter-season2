@@ -11,6 +11,70 @@ export function getModifiedCoeff(baseCoeff, level) {
   return baseCoeff * (1 + 0.03 * level + bonus);
 }
 
+const fallbackParsedSkills = {
+  passives: {
+    waveBaseDmg: 39019,
+    crashBaseDmg: 70945
+  },
+  skills: {
+    "1-1": {
+      "순정": { baseDamage: 122084, refLevel: 12, baseCast: 4.0, cooldown: 15 },
+      "약점": { baseDamage: 76147, refLevel: 12, baseCast: 0.5, cooldown: 12 },
+      "충돌": { baseDamage: 146914, refLevel: 12, baseCast: 4.0, cooldown: 15 }
+    },
+    "1-2": {
+      "순정": { baseDamage: 67043, refLevel: 12, baseCast: 1.45 }
+    },
+    "2-1": {
+      "순정": { baseDamage: 32084, refLevel: 10, baseCast: 1.0, cooldown: 14 },
+      "전진": { baseDamage: 36838, refLevel: 10, baseCast: 1.0, cooldown: 14 },
+      "도약": { baseDamage: 50700, refLevel: 10, baseCast: 1.0, cooldown: 14 }
+    },
+    "2-2": {
+      "순정": { baseDamage: 41580, refLevel: 10, baseCast: 1.3 }
+    },
+    "3": {
+      "순정": { baseDamage: 7035, refLevel: 12, baseCast: 0.85, cooldown: 10 },
+      "순발력": { baseDamage: 49661, refLevel: 12, baseCast: 0.85, cooldown: 10 }
+    },
+    "4-1": {
+      "순정": { baseDamage: 16672, refLevel: 30, baseCast: 0.8, cooldown: 15 },
+      "격파": { baseDamage: 22228, refLevel: 30, baseCast: 0.8, cooldown: 15 }
+    },
+    "4-2": {
+      "순정": { baseDamage: 29560, refLevel: 30, baseCast: 0.8 },
+      "격파": { baseDamage: 38783, refLevel: 30, baseCast: 0.8 }
+    },
+    "4-3": {
+      "순정": { baseDamage: 41857, refLevel: 30, baseCast: 0.8 },
+      "격파": { baseDamage: 55338, refLevel: 30, baseCast: 0.8 }
+    },
+    "sonic": {
+      "승천": { baseDamage: 135978, refLevel: 30, baseCast: 2.584, cooldown: 12 },
+      "순정": { baseDamage: 135978, refLevel: 30, baseCast: 2.584, cooldown: 12 }
+    },
+    "5-1": {
+      "순정": { baseDamage: 36323, refLevel: 28, baseCast: 1.0, cooldown: 14 },
+      "열혈": { baseDamage: 42567, refLevel: 28, baseCast: 1.0, cooldown: 15 }
+    },
+    "5-2": {
+      "순정": { baseDamage: 49377, refLevel: 28, baseCast: 1.0 },
+      "열혈": { baseDamage: 57891, refLevel: 28, baseCast: 1.0 }
+    },
+    "5-3": {
+      "순정": { baseDamage: 71512, refLevel: 28, baseCast: 1.0 },
+      "열혈": { baseDamage: 83999, refLevel: 28, baseCast: 1.0 }
+    },
+    "somersault": {
+      "강격": { baseDamage: 183322, refLevel: 28, baseCast: 1.0, cooldown: 13.5 },
+      "순정": { baseDamage: 183322, refLevel: 28, baseCast: 1.0, cooldown: 13.5 }
+    },
+    "6": {
+      "순정": { baseDamage: 0, refLevel: 28, baseCast: 3.0 }
+    }
+  }
+};
+
 // 스킬별 계열 정보 (보석 세공 적용을 위함)
 const SKILL_CATEGORIES = {
   "1-1": { dmg: "strong", cd: "strong" }, // 강타
@@ -57,7 +121,9 @@ const SKILL_HITS = {
  * @param {Object} gemStats 보석 세공 입력 수치 (뎀증% / 쿨감%)
  * @param {Object} skillStances 스킬별 스탠스(Stance) 선택값
  */
-export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycleText, conditionalUptimes = {}, gemStats = {}, skillStances = {}, seals = {}) {
+export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycleText, enchantStats = {}, gemStats = {}, skillStances = {}, seals = {}, parsedSkills) {
+  const conditionalUptimes = enchantStats;
+  const parsed = (parsedSkills && Object.keys(parsedSkills).length > 0) ? parsedSkills : fallbackParsedSkills;
   // 1. 적용된 룬의 스탯 합산
   const runeStats = {
     "공격력%": 0.0,
@@ -324,7 +390,7 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
     };
 
 
-    let totalCycleCoeff = 0.0;
+    let totalCycleBaseDmg = 0.0;
     let totalCycleTime = 0.0;
     let nonUltSkillCount = 0; // 패시브 '충격파' 기댓값 스택 카운트
     let totalHits = 0;        // 딜사이클 당 누적 적중 타수
@@ -381,21 +447,53 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
     }
 
     listSkills.forEach((skillName) => {
-      const sk = skillData[skillName];
-      if (!sk) return;
-
       // 6번 스킬은 스킬 6의 개조레벨, 5-x는 5번, 4-x는 4번, 3은 3번...
       let skillGroup = skillName.startsWith("sonic") ? "4" : (skillName.startsWith("somersault") ? "5" : skillName.charAt(0));
       // 모든스킬강화 및 임의스킬강화(3개 스킬 2강화 기댓값 60%) 누적 반영
       const allSkillBoost = runeStats["모든스킬강화"] || 0;
       const randSkillBoost = (runeStats["임의스킬강화"] || 0) * 0.6;
-      const level = (characterStats[`skillLevel_${skillGroup}`] || 10) + allSkillBoost + randSkillBoost;
-      const coeff = getModifiedCoeff(sk.baseCoeff, level);
+      const userLevel = (characterStats[`skillLevel_${skillGroup}`] || 10) + allSkillBoost + randSkillBoost;
+
+      // parsedSkills 에서 스킬 정보를 가져옴
+      const skillGroupObj = parsed.skills[skillName] || {};
+      let targetStance = '순정';
+      if (skillName === "1-1") {
+        targetStance = matchStance(s1Stance, '약점') ? '약점' : (matchStance(s1Stance, '충돌') ? '충돌' : '순정');
+      } else if (skillName === "2-1") {
+        targetStance = matchStance(s2Stance, '전진') ? '전진' : (matchStance(s2Stance, '도약') ? '도약' : '순정');
+      } else if (skillName === "3") {
+        targetStance = matchStance(s3Stance, '순발력') ? '순발력' : '순정';
+      } else if (skillName === "4-1" || skillName === "4-2" || skillName === "4-3") {
+        targetStance = matchStance(s4Stance, '격파') ? '격파' : '순정';
+      } else if (skillName === "sonic") {
+        targetStance = (matchStance(s4Stance, '승천') || matchStance(s4Stance, '소닉')) ? '승천' : '순정';
+      } else if (skillName === "5-1" || skillName === "5-2" || skillName === "5-3") {
+        targetStance = matchStance(s5Stance, '열혈') ? '열혈' : '순정';
+      } else if (skillName === "somersault") {
+        targetStance = (matchStance(s5Stance, '강격') || matchStance(s5Stance, '섬머')) ? '강격' : '순정';
+      }
+
+      let skillInfo = skillGroupObj[targetStance];
+      if (!skillInfo) {
+        skillInfo = skillGroupObj["순정"] || Object.values(skillGroupObj)[0] || {};
+      }
+
+      const baseDamage = skillInfo.baseDamage !== undefined ? skillInfo.baseDamage : 0;
+      const refLevel = skillInfo.refLevel !== undefined ? skillInfo.refLevel : 12;
+      const baseCast = skillInfo.baseCast !== undefined ? skillInfo.baseCast : 1.0;
+
+      // getBonus 헬퍼 정의
+      const getBonus = (lv) => {
+        return 0.02 * ((lv >= 2 ? 1 : 0) + (lv >= 10 ? 1 : 0) + (lv >= 15 ? 1 : 0) + (lv >= 20 ? 1 : 0) + (lv >= 30 ? 1 : 0));
+      };
+      const bonusDiff = getBonus(userLevel) - getBonus(refLevel);
+      const atkScale = attack / 27166.0;
+      const modifiedDamage = baseDamage * (1 + 0.03 * (userLevel - refLevel) + bonusDiff) * atkScale;
 
       // 스킬속도% 및 빠른스킬 스탯(fastSkill) 반영
       const speedRuneAndStat = runeStats["스킬속도%"] + (fastSkillScore * 0.00007);
       const speedPct = speedRuneAndStat + (activeGimmicks.hasSpdBuff ? 0.10 : 0.0);
-      const castTime = sk.baseCast * (1 - speedPct);
+      const castTime = baseCast * (1 - speedPct);
 
       // 보석 세공 데미지 증가% 적용
       const category = SKILL_CATEGORIES[skillName];
@@ -420,9 +518,8 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
       }
 
       const skillComboMult = (1 + totalSkillDmg) * (1 + totalComboDmg);
-      const finalCoeff = coeff * (1 + gemDmgBonus) * typeMult * skillComboMult;
 
-      totalCycleCoeff += finalCoeff;
+      totalCycleBaseDmg += modifiedDamage * (1 + gemDmgBonus) * typeMult * skillComboMult;
       totalCycleTime += castTime;
 
       // 충격파 스택 (궁극기 제외)
@@ -443,18 +540,20 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
     const isUnarmed = state.includes("Break");
     const unarmedDmgCoeff = isUnarmed ? (1 + (characterStats.comboPower || 1532.0) / 5250.0 + 0.4 + 0.05) : 1.0;
 
-    // DPS 계산 (주는피해% 및 치명타 기댓값 배율 반영 - 격투가 기본 피해 200% 배율 복원)
-    let skillDps = (attack * 2) * totalCycleCoeff * (1 + totalGivesDmg) * (1 + totalGetsDmg) * critMultiplier * armorCoeff * unarmedDmgCoeff / totalCycleTime;
+    // DPS 계산 (주는피해% 및 치명타 기댓값 배율 반영)
+    let skillDps = totalCycleBaseDmg * (1 + totalGivesDmg) * (1 + totalGetsDmg) * critMultiplier * armorCoeff * unarmedDmgCoeff / totalCycleTime;
 
-    // 3) 충격파 패시브 가산 (스킬 3회당 공격력의 98% 피해)
+    // 3) 충격파 패시브 가산
     const waveCount = Math.floor(nonUltSkillCount / 3);
+    const waveBaseDmg = parsed.passives.waveBaseDmg !== undefined ? parsed.passives.waveBaseDmg : 39019;
+    const waveDmg = (waveBaseDmg * (attack / 27166.0)) * (1 + totalGivesDmg) * (1 + totalGetsDmg) * (1 + totalSkillDmg) * (1 + totalComboDmg) * armorCoeff * unarmedDmgCoeff;
     if (waveCount > 0) {
-      const waveDmg = (attack * 2) * 0.98 * (1 + totalGivesDmg) * (1 + totalGetsDmg) * (1 + totalSkillDmg) * (1 + totalComboDmg) * armorCoeff * unarmedDmgCoeff;
       skillDps += (waveDmg * waveCount) / totalCycleTime;
     }
 
-    // 4) 파쇄권 패시브 가산 (3초 쿨타임마다 공격력의 1.78배 피해 상시 발생)
-    const crashDps = ((attack * 2) * 1.78 * (1 + totalGivesDmg) * (1 + totalGetsDmg) * (1 + totalSkillDmg) * (1 + totalComboDmg) * armorCoeff * unarmedDmgCoeff) / 3;
+    // 4) 파쇄권 패시브 가산
+    const crashBaseDmg = parsed.passives.crashBaseDmg !== undefined ? parsed.passives.crashBaseDmg : 70945;
+    const crashDps = ((crashBaseDmg * (attack / 27166.0)) * (1 + totalGivesDmg) * (1 + totalGetsDmg) * (1 + totalSkillDmg) * (1 + totalComboDmg) * armorCoeff * unarmedDmgCoeff) / 3;
     skillDps += crashDps;
 
     // 5) 시즌2 시즌스킬: 데들리 임팩트 가산 (강타강화 수치 strongDmg 비례 추가타, 3번 스킬 사용횟수 연동)
@@ -488,14 +587,15 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
 
     const totalDps = (skillDps + directDps + dotDps) * transcendCoeff;
 
-    const scaleFactor = 1.0;
+    const scaleFactor = 2.0;
     results[state] = {
       skillDps: Math.round(skillDps * scaleFactor),
       directDps: Math.round(directDps * scaleFactor),
       dotDps: Math.round(dotDps * scaleFactor),
       totalDps: Math.round(totalDps * scaleFactor),
       cycleTime: parseFloat(totalCycleTime.toFixed(2)),
-      cycleCoeff: parseFloat(totalCycleCoeff.toFixed(3))
+      cycleCoeff: parseFloat(totalCycleBaseDmg.toFixed(3)),
+      cycleBaseDmg: Math.round(totalCycleBaseDmg)
     };
   });
 

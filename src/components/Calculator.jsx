@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import StatsInput from './StatsInput';
 import RuneSelector from './RuneSelector';
 import ConditionalPanel from './ConditionalPanel';
@@ -10,6 +10,8 @@ import { Play, RotateCcw, Save, Trash2, Check, TrendingUp, Info, Gem, Activity, 
 import runesData from '../data/runes.json';
 import { parseRuneMarkdown } from '../utils/runeMdParser';
 import mdText from '../../results/260708_룬설명목록.md?raw';
+import skillMdText from '../../results/260710_패시브_액티브_스킬목록.md?raw';
+import parseSkillMarkdown from '../utils/skillMdParser';
 
 export default function Calculator() {
   // 1. 활성화 탭 관리 ('calculator' | 'gemstone' | 'runeAudit' | 'seals')
@@ -52,6 +54,9 @@ export default function Calculator() {
     }
     return runesData;
   });
+
+  // 1-3. 파싱된 스킬 데이터 구성
+  const parsedSkills = useMemo(() => parseSkillMarkdown(skillMdText), []);
 
   // 2. 캐릭터 스펙 상태
   const [stats, setStats] = useState({
@@ -127,14 +132,7 @@ export default function Calculator() {
     '엠블럼': [0]
   });
 
-  // 4. 보석 세공 수치 계산 결과 상태 (실시간 유도되어 하위 패널 전달용)
-  const [gemStats, setGemStats] = useState({
-    strongDmg: 0.0, strongCd: 0.0,
-    moveDmg: 0.0, moveCd: 0.0,
-    subDmg: 0.0, subCd: 0.0,
-    disableDmg: 0.0, disableCd: 0.0,
-    saveDmg: 0.0, saveCd: 0.0
-  });
+  // 4. 보석 세공 수치 계산 결과 (useMemo로 실시간 유도되어 하위 패널 전달)
 
   // 4-1. 22개 보석 개별 슬롯 인벤토리 상태 (세공 옵션 최대 3줄 다중 선택 지원)
   const [gems, setGems] = useState(
@@ -177,8 +175,7 @@ export default function Calculator() {
     skill_5: '순정'
   });
 
-  // 9. 계산된 DPS 결과 상태
-  const [dpsResult, setDpsResult] = useState(null);
+  // 9. 계산된 DPS 결과 (useMemo로 실시간 연산)
 
   // 10. 세팅 비교용 슬롯 상태 (로컬 스토리지 연동)
   const [presets, setPresets] = useState([
@@ -187,9 +184,8 @@ export default function Calculator() {
     { name: '셋팅 3', data: null }
   ]);
 
-  // 실시간 DPS 재계산 트리거 (gems 개별 상태 연산식 포함)
-  useEffect(() => {
-    // gems로부터 gemStats 및 특수보석 능력치 계산
+  // gems로부터 gemStats 및 특수보석 능력치 계산
+  const { gemStats, extraAllStat, extraFinalDmgPct } = useMemo(() => {
     const gradeValues = {
       '스타프리즘': { dmg: 2.00, cd: 0.65 },
       '스타프리즘S': { dmg: 2.10, cd: 0.70 },
@@ -286,10 +282,12 @@ export default function Calculator() {
       calculatedGemStats[k] = parseFloat(calculatedGemStats[k].toFixed(2));
     });
 
-    setGemStats(calculatedGemStats);
+    return { gemStats: calculatedGemStats, extraAllStat, extraFinalDmgPct };
+  }, [gems]);
 
-    // 룬 정보 전개 및 개별 초월 레벨 주입
-    const flattenedRunes = [];
+  // 룬 정보 전개 및 개별 초월 레벨 주입
+  const flattenedRunes = useMemo(() => {
+    const flattened = [];
     const getCoreName = (name) => name ? name.replace(/\+/g, '').replace(/\s+/g, '').trim() : '';
     Object.keys(selectedRunes).forEach(type => {
       selectedRunes[type].forEach((r, idx) => {
@@ -302,22 +300,22 @@ export default function Calculator() {
             stats: latestRune.stats || {},
             transcendLevel: transcendLevels[type] ? transcendLevels[type][idx] : 0
           };
-          flattenedRunes.push(rCopy);
+          flattened.push(rCopy);
         }
       });
     });
+    return flattened;
+  }, [selectedRunes, customRunes, transcendLevels]);
 
-    // 캐릭터 스탯에 특수 보석 가산 스탯(extraAllStat, extraFinalDmgPct)을 결합하여 전달
+  // DPS 실시간 연산 (인장 설정 데이터 seals 결합 전달 및 parsedSkills 전달)
+  const dpsResult = useMemo(() => {
     const statsWithGems = {
       ...stats,
       extraAllStat,
       extraFinalDmgPct
     };
-
-    // DPS 실시간 연산 (인장 설정 데이터 seals 결합 전달)
-    const result = calculateDPS(statsWithGems, flattenedRunes, gimmicks, cycles, conditionalUptimes, calculatedGemStats, skillStances, seals);
-    setDpsResult(result);
-  }, [stats, selectedRunes, gimmicks, cycles, conditionalUptimes, gems, skillStances, customRunes, seals]);
+    return calculateDPS(statsWithGems, flattenedRunes, gimmicks, cycles, conditionalUptimes, gemStats, skillStances, seals, parsedSkills);
+  }, [stats, extraAllStat, extraFinalDmgPct, flattenedRunes, gimmicks, cycles, conditionalUptimes, gemStats, skillStances, seals, parsedSkills]);
 
   // 로컬 스토리지 프리셋 로드 및 하위 호환 마이그레이션
   useEffect(() => {

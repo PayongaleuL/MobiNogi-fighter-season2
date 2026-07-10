@@ -263,5 +263,114 @@ describe('6스킬 및 보석 세공 연계 격투가 계산기 연산 검증', (
     const resEmblemBlue = calculateDPS(baseStats, selectedRunes, gimmicks, cycles, {}, {}, {}, sealsEmblemBlue);
     expect(resEmblemBlue.totalAtk).toBeGreaterThan(resNormal.totalAtk);
   });
+
+  it('동적 스킬 파서 데이터(parsedSkills) 직접 주입 검증', () => {
+    const stats = {
+      baseAttack: 27166.0,
+      critScore: 6925.0,
+      strongDmg: 2487.0,
+      chainDmg: 2989.0,
+      comboPower: 1532.0,
+      skillPower: 1577.0,
+      multiPower: 1082.0,
+      extraProb: 987.0,
+      fastAtk: 1484.0,
+      fastSkill: 1488.0,
+      ultScore: 1792.0,
+      enchantAtkPct: 6.8,
+      critBonusPct: 0.0,
+      skillLevel_1: 10,
+      skillLevel_2: 30,
+      skillLevel_3: 10,
+      skillLevel_4: 10,
+      skillLevel_5: 10,
+      skillLevel_6: 10
+    };
+
+    const selectedRunes = [];
+    const gimmicks = {
+      boss: '함선 허수아비',
+      ordinaryTime: 87,
+      unarmedTime: 0,
+      ultimateTime: 33,
+      gimmickDmgPct: 0.0,
+      healerDmgPct: 0.0,
+      skillDebuffDmgPct: 10.0,
+      hasSpdBuff: false
+    };
+
+    const cycles = {
+      ordinary: '123456',
+      ordinaryBreak: '123456',
+      ultimate: '123456',
+      ultimateBreak: '123456'
+    };
+
+    // 1. 파서 데이터가 없는 경우 (fallback 작동)
+    const resultFallback = calculateDPS(stats, selectedRunes, gimmicks, cycles, {}, {}, {}, {}, null);
+
+    // 2. 파서 데이터를 임의로 주입 (대미지를 2배로 증폭한 parsedSkills)
+    const customParsedSkills = {
+      passives: {
+        waveBaseDmg: 39019 * 2,
+        crashBaseDmg: 70945 * 2
+      },
+      skills: {
+        "1-1": {
+          "순정": { baseDamage: 122084 * 2, refLevel: 12, baseCast: 4.0 },
+          "약점": { baseDamage: 76147 * 2, refLevel: 12, baseCast: 0.5, cooldown: 12 }
+        },
+        "1-2": {
+          "순정": { baseDamage: 67043 * 2, refLevel: 12, baseCast: 1.45 }
+        },
+        "2-1": {
+          "순정": { baseDamage: 32084 * 2, refLevel: 10, baseCast: 1.0, cooldown: 14 },
+          "전진": { baseDamage: 36838 * 2, refLevel: 10, baseCast: 1.0, cooldown: 14 }
+        },
+        "2-2": {
+          "순정": { baseDamage: 41580 * 2, refLevel: 10, baseCast: 1.3 }
+        },
+        "3": {
+          "순정": { baseDamage: 7035 * 2, refLevel: 12, baseCast: 0.85, cooldown: 10 },
+          "순발력": { baseDamage: 49661 * 2, refLevel: 12, baseCast: 0.85, cooldown: 10 }
+        },
+        "4-1": {
+          "순정": { baseDamage: 16672 * 2, refLevel: 30, baseCast: 0.8, cooldown: 15 }
+        },
+        "4-2": {
+          "순정": { baseDamage: 29560 * 2, refLevel: 30, baseCast: 0.8 }
+        },
+        "4-3": {
+          "순정": { baseDamage: 41857 * 2, refLevel: 30, baseCast: 0.8 }
+        },
+        "sonic": {
+          "순정": { baseDamage: 135978 * 2, refLevel: 30, baseCast: 2.584, cooldown: 12 }
+        },
+        "5-1": {
+          "순정": { baseDamage: 36323 * 2, refLevel: 28, baseCast: 1.0, cooldown: 14 },
+          "열혈": { baseDamage: 42567 * 2, refLevel: 28, baseCast: 1.0, cooldown: 15 }
+        },
+        "5-2": {
+          "순정": { baseDamage: 49377 * 2, refLevel: 28, baseCast: 1.0 },
+          "열혈": { baseDamage: 57891 * 2, refLevel: 28, baseCast: 1.0 }
+        },
+        "5-3": {
+          "순정": { baseDamage: 71512 * 2, refLevel: 28, baseCast: 1.0 },
+          "열혈": { baseDamage: 83999 * 2, refLevel: 28, baseCast: 1.0 }
+        },
+        "somersault": {
+          "순정": { baseDamage: 183322 * 2, refLevel: 28, baseCast: 1.0, cooldown: 13.5 }
+        },
+        "6": {
+          "순정": { baseDamage: 0, refLevel: 28, baseCast: 3.0 }
+        }
+      }
+    };
+
+    const resultCustom = calculateDPS(stats, selectedRunes, gimmicks, cycles, {}, {}, {}, {}, customParsedSkills);
+
+    // 대미지가 2배로 증가된 데이터를 넘겼으므로 dps가 더 높아야 함
+    expect(resultCustom.weightedDps).toBeGreaterThan(resultFallback.weightedDps);
+  });
 });
 
