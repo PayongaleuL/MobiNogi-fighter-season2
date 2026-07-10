@@ -58,6 +58,9 @@ export default function Calculator() {
   // 1-3. 파싱된 스킬 데이터 구성
   const parsedSkills = useMemo(() => parseSkillMarkdown(skillMdText), []);
 
+  // 1-4. 로컬 스토리지 초기 로딩 완료 여부 플래그
+  const [isLoaded, setIsLoaded] = useState(false);
+
   // 2. 캐릭터 스펙 상태
   const [stats, setStats] = useState({
     baseAttack: 27166.0,
@@ -358,8 +361,31 @@ export default function Calculator() {
 
   // 마지막 입력 스탯 및 상태 자동 로드 (새로고침 및 하위 호환 마이그레이션 대응)
   useEffect(() => {
-    let savedAutosave = localStorage.getItem('mabi_calculator_autosave_v5');
-    if (!savedAutosave) {
+    let savedAutosave = null;
+    
+    // 오염 여부 검증 헬퍼 (초기값 '거대한 분노' + '잊힌 맹약' 조합이면 오염으로 간주)
+    const isCorrupted = (dataStr) => {
+      if (!dataStr) return true;
+      try {
+        const parsed = JSON.parse(dataStr);
+        if (parsed && parsed.selectedRunes) {
+          const wRune = parsed.selectedRunes['무기']?.[0]?.name;
+          const aRune = parsed.selectedRunes['방어구']?.[0]?.name;
+          if (wRune === '거대한 분노' && aRune === '잊힌 맹약') {
+            return true; // 자동 덮어쓰기된 오염 데이터
+          }
+        }
+        return false;
+      } catch (e) {
+        return true;
+      }
+    };
+
+    const v5Data = localStorage.getItem('mabi_calculator_autosave_v5');
+    if (v5Data && !isCorrupted(v5Data)) {
+      savedAutosave = v5Data;
+    } else {
+      // v5가 없거나 오염된 경우 이전 버전 백업 키에서 원본 세션 긴급 복구
       const legacyAutosaveKeys = [
         'mabi_calculator_autosave_v4',
         'mabi_calculator_autosave_v3',
@@ -368,13 +394,18 @@ export default function Calculator() {
       ];
       for (const legacyKey of legacyAutosaveKeys) {
         const legacyData = localStorage.getItem(legacyKey);
-        if (legacyData) {
+        if (legacyData && !isCorrupted(legacyData)) {
           savedAutosave = legacyData;
           localStorage.setItem('mabi_calculator_autosave_v5', legacyData);
           break;
         }
       }
+      // 백업본도 전부 오염되었거나 비어 있다면 어쩔 수 없이 v5를 최종 폴백으로 로드
+      if (!savedAutosave && v5Data) {
+        savedAutosave = v5Data;
+      }
     }
+
     if (savedAutosave) {
       try {
         const parsed = JSON.parse(savedAutosave);
@@ -386,7 +417,6 @@ export default function Calculator() {
         if (parsed.gimmicks) setGimmicks(parsed.gimmicks);
         if (parsed.skillStances) setSkillStances(parsed.skillStances);
         if (parsed.gems) {
-          // 하위 호환성 확보: 혹시 options가 없고 단일 option 필드만 있는 구버전 데이터면 배열로 강제 마이그레이션
           const migGems = parsed.gems.map(g => {
             if (!g.options) {
               return {
@@ -402,10 +432,13 @@ export default function Calculator() {
         console.error("Autosave load failed:", e);
       }
     }
+    // 초기 복구가 끝난 시점에만 로드 완료 플래그를 올려 자동 저장 활성화
+    setIsLoaded(true);
   }, []);
 
-  // 능력치/룬/세공 등 상태 변경 시 자동 저장
+  // 능력치/룬/세공 등 상태 변경 시 자동 저장 (로드가 완벽히 끝난 후 변경된 건만 덮어씀)
   useEffect(() => {
+    if (!isLoaded) return;
     const dataToSave = {
       stats,
       selectedRunes,
@@ -417,7 +450,7 @@ export default function Calculator() {
       gems
     };
     localStorage.setItem('mabi_calculator_autosave_v5', JSON.stringify(dataToSave));
-  }, [stats, selectedRunes, transcendLevels, cycles, conditionalUptimes, gimmicks, skillStances, gems]);
+  }, [isLoaded, stats, selectedRunes, transcendLevels, cycles, conditionalUptimes, gimmicks, skillStances, gems]);
 
   const handleStatsChange = (key, val) => {
     setStats(prev => ({ ...prev, [key]: val }));
