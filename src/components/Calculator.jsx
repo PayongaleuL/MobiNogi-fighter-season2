@@ -182,11 +182,31 @@ export default function Calculator() {
   // 9. 계산된 DPS 결과 (useMemo로 실시간 연산)
 
   // 10. 세팅 비교용 슬롯 상태 (로컬 스토리지 연동)
-  const [presets, setPresets] = useState([
-    { name: '셋팅 1', data: null },
-    { name: '셋팅 2', data: null },
-    { name: '셋팅 3', data: null }
-  ]);
+  const [presets, setPresets] = useState(() => {
+    const saved = localStorage.getItem('mabi_runes_presets_v5');
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch (e) {
+        console.error("Failed to parse presets_v5:", e);
+      }
+    }
+    const savedV4 = localStorage.getItem('mabi_runes_presets_v4');
+    if (savedV4) {
+      try {
+        const parsed = JSON.parse(savedV4);
+        localStorage.setItem('mabi_runes_presets_v5', savedV4);
+        return parsed;
+      } catch (e) {
+        console.error("Failed to parse presets_v4:", e);
+      }
+    }
+    return [
+      { name: '셋팅 1', data: null },
+      { name: '셋팅 2', data: null },
+      { name: '셋팅 3', data: null }
+    ];
+  });
 
   // gems로부터 gemStats 및 특수보석 능력치 계산
   const { gemStats, extraAllStat, extraFinalDmgPct } = useMemo(() => {
