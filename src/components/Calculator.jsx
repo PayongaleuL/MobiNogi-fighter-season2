@@ -328,7 +328,15 @@ export default function Calculator() {
       extraAllStat,
       extraFinalDmgPct
     };
-    return calculateDPS(statsWithGems, flattenedRunes, gimmicks, cycles, conditionalUptimes, gemStats, skillStances, seals, parsedSkills);
+    const res = calculateDPS(statsWithGems, flattenedRunes, gimmicks, cycles, conditionalUptimes, gemStats, skillStances, seals, parsedSkills);
+    console.log("CALC_DETAILS:", JSON.stringify({
+      weightedDps: res.weightedDps,
+      totalAtk: res.totalAtk,
+      gemStats,
+      skillStances,
+      seals
+    }));
+    return res;
   }, [stats, extraAllStat, extraFinalDmgPct, flattenedRunes, gimmicks, cycles, conditionalUptimes, gemStats, skillStances, seals, parsedSkills]);
 
   // 로컬 스토리지 프리셋 로드 및 하위 호환 마이그레이션
