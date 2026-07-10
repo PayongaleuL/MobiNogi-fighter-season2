@@ -88,7 +88,7 @@ export default function Calculator() {
     useNightTrace: true,
     useDeadlyImpact: true,
     useHitCombo: true,
-    nightBlessingUptime: 80
+    nightBlessingUptime: 25
   });
 
   // 3-2. 시즌2 달의 인장 설정 상태
@@ -102,11 +102,11 @@ export default function Calculator() {
       }
     }
     return {
-      weapon: { type: 'red_moon', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 60 },
-      necklace: { type: 'red_moon', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 60 },
+      weapon: { type: 'none', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 40 },
+      necklace: { type: 'none', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 40 },
       ring1: { type: 'none', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 40 },
       ring2: { type: 'none', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 40 },
-      emblem: { type: 'red_moon', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 60 },
+      emblem: { type: 'none', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 40 },
       hat: { type: 'none', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 40 },
       top: { type: 'none', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 40 },
       bottom: { type: 'none', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 40 },
@@ -121,45 +121,34 @@ export default function Calculator() {
 
   // 3. 장착 룬 상태
   const [selectedRunes, setSelectedRunes] = useState({
-    '무기': [{ name: '거대한 분노', type: '무기', stats: {} }],
-    '방어구': [
-      { name: '잊힌 맹약', type: '방어구', stats: {} },
-      { name: '교차하는 사슬', type: '방어구', stats: {} },
-      { name: '아귀', type: '방어구', stats: {} },
-      { name: '맹세+', type: '방어구', stats: {} },
-      { name: '수호자', type: '방어구', stats: {} }
-    ],
-    '장신구': [
-      { name: '도약+', type: '장신구', stats: {} },
-      { name: '승천+', type: '장신구', stats: {} },
-      { name: '강격+', type: '장신구', stats: {} }
-    ],
-    '엠블럼': [{ name: '태초', type: '엠블럼', stats: {} }]
+    '무기': [null],
+    '방어구': [null, null, null, null, null],
+    '장신구': [null, null, null],
+    '엠블럼': [null]
   });
 
   // 3-1. 장착 룬 초월 단계 상태 (0: 미초월, 1: 초월+, 2: 초월++)
   const [transcendLevels, setTranscendLevels] = useState({
-    '무기': [2],
-    '방어구': [2, 2, 2, 2, 2],
-    '장신구': [2, 2, 2],
-    '엠블럼': [2]
+    '무기': [0],
+    '방어구': [0, 0, 0, 0, 0],
+    '장신구': [0, 0, 0],
+    '엠블럼': [0]
   });
 
   // 4. 보석 세공 수치 계산 결과 (useMemo로 실시간 유도되어 하위 패널 전달)
 
-  // 4-1. 22개 보석 개별 슬롯 인벤토리 상태 (세공 옵션 최대 3줄 다중 선택 지원)
-  // 4-1. 22개 보석 개별 슬롯 인벤토리 상태 (스타프리즘 세공 48.4% 풀셋팅 적용)
+  // 4-1. 22개 보석 개별 슬롯 인벤토리 상태 (기본 세공 없음 상태로 시작)
   const [gems, setGems] = useState(
     Array.from({ length: 22 }, (_, idx) => ({
       id: idx + 1,
       grade: '온전한 스타프리즘', // '미장착' | '스타프리즘' | '스타프리즘S' | '온전한 스타프리즘'
-      options: ['강뎀', '이뎀'] // 기본 2줄 다중선택 프리셋 (강뎀 + 이뎀)
+      options: [] // 기본 세공 없음
     }))
   );
 
-  // 5. 전투 및 보스 기믹 상태 (기본 허수아비로 셋팅)
+  // 5. 전투 및 보스 기믹 상태 (기본 함선 허수아비 셋팅)
   const [gimmicks, setGimmicks] = useState({
-    boss: '허수아비',
+    boss: '함선 허수아비',
     ordinaryTime: 87,
     unarmedTime: 0,
     ultimateTime: 33,
@@ -169,10 +158,10 @@ export default function Calculator() {
     hasSpdBuff: false
   });
 
-  // 6. 상황별 딜사이클 상태 (소닉피스트 추가 콤보 사이클 셋팅)
+  // 6. 상황별 딜사이클 상태 (기본 딜사이클 셋팅)
   const [cycles, setCycles] = useState({
-    ordinary: '235244442',
-    ordinaryBreak: '235244442',
+    ordinary: '235212',
+    ordinaryBreak: '235212',
     ultimate: '252',
     ultimateBreak: '252'
   });
@@ -180,13 +169,13 @@ export default function Calculator() {
   // 7. 조건부 룬 가동률 상태
   const [conditionalUptimes, setConditionalUptimes] = useState({});
 
-  // 8. 6개 스킬 개별 스탠스(Stance) 선택 상태 (전설 룬 스탠스 치환 적용)
+  // 8. 6개 스킬 개별 스탠스(Stance) 선택 상태 (순정 셋팅)
   const [skillStances, setSkillStances] = useState({
     skill_1: '순정',
-    skill_2: '도약',
+    skill_2: '순정',
     skill_3: '순정',
-    skill_4: '소닉 피스트',
-    skill_5: '섬머솔트'
+    skill_4: '순정',
+    skill_5: '순정'
   });
 
   // 9. 계산된 DPS 결과 (useMemo로 실시간 연산)
@@ -368,32 +357,10 @@ export default function Calculator() {
   }, []);
 
   // 마지막 입력 스탯 및 상태 자동 로드 (새로고침 및 하위 호환 마이그레이션 대응)
+  // 마지막 입력 스탯 및 상태 자동 로드 (새로고침 및 하위 호환 마이그레이션 대응)
   useEffect(() => {
-    let savedAutosave = null;
-    
-    // 오염 여부 검증 헬퍼 (초기값 '거대한 분노' + '잊힌 맹약' 조합이면 오염으로 간주)
-    const isCorrupted = (dataStr) => {
-      if (!dataStr) return true;
-      try {
-        const parsed = JSON.parse(dataStr);
-        if (parsed && parsed.selectedRunes) {
-          const wRune = parsed.selectedRunes['무기']?.[0]?.name;
-          const aRune = parsed.selectedRunes['방어구']?.[0]?.name;
-          if (wRune === '거대한 분노' && aRune === '잊힌 맹약') {
-            return true; // 자동 덮어쓰기된 오염 데이터
-          }
-        }
-        return false;
-      } catch (e) {
-        return true;
-      }
-    };
-
-    const v5Data = localStorage.getItem('mabi_calculator_autosave_v5');
-    if (v5Data && !isCorrupted(v5Data)) {
-      savedAutosave = v5Data;
-    } else {
-      // v5가 없거나 오염된 경우 이전 버전 백업 키에서 원본 세션 긴급 복구
+    let savedAutosave = localStorage.getItem('mabi_calculator_autosave_v5');
+    if (!savedAutosave) {
       const legacyAutosaveKeys = [
         'mabi_calculator_autosave_v4',
         'mabi_calculator_autosave_v3',
@@ -402,15 +369,11 @@ export default function Calculator() {
       ];
       for (const legacyKey of legacyAutosaveKeys) {
         const legacyData = localStorage.getItem(legacyKey);
-        if (legacyData && !isCorrupted(legacyData)) {
+        if (legacyData) {
           savedAutosave = legacyData;
           localStorage.setItem('mabi_calculator_autosave_v5', legacyData);
           break;
         }
-      }
-      // 백업본도 전부 오염되었거나 비어 있다면 어쩔 수 없이 v5를 최종 폴백으로 로드
-      if (!savedAutosave && v5Data) {
-        savedAutosave = v5Data;
       }
     }
 
