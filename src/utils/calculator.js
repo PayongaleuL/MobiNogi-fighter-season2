@@ -1,4 +1,5 @@
 // 마비노기 모바일 시즌2 격투가 DPS 계산기 연산 엔진 (보석세공, 6스킬, 스탠스 및 패시브 고도화)
+import { calculateSealStats } from './sealCalculator';
 
 /**
  * 스킬 개조 레벨에 따른 스킬 계수 보정치 계산 (엑셀 R003 수식 참고)
@@ -189,53 +190,12 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
   const nightTraceAtk = characterStats.useNightTrace ? 106.5 : 0.0;
 
   // 2-1. 시즌2 달의 인장 (별의 인장, 푸른 달, 붉은 달) 스탯 연산
-  let sealBaseAtk = 0; // 인장 장비 슬롯 강화로 인한 깡공 가산
-  let sealEmblemAtkPct = 0.07; // 엠블럼 기본 7%
-  let sealStr = 0, sealWil = 0, sealLuk = 0; // 인장 추가 옵션 스탯 합산
-
-  const sealSlots = [
-    'weapon', 'necklace', 'ring1', 'ring2', 'emblem', 
-    'hat', 'top', 'bottom', 'gloves', 'shoes'
-  ];
-
-  sealSlots.forEach(slot => {
-    const seal = seals && seals[slot];
-    if (!seal || seal.type === 'none') return;
-
-    // A. 장비 슬롯 강화 효과
-    if (slot === 'weapon') {
-      if (seal.type === 'star') sealBaseAtk += 300;
-      else if (seal.type === 'blue_moon') sealBaseAtk += 500;
-      else if (seal.type === 'red_moon') sealBaseAtk += 800;
-    } else if (slot === 'necklace') {
-      if (seal.type === 'star') sealBaseAtk += 150;
-      else if (seal.type === 'blue_moon') sealBaseAtk += 250;
-      else if (seal.type === 'red_moon') sealBaseAtk += 400;
-    } else if (slot === 'emblem') {
-      if (seal.type === 'star') sealEmblemAtkPct = 0.10;
-      else if (seal.type === 'blue_moon') sealEmblemAtkPct = 0.11;
-      else if (seal.type === 'red_moon') sealEmblemAtkPct = 0.12;
-    }
-
-    // B. 추가 능력치 가산
-    if (seal.type === 'blue_moon') {
-      // 1군 스탯 (힘/솜씨/지력) 중 1종
-      if (seal.blueStat1Type === 'str') sealStr += seal.blueStat1Value || 27;
-      // 2군 스탯 (의지/행운) 중 1종
-      if (seal.blueStat2Type === 'wil') sealWil += seal.blueStat2Value || 27;
-      else if (seal.blueStat2Type === 'luk') sealLuk += seal.blueStat2Value || 27;
-    } else if (seal.type === 'red_moon') {
-      // 모든 능력치 가산
-      const redVal = seal.redMoonStatValue || 40;
-      sealStr += redVal;
-      sealWil += redVal;
-      sealLuk += redVal;
-    }
-  });
-
-  // 스탯의 공격력 및 치명타 수치 환산
-  const sealAtkFromStats = (sealStr + sealWil) * 1.5;
-  const sealCritFromStats = sealLuk * 1.0;
+  const {
+    sealBaseAtk,
+    sealEmblemAtkPct,
+    sealAtkFromStats,
+    sealCritFromStats
+  } = calculateSealStats(seals);
 
   const baseAtk = (characterStats.baseAttack || 27166.0) + nightTraceAtk + sealBaseAtk + sealAtkFromStats;
   // 특수 보석(헬리오도르, 그린 헬리오도르)으로 인한 모든능력치 공격력 환산 (1당 1.5 공격력 가산)
