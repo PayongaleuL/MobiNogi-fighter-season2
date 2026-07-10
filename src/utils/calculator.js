@@ -540,20 +540,20 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
     const isUnarmed = state.includes("Break");
     const unarmedDmgCoeff = isUnarmed ? (1 + (characterStats.comboPower || 1532.0) / 5250.0 + 0.4 + 0.05) : 1.0;
 
-    // DPS 계산 (주는피해% 및 치명타 기댓값 배율 반영)
-    let skillDps = totalCycleBaseDmg * (1 + totalGivesDmg) * (1 + totalGetsDmg) * critMultiplier * armorCoeff * unarmedDmgCoeff / totalCycleTime;
+    // DPS 계산 (주는피해% 및 치명타 기댓값 배율 반영 - 물리 피해 200% 배율 복원)
+    let skillDps = (totalCycleBaseDmg * 2) * (1 + totalGivesDmg) * (1 + totalGetsDmg) * critMultiplier * armorCoeff * unarmedDmgCoeff / totalCycleTime;
 
     // 3) 충격파 패시브 가산
     const waveCount = Math.floor(nonUltSkillCount / 3);
     const waveBaseDmg = parsed.passives.waveBaseDmg !== undefined ? parsed.passives.waveBaseDmg : 39019;
-    const waveDmg = (waveBaseDmg * (attack / 27166.0)) * (1 + totalGivesDmg) * (1 + totalGetsDmg) * (1 + totalSkillDmg) * (1 + totalComboDmg) * armorCoeff * unarmedDmgCoeff;
+    const waveDmg = ((waveBaseDmg * (attack / 27166.0)) * 2) * (1 + totalGivesDmg) * (1 + totalGetsDmg) * (1 + totalSkillDmg) * (1 + totalComboDmg) * armorCoeff * unarmedDmgCoeff;
     if (waveCount > 0) {
       skillDps += (waveDmg * waveCount) / totalCycleTime;
     }
 
     // 4) 파쇄권 패시브 가산
     const crashBaseDmg = parsed.passives.crashBaseDmg !== undefined ? parsed.passives.crashBaseDmg : 70945;
-    const crashDps = ((crashBaseDmg * (attack / 27166.0)) * (1 + totalGivesDmg) * (1 + totalGetsDmg) * (1 + totalSkillDmg) * (1 + totalComboDmg) * armorCoeff * unarmedDmgCoeff) / 3;
+    const crashDps = (((crashBaseDmg * (attack / 27166.0)) * 2) * (1 + totalGivesDmg) * (1 + totalGetsDmg) * (1 + totalSkillDmg) * (1 + totalComboDmg) * armorCoeff * unarmedDmgCoeff) / 3;
     skillDps += crashDps;
 
     // 5) 시즌2 시즌스킬: 데들리 임팩트 가산 (강타강화 수치 strongDmg 비례 추가타, 3번 스킬 사용횟수 연동)
@@ -587,7 +587,7 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
 
     const totalDps = (skillDps + directDps + dotDps) * transcendCoeff;
 
-    const scaleFactor = 2.0;
+    const scaleFactor = 1.0;
     results[state] = {
       skillDps: Math.round(skillDps * scaleFactor),
       directDps: Math.round(directDps * scaleFactor),
