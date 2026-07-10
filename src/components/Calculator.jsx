@@ -662,7 +662,7 @@ export default function Calculator() {
           <h2 className="text-2xl font-black text-theme-main flex flex-wrap items-center gap-x-2 gap-y-1.5 leading-tight">
             <span className="text-orange-500 font-extrabold whitespace-nowrap">Mabinogi Mobile</span>
             <span className="whitespace-nowrap">격투가 종합 계산기</span>
-            <span className="text-xs bg-theme-subcard border border-theme px-2 py-0.5 rounded-full text-theme-sub font-bold whitespace-nowrap">시즌2.ver (260709)</span>
+            <span className="text-xs bg-theme-subcard border border-theme px-2 py-0.5 rounded-full text-theme-sub font-bold whitespace-nowrap">시즌2.ver (260710)</span>
           </h2>
           <p className="text-xs text-theme-sub mt-1 leading-relaxed">
             보석 세공 3줄 다중 지정, 장비 부위별 묶음 연동 및 3줄 미만 경고 시스템이 이식된 7차 완성 대시보드입니다.
