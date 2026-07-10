@@ -85,7 +85,7 @@ export default function Calculator() {
     useNightTrace: true,
     useDeadlyImpact: true,
     useHitCombo: true,
-    nightBlessingUptime: 25
+    nightBlessingUptime: 80
   });
 
   // 3-2. 시즌2 달의 인장 설정 상태
@@ -99,11 +99,11 @@ export default function Calculator() {
       }
     }
     return {
-      weapon: { type: 'none', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 40 },
-      necklace: { type: 'none', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 40 },
+      weapon: { type: 'red_moon', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 60 },
+      necklace: { type: 'red_moon', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 60 },
       ring1: { type: 'none', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 40 },
       ring2: { type: 'none', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 40 },
-      emblem: { type: 'none', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 40 },
+      emblem: { type: 'red_moon', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 60 },
       hat: { type: 'none', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 40 },
       top: { type: 'none', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 40 },
       bottom: { type: 'none', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 40 },
@@ -118,34 +118,45 @@ export default function Calculator() {
 
   // 3. 장착 룬 상태
   const [selectedRunes, setSelectedRunes] = useState({
-    '무기': [null],
-    '방어구': [null, null, null, null, null],
-    '장신구': [null, null, null],
-    '엠블럼': [null]
+    '무기': [{ name: '거대한 분노', type: '무기', stats: {} }],
+    '방어구': [
+      { name: '잊힌 맹약', type: '방어구', stats: {} },
+      { name: '교차하는 사슬', type: '방어구', stats: {} },
+      { name: '아귀', type: '방어구', stats: {} },
+      { name: '맹세+', type: '방어구', stats: {} },
+      { name: '수호자', type: '방어구', stats: {} }
+    ],
+    '장신구': [
+      { name: '도약+', type: '장신구', stats: {} },
+      { name: '승천+', type: '장신구', stats: {} },
+      { name: '강격+', type: '장신구', stats: {} }
+    ],
+    '엠블럼': [{ name: '태초', type: '엠블럼', stats: {} }]
   });
 
   // 3-1. 장착 룬 초월 단계 상태 (0: 미초월, 1: 초월+, 2: 초월++)
   const [transcendLevels, setTranscendLevels] = useState({
-    '무기': [0],
-    '방어구': [0, 0, 0, 0, 0],
-    '장신구': [0, 0, 0],
-    '엠블럼': [0]
+    '무기': [2],
+    '방어구': [2, 2, 2, 2, 2],
+    '장신구': [2, 2, 2],
+    '엠블럼': [2]
   });
 
   // 4. 보석 세공 수치 계산 결과 (useMemo로 실시간 유도되어 하위 패널 전달)
 
   // 4-1. 22개 보석 개별 슬롯 인벤토리 상태 (세공 옵션 최대 3줄 다중 선택 지원)
+  // 4-1. 22개 보석 개별 슬롯 인벤토리 상태 (16개 보석으로 강타/연타 세공 +35.2% 기댓값 정렬)
   const [gems, setGems] = useState(
     Array.from({ length: 22 }, (_, idx) => ({
       id: idx + 1,
       grade: '온전한 스타프리즘', // '미장착' | '스타프리즘' | '스타프리즘S' | '온전한 스타프리즘'
-      options: ['강뎀', '이뎀'] // 기본 2줄 다중선택 프리셋 (강뎀 + 이뎀)
+      options: idx < 16 ? ['강뎀', '이뎀'] : [] // 16개 보석만 세공 효과 적용
     }))
   );
 
-  // 5. 전투 및 보스 기믹 상태
+  // 5. 전투 및 보스 기믹 상태 (기본 허수아비로 셋팅)
   const [gimmicks, setGimmicks] = useState({
-    boss: '함선 허수아비',
+    boss: '허수아비',
     ordinaryTime: 87,
     unarmedTime: 0,
     ultimateTime: 33,
@@ -155,10 +166,10 @@ export default function Calculator() {
     hasSpdBuff: false
   });
 
-  // 6. 상황별 딜사이클 상태
+  // 6. 상황별 딜사이클 상태 (소닉피스트 추가 콤보 사이클 셋팅)
   const [cycles, setCycles] = useState({
-    ordinary: '235212',
-    ordinaryBreak: '235212',
+    ordinary: '235244442',
+    ordinaryBreak: '235244442',
     ultimate: '252',
     ultimateBreak: '252'
   });
@@ -166,13 +177,13 @@ export default function Calculator() {
   // 7. 조건부 룬 가동률 상태
   const [conditionalUptimes, setConditionalUptimes] = useState({});
 
-  // 8. 6개 스킬 개별 스탠스(Stance) 선택 상태
+  // 8. 6개 스킬 개별 스탠스(Stance) 선택 상태 (전설 룬 스탠스 치환 적용)
   const [skillStances, setSkillStances] = useState({
     skill_1: '순정',
-    skill_2: '순정',
+    skill_2: '도약',
     skill_3: '순정',
-    skill_4: '순정',
-    skill_5: '순정'
+    skill_4: '소닉 피스트',
+    skill_5: '섬머솔트'
   });
 
   // 9. 계산된 DPS 결과 (useMemo로 실시간 연산)
