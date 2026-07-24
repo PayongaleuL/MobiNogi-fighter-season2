@@ -4,7 +4,7 @@ import RuneAuditDashboard from './RuneAuditDashboard';
 import SealControlPanel from './SealControlPanel';
 import MainCalculatorTab from './MainCalculatorTab';
 import { calculateDPS } from '../utils/calculator';
-import { Sun, Moon, Shield, Sliders, Activity } from 'lucide-react';
+import { Sun, Moon, Shield, Sliders, Activity, Gem } from 'lucide-react';
 import runesData from '../data/runes.json';
 import { parseRuneMarkdown } from '../utils/runeMdParser';
 import mdText from '../../results/260708_룬설명목록.md?raw';
