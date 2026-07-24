@@ -250,11 +250,10 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
   const nightTraceCrit = characterStats.useNightTrace ? 71.0 : 0.0;
   const effectiveCritScore = (characterStats.critScore || 6925.0) + nightTraceCrit + (sealCritFromStats || 0.0);
   const baseCritProb = 0.5 * (effectiveCritScore / (effectiveCritScore + 2000)) + (boss === "허수아비" ? 0.3 : 0.0) + (characterStats.critBonusPct || 0);
-  const totalCritProb = Math.min(1.0, baseCritProb + runeStats["치명타확률%"]);
+  const totalCritProb = baseCritProb + runeStats["치명타확률%"]; // 100% 초과 상태 그대로 보존 (보스 저항 차감 대응)
   
   const baseCritDmg = 1.4 + (effectiveCritScore / 5000.0);
   const totalCritDmg = baseCritDmg * (1 + runeStats["치명타피해%"]);
-  const critMultiplier = (1 - totalCritProb) + (totalCritDmg * totalCritProb);
 
   // 4대 패시브 스킬 기댓값 통합
   // 1) 연계 공격: 스킬피해 상시 +5% 보정
@@ -406,6 +405,14 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
       }
     }
 
+    // 보스 치명타 저항 추출 및 최종 치명타 적중 판정률 계산
+    const bossCritResist = boss.includes('어비스') ? 0.20 : 0.0;
+    const finalCritProb = Math.min(1.0, Math.max(0.0, totalCritProb - bossCritResist));
+    const critMultiplier = (1 - finalCritProb) + (totalCritDmg * finalCritProb);
+
+    let totalCdReductionSum = 0.0;
+    let skillCdCount = 0;
+
     listSkills.forEach((skillName) => {
       // 6번 스킬은 스킬 6의 개조레벨, 5-x는 5번, 4-x는 4번, 3은 3번...
       let skillGroup = skillName.startsWith("sonic") ? "4" : (skillName.startsWith("somersault") ? "5" : skillName.charAt(0));
@@ -440,7 +447,7 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
 
       const baseDamage = skillInfo.baseDamage !== undefined ? skillInfo.baseDamage : 0;
       const refLevel = skillInfo.refLevel !== undefined ? skillInfo.refLevel : 12;
-      const baseCast = skillInfo.baseCast !== undefined ? skillInfo.baseCast : 1.0;
+      const baseCast = skillInfo.baseCast !== undefined ? skillInfo.baseCast : (skillData[skillName]?.baseCast || 1.0);
 
       // getBonus 헬퍼 정의
       const getBonus = (lv) => {
@@ -455,11 +462,17 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
       const speedPct = speedRuneAndStat + (activeGimmicks.hasSpdBuff ? 0.10 : 0.0);
       const castTime = baseCast * (1 - speedPct);
 
-      // 보석 세공 데미지 증가% 적용
+      // 보석 세공 데미지 증가% 및 쿨감% 추출
       const category = SKILL_CATEGORIES[skillName];
       let gemDmgBonus = 0.0;
-      if (category && gemStats[`${category.dmg}Dmg`]) {
-        gemDmgBonus = gemStats[`${category.dmg}Dmg`] / 100.0;
+      if (category) {
+        if (gemStats[`${category.dmg}Dmg`]) {
+          gemDmgBonus = gemStats[`${category.dmg}Dmg`] / 100.0;
+        }
+        if (gemStats[`${category.dmg}Cd`]) {
+          totalCdReductionSum += gemStats[`${category.dmg}Cd`] / 100.0;
+          skillCdCount++;
+        }
       }
 
       // 스킬 유형별 증폭 배율 계산 (스킬피해%, 콤보피해%, 강타/연타피해% 시너지 결합)
@@ -477,7 +490,8 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
         typeMult = 1 + ultBoost;
       }
 
-      const skillComboMult = (1 + totalSkillDmg) * (1 + totalComboDmg);
+      // 스킬위력%와 콤보피해%를 단리(합산) 구조로 밸런싱
+      const skillComboMult = 1 + totalSkillDmg + totalComboDmg;
 
       totalCycleBaseDmg += modifiedDamage * (1 + gemDmgBonus) * typeMult * skillComboMult;
       totalCycleTime += castTime;
@@ -494,6 +508,11 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
       }
     });
 
+    // 평균 쿨감 수준에 비례해 사이클 회전 압축 보정 계수(최대 20% 가속) 곱연산 적용
+    const avgCdReduction = skillCdCount > 0 ? (totalCdReductionSum / skillCdCount) : 0.0;
+    const cycleTimeAdjustment = 1 - Math.min(0.20, avgCdReduction * 0.4);
+    totalCycleTime = totalCycleTime * cycleTimeAdjustment;
+
     if (totalCycleTime === 0) totalCycleTime = 1;
 
     // 2) 전투 숙련: 파멸 적용 (무방비 상태 가해지는 피해량 +5%)
@@ -506,14 +525,14 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
     // 3) 충격파 패시브 가산
     const waveCount = Math.floor(nonUltSkillCount / 3);
     const waveBaseDmg = parsed.passives.waveBaseDmg !== undefined ? parsed.passives.waveBaseDmg : 39019;
-    const waveDmg = ((waveBaseDmg * (attack / 27166.0)) * 2) * (1 + totalGivesDmg) * (1 + totalGetsDmg) * (1 + totalSkillDmg) * (1 + totalComboDmg) * armorCoeff * unarmedDmgCoeff;
+    const waveDmg = ((waveBaseDmg * (attack / 27166.0)) * 2) * (1 + totalGivesDmg) * (1 + totalGetsDmg) * (1 + totalSkillDmg + totalComboDmg) * armorCoeff * unarmedDmgCoeff;
     if (waveCount > 0) {
       skillDps += (waveDmg * waveCount) / totalCycleTime;
     }
 
     // 4) 파쇄권 패시브 가산
     const crashBaseDmg = parsed.passives.crashBaseDmg !== undefined ? parsed.passives.crashBaseDmg : 70945;
-    const crashDps = (((crashBaseDmg * (attack / 27166.0)) * 2) * (1 + totalGivesDmg) * (1 + totalGetsDmg) * (1 + totalSkillDmg) * (1 + totalComboDmg) * armorCoeff * unarmedDmgCoeff) / 3;
+    const crashDps = (((crashBaseDmg * (attack / 27166.0)) * 2) * (1 + totalGivesDmg) * (1 + totalGetsDmg) * (1 + totalSkillDmg + totalComboDmg) * armorCoeff * unarmedDmgCoeff) / 3;
     skillDps += crashDps;
 
     // 5) 시즌2 시즌스킬: 데들리 임팩트 가산 (강타강화 수치 strongDmg 비례 추가타, 3번 스킬 사용횟수 연동)
@@ -534,12 +553,12 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
     }
 
     // 추가타(직접피해) 계산
-    const baseDamageMultiplier = (1 + totalGivesDmg + totalSkillDmg) * (1 + totalGetsDmg) * (1 + totalStrongDmg + totalChainDmg + totalComboDmg);
+    const baseDamageMultiplier = (1 + totalGivesDmg + totalSkillDmg + totalComboDmg) * (1 + totalGetsDmg) * (1 + totalStrongDmg + totalChainDmg);
     const extraProbMultiplier = (1 - totalExtraProb) + (totalExtraDmg * totalExtraProb);
     const directDps = baseDamageMultiplier * critMultiplier * extraProbMultiplier * attack * 2 * totalExtraProb * armorCoeff;
 
     // 지속피해 계산
-    const dotDps = (1 + totalGivesDmg + totalSkillDmg) * (1 + totalGetsDmg) * totalMultiDmg * attack * 2 * armorCoeff;
+    const dotDps = (1 + totalGivesDmg + totalSkillDmg + totalComboDmg) * (1 + totalGetsDmg) * totalMultiDmg * attack * 2 * armorCoeff;
 
     // 초월 룬 각인 보정 (각 룬의 transcendLevel 누적 합)
     const totalTranscendLevel = selectedRunes.reduce((acc, r) => acc + (r && r.transcendLevel ? r.transcendLevel : 0), 0);
