@@ -1,0 +1,397 @@
+[
+  {
+    "name": "예시 1 · 함선허수 약승열 풀오토 (991.7만)",
+    "sourceUrl": "https://mobi-score.com/r/2rA4Ozk3cs5UQPtK",
+    "observedDps": 9916757,
+    "modeledDps": 9483931,
+    "variancePct": -4.36,
+    "totalAtk": 105638,
+    "attackBreakdown": {
+      "villageAttack": 60607,
+      "nightTraceAtk": 106.5,
+      "sealBaseAtk": 1600,
+      "sealAtkFromStats": 1125,
+      "gemAtk": 0,
+      "runeFlatAtk": 134.94,
+      "runeAtkPct": 0.675,
+      "conditionalAtkPct": 0,
+      "enchantAtkPct": 0.068,
+      "sealEmblemAtkPct": 0.12,
+      "nightBlessingAtkPct": 0.0375,
+      "totalAtkPct": 0.7430000000000001,
+      "attack": 105638.001
+    },
+    "states": {
+      "ordinary": {
+        "skillDps": 7329121,
+        "directDps": 479217,
+        "dotDps": 150848,
+        "totalDps": 8697273,
+        "cycleTime": 11.55,
+        "cycleCoeff": 14229594.944,
+        "cycleBaseDmg": 14229595
+      },
+      "ordinaryBreak": {
+        "skillDps": 14089362,
+        "directDps": 479217,
+        "dotDps": 150848,
+        "totalDps": 16084417,
+        "cycleTime": 11.55,
+        "cycleCoeff": 14229594.944,
+        "cycleBaseDmg": 14229595
+      },
+      "ultimate": {
+        "skillDps": 10006246,
+        "directDps": 479217,
+        "dotDps": 150848,
+        "totalDps": 11622659,
+        "cycleTime": 6.83,
+        "cycleCoeff": 11964294.863,
+        "cycleBaseDmg": 11964295
+      },
+      "ultimateBreak": {
+        "skillDps": 19235817,
+        "directDps": 479217,
+        "dotDps": 150848,
+        "totalDps": 21708124,
+        "cycleTime": 6.83,
+        "cycleCoeff": 11964294.863,
+        "cycleBaseDmg": 11964295
+      }
+    },
+    "gems": {
+      "strongDmg": 48.4,
+      "strongCd": 4.5,
+      "moveDmg": 48.4,
+      "moveCd": 3,
+      "subDmg": 6.6,
+      "subCd": 2.25,
+      "saveDmg": 0,
+      "saveCd": 0,
+      "disableDmg": 0,
+      "disableCd": 0,
+      "doubleDmg": 2.2,
+      "doubleCd": 0,
+      "summonDmg": 2.2,
+      "summonCd": 1.5,
+      "elementDmg": 2.2,
+      "elementCd": 0.75
+    }
+  },
+  {
+    "name": "예시 2 · 함선허수 약승열 풀오토 (946.2만)",
+    "sourceUrl": "https://mobi-score.com/r/a45ep94tqYHtjSVZ",
+    "observedDps": 9462052,
+    "modeledDps": 9483931,
+    "variancePct": 0.23,
+    "totalAtk": 105638,
+    "attackBreakdown": {
+      "villageAttack": 60607,
+      "nightTraceAtk": 106.5,
+      "sealBaseAtk": 1600,
+      "sealAtkFromStats": 1125,
+      "gemAtk": 0,
+      "runeFlatAtk": 134.94,
+      "runeAtkPct": 0.675,
+      "conditionalAtkPct": 0,
+      "enchantAtkPct": 0.068,
+      "sealEmblemAtkPct": 0.12,
+      "nightBlessingAtkPct": 0.0375,
+      "totalAtkPct": 0.7430000000000001,
+      "attack": 105638.001
+    },
+    "states": {
+      "ordinary": {
+        "skillDps": 7329121,
+        "directDps": 479217,
+        "dotDps": 150848,
+        "totalDps": 8697273,
+        "cycleTime": 11.55,
+        "cycleCoeff": 14229594.944,
+        "cycleBaseDmg": 14229595
+      },
+      "ordinaryBreak": {
+        "skillDps": 14089362,
+        "directDps": 479217,
+        "dotDps": 150848,
+        "totalDps": 16084417,
+        "cycleTime": 11.55,
+        "cycleCoeff": 14229594.944,
+        "cycleBaseDmg": 14229595
+      },
+      "ultimate": {
+        "skillDps": 10006246,
+        "directDps": 479217,
+        "dotDps": 150848,
+        "totalDps": 11622659,
+        "cycleTime": 6.83,
+        "cycleCoeff": 11964294.863,
+        "cycleBaseDmg": 11964295
+      },
+      "ultimateBreak": {
+        "skillDps": 19235817,
+        "directDps": 479217,
+        "dotDps": 150848,
+        "totalDps": 21708124,
+        "cycleTime": 6.83,
+        "cycleCoeff": 11964294.863,
+        "cycleBaseDmg": 11964295
+      }
+    },
+    "gems": {
+      "strongDmg": 48.4,
+      "strongCd": 4.5,
+      "moveDmg": 48.4,
+      "moveCd": 3,
+      "subDmg": 6.6,
+      "subCd": 2.25,
+      "saveDmg": 0,
+      "saveCd": 0,
+      "disableDmg": 0,
+      "disableCd": 0,
+      "doubleDmg": 2.2,
+      "doubleCd": 0,
+      "summonDmg": 2.2,
+      "summonCd": 1.5,
+      "elementDmg": 2.2,
+      "elementCd": 0.75
+    }
+  },
+  {
+    "name": "예시 3 · 함선허수 전승강 (1059.4만)",
+    "sourceUrl": "https://mobi-score.com/r/08aQG7NnfNXVpTVj",
+    "observedDps": 10593957,
+    "modeledDps": 11060584,
+    "variancePct": 4.4,
+    "totalAtk": 105638,
+    "attackBreakdown": {
+      "villageAttack": 60607,
+      "nightTraceAtk": 106.5,
+      "sealBaseAtk": 1600,
+      "sealAtkFromStats": 1125,
+      "gemAtk": 0,
+      "runeFlatAtk": 134.94,
+      "runeAtkPct": 0.675,
+      "conditionalAtkPct": 0,
+      "enchantAtkPct": 0.068,
+      "sealEmblemAtkPct": 0.12,
+      "nightBlessingAtkPct": 0.0375,
+      "totalAtkPct": 0.7430000000000001,
+      "attack": 105638.001
+    },
+    "states": {
+      "ordinary": {
+        "skillDps": 8138793,
+        "directDps": 479217,
+        "dotDps": 150848,
+        "totalDps": 9582029,
+        "cycleTime": 11.32,
+        "cycleCoeff": 15875110.127,
+        "cycleBaseDmg": 15875110
+      },
+      "ordinaryBreak": {
+        "skillDps": 15645861,
+        "directDps": 479217,
+        "dotDps": 150848,
+        "totalDps": 17785257,
+        "cycleTime": 11.32,
+        "cycleCoeff": 15875110.127,
+        "cycleBaseDmg": 15875110
+      },
+      "ultimate": {
+        "skillDps": 13170553,
+        "directDps": 479217,
+        "dotDps": 150848,
+        "totalDps": 15080404,
+        "cycleTime": 5.98,
+        "cycleCoeff": 13942692.883,
+        "cycleBaseDmg": 13942693
+      },
+      "ultimateBreak": {
+        "skillDps": 25318820,
+        "directDps": 479217,
+        "dotDps": 150848,
+        "totalDps": 28355227,
+        "cycleTime": 5.98,
+        "cycleCoeff": 13942692.883,
+        "cycleBaseDmg": 13942693
+      }
+    },
+    "gems": {
+      "strongDmg": 48.4,
+      "strongCd": 4.5,
+      "moveDmg": 48.4,
+      "moveCd": 3,
+      "subDmg": 6.6,
+      "subCd": 2.25,
+      "saveDmg": 0,
+      "saveCd": 0,
+      "disableDmg": 0,
+      "disableCd": 0,
+      "doubleDmg": 2.2,
+      "doubleCd": 0,
+      "summonDmg": 2.2,
+      "summonCd": 1.5,
+      "elementDmg": 2.2,
+      "elementCd": 0.75
+    }
+  },
+  {
+    "name": "예시 4 · 함선허수 전승강 (1117.8만)",
+    "sourceUrl": "https://mobi-score.com/r/bA903LtPSxYhtcst",
+    "observedDps": 11177554,
+    "modeledDps": 11060584,
+    "variancePct": -1.05,
+    "totalAtk": 105638,
+    "attackBreakdown": {
+      "villageAttack": 60607,
+      "nightTraceAtk": 106.5,
+      "sealBaseAtk": 1600,
+      "sealAtkFromStats": 1125,
+      "gemAtk": 0,
+      "runeFlatAtk": 134.94,
+      "runeAtkPct": 0.675,
+      "conditionalAtkPct": 0,
+      "enchantAtkPct": 0.068,
+      "sealEmblemAtkPct": 0.12,
+      "nightBlessingAtkPct": 0.0375,
+      "totalAtkPct": 0.7430000000000001,
+      "attack": 105638.001
+    },
+    "states": {
+      "ordinary": {
+        "skillDps": 8138793,
+        "directDps": 479217,
+        "dotDps": 150848,
+        "totalDps": 9582029,
+        "cycleTime": 11.32,
+        "cycleCoeff": 15875110.127,
+        "cycleBaseDmg": 15875110
+      },
+      "ordinaryBreak": {
+        "skillDps": 15645861,
+        "directDps": 479217,
+        "dotDps": 150848,
+        "totalDps": 17785257,
+        "cycleTime": 11.32,
+        "cycleCoeff": 15875110.127,
+        "cycleBaseDmg": 15875110
+      },
+      "ultimate": {
+        "skillDps": 13170553,
+        "directDps": 479217,
+        "dotDps": 150848,
+        "totalDps": 15080404,
+        "cycleTime": 5.98,
+        "cycleCoeff": 13942692.883,
+        "cycleBaseDmg": 13942693
+      },
+      "ultimateBreak": {
+        "skillDps": 25318820,
+        "directDps": 479217,
+        "dotDps": 150848,
+        "totalDps": 28355227,
+        "cycleTime": 5.98,
+        "cycleCoeff": 13942692.883,
+        "cycleBaseDmg": 13942693
+      }
+    },
+    "gems": {
+      "strongDmg": 48.4,
+      "strongCd": 4.5,
+      "moveDmg": 48.4,
+      "moveCd": 3,
+      "subDmg": 6.6,
+      "subCd": 2.25,
+      "saveDmg": 0,
+      "saveCd": 0,
+      "disableDmg": 0,
+      "disableCd": 0,
+      "doubleDmg": 2.2,
+      "doubleCd": 0,
+      "summonDmg": 2.2,
+      "summonCd": 1.5,
+      "elementDmg": 2.2,
+      "elementCd": 0.75
+    }
+  },
+  {
+    "name": "예시 5 · 함선허수 전승강 (1083.5만)",
+    "sourceUrl": "https://mobi-score.com/r/4GlO5T5ex5GeNlOf",
+    "observedDps": 10835203,
+    "modeledDps": 11060584,
+    "variancePct": 2.08,
+    "totalAtk": 105638,
+    "attackBreakdown": {
+      "villageAttack": 60607,
+      "nightTraceAtk": 106.5,
+      "sealBaseAtk": 1600,
+      "sealAtkFromStats": 1125,
+      "gemAtk": 0,
+      "runeFlatAtk": 134.94,
+      "runeAtkPct": 0.675,
+      "conditionalAtkPct": 0,
+      "enchantAtkPct": 0.068,
+      "sealEmblemAtkPct": 0.12,
+      "nightBlessingAtkPct": 0.0375,
+      "totalAtkPct": 0.7430000000000001,
+      "attack": 105638.001
+    },
+    "states": {
+      "ordinary": {
+        "skillDps": 8138793,
+        "directDps": 479217,
+        "dotDps": 150848,
+        "totalDps": 9582029,
+        "cycleTime": 11.32,
+        "cycleCoeff": 15875110.127,
+        "cycleBaseDmg": 15875110
+      },
+      "ordinaryBreak": {
+        "skillDps": 15645861,
+        "directDps": 479217,
+        "dotDps": 150848,
+        "totalDps": 17785257,
+        "cycleTime": 11.32,
+        "cycleCoeff": 15875110.127,
+        "cycleBaseDmg": 15875110
+      },
+      "ultimate": {
+        "skillDps": 13170553,
+        "directDps": 479217,
+        "dotDps": 150848,
+        "totalDps": 15080404,
+        "cycleTime": 5.98,
+        "cycleCoeff": 13942692.883,
+        "cycleBaseDmg": 13942693
+      },
+      "ultimateBreak": {
+        "skillDps": 25318820,
+        "directDps": 479217,
+        "dotDps": 150848,
+        "totalDps": 28355227,
+        "cycleTime": 5.98,
+        "cycleCoeff": 13942692.883,
+        "cycleBaseDmg": 13942693
+      }
+    },
+    "gems": {
+      "strongDmg": 48.4,
+      "strongCd": 4.5,
+      "moveDmg": 48.4,
+      "moveCd": 3,
+      "subDmg": 6.6,
+      "subCd": 2.25,
+      "saveDmg": 0,
+      "saveCd": 0,
+      "disableDmg": 0,
+      "disableCd": 0,
+      "doubleDmg": 2.2,
+      "doubleCd": 0,
+      "summonDmg": 2.2,
+      "summonCd": 1.5,
+      "elementDmg": 2.2,
+      "elementCd": 0.75
+    }
+  }
+]

@@ -1,0 +1,6258 @@
+[
+  {
+    "id": "2rA4Ozk3cs5UQPtK",
+    "sourceUrl": "https://mobi-score.com/r/2rA4Ozk3cs5UQPtK",
+    "title": "DPS 측정 2026. 8. 12. 함선허수1 약승열 풀오토",
+    "capturedAt": "2026-08-12T13:11:44Z",
+    "duration": 119,
+    "dps": 9916757,
+    "totalDamage": 1180094154,
+    "hitCount": 392,
+    "probabilities": {
+      "crit": 0.5102040816326531,
+      "additional": 0.1989795918367347,
+      "strong": 0.9540816326530612,
+      "chain": 0.9821428571428571
+    },
+    "skills": [
+      {
+        "skillName": "소닉 피스트[승천]",
+        "totalDamage": 380945154,
+        "hitCount": 49,
+        "critCount": 24,
+        "addhitCount": 9,
+        "powerCount": 49,
+        "fastCount": 47,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 14796239,
+        "minDamage": 2055875,
+        "avgDamage": 7774390,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 380945154,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 48.97959183673469,
+        "addhitRate": 22.5,
+        "powerRate": 100,
+        "fastRate": 95.91836734693877,
+        "damagePercent": 32.280911883917355,
+        "skillId": 712812281
+      },
+      {
+        "skillName": "히트 콤보",
+        "totalDamage": 186774888,
+        "hitCount": 30,
+        "critCount": 30,
+        "addhitCount": 7,
+        "powerCount": 30,
+        "fastCount": 30,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 7927602,
+        "minDamage": 4487992,
+        "avgDamage": 6225829,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 186774888,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 100,
+        "addhitRate": 30.434782608695656,
+        "powerRate": 100,
+        "fastRate": 100,
+        "damagePercent": 15.827117469137129,
+        "skillId": 788682089
+      },
+      {
+        "skillName": "필살의 일격 (도트)",
+        "totalDamage": 159590039,
+        "hitCount": 92,
+        "critCount": 0,
+        "addhitCount": 0,
+        "powerCount": 0,
+        "fastCount": 0,
+        "dotDamage": 159590039,
+        "dotCount": 92,
+        "maxDamage": 5178684,
+        "minDamage": 81020,
+        "avgDamage": 1734674,
+        "dotMaxDamage": 5178684,
+        "dotMinDamage": 81020,
+        "dotAvgDamage": 1734674,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 0,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 0,
+        "addhitRate": 0,
+        "powerRate": 0,
+        "fastRate": 0,
+        "damagePercent": 13.523500515535982,
+        "skillId": 1328936512
+      },
+      {
+        "skillName": "충격파",
+        "totalDamage": 84540473,
+        "hitCount": 57,
+        "critCount": 24,
+        "addhitCount": 10,
+        "powerCount": 57,
+        "fastCount": 57,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 3479163,
+        "minDamage": 548495,
+        "avgDamage": 1483166,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 84540473,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 42.10526315789473,
+        "addhitRate": 21.27659574468085,
+        "powerRate": 100,
+        "fastRate": 100,
+        "damagePercent": 7.163875247872807,
+        "skillId": 315739895
+      },
+      {
+        "skillName": "파쇄권",
+        "totalDamage": 72626710,
+        "hitCount": 41,
+        "critCount": 16,
+        "addhitCount": 7,
+        "powerCount": 41,
+        "fastCount": 40,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 4082285,
+        "minDamage": 647854,
+        "avgDamage": 1771383,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 72626710,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 39.02439024390244,
+        "addhitRate": 20.588235294117645,
+        "powerRate": 100,
+        "fastRate": 97.5609756097561,
+        "damagePercent": 6.154314870031972,
+        "skillId": 2097217044
+      },
+      {
+        "skillName": "섬머솔트: 3격[열혈]",
+        "totalDamage": 70706011,
+        "hitCount": 27,
+        "critCount": 12,
+        "addhitCount": 7,
+        "powerCount": 27,
+        "fastCount": 27,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 8562154,
+        "minDamage": 269390,
+        "avgDamage": 2618741,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 70706011,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 44.44444444444444,
+        "addhitRate": 35,
+        "powerRate": 100,
+        "fastRate": 100,
+        "damagePercent": 5.991556755055326,
+        "skillId": 1663051075
+      },
+      {
+        "skillName": "스톰프 킥",
+        "totalDamage": 48969738,
+        "hitCount": 21,
+        "critCount": 11,
+        "addhitCount": 5,
+        "powerCount": 21,
+        "fastCount": 20,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 4564932,
+        "minDamage": 868051,
+        "avgDamage": 2331892,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 48969738,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 52.38095238095239,
+        "addhitRate": 31.25,
+        "powerRate": 100,
+        "fastRate": 95.23809523809524,
+        "damagePercent": 4.149646689970807,
+        "skillId": 949616122
+      },
+      {
+        "skillName": "차징 피스트[약점]",
+        "totalDamage": 36428082,
+        "hitCount": 8,
+        "critCount": 3,
+        "addhitCount": 1,
+        "powerCount": 8,
+        "fastCount": 8,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 10423982,
+        "minDamage": 1387850,
+        "avgDamage": 4553510,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 36428082,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 37.5,
+        "addhitRate": 14.285714285714285,
+        "powerRate": 100,
+        "fastRate": 100,
+        "damagePercent": 3.0868792864132772,
+        "skillId": 957670111
+      },
+      {
+        "skillName": "섬머솔트: 1격[열혈]",
+        "totalDamage": 35620989,
+        "hitCount": 15,
+        "critCount": 11,
+        "addhitCount": 1,
+        "powerCount": 15,
+        "fastCount": 15,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 6644483,
+        "minDamage": 131859,
+        "avgDamage": 2374732,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 35620989,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 73.33333333333333,
+        "addhitRate": 7.142857142857142,
+        "powerRate": 100,
+        "fastRate": 100,
+        "damagePercent": 3.0184870316712034,
+        "skillId": 1605369715
+      },
+      {
+        "skillName": "데들리 임팩트",
+        "totalDamage": 35515029,
+        "hitCount": 16,
+        "critCount": 9,
+        "addhitCount": 6,
+        "powerCount": 16,
+        "fastCount": 16,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 4087159,
+        "minDamage": 897733,
+        "avgDamage": 2219689,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 35515029,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 56.25,
+        "addhitRate": 60,
+        "powerRate": 100,
+        "fastRate": 100,
+        "damagePercent": 3.0095080870979385,
+        "skillId": 1825196507
+      },
+      {
+        "skillName": "섬머솔트: 2격[열혈]",
+        "totalDamage": 24359380,
+        "hitCount": 15,
+        "critCount": 7,
+        "addhitCount": 1,
+        "powerCount": 15,
+        "fastCount": 15,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 4953033,
+        "minDamage": 231484,
+        "avgDamage": 1623958,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 24359380,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 46.666666666666664,
+        "addhitRate": 7.142857142857142,
+        "powerRate": 100,
+        "fastRate": 100,
+        "damagePercent": 2.064189532456577,
+        "skillId": 1374325012
+      },
+      {
+        "skillName": "특수 피해 (무)",
+        "totalDamage": 17204611,
+        "hitCount": 52,
+        "critCount": 25,
+        "addhitCount": 10,
+        "powerCount": 52,
+        "fastCount": 50,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 694638,
+        "minDamage": 88910,
+        "avgDamage": 330857,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 17204611,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 48.07692307692308,
+        "addhitRate": 23.809523809523807,
+        "powerRate": 100,
+        "fastRate": 96.15384615384616,
+        "damagePercent": 1.4579015531670874,
+        "skillId": 4043309057
+      },
+      {
+        "skillName": "스러스트 킥",
+        "totalDamage": 16714509,
+        "hitCount": 12,
+        "critCount": 6,
+        "addhitCount": 2,
+        "powerCount": 12,
+        "fastCount": 11,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 2747785,
+        "minDamage": 420574,
+        "avgDamage": 1392875,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 16714509,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 50,
+        "addhitRate": 20,
+        "powerRate": 100,
+        "fastRate": 91.66666666666666,
+        "damagePercent": 1.4163707991726904,
+        "skillId": 521534644
+      },
+      {
+        "skillName": "백 스텝",
+        "totalDamage": 4341249,
+        "hitCount": 16,
+        "critCount": 7,
+        "addhitCount": 5,
+        "powerCount": 16,
+        "fastCount": 16,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 563849,
+        "minDamage": 101528,
+        "avgDamage": 271328,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 4341249,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 43.75,
+        "addhitRate": 45.45454545454545,
+        "powerRate": 100,
+        "fastRate": 100,
+        "damagePercent": 0.36787310447095056,
+        "skillId": 156969833
+      },
+      {
+        "skillName": "특수 지속 피해 (상처) (도트)",
+        "totalDamage": 2890844,
+        "hitCount": 119,
+        "critCount": 0,
+        "addhitCount": 0,
+        "powerCount": 0,
+        "fastCount": 0,
+        "dotDamage": 2890844,
+        "dotCount": 119,
+        "maxDamage": 37372,
+        "minDamage": 13794,
+        "avgDamage": 24292,
+        "dotMaxDamage": 37372,
+        "dotMinDamage": 13794,
+        "dotAvgDamage": 24292,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 0,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 0,
+        "addhitRate": 0,
+        "powerRate": 0,
+        "fastRate": 0,
+        "damagePercent": 0.244967233351789,
+        "skillId": 4043309073
+      },
+      {
+        "skillName": "공격",
+        "totalDamage": 1831422,
+        "hitCount": 33,
+        "critCount": 15,
+        "addhitCount": 7,
+        "powerCount": 15,
+        "fastCount": 33,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 140779,
+        "minDamage": 12519,
+        "avgDamage": 55497,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 1831422,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 45.45454545454545,
+        "addhitRate": 26.923076923076923,
+        "powerRate": 45.45454545454545,
+        "fastRate": 100,
+        "damagePercent": 0.1551928711613633,
+        "skillId": 215588121
+      },
+      {
+        "skillName": "섬머솔트: 3격[열혈] (도트)",
+        "totalDamage": 1035026,
+        "hitCount": 58,
+        "critCount": 0,
+        "addhitCount": 0,
+        "powerCount": 0,
+        "fastCount": 0,
+        "dotDamage": 1035026,
+        "dotCount": 58,
+        "maxDamage": 45344,
+        "minDamage": 2811,
+        "avgDamage": 17845,
+        "dotMaxDamage": 45344,
+        "dotMinDamage": 2811,
+        "dotAvgDamage": 17845,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 0,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 0,
+        "addhitRate": 0,
+        "powerRate": 0,
+        "fastRate": 0,
+        "damagePercent": 0.08770706951574306,
+        "skillId": 1663051075
+      }
+    ],
+    "buffs": {
+      "castBuffs": [
+        {
+          "name": "파티보너스: 격투가",
+          "buffId": 296244591,
+          "totalCount": 55,
+          "totalDuration": 135600,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 55,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "연계 공격",
+          "buffId": 322764292,
+          "totalCount": 67,
+          "totalDuration": 120691,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 1,
+          "updateCount": 66,
+          "refreshCount": 0
+        },
+        {
+          "name": "도적의 추격",
+          "buffId": 1883209671,
+          "totalCount": 55,
+          "totalDuration": 135602,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 55,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "오염",
+          "buffId": 619638055,
+          "totalCount": 119,
+          "totalDuration": 119912,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 1,
+          "updateCount": 118,
+          "refreshCount": 0
+        },
+        {
+          "name": "불씨",
+          "buffId": 775459606,
+          "totalCount": 24,
+          "totalDuration": 116280,
+          "maxStack": 12,
+          "avgStack": 6.625,
+          "startCount": 2,
+          "updateCount": 22,
+          "refreshCount": 0
+        },
+        {
+          "name": "잠식(비표기 1배 효과)",
+          "buffId": 912039546,
+          "totalCount": 212,
+          "totalDuration": 106197,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 107,
+          "updateCount": 105,
+          "refreshCount": 0
+        },
+        {
+          "name": "침식",
+          "buffId": 30069630,
+          "totalCount": 210,
+          "totalDuration": 104770,
+          "maxStack": 300,
+          "avgStack": 134.42857142857142,
+          "startCount": 2,
+          "updateCount": 208,
+          "refreshCount": 0
+        },
+        {
+          "name": "흐릿한 형상",
+          "buffId": 297816278,
+          "totalCount": 212,
+          "totalDuration": 104707,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 2,
+          "updateCount": 210,
+          "refreshCount": 0
+        },
+        {
+          "name": "None",
+          "buffId": 1986807074,
+          "totalCount": 2,
+          "totalDuration": 83455,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 2,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "충격파",
+          "buffId": 1905020849,
+          "totalCount": 163,
+          "totalDuration": 76567,
+          "maxStack": 2,
+          "avgStack": 1.705521472392638,
+          "startCount": 48,
+          "updateCount": 115,
+          "refreshCount": 0
+        },
+        {
+          "name": "추가 타격",
+          "buffId": 2112950298,
+          "totalCount": 92,
+          "totalDuration": 72241,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 92,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "치명타 증가",
+          "buffId": 1528288387,
+          "totalCount": 28,
+          "totalDuration": 69954,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 28,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "잠식(비표기 2배 효과)",
+          "buffId": 2088118072,
+          "totalCount": 132,
+          "totalDuration": 67574,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 67,
+          "updateCount": 65,
+          "refreshCount": 0
+        },
+        {
+          "name": "흐릿한 형상",
+          "buffId": 2111116943,
+          "totalCount": 132,
+          "totalDuration": 66076,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 2,
+          "updateCount": 130,
+          "refreshCount": 0
+        },
+        {
+          "name": "별바라기",
+          "buffId": 98939633,
+          "totalCount": 6,
+          "totalDuration": 60064,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 6,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "용의 문장",
+          "buffId": 1931031110,
+          "totalCount": 6,
+          "totalDuration": 60064,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 6,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "야무진 응원",
+          "buffId": 439731380,
+          "totalCount": 7,
+          "totalDuration": 51676,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 7,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "속도 증가",
+          "buffId": 1937155463,
+          "totalCount": 11,
+          "totalDuration": 42285,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 11,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "None",
+          "buffId": 1861320102,
+          "totalCount": 11,
+          "totalDuration": 32671,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 11,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "위대함",
+          "buffId": 1850558294,
+          "totalCount": 2,
+          "totalDuration": 30024,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 2,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "잊힌 맹약",
+          "buffId": 1363384738,
+          "totalCount": 2,
+          "totalDuration": 30024,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 2,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "밤의 축복",
+          "buffId": 674865859,
+          "totalCount": 2,
+          "totalDuration": 30024,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 2,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "연속기",
+          "buffId": 1198899612,
+          "totalCount": 17,
+          "totalDuration": 29951,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 17,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "각성 종료",
+          "buffId": 2026042517,
+          "totalCount": 2,
+          "totalDuration": 18430,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 2,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "재사용 대기 시간 감소",
+          "buffId": 381616090,
+          "totalCount": 1,
+          "totalDuration": 16516,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 1,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "타오르는 영광",
+          "buffId": 1165643790,
+          "totalCount": 13,
+          "totalDuration": 15008,
+          "maxStack": 12,
+          "avgStack": 6.923076923076923,
+          "startCount": 1,
+          "updateCount": 12,
+          "refreshCount": 0
+        },
+        {
+          "name": "오염",
+          "buffId": 1878917227,
+          "totalCount": 1,
+          "totalDuration": 14160,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 1,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "오염",
+          "buffId": 1331437343,
+          "totalCount": 14,
+          "totalDuration": 13167,
+          "maxStack": 14,
+          "avgStack": 7.5,
+          "startCount": 1,
+          "updateCount": 13,
+          "refreshCount": 0
+        },
+        {
+          "name": "대미지 증가",
+          "buffId": 1730489501,
+          "totalCount": 11,
+          "totalDuration": 12466,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 11,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "스킬 대미지",
+          "buffId": 1275153198,
+          "totalCount": 7,
+          "totalDuration": 10120,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 7,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "대미지 증가",
+          "buffId": 1329716420,
+          "totalCount": 11,
+          "totalDuration": 5912,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 11,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "None",
+          "buffId": 1790833719,
+          "totalCount": 9,
+          "totalDuration": 5069,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 9,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "섬머솔트",
+          "buffId": 1648264379,
+          "totalCount": 7,
+          "totalDuration": 4495,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 7,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "None",
+          "buffId": 1415209640,
+          "totalCount": 12,
+          "totalDuration": 3385,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 12,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "필살의 일격",
+          "buffId": 1502176038,
+          "totalCount": 4,
+          "totalDuration": 3069,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 3,
+          "updateCount": 1,
+          "refreshCount": 0
+        },
+        {
+          "name": "궁극기 면역",
+          "buffId": 2143423116,
+          "totalCount": 1,
+          "totalDuration": 2611,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 1,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "스킬 대미지 및 치명타 증가",
+          "buffId": 119129981,
+          "totalCount": 4,
+          "totalDuration": 2301,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 4,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "섬머솔트",
+          "buffId": 743353731,
+          "totalCount": 7,
+          "totalDuration": 1726,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 7,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "None",
+          "buffId": 1484070239,
+          "totalCount": 5,
+          "totalDuration": 1385,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 5,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "용의 문장 종료",
+          "buffId": 509253398,
+          "totalCount": 6,
+          "totalDuration": 737,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 6,
+          "updateCount": 0,
+          "refreshCount": 0
+        }
+      ],
+      "receivedBuffs": []
+    },
+    "character": {
+      "job": "격투가",
+      "nickname": "무쇠손",
+      "combatPower": 106123,
+      "attack": 58268,
+      "defense": 21495,
+      "primary": {
+        "힘": 6037,
+        "솜씨": 7031,
+        "지력": 6037,
+        "의지": 5982,
+        "행운": 5690
+      },
+      "detail": {
+        "브레이크": 4439,
+        "피해 감소": 3533,
+        "강타 강화": 3980,
+        "빠른 공격": 2109,
+        "콤보 강화": 2480,
+        "연타 강화": 3644,
+        "스킬 위력": 2650,
+        "빠른 스킬": 2158,
+        "광역 강화": 2419,
+        "추가 체력": 47046,
+        "회복력": 3406,
+        "궁극기": 1682,
+        "급소 회피": 421,
+        "치명타": 8688,
+        "추가타": 2520
+      }
+    },
+    "equipment": [
+      {
+        "slotType": 111,
+        "itemName": "격투가의 마스터 엠블럼",
+        "transcendentState": 0,
+        "runeName": "위대함",
+        "gems": [
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "이동 쿨타임 0.75%",
+              "강타 데미지 2.2%"
+            ]
+          }
+        ],
+        "prisms": [],
+        "enchants": [],
+        "amplifications": []
+      },
+      {
+        "slotType": 101,
+        "itemName": "잔영의 라이트 너클ZZ",
+        "transcendentState": 0,
+        "runeName": "타오르는 영광",
+        "gems": [
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "강타 쿨타임 0.75%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "강타 쿨타임 0.75%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "강타 쿨타임 0.75%"
+            ]
+          }
+        ],
+        "prisms": [],
+        "enchants": [],
+        "amplifications": []
+      },
+      {
+        "slotType": 104,
+        "itemName": "잔영의 가죽 갑옷 상의ZZ",
+        "transcendentState": 1,
+        "runeName": "흐릿한 형상",
+        "gems": [
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "보조 데미지 2.2%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "보조 데미지 2.2%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "보조 데미지 2.2%"
+            ]
+          }
+        ],
+        "prisms": [],
+        "enchants": [],
+        "amplifications": []
+      },
+      {
+        "slotType": 103,
+        "itemName": "잔영의 가죽 갑옷 하의ZZ",
+        "transcendentState": 1,
+        "runeName": "아귀",
+        "gems": [
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "보조 쿨타임 0.75%",
+              "강타 데미지 2.2%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "보조 쿨타임 0.75%",
+              "강타 데미지 2.2%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "보조 쿨타임 0.75%",
+              "강타 데미지 2.2%"
+            ]
+          }
+        ],
+        "prisms": [],
+        "enchants": [],
+        "amplifications": []
+      },
+      {
+        "slotType": 107,
+        "itemName": "잔영의 가죽 갑옷 신발ZZ",
+        "transcendentState": 0,
+        "runeName": "승전",
+        "gems": [
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "소환 쿨타임 0.75%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "소환 데미지 2.2%",
+              "강타 데미지 2.2%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "연타 데미지 2.2%",
+              "강타 데미지 2.2%"
+            ]
+          }
+        ],
+        "prisms": [],
+        "enchants": [],
+        "amplifications": []
+      },
+      {
+        "slotType": 106,
+        "itemName": "잔영의 가죽 갑옷 장갑ZZ",
+        "transcendentState": 0,
+        "runeName": "별바라기",
+        "gems": [
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "원소 데미지 2.2%",
+              "강타 데미지 2.2%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "원소 쿨타임 0.75%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "소환 쿨타임 0.75%"
+            ]
+          }
+        ],
+        "prisms": [],
+        "enchants": [],
+        "amplifications": []
+      },
+      {
+        "slotType": 110,
+        "itemName": "잔영의 페리도트 네크리스ZZ",
+        "transcendentState": 0,
+        "runeName": "승천(격투가)",
+        "gems": [
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "강타 쿨타임 0.75%"
+            ]
+          }
+        ],
+        "prisms": [],
+        "enchants": [],
+        "amplifications": []
+      },
+      {
+        "slotType": 109,
+        "itemName": "잔영의 페리도트 링ZZ",
+        "transcendentState": 0,
+        "runeName": "약점(격투가)",
+        "gems": [
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "강타 쿨타임 0.75%"
+            ]
+          }
+        ],
+        "prisms": [],
+        "enchants": [],
+        "amplifications": []
+      },
+      {
+        "slotType": 108,
+        "itemName": "잔영의 페리도트 링ZZ",
+        "transcendentState": 0,
+        "runeName": "열혈(격투가)",
+        "gems": [
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "강타 쿨타임 0.75%"
+            ]
+          }
+        ],
+        "prisms": [],
+        "enchants": [],
+        "amplifications": []
+      },
+      {
+        "slotType": 102,
+        "itemName": "가죽 갑옷 투구ZZ",
+        "transcendentState": 1,
+        "runeName": "잊힌 맹약",
+        "gems": [
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "이동 쿨타임 0.75%",
+              "강타 데미지 2.2%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "이동 쿨타임 0.75%",
+              "강타 데미지 2.2%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "이동 쿨타임 0.75%",
+              "강타 데미지 2.2%"
+            ]
+          }
+        ],
+        "prisms": [],
+        "enchants": [],
+        "amplifications": []
+      }
+    ]
+  },
+  {
+    "id": "a45ep94tqYHtjSVZ",
+    "sourceUrl": "https://mobi-score.com/r/a45ep94tqYHtjSVZ",
+    "title": "DPS 측정 2026. 8. 12. 함선허수2 약승열 풀오토",
+    "capturedAt": "2026-08-12T13:14:41Z",
+    "duration": 119,
+    "dps": 9462052,
+    "totalDamage": 1125984250,
+    "hitCount": 392,
+    "probabilities": {
+      "crit": 0.45663265306122447,
+      "additional": 0.18622448979591838,
+      "strong": 0.9719387755102041,
+      "chain": 0.9846938775510204
+    },
+    "skills": [
+      {
+        "skillName": "소닉 피스트[승천]",
+        "totalDamage": 366437841,
+        "hitCount": 58,
+        "critCount": 20,
+        "addhitCount": 12,
+        "powerCount": 58,
+        "fastCount": 58,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 14578729,
+        "minDamage": 2589894,
+        "avgDamage": 6317893,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 366437841,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 34.48275862068966,
+        "addhitRate": 26.08695652173913,
+        "powerRate": 100,
+        "fastRate": 100,
+        "damagePercent": 32.5437803415101,
+        "skillId": 712812281
+      },
+      {
+        "skillName": "히트 콤보",
+        "totalDamage": 170369100,
+        "hitCount": 27,
+        "critCount": 27,
+        "addhitCount": 4,
+        "powerCount": 27,
+        "fastCount": 27,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 8646073,
+        "minDamage": 4575634,
+        "avgDamage": 6309966,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 170369100,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 100,
+        "addhitRate": 17.391304347826086,
+        "powerRate": 100,
+        "fastRate": 100,
+        "damagePercent": 15.130682334144549,
+        "skillId": 788682089
+      },
+      {
+        "skillName": "필살의 일격 (도트)",
+        "totalDamage": 153022153,
+        "hitCount": 100,
+        "critCount": 0,
+        "addhitCount": 0,
+        "powerCount": 0,
+        "fastCount": 0,
+        "dotDamage": 153022153,
+        "dotCount": 100,
+        "maxDamage": 5102555,
+        "minDamage": 63342,
+        "avgDamage": 1530221,
+        "dotMaxDamage": 5102555,
+        "dotMinDamage": 63342,
+        "dotAvgDamage": 1530221,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 0,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 0,
+        "addhitRate": 0,
+        "powerRate": 0,
+        "fastRate": 0,
+        "damagePercent": 13.590079346136502,
+        "skillId": 1328936512
+      },
+      {
+        "skillName": "충격파",
+        "totalDamage": 94142127,
+        "hitCount": 59,
+        "critCount": 30,
+        "addhitCount": 8,
+        "powerCount": 59,
+        "fastCount": 59,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 3280669,
+        "minDamage": 469331,
+        "avgDamage": 1595629,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 94142127,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 50.84745762711864,
+        "addhitRate": 15.68627450980392,
+        "powerRate": 100,
+        "fastRate": 100,
+        "damagePercent": 8.36087423070083,
+        "skillId": 315739895
+      },
+      {
+        "skillName": "파쇄권",
+        "totalDamage": 77953777,
+        "hitCount": 41,
+        "critCount": 20,
+        "addhitCount": 8,
+        "powerCount": 41,
+        "fastCount": 41,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 3912107,
+        "minDamage": 655184,
+        "avgDamage": 1901311,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 77953777,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 48.78048780487805,
+        "addhitRate": 24.24242424242424,
+        "powerRate": 100,
+        "fastRate": 100,
+        "damagePercent": 6.9231676197957475,
+        "skillId": 2097217044
+      },
+      {
+        "skillName": "섬머솔트: 3격[열혈]",
+        "totalDamage": 72740414,
+        "hitCount": 33,
+        "critCount": 12,
+        "addhitCount": 9,
+        "powerCount": 33,
+        "fastCount": 33,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 8896449,
+        "minDamage": 236264,
+        "avgDamage": 2204254,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 72740414,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 36.36363636363637,
+        "addhitRate": 37.5,
+        "powerRate": 100,
+        "fastRate": 100,
+        "damagePercent": 6.460162653252032,
+        "skillId": 1663051075
+      },
+      {
+        "skillName": "섬머솔트: 1격[열혈]",
+        "totalDamage": 45157020,
+        "hitCount": 23,
+        "critCount": 14,
+        "addhitCount": 5,
+        "powerCount": 23,
+        "fastCount": 23,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 5242184,
+        "minDamage": 156921,
+        "avgDamage": 1963348,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 45157020,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 60.86956521739131,
+        "addhitRate": 27.77777777777778,
+        "powerRate": 100,
+        "fastRate": 100,
+        "damagePercent": 4.010448636381903,
+        "skillId": 1605369715
+      },
+      {
+        "skillName": "차징 피스트[약점]",
+        "totalDamage": 30718800,
+        "hitCount": 8,
+        "critCount": 2,
+        "addhitCount": 1,
+        "powerCount": 8,
+        "fastCount": 8,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 10156811,
+        "minDamage": 1706858,
+        "avgDamage": 3839850,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 30718800,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 25,
+        "addhitRate": 14.285714285714285,
+        "powerRate": 100,
+        "fastRate": 100,
+        "damagePercent": 2.7281731516226806,
+        "skillId": 957670111
+      },
+      {
+        "skillName": "섬머솔트: 2격[열혈]",
+        "totalDamage": 30437057,
+        "hitCount": 20,
+        "critCount": 10,
+        "addhitCount": 2,
+        "powerCount": 20,
+        "fastCount": 20,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 6624481,
+        "minDamage": 180976,
+        "avgDamage": 1521852,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 30437057,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 50,
+        "addhitRate": 11.11111111111111,
+        "powerRate": 100,
+        "fastRate": 100,
+        "damagePercent": 2.7031512208097053,
+        "skillId": 1374325012
+      },
+      {
+        "skillName": "데들리 임팩트",
+        "totalDamage": 24433439,
+        "hitCount": 13,
+        "critCount": 5,
+        "addhitCount": 2,
+        "powerCount": 13,
+        "fastCount": 13,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 3735249,
+        "minDamage": 669366,
+        "avgDamage": 1879495,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 24433439,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 38.46153846153847,
+        "addhitRate": 18.181818181818183,
+        "powerRate": 100,
+        "fastRate": 100,
+        "damagePercent": 2.1699627681293054,
+        "skillId": 1825196507
+      },
+      {
+        "skillName": "스톰프 킥",
+        "totalDamage": 23399615,
+        "hitCount": 14,
+        "critCount": 3,
+        "addhitCount": 1,
+        "powerCount": 14,
+        "fastCount": 14,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 4594628,
+        "minDamage": 781768,
+        "avgDamage": 1671401,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 23399615,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 21.428571428571427,
+        "addhitRate": 7.6923076923076925,
+        "powerRate": 100,
+        "fastRate": 100,
+        "damagePercent": 2.078147629507251,
+        "skillId": 949616122
+      },
+      {
+        "skillName": "특수 피해 (무)",
+        "totalDamage": 17367314,
+        "hitCount": 62,
+        "critCount": 22,
+        "addhitCount": 18,
+        "powerCount": 62,
+        "fastCount": 60,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 660246,
+        "minDamage": 87814,
+        "avgDamage": 280117,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 17367314,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 35.483870967741936,
+        "addhitRate": 40.909090909090914,
+        "powerRate": 100,
+        "fastRate": 96.7741935483871,
+        "damagePercent": 1.5424118054937268,
+        "skillId": 4043309057
+      },
+      {
+        "skillName": "스러스트 킥",
+        "totalDamage": 11576990,
+        "hitCount": 8,
+        "critCount": 4,
+        "addhitCount": 1,
+        "powerCount": 8,
+        "fastCount": 8,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 2429758,
+        "minDamage": 797595,
+        "avgDamage": 1447123,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 11576990,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 50,
+        "addhitRate": 14.285714285714285,
+        "powerRate": 100,
+        "fastRate": 100,
+        "damagePercent": 1.0281662465527384,
+        "skillId": 521534644
+      },
+      {
+        "skillName": "백 스텝",
+        "totalDamage": 3755108,
+        "hitCount": 12,
+        "critCount": 7,
+        "addhitCount": 1,
+        "powerCount": 12,
+        "fastCount": 12,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 596128,
+        "minDamage": 111139,
+        "avgDamage": 312925,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 3755108,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 58.333333333333336,
+        "addhitRate": 9.090909090909092,
+        "powerRate": 100,
+        "fastRate": 100,
+        "damagePercent": 0.33349560617743984,
+        "skillId": 156969833
+      },
+      {
+        "skillName": "특수 지속 피해 (상처) (도트)",
+        "totalDamage": 2856869,
+        "hitCount": 120,
+        "critCount": 0,
+        "addhitCount": 0,
+        "powerCount": 0,
+        "fastCount": 0,
+        "dotDamage": 2856869,
+        "dotCount": 120,
+        "maxDamage": 36829,
+        "minDamage": 11419,
+        "avgDamage": 23807,
+        "dotMaxDamage": 36829,
+        "dotMinDamage": 11419,
+        "dotAvgDamage": 23807,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 0,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 0,
+        "addhitRate": 0,
+        "powerRate": 0,
+        "fastRate": 0,
+        "damagePercent": 0.25372193261140197,
+        "skillId": 4043309073
+      },
+      {
+        "skillName": "섬머솔트: 3격[열혈] (도트)",
+        "totalDamage": 1190582,
+        "hitCount": 70,
+        "critCount": 0,
+        "addhitCount": 0,
+        "powerCount": 0,
+        "fastCount": 0,
+        "dotDamage": 1190582,
+        "dotCount": 70,
+        "maxDamage": 40804,
+        "minDamage": 2889,
+        "avgDamage": 17008,
+        "dotMaxDamage": 40804,
+        "dotMinDamage": 2889,
+        "dotAvgDamage": 17008,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 0,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 0,
+        "addhitRate": 0,
+        "powerRate": 0,
+        "fastRate": 0,
+        "damagePercent": 0.1057370029820577,
+        "skillId": 1663051075
+      },
+      {
+        "skillName": "공격",
+        "totalDamage": 426044,
+        "hitCount": 14,
+        "critCount": 3,
+        "addhitCount": 1,
+        "powerCount": 3,
+        "fastCount": 10,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 105162,
+        "minDamage": 8363,
+        "avgDamage": 30431,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 426044,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 21.428571428571427,
+        "addhitRate": 7.6923076923076925,
+        "powerRate": 21.428571428571427,
+        "fastRate": 71.42857142857143,
+        "damagePercent": 0.03783747419202355,
+        "skillId": 215588121
+      }
+    ],
+    "buffs": {
+      "castBuffs": [
+        {
+          "name": "오염",
+          "buffId": 619638055,
+          "totalCount": 119,
+          "totalDuration": 119996,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 1,
+          "updateCount": 118,
+          "refreshCount": 0
+        },
+        {
+          "name": "파티보너스: 격투가",
+          "buffId": 296244591,
+          "totalCount": 33,
+          "totalDuration": 121235,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 33,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "도적의 추격",
+          "buffId": 1883209671,
+          "totalCount": 33,
+          "totalDuration": 121236,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 33,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "연계 공격",
+          "buffId": 322764292,
+          "totalCount": 71,
+          "totalDuration": 118458,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 1,
+          "updateCount": 70,
+          "refreshCount": 0
+        },
+        {
+          "name": "잠식(비표기 1배 효과)",
+          "buffId": 912039546,
+          "totalCount": 206,
+          "totalDuration": 104589,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 104,
+          "updateCount": 102,
+          "refreshCount": 0
+        },
+        {
+          "name": "None",
+          "buffId": 1986807074,
+          "totalCount": 2,
+          "totalDuration": 104476,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 2,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "흐릿한 형상",
+          "buffId": 297816278,
+          "totalCount": 206,
+          "totalDuration": 103509,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 2,
+          "updateCount": 204,
+          "refreshCount": 0
+        },
+        {
+          "name": "불씨",
+          "buffId": 775459606,
+          "totalCount": 18,
+          "totalDuration": 89877,
+          "maxStack": 12,
+          "avgStack": 8.333333333333334,
+          "startCount": 1,
+          "updateCount": 17,
+          "refreshCount": 0
+        },
+        {
+          "name": "잠식(비표기 2배 효과)",
+          "buffId": 2088118072,
+          "totalCount": 158,
+          "totalDuration": 82167,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 80,
+          "updateCount": 78,
+          "refreshCount": 0
+        },
+        {
+          "name": "흐릿한 형상",
+          "buffId": 2111116943,
+          "totalCount": 158,
+          "totalDuration": 81084,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 2,
+          "updateCount": 156,
+          "refreshCount": 0
+        },
+        {
+          "name": "추가 타격",
+          "buffId": 2112950298,
+          "totalCount": 100,
+          "totalDuration": 79843,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 100,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "치명타 증가",
+          "buffId": 1528288387,
+          "totalCount": 29,
+          "totalDuration": 76059,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 29,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "충격파",
+          "buffId": 1905020849,
+          "totalCount": 174,
+          "totalDuration": 69726,
+          "maxStack": 2,
+          "avgStack": 1.7126436781609196,
+          "startCount": 50,
+          "updateCount": 124,
+          "refreshCount": 0
+        },
+        {
+          "name": "용의 문장",
+          "buffId": 1931031110,
+          "totalCount": 6,
+          "totalDuration": 60059,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 6,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "별바라기",
+          "buffId": 98939633,
+          "totalCount": 6,
+          "totalDuration": 60059,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 6,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "침식",
+          "buffId": 30069630,
+          "totalCount": 120,
+          "totalDuration": 59921,
+          "maxStack": 300,
+          "avgStack": 150.5,
+          "startCount": 1,
+          "updateCount": 119,
+          "refreshCount": 0
+        },
+        {
+          "name": "야무진 응원",
+          "buffId": 439731380,
+          "totalCount": 6,
+          "totalDuration": 48036,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 6,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "속도 증가",
+          "buffId": 1937155463,
+          "totalCount": 11,
+          "totalDuration": 42324,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 11,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "연속기",
+          "buffId": 1198899612,
+          "totalCount": 14,
+          "totalDuration": 32868,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 14,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "None",
+          "buffId": 1861320102,
+          "totalCount": 11,
+          "totalDuration": 32690,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 11,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "잊힌 맹약",
+          "buffId": 1363384738,
+          "totalCount": 2,
+          "totalDuration": 30042,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 2,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "밤의 축복",
+          "buffId": 674865859,
+          "totalCount": 2,
+          "totalDuration": 30042,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 2,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "위대함",
+          "buffId": 1850558294,
+          "totalCount": 2,
+          "totalDuration": 30042,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 2,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "각성 종료",
+          "buffId": 2026042517,
+          "totalCount": 2,
+          "totalDuration": 20013,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 2,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "재사용 대기 시간 감소",
+          "buffId": 381616090,
+          "totalCount": 1,
+          "totalDuration": 16503,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 1,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "오염",
+          "buffId": 1878917227,
+          "totalCount": 2,
+          "totalDuration": 15487,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 2,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "타오르는 영광",
+          "buffId": 1165643790,
+          "totalCount": 12,
+          "totalDuration": 14998,
+          "maxStack": 12,
+          "avgStack": 6.5,
+          "startCount": 1,
+          "updateCount": 11,
+          "refreshCount": 0
+        },
+        {
+          "name": "오염",
+          "buffId": 1331437343,
+          "totalCount": 15,
+          "totalDuration": 13508,
+          "maxStack": 14,
+          "avgStack": 7.066666666666666,
+          "startCount": 2,
+          "updateCount": 13,
+          "refreshCount": 0
+        },
+        {
+          "name": "None",
+          "buffId": 1415209640,
+          "totalCount": 13,
+          "totalDuration": 11318,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 13,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "대미지 증가",
+          "buffId": 1730489501,
+          "totalCount": 11,
+          "totalDuration": 7351,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 11,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "대미지 증가",
+          "buffId": 1329716420,
+          "totalCount": 11,
+          "totalDuration": 6436,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 11,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "섬머솔트",
+          "buffId": 1648264379,
+          "totalCount": 9,
+          "totalDuration": 5742,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 9,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "스킬 대미지 및 치명타 증가",
+          "buffId": 119129981,
+          "totalCount": 6,
+          "totalDuration": 3785,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 6,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "스킬 대미지",
+          "buffId": 1275153198,
+          "totalCount": 5,
+          "totalDuration": 3535,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 5,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "None",
+          "buffId": 1790833719,
+          "totalCount": 12,
+          "totalDuration": 3376,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 12,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "필살의 일격",
+          "buffId": 1502176038,
+          "totalCount": 3,
+          "totalDuration": 3292,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 3,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "궁극기 면역",
+          "buffId": 2143423116,
+          "totalCount": 1,
+          "totalDuration": 2614,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 1,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "None",
+          "buffId": 1484070239,
+          "totalCount": 8,
+          "totalDuration": 2207,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 8,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "섬머솔트",
+          "buffId": 743353731,
+          "totalCount": 9,
+          "totalDuration": 2146,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 9,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "용의 문장 종료",
+          "buffId": 509253398,
+          "totalCount": 6,
+          "totalDuration": 748,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 6,
+          "updateCount": 0,
+          "refreshCount": 0
+        }
+      ],
+      "receivedBuffs": []
+    },
+    "character": {
+      "job": "격투가",
+      "nickname": "무쇠손",
+      "combatPower": 106123,
+      "attack": 58268,
+      "defense": 21495,
+      "primary": {
+        "힘": 6037,
+        "솜씨": 7031,
+        "지력": 6037,
+        "의지": 5982,
+        "행운": 5690
+      },
+      "detail": {
+        "브레이크": 4439,
+        "피해 감소": 3533,
+        "강타 강화": 3980,
+        "빠른 공격": 2109,
+        "콤보 강화": 2480,
+        "연타 강화": 3644,
+        "스킬 위력": 2650,
+        "빠른 스킬": 2158,
+        "광역 강화": 2419,
+        "추가 체력": 47046,
+        "회복력": 3406,
+        "궁극기": 1682,
+        "급소 회피": 421,
+        "치명타": 8688,
+        "추가타": 2520
+      }
+    },
+    "equipment": [
+      {
+        "slotType": 111,
+        "itemName": "격투가의 마스터 엠블럼",
+        "transcendentState": 0,
+        "runeName": "위대함",
+        "gems": [
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "이동 쿨타임 0.75%",
+              "강타 데미지 2.2%"
+            ]
+          }
+        ],
+        "prisms": [],
+        "enchants": [],
+        "amplifications": []
+      },
+      {
+        "slotType": 101,
+        "itemName": "잔영의 라이트 너클ZZ",
+        "transcendentState": 0,
+        "runeName": "타오르는 영광",
+        "gems": [
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "강타 쿨타임 0.75%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "강타 쿨타임 0.75%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "강타 쿨타임 0.75%"
+            ]
+          }
+        ],
+        "prisms": [],
+        "enchants": [],
+        "amplifications": []
+      },
+      {
+        "slotType": 104,
+        "itemName": "잔영의 가죽 갑옷 상의ZZ",
+        "transcendentState": 1,
+        "runeName": "흐릿한 형상",
+        "gems": [
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "보조 데미지 2.2%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "보조 데미지 2.2%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "보조 데미지 2.2%"
+            ]
+          }
+        ],
+        "prisms": [],
+        "enchants": [],
+        "amplifications": []
+      },
+      {
+        "slotType": 103,
+        "itemName": "잔영의 가죽 갑옷 하의ZZ",
+        "transcendentState": 1,
+        "runeName": "아귀",
+        "gems": [
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "보조 쿨타임 0.75%",
+              "강타 데미지 2.2%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "보조 쿨타임 0.75%",
+              "강타 데미지 2.2%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "보조 쿨타임 0.75%",
+              "강타 데미지 2.2%"
+            ]
+          }
+        ],
+        "prisms": [],
+        "enchants": [],
+        "amplifications": []
+      },
+      {
+        "slotType": 107,
+        "itemName": "잔영의 가죽 갑옷 신발ZZ",
+        "transcendentState": 0,
+        "runeName": "승전",
+        "gems": [
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "소환 쿨타임 0.75%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "소환 데미지 2.2%",
+              "강타 데미지 2.2%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "연타 데미지 2.2%",
+              "강타 데미지 2.2%"
+            ]
+          }
+        ],
+        "prisms": [],
+        "enchants": [],
+        "amplifications": []
+      },
+      {
+        "slotType": 106,
+        "itemName": "잔영의 가죽 갑옷 장갑ZZ",
+        "transcendentState": 0,
+        "runeName": "별바라기",
+        "gems": [
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "원소 데미지 2.2%",
+              "강타 데미지 2.2%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "원소 쿨타임 0.75%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "소환 쿨타임 0.75%"
+            ]
+          }
+        ],
+        "prisms": [],
+        "enchants": [],
+        "amplifications": []
+      },
+      {
+        "slotType": 110,
+        "itemName": "잔영의 페리도트 네크리스ZZ",
+        "transcendentState": 0,
+        "runeName": "승천(격투가)",
+        "gems": [
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "강타 쿨타임 0.75%"
+            ]
+          }
+        ],
+        "prisms": [],
+        "enchants": [],
+        "amplifications": []
+      },
+      {
+        "slotType": 109,
+        "itemName": "잔영의 페리도트 링ZZ",
+        "transcendentState": 0,
+        "runeName": "약점(격투가)",
+        "gems": [
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "강타 쿨타임 0.75%"
+            ]
+          }
+        ],
+        "prisms": [],
+        "enchants": [],
+        "amplifications": []
+      },
+      {
+        "slotType": 108,
+        "itemName": "잔영의 페리도트 링ZZ",
+        "transcendentState": 0,
+        "runeName": "열혈(격투가)",
+        "gems": [
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "강타 쿨타임 0.75%"
+            ]
+          }
+        ],
+        "prisms": [],
+        "enchants": [],
+        "amplifications": []
+      },
+      {
+        "slotType": 102,
+        "itemName": "가죽 갑옷 투구ZZ",
+        "transcendentState": 1,
+        "runeName": "잊힌 맹약",
+        "gems": [
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "이동 쿨타임 0.75%",
+              "강타 데미지 2.2%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "이동 쿨타임 0.75%",
+              "강타 데미지 2.2%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "이동 쿨타임 0.75%",
+              "강타 데미지 2.2%"
+            ]
+          }
+        ],
+        "prisms": [],
+        "enchants": [],
+        "amplifications": []
+      }
+    ]
+  },
+  {
+    "id": "08aQG7NnfNXVpTVj",
+    "sourceUrl": "https://mobi-score.com/r/08aQG7NnfNXVpTVj",
+    "title": "DPS 측정 함선허수3 전승강",
+    "capturedAt": "2026-08-12T13:18:15Z",
+    "duration": 119,
+    "dps": 10593957,
+    "totalDamage": 1260680942,
+    "hitCount": 282,
+    "probabilities": {
+      "crit": 0.4787234042553192,
+      "additional": 0.14893617021276595,
+      "strong": 0.9609929078014184,
+      "chain": 0.975177304964539
+    },
+    "skills": [
+      {
+        "skillName": "소닉 피스트[승천]",
+        "totalDamage": 432552673,
+        "hitCount": 53,
+        "critCount": 26,
+        "addhitCount": 10,
+        "powerCount": 53,
+        "fastCount": 53,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 19882650,
+        "minDamage": 2729269,
+        "avgDamage": 8161371,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 432552673,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 49.056603773584904,
+        "addhitRate": 23.25581395348837,
+        "powerRate": 100,
+        "fastRate": 100,
+        "damagePercent": 34.31103450439881,
+        "skillId": 712812281
+      },
+      {
+        "skillName": "섬머솔트[강격]",
+        "totalDamage": 274706502,
+        "hitCount": 23,
+        "critCount": 10,
+        "addhitCount": 4,
+        "powerCount": 23,
+        "fastCount": 23,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 35747884,
+        "minDamage": 3780677,
+        "avgDamage": 11943760,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 274706502,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 43.47826086956522,
+        "addhitRate": 21.052631578947366,
+        "powerRate": 100,
+        "fastRate": 100,
+        "damagePercent": 21.79032718335485,
+        "skillId": 1310206131
+      },
+      {
+        "skillName": "필살의 일격 (도트)",
+        "totalDamage": 243110834,
+        "hitCount": 88,
+        "critCount": 0,
+        "addhitCount": 0,
+        "powerCount": 0,
+        "fastCount": 0,
+        "dotDamage": 243110834,
+        "dotCount": 88,
+        "maxDamage": 12511759,
+        "minDamage": 297839,
+        "avgDamage": 2762623,
+        "dotMaxDamage": 12511759,
+        "dotMinDamage": 297839,
+        "dotAvgDamage": 2762623,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 0,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 0,
+        "addhitRate": 0,
+        "powerRate": 0,
+        "fastRate": 0,
+        "damagePercent": 19.284088931678323,
+        "skillId": 1328936512
+      },
+      {
+        "skillName": "히트 콤보",
+        "totalDamage": 85781354,
+        "hitCount": 13,
+        "critCount": 13,
+        "addhitCount": 1,
+        "powerCount": 13,
+        "fastCount": 13,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 8539922,
+        "minDamage": 4561987,
+        "avgDamage": 6598565,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 85781354,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 100,
+        "addhitRate": 8.333333333333332,
+        "powerRate": 100,
+        "fastRate": 100,
+        "damagePercent": 6.8043666832872605,
+        "skillId": 788682089
+      },
+      {
+        "skillName": "파쇄권",
+        "totalDamage": 63627682,
+        "hitCount": 39,
+        "critCount": 15,
+        "addhitCount": 6,
+        "powerCount": 39,
+        "fastCount": 38,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 3714737,
+        "minDamage": 667690,
+        "avgDamage": 1631479,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 63627682,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 38.46153846153847,
+        "addhitRate": 18.181818181818183,
+        "powerRate": 100,
+        "fastRate": 97.43589743589745,
+        "damagePercent": 5.047088432943092,
+        "skillId": 2097217044
+      },
+      {
+        "skillName": "충격파",
+        "totalDamage": 52866414,
+        "hitCount": 38,
+        "critCount": 15,
+        "addhitCount": 5,
+        "powerCount": 38,
+        "fastCount": 37,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 3095693,
+        "minDamage": 549151,
+        "avgDamage": 1391221,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 52866414,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 39.473684210526315,
+        "addhitRate": 15.151515151515152,
+        "powerRate": 100,
+        "fastRate": 97.36842105263158,
+        "damagePercent": 4.193480859330703,
+        "skillId": 315739895
+      },
+      {
+        "skillName": "차징 피스트",
+        "totalDamage": 33977921,
+        "hitCount": 6,
+        "critCount": 4,
+        "addhitCount": 0,
+        "powerCount": 6,
+        "fastCount": 5,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 9367148,
+        "minDamage": 2943399,
+        "avgDamage": 5662986,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 33977921,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 66.66666666666666,
+        "addhitRate": 0,
+        "powerRate": 100,
+        "fastRate": 83.33333333333334,
+        "damagePercent": 2.6952038273931485,
+        "skillId": 374486623
+      },
+      {
+        "skillName": "스톰프 킥",
+        "totalDamage": 22877331,
+        "hitCount": 12,
+        "critCount": 5,
+        "addhitCount": 2,
+        "powerCount": 12,
+        "fastCount": 12,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 3435702,
+        "minDamage": 990161,
+        "avgDamage": 1906444,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 22877331,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 41.66666666666667,
+        "addhitRate": 20,
+        "powerRate": 100,
+        "fastRate": 100,
+        "damagePercent": 1.8146804824150344,
+        "skillId": 949616122
+      },
+      {
+        "skillName": "특수 피해 (무)",
+        "totalDamage": 14887942,
+        "hitCount": 46,
+        "critCount": 23,
+        "addhitCount": 7,
+        "powerCount": 46,
+        "fastCount": 44,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 608780,
+        "minDamage": 87052,
+        "avgDamage": 323650,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 14887942,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 50,
+        "addhitRate": 17.94871794871795,
+        "powerRate": 100,
+        "fastRate": 95.65217391304348,
+        "damagePercent": 1.1809444803997045,
+        "skillId": 4043309057
+      },
+      {
+        "skillName": "데들리 임팩트",
+        "totalDamage": 14827280,
+        "hitCount": 10,
+        "critCount": 2,
+        "addhitCount": 0,
+        "powerCount": 10,
+        "fastCount": 10,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 3931121,
+        "minDamage": 730313,
+        "avgDamage": 1482728,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 14827280,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 20,
+        "addhitRate": 0,
+        "powerRate": 100,
+        "fastRate": 100,
+        "damagePercent": 1.1761326364208653,
+        "skillId": 1825196507
+      },
+      {
+        "skillName": "스러스트 킥[전진]",
+        "totalDamage": 13042657,
+        "hitCount": 7,
+        "critCount": 3,
+        "addhitCount": 2,
+        "powerCount": 7,
+        "fastCount": 7,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 3468980,
+        "minDamage": 850968,
+        "avgDamage": 1863236,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 13042657,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 42.857142857142854,
+        "addhitRate": 40,
+        "powerRate": 100,
+        "fastRate": 100,
+        "damagePercent": 1.0345723938135016,
+        "skillId": 2072581279
+      },
+      {
+        "skillName": "백 스텝",
+        "totalDamage": 3912768,
+        "hitCount": 12,
+        "critCount": 7,
+        "addhitCount": 2,
+        "powerCount": 12,
+        "fastCount": 10,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 590487,
+        "minDamage": 109026,
+        "avgDamage": 326064,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 3912768,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 58.333333333333336,
+        "addhitRate": 20,
+        "powerRate": 100,
+        "fastRate": 83.33333333333334,
+        "damagePercent": 0.31036940986770306,
+        "skillId": 156969833
+      },
+      {
+        "skillName": "특수 지속 피해 (상처) (도트)",
+        "totalDamage": 2961943,
+        "hitCount": 120,
+        "critCount": 0,
+        "addhitCount": 0,
+        "powerCount": 0,
+        "fastCount": 0,
+        "dotDamage": 2961943,
+        "dotCount": 120,
+        "maxDamage": 41146,
+        "minDamage": 11407,
+        "avgDamage": 24682,
+        "dotMaxDamage": 41146,
+        "dotMinDamage": 11407,
+        "dotAvgDamage": 24682,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 0,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 0,
+        "addhitRate": 0,
+        "powerRate": 0,
+        "fastRate": 0,
+        "damagePercent": 0.23494786835605228,
+        "skillId": 4043309073
+      },
+      {
+        "skillName": "공격",
+        "totalDamage": 1547641,
+        "hitCount": 23,
+        "critCount": 12,
+        "addhitCount": 3,
+        "powerCount": 12,
+        "fastCount": 23,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 167676,
+        "minDamage": 11502,
+        "avgDamage": 67288,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 1547641,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 52.17391304347826,
+        "addhitRate": 15,
+        "powerRate": 52.17391304347826,
+        "fastRate": 100,
+        "damagePercent": 0.12276230634094888,
+        "skillId": 215588121
+      }
+    ],
+    "buffs": {
+      "castBuffs": [
+        {
+          "name": "도적의 추격",
+          "buffId": 1883209671,
+          "totalCount": 22,
+          "totalDuration": 120308,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 22,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "오염",
+          "buffId": 619638055,
+          "totalCount": 119,
+          "totalDuration": 119997,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 1,
+          "updateCount": 118,
+          "refreshCount": 0
+        },
+        {
+          "name": "파티보너스: 격투가",
+          "buffId": 296244591,
+          "totalCount": 22,
+          "totalDuration": 120308,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 22,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "연계 공격",
+          "buffId": 322764292,
+          "totalCount": 72,
+          "totalDuration": 118560,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 1,
+          "updateCount": 71,
+          "refreshCount": 0
+        },
+        {
+          "name": "None",
+          "buffId": 1986807074,
+          "totalCount": 2,
+          "totalDuration": 116736,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 2,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "불씨",
+          "buffId": 775459606,
+          "totalCount": 24,
+          "totalDuration": 114014,
+          "maxStack": 12,
+          "avgStack": 6.75,
+          "startCount": 3,
+          "updateCount": 21,
+          "refreshCount": 0
+        },
+        {
+          "name": "잠식(비표기 1배 효과)",
+          "buffId": 912039546,
+          "totalCount": 186,
+          "totalDuration": 95004,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 94,
+          "updateCount": 92,
+          "refreshCount": 0
+        },
+        {
+          "name": "침식",
+          "buffId": 30069630,
+          "totalCount": 188,
+          "totalDuration": 93593,
+          "maxStack": 300,
+          "avgStack": 126.98936170212764,
+          "startCount": 2,
+          "updateCount": 186,
+          "refreshCount": 0
+        },
+        {
+          "name": "흐릿한 형상",
+          "buffId": 297816278,
+          "totalCount": 186,
+          "totalDuration": 93534,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 2,
+          "updateCount": 184,
+          "refreshCount": 0
+        },
+        {
+          "name": "추가 타격",
+          "buffId": 2112950298,
+          "totalCount": 89,
+          "totalDuration": 90363,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 89,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "치명타 증가",
+          "buffId": 1528288387,
+          "totalCount": 18,
+          "totalDuration": 88818,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 18,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "충격파",
+          "buffId": 1905020849,
+          "totalCount": 106,
+          "totalDuration": 80555,
+          "maxStack": 2,
+          "avgStack": 1.679245283018868,
+          "startCount": 34,
+          "updateCount": 72,
+          "refreshCount": 0
+        },
+        {
+          "name": "별바라기",
+          "buffId": 98939633,
+          "totalCount": 6,
+          "totalDuration": 60086,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 6,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "잠식(비표기 2배 효과)",
+          "buffId": 2088118072,
+          "totalCount": 110,
+          "totalDuration": 56387,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 56,
+          "updateCount": 54,
+          "refreshCount": 0
+        },
+        {
+          "name": "야무진 응원",
+          "buffId": 439731380,
+          "totalCount": 7,
+          "totalDuration": 56141,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 7,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "흐릿한 형상",
+          "buffId": 2111116943,
+          "totalCount": 110,
+          "totalDuration": 54915,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 2,
+          "updateCount": 108,
+          "refreshCount": 0
+        },
+        {
+          "name": "용의 문장",
+          "buffId": 1931031110,
+          "totalCount": 6,
+          "totalDuration": 50241,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 6,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "연속기",
+          "buffId": 1198899612,
+          "totalCount": 11,
+          "totalDuration": 40439,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 11,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "속도 증가",
+          "buffId": 1937155463,
+          "totalCount": 10,
+          "totalDuration": 39204,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 8,
+          "updateCount": 2,
+          "refreshCount": 0
+        },
+        {
+          "name": "재사용 대기 시간 감소",
+          "buffId": 381616090,
+          "totalCount": 2,
+          "totalDuration": 33037,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 2,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "None",
+          "buffId": 1861320102,
+          "totalCount": 10,
+          "totalDuration": 30126,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 10,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "타오르는 영광",
+          "buffId": 1165643790,
+          "totalCount": 15,
+          "totalDuration": 30010,
+          "maxStack": 12,
+          "avgStack": 5.6,
+          "startCount": 2,
+          "updateCount": 13,
+          "refreshCount": 0
+        },
+        {
+          "name": "밤의 축복",
+          "buffId": 674865859,
+          "totalCount": 2,
+          "totalDuration": 30002,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 2,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "잊힌 맹약",
+          "buffId": 1363384738,
+          "totalCount": 2,
+          "totalDuration": 30002,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 2,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "위대함",
+          "buffId": 1850558294,
+          "totalCount": 2,
+          "totalDuration": 30002,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 2,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "차징 피스트",
+          "buffId": 55750697,
+          "totalCount": 6,
+          "totalDuration": 25163,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 6,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "각성 종료",
+          "buffId": 2026042517,
+          "totalCount": 2,
+          "totalDuration": 20017,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 2,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "None",
+          "buffId": 1415209640,
+          "totalCount": 12,
+          "totalDuration": 17567,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 12,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "오염",
+          "buffId": 1878917227,
+          "totalCount": 1,
+          "totalDuration": 14281,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 1,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "오염",
+          "buffId": 1331437343,
+          "totalCount": 14,
+          "totalDuration": 13280,
+          "maxStack": 14,
+          "avgStack": 7.5,
+          "startCount": 1,
+          "updateCount": 13,
+          "refreshCount": 0
+        },
+        {
+          "name": "대미지 증가",
+          "buffId": 1329716420,
+          "totalCount": 10,
+          "totalDuration": 11261,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 10,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "None",
+          "buffId": 1790833719,
+          "totalCount": 10,
+          "totalDuration": 11252,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 10,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "대미지 증가",
+          "buffId": 97393166,
+          "totalCount": 10,
+          "totalDuration": 7931,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 5,
+          "updateCount": 5,
+          "refreshCount": 0
+        },
+        {
+          "name": "None",
+          "buffId": 1484070239,
+          "totalCount": 8,
+          "totalDuration": 6925,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 8,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "궁극기 면역",
+          "buffId": 2143423116,
+          "totalCount": 2,
+          "totalDuration": 5225,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 2,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "필살의 일격",
+          "buffId": 994092087,
+          "totalCount": 4,
+          "totalDuration": 4376,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 4,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "대미지 증가",
+          "buffId": 1730489501,
+          "totalCount": 10,
+          "totalDuration": 3445,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 10,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "차징 피스트",
+          "buffId": 1393208823,
+          "totalCount": 5,
+          "totalDuration": 3236,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 5,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "차징 피스트",
+          "buffId": 1411579569,
+          "totalCount": 5,
+          "totalDuration": 3194,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 5,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "스킬 대미지",
+          "buffId": 1275153198,
+          "totalCount": 3,
+          "totalDuration": 1883,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 3,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "스킬 대미지 및 치명타 증가",
+          "buffId": 119129981,
+          "totalCount": 7,
+          "totalDuration": 1535,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 7,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "용의 문장 종료",
+          "buffId": 509253398,
+          "totalCount": 6,
+          "totalDuration": 735,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 6,
+          "updateCount": 0,
+          "refreshCount": 0
+        }
+      ],
+      "receivedBuffs": []
+    },
+    "character": {
+      "job": "격투가",
+      "nickname": "무쇠손",
+      "combatPower": 106123,
+      "attack": 58268,
+      "defense": 21495,
+      "primary": {
+        "힘": 6037,
+        "솜씨": 7031,
+        "지력": 6037,
+        "의지": 5982,
+        "행운": 5690
+      },
+      "detail": {
+        "브레이크": 4439,
+        "피해 감소": 3533,
+        "강타 강화": 3980,
+        "빠른 공격": 2109,
+        "콤보 강화": 2480,
+        "연타 강화": 3644,
+        "스킬 위력": 2650,
+        "빠른 스킬": 2158,
+        "광역 강화": 2419,
+        "추가 체력": 47046,
+        "회복력": 3406,
+        "궁극기": 1682,
+        "급소 회피": 421,
+        "치명타": 8688,
+        "추가타": 2520
+      }
+    },
+    "equipment": [
+      {
+        "slotType": 111,
+        "itemName": "격투가의 마스터 엠블럼",
+        "transcendentState": 0,
+        "runeName": "위대함",
+        "gems": [
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "이동 쿨타임 0.75%",
+              "강타 데미지 2.2%"
+            ]
+          }
+        ],
+        "prisms": [],
+        "enchants": [],
+        "amplifications": []
+      },
+      {
+        "slotType": 101,
+        "itemName": "잔영의 라이트 너클ZZ",
+        "transcendentState": 0,
+        "runeName": "타오르는 영광",
+        "gems": [
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "강타 쿨타임 0.75%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "강타 쿨타임 0.75%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "강타 쿨타임 0.75%"
+            ]
+          }
+        ],
+        "prisms": [],
+        "enchants": [],
+        "amplifications": []
+      },
+      {
+        "slotType": 104,
+        "itemName": "잔영의 가죽 갑옷 상의ZZ",
+        "transcendentState": 1,
+        "runeName": "흐릿한 형상",
+        "gems": [
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "보조 데미지 2.2%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "보조 데미지 2.2%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "보조 데미지 2.2%"
+            ]
+          }
+        ],
+        "prisms": [],
+        "enchants": [],
+        "amplifications": []
+      },
+      {
+        "slotType": 103,
+        "itemName": "잔영의 가죽 갑옷 하의ZZ",
+        "transcendentState": 1,
+        "runeName": "아귀",
+        "gems": [
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "보조 쿨타임 0.75%",
+              "강타 데미지 2.2%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "보조 쿨타임 0.75%",
+              "강타 데미지 2.2%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "보조 쿨타임 0.75%",
+              "강타 데미지 2.2%"
+            ]
+          }
+        ],
+        "prisms": [],
+        "enchants": [],
+        "amplifications": []
+      },
+      {
+        "slotType": 107,
+        "itemName": "잔영의 가죽 갑옷 신발ZZ",
+        "transcendentState": 0,
+        "runeName": "승전",
+        "gems": [
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "소환 쿨타임 0.75%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "소환 데미지 2.2%",
+              "강타 데미지 2.2%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "연타 데미지 2.2%",
+              "강타 데미지 2.2%"
+            ]
+          }
+        ],
+        "prisms": [],
+        "enchants": [],
+        "amplifications": []
+      },
+      {
+        "slotType": 106,
+        "itemName": "잔영의 가죽 갑옷 장갑ZZ",
+        "transcendentState": 0,
+        "runeName": "별바라기",
+        "gems": [
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "원소 데미지 2.2%",
+              "강타 데미지 2.2%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "원소 쿨타임 0.75%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "소환 쿨타임 0.75%"
+            ]
+          }
+        ],
+        "prisms": [],
+        "enchants": [],
+        "amplifications": []
+      },
+      {
+        "slotType": 110,
+        "itemName": "잔영의 페리도트 네크리스ZZ",
+        "transcendentState": 0,
+        "runeName": "승천(격투가)",
+        "gems": [
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "강타 쿨타임 0.75%"
+            ]
+          }
+        ],
+        "prisms": [],
+        "enchants": [],
+        "amplifications": []
+      },
+      {
+        "slotType": 109,
+        "itemName": "잔영의 페리도트 링ZZ",
+        "transcendentState": 0,
+        "runeName": "약점(격투가)",
+        "gems": [
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "강타 쿨타임 0.75%"
+            ]
+          }
+        ],
+        "prisms": [],
+        "enchants": [],
+        "amplifications": []
+      },
+      {
+        "slotType": 108,
+        "itemName": "잔영의 페리도트 링ZZ",
+        "transcendentState": 0,
+        "runeName": "열혈(격투가)",
+        "gems": [
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "강타 쿨타임 0.75%"
+            ]
+          }
+        ],
+        "prisms": [],
+        "enchants": [],
+        "amplifications": []
+      },
+      {
+        "slotType": 102,
+        "itemName": "가죽 갑옷 투구ZZ",
+        "transcendentState": 1,
+        "runeName": "잊힌 맹약",
+        "gems": [
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "이동 쿨타임 0.75%",
+              "강타 데미지 2.2%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "이동 쿨타임 0.75%",
+              "강타 데미지 2.2%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "이동 쿨타임 0.75%",
+              "강타 데미지 2.2%"
+            ]
+          }
+        ],
+        "prisms": [],
+        "enchants": [],
+        "amplifications": []
+      }
+    ]
+  },
+  {
+    "id": "bA903LtPSxYhtcst",
+    "sourceUrl": "https://mobi-score.com/r/bA903LtPSxYhtcst",
+    "title": "DPS 측정 함선허수4 전승강",
+    "capturedAt": "2026-08-12T13:20:53Z",
+    "duration": 119,
+    "dps": 11177554,
+    "totalDamage": 1330128956,
+    "hitCount": 285,
+    "probabilities": {
+      "crit": 0.4807017543859649,
+      "additional": 0.17894736842105263,
+      "strong": 0.9754385964912281,
+      "chain": 0.9789473684210527
+    },
+    "skills": [
+      {
+        "skillName": "소닉 피스트[승천]",
+        "totalDamage": 417854417,
+        "hitCount": 51,
+        "critCount": 21,
+        "addhitCount": 10,
+        "powerCount": 51,
+        "fastCount": 51,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 21369280,
+        "minDamage": 2565834,
+        "avgDamage": 8193223,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 417854417,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 41.17647058823529,
+        "addhitRate": 24.390243902439025,
+        "powerRate": 100,
+        "fastRate": 100,
+        "damagePercent": 31.414579399623264,
+        "skillId": 712812281
+      },
+      {
+        "skillName": "필살의 일격 (도트)",
+        "totalDamage": 247144695,
+        "hitCount": 85,
+        "critCount": 0,
+        "addhitCount": 0,
+        "powerCount": 0,
+        "fastCount": 0,
+        "dotDamage": 247144695,
+        "dotCount": 85,
+        "maxDamage": 10969757,
+        "minDamage": 276487,
+        "avgDamage": 2907584,
+        "dotMaxDamage": 10969757,
+        "dotMinDamage": 276487,
+        "dotAvgDamage": 2907584,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 0,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 0,
+        "addhitRate": 0,
+        "powerRate": 0,
+        "fastRate": 0,
+        "damagePercent": 18.580506340018356,
+        "skillId": 1328936512
+      },
+      {
+        "skillName": "섬머솔트[강격]",
+        "totalDamage": 245839976,
+        "hitCount": 17,
+        "critCount": 8,
+        "addhitCount": 3,
+        "powerCount": 17,
+        "fastCount": 17,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 31342165,
+        "minDamage": 4420611,
+        "avgDamage": 14461175,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 245839976,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 47.05882352941176,
+        "addhitRate": 21.428571428571427,
+        "powerRate": 100,
+        "fastRate": 100,
+        "damagePercent": 18.482416677800675,
+        "skillId": 1310206131
+      },
+      {
+        "skillName": "히트 콤보",
+        "totalDamage": 100946676,
+        "hitCount": 16,
+        "critCount": 16,
+        "addhitCount": 3,
+        "powerCount": 16,
+        "fastCount": 16,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 8300350,
+        "minDamage": 5108095,
+        "avgDamage": 6309167,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 100946676,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 100,
+        "addhitRate": 23.076923076923077,
+        "powerRate": 100,
+        "fastRate": 100,
+        "damagePercent": 7.589239790972568,
+        "skillId": 788682089
+      },
+      {
+        "skillName": "충격파",
+        "totalDamage": 76829632,
+        "hitCount": 41,
+        "critCount": 26,
+        "addhitCount": 6,
+        "powerCount": 41,
+        "fastCount": 41,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 3522659,
+        "minDamage": 533407,
+        "avgDamage": 1873893,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 76829632,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 63.41463414634146,
+        "addhitRate": 17.142857142857142,
+        "powerRate": 100,
+        "fastRate": 100,
+        "damagePercent": 5.7761040125796645,
+        "skillId": 315739895
+      },
+      {
+        "skillName": "파쇄권",
+        "totalDamage": 70318088,
+        "hitCount": 38,
+        "critCount": 17,
+        "addhitCount": 6,
+        "powerCount": 38,
+        "fastCount": 37,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 4361596,
+        "minDamage": 662879,
+        "avgDamage": 1850476,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 70318088,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 44.73684210526316,
+        "addhitRate": 18.75,
+        "powerRate": 100,
+        "fastRate": 97.36842105263158,
+        "damagePercent": 5.2865617038713655,
+        "skillId": 2097217044
+      },
+      {
+        "skillName": "차징 피스트",
+        "totalDamage": 65730293,
+        "hitCount": 10,
+        "critCount": 6,
+        "addhitCount": 3,
+        "powerCount": 10,
+        "fastCount": 8,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 12597475,
+        "minDamage": 1993947,
+        "avgDamage": 6573029,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 65730293,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 60,
+        "addhitRate": 42.857142857142854,
+        "powerRate": 100,
+        "fastRate": 80,
+        "damagePercent": 4.94164815400049,
+        "skillId": 374486623
+      },
+      {
+        "skillName": "스톰프 킥",
+        "totalDamage": 41957189,
+        "hitCount": 19,
+        "critCount": 10,
+        "addhitCount": 6,
+        "powerCount": 19,
+        "fastCount": 19,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 4908378,
+        "minDamage": 789962,
+        "avgDamage": 2208273,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 41957189,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 52.63157894736842,
+        "addhitRate": 46.15384615384615,
+        "powerRate": 100,
+        "fastRate": 100,
+        "damagePercent": 3.1543700188419925,
+        "skillId": 949616122
+      },
+      {
+        "skillName": "데들리 임팩트",
+        "totalDamage": 29166631,
+        "hitCount": 16,
+        "critCount": 6,
+        "addhitCount": 4,
+        "powerCount": 16,
+        "fastCount": 16,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 4585651,
+        "minDamage": 740906,
+        "avgDamage": 1822914,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 29166631,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 37.5,
+        "addhitRate": 33.33333333333333,
+        "powerRate": 100,
+        "fastRate": 100,
+        "damagePercent": 2.192767165050725,
+        "skillId": 1825196507
+      },
+      {
+        "skillName": "특수 피해 (무)",
+        "totalDamage": 14199167,
+        "hitCount": 44,
+        "critCount": 18,
+        "addhitCount": 4,
+        "powerCount": 44,
+        "fastCount": 42,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 808671,
+        "minDamage": 98077,
+        "avgDamage": 322708,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 14199167,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 40.909090909090914,
+        "addhitRate": 10,
+        "powerRate": 100,
+        "fastRate": 95.45454545454544,
+        "damagePercent": 1.0675030369010323,
+        "skillId": 4043309057
+      },
+      {
+        "skillName": "스러스트 킥[전진]",
+        "totalDamage": 13513976,
+        "hitCount": 8,
+        "critCount": 3,
+        "addhitCount": 1,
+        "powerCount": 8,
+        "fastCount": 8,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 3126482,
+        "minDamage": 716833,
+        "avgDamage": 1689247,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 13513976,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 37.5,
+        "addhitRate": 14.285714285714285,
+        "powerRate": 100,
+        "fastRate": 100,
+        "damagePercent": 1.0159899112819557,
+        "skillId": 2072581279
+      },
+      {
+        "skillName": "백 스텝",
+        "totalDamage": 3390730,
+        "hitCount": 16,
+        "critCount": 4,
+        "addhitCount": 4,
+        "powerCount": 16,
+        "fastCount": 15,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 589517,
+        "minDamage": 102580,
+        "avgDamage": 211920,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 3390730,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 25,
+        "addhitRate": 33.33333333333333,
+        "powerRate": 100,
+        "fastRate": 93.75,
+        "damagePercent": 0.25491738862649044,
+        "skillId": 156969833
+      },
+      {
+        "skillName": "특수 지속 피해 (상처) (도트)",
+        "totalDamage": 2965870,
+        "hitCount": 119,
+        "critCount": 0,
+        "addhitCount": 0,
+        "powerCount": 0,
+        "fastCount": 0,
+        "dotDamage": 2965870,
+        "dotCount": 119,
+        "maxDamage": 36105,
+        "minDamage": 8864,
+        "avgDamage": 24923,
+        "dotMaxDamage": 36105,
+        "dotMinDamage": 8864,
+        "dotAvgDamage": 24923,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 0,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 0,
+        "addhitRate": 0,
+        "powerRate": 0,
+        "fastRate": 0,
+        "damagePercent": 0.2229761247299694,
+        "skillId": 4043309073
+      },
+      {
+        "skillName": "공격",
+        "totalDamage": 271616,
+        "hitCount": 9,
+        "critCount": 2,
+        "addhitCount": 1,
+        "powerCount": 2,
+        "fastCount": 9,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 85452,
+        "minDamage": 12811,
+        "avgDamage": 30179,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 271616,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 22.22222222222222,
+        "addhitRate": 12.5,
+        "powerRate": 22.22222222222222,
+        "fastRate": 100,
+        "damagePercent": 0.02042027570144861,
+        "skillId": 215588121
+      }
+    ],
+    "buffs": {
+      "castBuffs": [
+        {
+          "name": "오염",
+          "buffId": 619638055,
+          "totalCount": 119,
+          "totalDuration": 119930,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 1,
+          "updateCount": 118,
+          "refreshCount": 0
+        },
+        {
+          "name": "연계 공격",
+          "buffId": 322764292,
+          "totalCount": 68,
+          "totalDuration": 118476,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 1,
+          "updateCount": 67,
+          "refreshCount": 0
+        },
+        {
+          "name": "불씨",
+          "buffId": 775459606,
+          "totalCount": 24,
+          "totalDuration": 115033,
+          "maxStack": 12,
+          "avgStack": 6.625,
+          "startCount": 2,
+          "updateCount": 22,
+          "refreshCount": 0
+        },
+        {
+          "name": "파티보너스: 격투가",
+          "buffId": 296244591,
+          "totalCount": 35,
+          "totalDuration": 111633,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 35,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "도적의 추격",
+          "buffId": 1883209671,
+          "totalCount": 35,
+          "totalDuration": 111628,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 35,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "None",
+          "buffId": 1986807074,
+          "totalCount": 2,
+          "totalDuration": 109166,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 2,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "잠식(비표기 1배 효과)",
+          "buffId": 912039546,
+          "totalCount": 179,
+          "totalDuration": 92399,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 91,
+          "updateCount": 88,
+          "refreshCount": 0
+        },
+        {
+          "name": "추가 타격",
+          "buffId": 2112950298,
+          "totalCount": 86,
+          "totalDuration": 89642,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 86,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "흐릿한 형상",
+          "buffId": 297816278,
+          "totalCount": 179,
+          "totalDuration": 89437,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 3,
+          "updateCount": 176,
+          "refreshCount": 0
+        },
+        {
+          "name": "치명타 증가",
+          "buffId": 1528288387,
+          "totalCount": 25,
+          "totalDuration": 86308,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 25,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "충격파",
+          "buffId": 1905020849,
+          "totalCount": 113,
+          "totalDuration": 74365,
+          "maxStack": 2,
+          "avgStack": 1.6902654867256637,
+          "startCount": 35,
+          "updateCount": 78,
+          "refreshCount": 0
+        },
+        {
+          "name": "잠식(비표기 2배 효과)",
+          "buffId": 2088118072,
+          "totalCount": 141,
+          "totalDuration": 73077,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 71,
+          "updateCount": 70,
+          "refreshCount": 0
+        },
+        {
+          "name": "침식",
+          "buffId": 30069630,
+          "totalCount": 136,
+          "totalDuration": 67080,
+          "maxStack": 300,
+          "avgStack": 135.2058823529412,
+          "startCount": 2,
+          "updateCount": 134,
+          "refreshCount": 0
+        },
+        {
+          "name": "연속기",
+          "buffId": 1198899612,
+          "totalCount": 14,
+          "totalDuration": 60084,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 14,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "별바라기",
+          "buffId": 98939633,
+          "totalCount": 6,
+          "totalDuration": 60076,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 6,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "용의 문장",
+          "buffId": 1931031110,
+          "totalCount": 6,
+          "totalDuration": 56350,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 6,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "야무진 응원",
+          "buffId": 439731380,
+          "totalCount": 8,
+          "totalDuration": 56110,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 8,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "속도 증가",
+          "buffId": 1937155463,
+          "totalCount": 12,
+          "totalDuration": 46622,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 10,
+          "updateCount": 2,
+          "refreshCount": 0
+        },
+        {
+          "name": "흐릿한 형상",
+          "buffId": 2111116943,
+          "totalCount": 81,
+          "totalDuration": 40544,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 1,
+          "updateCount": 80,
+          "refreshCount": 0
+        },
+        {
+          "name": "None",
+          "buffId": 1861320102,
+          "totalCount": 12,
+          "totalDuration": 36123,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 12,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "잊힌 맹약",
+          "buffId": 1363384738,
+          "totalCount": 2,
+          "totalDuration": 30038,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 2,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "밤의 축복",
+          "buffId": 674865859,
+          "totalCount": 2,
+          "totalDuration": 30038,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 2,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "위대함",
+          "buffId": 1850558294,
+          "totalCount": 2,
+          "totalDuration": 30038,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 2,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "None",
+          "buffId": 1415209640,
+          "totalCount": 12,
+          "totalDuration": 29233,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 12,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "오염",
+          "buffId": 1878917227,
+          "totalCount": 2,
+          "totalDuration": 28451,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 2,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "오염",
+          "buffId": 1331437343,
+          "totalCount": 28,
+          "totalDuration": 26482,
+          "maxStack": 14,
+          "avgStack": 7.5,
+          "startCount": 2,
+          "updateCount": 26,
+          "refreshCount": 0
+        },
+        {
+          "name": "각성 종료",
+          "buffId": 2026042517,
+          "totalCount": 2,
+          "totalDuration": 20017,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 2,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "재사용 대기 시간 감소",
+          "buffId": 381616090,
+          "totalCount": 1,
+          "totalDuration": 16493,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 1,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "타오르는 영광",
+          "buffId": 1165643790,
+          "totalCount": 12,
+          "totalDuration": 15012,
+          "maxStack": 12,
+          "avgStack": 6.5,
+          "startCount": 1,
+          "updateCount": 11,
+          "refreshCount": 0
+        },
+        {
+          "name": "대미지 증가",
+          "buffId": 97393166,
+          "totalCount": 14,
+          "totalDuration": 11080,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 7,
+          "updateCount": 7,
+          "refreshCount": 0
+        },
+        {
+          "name": "대미지 증가",
+          "buffId": 1329716420,
+          "totalCount": 12,
+          "totalDuration": 10950,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 12,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "차징 피스트",
+          "buffId": 1393208823,
+          "totalCount": 7,
+          "totalDuration": 4530,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 7,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "차징 피스트",
+          "buffId": 1411579569,
+          "totalCount": 7,
+          "totalDuration": 4503,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 7,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "차징 피스트",
+          "buffId": 55750697,
+          "totalCount": 7,
+          "totalDuration": 4490,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 7,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "None",
+          "buffId": 1790833719,
+          "totalCount": 9,
+          "totalDuration": 3486,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 9,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "대미지 증가",
+          "buffId": 1730489501,
+          "totalCount": 12,
+          "totalDuration": 3482,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 12,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "스킬 대미지 및 치명타 증가",
+          "buffId": 119129981,
+          "totalCount": 11,
+          "totalDuration": 3325,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 11,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "궁극기 면역",
+          "buffId": 2143423116,
+          "totalCount": 1,
+          "totalDuration": 2629,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 1,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "필살의 일격",
+          "buffId": 994092087,
+          "totalCount": 2,
+          "totalDuration": 2064,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 2,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "None",
+          "buffId": 1484070239,
+          "totalCount": 7,
+          "totalDuration": 1822,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 7,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "용의 문장 종료",
+          "buffId": 509253398,
+          "totalCount": 6,
+          "totalDuration": 748,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 6,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "스킬 대미지",
+          "buffId": 1275153198,
+          "totalCount": 1,
+          "totalDuration": 158,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 1,
+          "updateCount": 0,
+          "refreshCount": 0
+        }
+      ],
+      "receivedBuffs": []
+    },
+    "character": {
+      "job": "격투가",
+      "nickname": "무쇠손",
+      "combatPower": 106123,
+      "attack": 58268,
+      "defense": 21495,
+      "primary": {
+        "힘": 6037,
+        "솜씨": 7031,
+        "지력": 6037,
+        "의지": 5982,
+        "행운": 5690
+      },
+      "detail": {
+        "브레이크": 4439,
+        "피해 감소": 3533,
+        "강타 강화": 3980,
+        "빠른 공격": 2109,
+        "콤보 강화": 2480,
+        "연타 강화": 3644,
+        "스킬 위력": 2650,
+        "빠른 스킬": 2158,
+        "광역 강화": 2419,
+        "추가 체력": 47046,
+        "회복력": 3406,
+        "궁극기": 1682,
+        "급소 회피": 421,
+        "치명타": 8688,
+        "추가타": 2520
+      }
+    },
+    "equipment": [
+      {
+        "slotType": 111,
+        "itemName": "격투가의 마스터 엠블럼",
+        "transcendentState": 0,
+        "runeName": "위대함",
+        "gems": [
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "이동 쿨타임 0.75%",
+              "강타 데미지 2.2%"
+            ]
+          }
+        ],
+        "prisms": [],
+        "enchants": [],
+        "amplifications": []
+      },
+      {
+        "slotType": 101,
+        "itemName": "잔영의 라이트 너클ZZ",
+        "transcendentState": 0,
+        "runeName": "타오르는 영광",
+        "gems": [
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "강타 쿨타임 0.75%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "강타 쿨타임 0.75%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "강타 쿨타임 0.75%"
+            ]
+          }
+        ],
+        "prisms": [],
+        "enchants": [],
+        "amplifications": []
+      },
+      {
+        "slotType": 104,
+        "itemName": "잔영의 가죽 갑옷 상의ZZ",
+        "transcendentState": 1,
+        "runeName": "흐릿한 형상",
+        "gems": [
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "보조 데미지 2.2%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "보조 데미지 2.2%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "보조 데미지 2.2%"
+            ]
+          }
+        ],
+        "prisms": [],
+        "enchants": [],
+        "amplifications": []
+      },
+      {
+        "slotType": 103,
+        "itemName": "잔영의 가죽 갑옷 하의ZZ",
+        "transcendentState": 1,
+        "runeName": "아귀",
+        "gems": [
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "보조 쿨타임 0.75%",
+              "강타 데미지 2.2%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "보조 쿨타임 0.75%",
+              "강타 데미지 2.2%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "보조 쿨타임 0.75%",
+              "강타 데미지 2.2%"
+            ]
+          }
+        ],
+        "prisms": [],
+        "enchants": [],
+        "amplifications": []
+      },
+      {
+        "slotType": 107,
+        "itemName": "잔영의 가죽 갑옷 신발ZZ",
+        "transcendentState": 0,
+        "runeName": "승전",
+        "gems": [
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "소환 쿨타임 0.75%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "소환 데미지 2.2%",
+              "강타 데미지 2.2%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "연타 데미지 2.2%",
+              "강타 데미지 2.2%"
+            ]
+          }
+        ],
+        "prisms": [],
+        "enchants": [],
+        "amplifications": []
+      },
+      {
+        "slotType": 106,
+        "itemName": "잔영의 가죽 갑옷 장갑ZZ",
+        "transcendentState": 0,
+        "runeName": "별바라기",
+        "gems": [
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "원소 데미지 2.2%",
+              "강타 데미지 2.2%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "원소 쿨타임 0.75%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "소환 쿨타임 0.75%"
+            ]
+          }
+        ],
+        "prisms": [],
+        "enchants": [],
+        "amplifications": []
+      },
+      {
+        "slotType": 110,
+        "itemName": "잔영의 페리도트 네크리스ZZ",
+        "transcendentState": 0,
+        "runeName": "승천(격투가)",
+        "gems": [
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "강타 쿨타임 0.75%"
+            ]
+          }
+        ],
+        "prisms": [],
+        "enchants": [],
+        "amplifications": []
+      },
+      {
+        "slotType": 109,
+        "itemName": "잔영의 페리도트 링ZZ",
+        "transcendentState": 0,
+        "runeName": "약점(격투가)",
+        "gems": [
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "강타 쿨타임 0.75%"
+            ]
+          }
+        ],
+        "prisms": [],
+        "enchants": [],
+        "amplifications": []
+      },
+      {
+        "slotType": 108,
+        "itemName": "잔영의 페리도트 링ZZ",
+        "transcendentState": 0,
+        "runeName": "열혈(격투가)",
+        "gems": [
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "강타 쿨타임 0.75%"
+            ]
+          }
+        ],
+        "prisms": [],
+        "enchants": [],
+        "amplifications": []
+      },
+      {
+        "slotType": 102,
+        "itemName": "가죽 갑옷 투구ZZ",
+        "transcendentState": 1,
+        "runeName": "잊힌 맹약",
+        "gems": [
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "이동 쿨타임 0.75%",
+              "강타 데미지 2.2%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "이동 쿨타임 0.75%",
+              "강타 데미지 2.2%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "이동 쿨타임 0.75%",
+              "강타 데미지 2.2%"
+            ]
+          }
+        ],
+        "prisms": [],
+        "enchants": [],
+        "amplifications": []
+      }
+    ]
+  },
+  {
+    "id": "4GlO5T5ex5GeNlOf",
+    "sourceUrl": "https://mobi-score.com/r/4GlO5T5ex5GeNlOf",
+    "title": "DPS 측정 함선허수5 전승강",
+    "capturedAt": "2026-08-12T13:23:26Z",
+    "duration": 119,
+    "dps": 10835203,
+    "totalDamage": 1289389199,
+    "hitCount": 285,
+    "probabilities": {
+      "crit": 0.4421052631578947,
+      "additional": 0.16140350877192983,
+      "strong": 0.9649122807017544,
+      "chain": 0.968421052631579
+    },
+    "skills": [
+      {
+        "skillName": "소닉 피스트[승천]",
+        "totalDamage": 401925687,
+        "hitCount": 48,
+        "critCount": 22,
+        "addhitCount": 12,
+        "powerCount": 48,
+        "fastCount": 48,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 20566114,
+        "minDamage": 2552644,
+        "avgDamage": 8373451,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 401925687,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 45.83333333333333,
+        "addhitRate": 33.33333333333333,
+        "powerRate": 100,
+        "fastRate": 100,
+        "damagePercent": 31.171789504031665,
+        "skillId": 712812281
+      },
+      {
+        "skillName": "섬머솔트[강격]",
+        "totalDamage": 272291389,
+        "hitCount": 18,
+        "critCount": 8,
+        "addhitCount": 4,
+        "powerCount": 18,
+        "fastCount": 18,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 40082598,
+        "minDamage": 4077940,
+        "avgDamage": 15127299,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 272291389,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 44.44444444444444,
+        "addhitRate": 28.57142857142857,
+        "powerRate": 100,
+        "fastRate": 100,
+        "damagePercent": 21.117858689306424,
+        "skillId": 1310206131
+      },
+      {
+        "skillName": "필살의 일격 (도트)",
+        "totalDamage": 249361303,
+        "hitCount": 82,
+        "critCount": 0,
+        "addhitCount": 0,
+        "powerCount": 0,
+        "fastCount": 0,
+        "dotDamage": 249361303,
+        "dotCount": 82,
+        "maxDamage": 14028910,
+        "minDamage": 318315,
+        "avgDamage": 3040991,
+        "dotMaxDamage": 14028910,
+        "dotMinDamage": 318315,
+        "dotAvgDamage": 3040991,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 0,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 0,
+        "addhitRate": 0,
+        "powerRate": 0,
+        "fastRate": 0,
+        "damagePercent": 19.339490604806905,
+        "skillId": 1328936512
+      },
+      {
+        "skillName": "히트 콤보",
+        "totalDamage": 96878272,
+        "hitCount": 15,
+        "critCount": 15,
+        "addhitCount": 2,
+        "powerCount": 15,
+        "fastCount": 15,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 8037911,
+        "minDamage": 4595680,
+        "avgDamage": 6458551,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 96878272,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 100,
+        "addhitRate": 15.384615384615383,
+        "powerRate": 100,
+        "fastRate": 100,
+        "damagePercent": 7.513501127133297,
+        "skillId": 788682089
+      },
+      {
+        "skillName": "충격파",
+        "totalDamage": 66786440,
+        "hitCount": 38,
+        "critCount": 22,
+        "addhitCount": 5,
+        "powerCount": 38,
+        "fastCount": 38,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 3010001,
+        "minDamage": 597796,
+        "avgDamage": 1757537,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 66786440,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 57.89473684210527,
+        "addhitRate": 15.151515151515152,
+        "powerRate": 100,
+        "fastRate": 100,
+        "damagePercent": 5.179695940666865,
+        "skillId": 315739895
+      },
+      {
+        "skillName": "파쇄권",
+        "totalDamage": 61014393,
+        "hitCount": 38,
+        "critCount": 14,
+        "addhitCount": 6,
+        "powerCount": 38,
+        "fastCount": 36,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 3728903,
+        "minDamage": 773220,
+        "avgDamage": 1605641,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 61014393,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 36.84210526315789,
+        "addhitRate": 18.75,
+        "powerRate": 100,
+        "fastRate": 94.73684210526316,
+        "damagePercent": 4.732038475839598,
+        "skillId": 2097217044
+      },
+      {
+        "skillName": "차징 피스트",
+        "totalDamage": 49812549,
+        "hitCount": 9,
+        "critCount": 4,
+        "addhitCount": 1,
+        "powerCount": 9,
+        "fastCount": 8,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 12679563,
+        "minDamage": 1574824,
+        "avgDamage": 5534727,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 49812549,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 44.44444444444444,
+        "addhitRate": 12.5,
+        "powerRate": 100,
+        "fastRate": 88.88888888888889,
+        "damagePercent": 3.863267122032096,
+        "skillId": 374486623
+      },
+      {
+        "skillName": "스톰프 킥",
+        "totalDamage": 31535278,
+        "hitCount": 17,
+        "critCount": 5,
+        "addhitCount": 3,
+        "powerCount": 17,
+        "fastCount": 17,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 4196842,
+        "minDamage": 909470,
+        "avgDamage": 1855016,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 31535278,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 29.411764705882355,
+        "addhitRate": 21.428571428571427,
+        "powerRate": 100,
+        "fastRate": 100,
+        "damagePercent": 2.4457532314104644,
+        "skillId": 949616122
+      },
+      {
+        "skillName": "데들리 임팩트",
+        "totalDamage": 26043064,
+        "hitCount": 16,
+        "critCount": 4,
+        "addhitCount": 2,
+        "powerCount": 16,
+        "fastCount": 16,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 4206707,
+        "minDamage": 805787,
+        "avgDamage": 1627691,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 26043064,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 25,
+        "addhitRate": 14.285714285714285,
+        "powerRate": 100,
+        "fastRate": 100,
+        "damagePercent": 2.0197985232230877,
+        "skillId": 1825196507
+      },
+      {
+        "skillName": "특수 피해 (무)",
+        "totalDamage": 13014905,
+        "hitCount": 45,
+        "critCount": 16,
+        "addhitCount": 5,
+        "powerCount": 45,
+        "fastCount": 42,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 652626,
+        "minDamage": 85022,
+        "avgDamage": 289220,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 13014905,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 35.55555555555556,
+        "addhitRate": 12.5,
+        "powerRate": 100,
+        "fastRate": 93.33333333333331,
+        "damagePercent": 1.0093852973247994,
+        "skillId": 4043309057
+      },
+      {
+        "skillName": "스러스트 킥[전진]",
+        "totalDamage": 12722617,
+        "hitCount": 8,
+        "critCount": 2,
+        "addhitCount": 1,
+        "powerCount": 8,
+        "fastCount": 8,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 3881802,
+        "minDamage": 867122,
+        "avgDamage": 1590327,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 12722617,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 25,
+        "addhitRate": 14.285714285714285,
+        "powerRate": 100,
+        "fastRate": 100,
+        "damagePercent": 0.9867165794367724,
+        "skillId": 2072581279
+      },
+      {
+        "skillName": "백 스텝",
+        "totalDamage": 4071925,
+        "hitCount": 15,
+        "critCount": 6,
+        "addhitCount": 1,
+        "powerCount": 15,
+        "fastCount": 13,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 555466,
+        "minDamage": 103358,
+        "avgDamage": 271461,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 4071925,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 40,
+        "addhitRate": 7.142857142857142,
+        "powerRate": 100,
+        "fastRate": 86.66666666666667,
+        "damagePercent": 0.31580262989313285,
+        "skillId": 156969833
+      },
+      {
+        "skillName": "특수 지속 피해 (상처) (도트)",
+        "totalDamage": 3060289,
+        "hitCount": 119,
+        "critCount": 0,
+        "addhitCount": 0,
+        "powerCount": 0,
+        "fastCount": 0,
+        "dotDamage": 3060289,
+        "dotCount": 119,
+        "maxDamage": 39236,
+        "minDamage": 12943,
+        "avgDamage": 25716,
+        "dotMaxDamage": 39236,
+        "dotMinDamage": 12943,
+        "dotAvgDamage": 25716,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 0,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 0,
+        "addhitRate": 0,
+        "powerRate": 0,
+        "fastRate": 0,
+        "damagePercent": 0.23734408527490697,
+        "skillId": 4043309073
+      },
+      {
+        "skillName": "공격",
+        "totalDamage": 871088,
+        "hitCount": 18,
+        "critCount": 8,
+        "addhitCount": 4,
+        "powerCount": 8,
+        "fastCount": 17,
+        "dotDamage": 0,
+        "dotCount": 0,
+        "maxDamage": 131345,
+        "minDamage": 12580,
+        "avgDamage": 48393,
+        "dotMaxDamage": 0,
+        "dotMinDamage": 0,
+        "dotAvgDamage": 0,
+        "passiveDamage": 0,
+        "passiveCount": 0,
+        "directDamage": 871088,
+        "unguardedDamage": 0,
+        "unguardedCount": 0,
+        "breakDamage": 0,
+        "breakCount": 0,
+        "critRate": 44.44444444444444,
+        "addhitRate": 28.57142857142857,
+        "powerRate": 44.44444444444444,
+        "fastRate": 94.44444444444444,
+        "damagePercent": 0.067558189619983,
+        "skillId": 215588121
+      }
+    ],
+    "buffs": {
+      "castBuffs": [
+        {
+          "name": "파티보너스: 격투가",
+          "buffId": 296244591,
+          "totalCount": 56,
+          "totalDuration": 123486,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 56,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "도적의 추격",
+          "buffId": 1883209671,
+          "totalCount": 56,
+          "totalDuration": 123485,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 56,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "오염",
+          "buffId": 619638055,
+          "totalCount": 119,
+          "totalDuration": 119058,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 1,
+          "updateCount": 118,
+          "refreshCount": 0
+        },
+        {
+          "name": "불씨",
+          "buffId": 775459606,
+          "totalCount": 24,
+          "totalDuration": 118972,
+          "maxStack": 12,
+          "avgStack": 6.75,
+          "startCount": 2,
+          "updateCount": 22,
+          "refreshCount": 0
+        },
+        {
+          "name": "연계 공격",
+          "buffId": 322764292,
+          "totalCount": 65,
+          "totalDuration": 117101,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 1,
+          "updateCount": 64,
+          "refreshCount": 0
+        },
+        {
+          "name": "None",
+          "buffId": 1986807074,
+          "totalCount": 2,
+          "totalDuration": 113767,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 2,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "잠식(비표기 1배 효과)",
+          "buffId": 912039546,
+          "totalCount": 210,
+          "totalDuration": 106148,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 106,
+          "updateCount": 104,
+          "refreshCount": 0
+        },
+        {
+          "name": "흐릿한 형상",
+          "buffId": 297816278,
+          "totalCount": 210,
+          "totalDuration": 103812,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 2,
+          "updateCount": 208,
+          "refreshCount": 0
+        },
+        {
+          "name": "추가 타격",
+          "buffId": 2112950298,
+          "totalCount": 85,
+          "totalDuration": 86858,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 85,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "치명타 증가",
+          "buffId": 1528288387,
+          "totalCount": 28,
+          "totalDuration": 82576,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 28,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "충격파",
+          "buffId": 1905020849,
+          "totalCount": 109,
+          "totalDuration": 79781,
+          "maxStack": 2,
+          "avgStack": 1.688073394495413,
+          "startCount": 34,
+          "updateCount": 75,
+          "refreshCount": 0
+        },
+        {
+          "name": "잠식(비표기 2배 효과)",
+          "buffId": 2088118072,
+          "totalCount": 154,
+          "totalDuration": 78670,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 78,
+          "updateCount": 76,
+          "refreshCount": 0
+        },
+        {
+          "name": "흐릿한 형상",
+          "buffId": 2111116943,
+          "totalCount": 154,
+          "totalDuration": 76328,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 2,
+          "updateCount": 152,
+          "refreshCount": 0
+        },
+        {
+          "name": "야무진 응원",
+          "buffId": 439731380,
+          "totalCount": 9,
+          "totalDuration": 66400,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 9,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "연속기",
+          "buffId": 1198899612,
+          "totalCount": 15,
+          "totalDuration": 62149,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 15,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "별바라기",
+          "buffId": 98939633,
+          "totalCount": 6,
+          "totalDuration": 60089,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 6,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "용의 문장",
+          "buffId": 1931031110,
+          "totalCount": 6,
+          "totalDuration": 55076,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 6,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "침식",
+          "buffId": 30069630,
+          "totalCount": 112,
+          "totalDuration": 54977,
+          "maxStack": 280,
+          "avgStack": 140.5,
+          "startCount": 1,
+          "updateCount": 111,
+          "refreshCount": 0
+        },
+        {
+          "name": "속도 증가",
+          "buffId": 1937155463,
+          "totalCount": 14,
+          "totalDuration": 52843,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 11,
+          "updateCount": 3,
+          "refreshCount": 0
+        },
+        {
+          "name": "None",
+          "buffId": 1861320102,
+          "totalCount": 14,
+          "totalDuration": 42189,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 14,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "None",
+          "buffId": 1415209640,
+          "totalCount": 11,
+          "totalDuration": 35161,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 11,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "위대함",
+          "buffId": 1850558294,
+          "totalCount": 2,
+          "totalDuration": 30031,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 2,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "밤의 축복",
+          "buffId": 674865859,
+          "totalCount": 2,
+          "totalDuration": 30031,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 2,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "잊힌 맹약",
+          "buffId": 1363384738,
+          "totalCount": 2,
+          "totalDuration": 30031,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 2,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "각성 종료",
+          "buffId": 2026042517,
+          "totalCount": 2,
+          "totalDuration": 20026,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 2,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "재사용 대기 시간 감소",
+          "buffId": 381616090,
+          "totalCount": 1,
+          "totalDuration": 16515,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 1,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "타오르는 영광",
+          "buffId": 1165643790,
+          "totalCount": 8,
+          "totalDuration": 15010,
+          "maxStack": 8,
+          "avgStack": 4.5,
+          "startCount": 1,
+          "updateCount": 7,
+          "refreshCount": 0
+        },
+        {
+          "name": "오염",
+          "buffId": 1878917227,
+          "totalCount": 1,
+          "totalDuration": 14225,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 1,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "오염",
+          "buffId": 1331437343,
+          "totalCount": 14,
+          "totalDuration": 13242,
+          "maxStack": 14,
+          "avgStack": 7.5,
+          "startCount": 1,
+          "updateCount": 13,
+          "refreshCount": 0
+        },
+        {
+          "name": "대미지 증가",
+          "buffId": 1329716420,
+          "totalCount": 14,
+          "totalDuration": 12712,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 14,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "대미지 증가",
+          "buffId": 97393166,
+          "totalCount": 14,
+          "totalDuration": 11997,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 7,
+          "updateCount": 7,
+          "refreshCount": 0
+        },
+        {
+          "name": "차징 피스트",
+          "buffId": 1411579569,
+          "totalCount": 8,
+          "totalDuration": 9133,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 8,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "차징 피스트",
+          "buffId": 55750697,
+          "totalCount": 8,
+          "totalDuration": 5065,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 8,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "차징 피스트",
+          "buffId": 1393208823,
+          "totalCount": 7,
+          "totalDuration": 4470,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 7,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "None",
+          "buffId": 1790833719,
+          "totalCount": 10,
+          "totalDuration": 3736,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 10,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "대미지 증가",
+          "buffId": 1730489501,
+          "totalCount": 14,
+          "totalDuration": 3384,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 14,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "스킬 대미지 및 치명타 증가",
+          "buffId": 119129981,
+          "totalCount": 13,
+          "totalDuration": 3235,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 13,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "궁극기 면역",
+          "buffId": 2143423116,
+          "totalCount": 1,
+          "totalDuration": 2612,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 1,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "None",
+          "buffId": 1484070239,
+          "totalCount": 5,
+          "totalDuration": 2360,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 5,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "필살의 일격",
+          "buffId": 994092087,
+          "totalCount": 3,
+          "totalDuration": 2050,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 2,
+          "updateCount": 1,
+          "refreshCount": 0
+        },
+        {
+          "name": "용의 문장 종료",
+          "buffId": 509253398,
+          "totalCount": 6,
+          "totalDuration": 753,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 6,
+          "updateCount": 0,
+          "refreshCount": 0
+        },
+        {
+          "name": "스킬 대미지",
+          "buffId": 1275153198,
+          "totalCount": 1,
+          "totalDuration": 120,
+          "maxStack": 1,
+          "avgStack": 1,
+          "startCount": 1,
+          "updateCount": 0,
+          "refreshCount": 0
+        }
+      ],
+      "receivedBuffs": []
+    },
+    "character": {
+      "job": "격투가",
+      "nickname": "무쇠손",
+      "combatPower": 106123,
+      "attack": 58268,
+      "defense": 21495,
+      "primary": {
+        "힘": 6037,
+        "솜씨": 7031,
+        "지력": 6037,
+        "의지": 5982,
+        "행운": 5690
+      },
+      "detail": {
+        "브레이크": 4439,
+        "피해 감소": 3533,
+        "강타 강화": 3980,
+        "빠른 공격": 2109,
+        "콤보 강화": 2480,
+        "연타 강화": 3644,
+        "스킬 위력": 2650,
+        "빠른 스킬": 2158,
+        "광역 강화": 2419,
+        "추가 체력": 47046,
+        "회복력": 3406,
+        "궁극기": 1682,
+        "급소 회피": 421,
+        "치명타": 8688,
+        "추가타": 2520
+      }
+    },
+    "equipment": [
+      {
+        "slotType": 111,
+        "itemName": "격투가의 마스터 엠블럼",
+        "transcendentState": 0,
+        "runeName": "위대함",
+        "gems": [
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "이동 쿨타임 0.75%",
+              "강타 데미지 2.2%"
+            ]
+          }
+        ],
+        "prisms": [],
+        "enchants": [],
+        "amplifications": []
+      },
+      {
+        "slotType": 101,
+        "itemName": "잔영의 라이트 너클ZZ",
+        "transcendentState": 0,
+        "runeName": "타오르는 영광",
+        "gems": [
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "강타 쿨타임 0.75%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "강타 쿨타임 0.75%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "강타 쿨타임 0.75%"
+            ]
+          }
+        ],
+        "prisms": [],
+        "enchants": [],
+        "amplifications": []
+      },
+      {
+        "slotType": 104,
+        "itemName": "잔영의 가죽 갑옷 상의ZZ",
+        "transcendentState": 1,
+        "runeName": "흐릿한 형상",
+        "gems": [
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "보조 데미지 2.2%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "보조 데미지 2.2%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "보조 데미지 2.2%"
+            ]
+          }
+        ],
+        "prisms": [],
+        "enchants": [],
+        "amplifications": []
+      },
+      {
+        "slotType": 103,
+        "itemName": "잔영의 가죽 갑옷 하의ZZ",
+        "transcendentState": 1,
+        "runeName": "아귀",
+        "gems": [
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "보조 쿨타임 0.75%",
+              "강타 데미지 2.2%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "보조 쿨타임 0.75%",
+              "강타 데미지 2.2%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "보조 쿨타임 0.75%",
+              "강타 데미지 2.2%"
+            ]
+          }
+        ],
+        "prisms": [],
+        "enchants": [],
+        "amplifications": []
+      },
+      {
+        "slotType": 107,
+        "itemName": "잔영의 가죽 갑옷 신발ZZ",
+        "transcendentState": 0,
+        "runeName": "승전",
+        "gems": [
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "소환 쿨타임 0.75%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "소환 데미지 2.2%",
+              "강타 데미지 2.2%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "연타 데미지 2.2%",
+              "강타 데미지 2.2%"
+            ]
+          }
+        ],
+        "prisms": [],
+        "enchants": [],
+        "amplifications": []
+      },
+      {
+        "slotType": 106,
+        "itemName": "잔영의 가죽 갑옷 장갑ZZ",
+        "transcendentState": 0,
+        "runeName": "별바라기",
+        "gems": [
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "원소 데미지 2.2%",
+              "강타 데미지 2.2%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "원소 쿨타임 0.75%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "소환 쿨타임 0.75%"
+            ]
+          }
+        ],
+        "prisms": [],
+        "enchants": [],
+        "amplifications": []
+      },
+      {
+        "slotType": 110,
+        "itemName": "잔영의 페리도트 네크리스ZZ",
+        "transcendentState": 0,
+        "runeName": "승천(격투가)",
+        "gems": [
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "강타 쿨타임 0.75%"
+            ]
+          }
+        ],
+        "prisms": [],
+        "enchants": [],
+        "amplifications": []
+      },
+      {
+        "slotType": 109,
+        "itemName": "잔영의 페리도트 링ZZ",
+        "transcendentState": 0,
+        "runeName": "약점(격투가)",
+        "gems": [
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "강타 쿨타임 0.75%"
+            ]
+          }
+        ],
+        "prisms": [],
+        "enchants": [],
+        "amplifications": []
+      },
+      {
+        "slotType": 108,
+        "itemName": "잔영의 페리도트 링ZZ",
+        "transcendentState": 0,
+        "runeName": "열혈(격투가)",
+        "gems": [
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "강타 데미지 2.2%",
+              "강타 쿨타임 0.75%"
+            ]
+          }
+        ],
+        "prisms": [],
+        "enchants": [],
+        "amplifications": []
+      },
+      {
+        "slotType": 102,
+        "itemName": "가죽 갑옷 투구ZZ",
+        "transcendentState": 1,
+        "runeName": "잊힌 맹약",
+        "gems": [
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "이동 쿨타임 0.75%",
+              "강타 데미지 2.2%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "이동 쿨타임 0.75%",
+              "강타 데미지 2.2%"
+            ]
+          },
+          {
+            "name": "온전한 스타프리즘",
+            "options": [
+              "이동 데미지 2.2%",
+              "이동 쿨타임 0.75%",
+              "강타 데미지 2.2%"
+            ]
+          }
+        ],
+        "prisms": [],
+        "enchants": [],
+        "amplifications": []
+      }
+    ]
+  }
+]

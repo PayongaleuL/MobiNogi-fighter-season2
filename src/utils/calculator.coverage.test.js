@@ -176,6 +176,43 @@ describe('calculateDPS coverage regression suite', () => {
     expectFiniteDps(result);
   });
 
+  it('uses the spreadsheet village-attack contract without double-counting status-included equipment', () => {
+    const result = calculateDPS(
+      {
+        ...baseStats,
+        baseAttack: 60607,
+        enchantAtkPct: 6.8,
+        useNightTrace: true,
+        nightBlessingUptime: 25,
+        extraAllStat: 999
+      },
+      [
+        { name: '상시 무기 룬', type: '무기', transcendLevel: 2, stats: { '공격력%': 0.235, '공격력': 1038, '가동률': 0.13 } },
+        { name: '상시 방어구 룬1', type: '방어구', transcendLevel: 1, stats: { '공격력%': 0.15, '가동률': 1 } },
+        { name: '상시 방어구 룬2', type: '방어구', transcendLevel: 1, stats: { '공격력%': 0.15, '가동률': 1 } },
+        { name: '상시 방어구 룬3', type: '방어구', transcendLevel: 0, stats: { '공격력%': 0.14, '가동률': 1 } }
+      ],
+      activeGimmicks,
+      { ordinary: '123', ordinaryBreak: '123', ultimate: '123', ultimateBreak: '123' },
+      { '상시 무기 룬': 13 },
+      {},
+      {},
+      {
+        weapon: { type: 'red_moon', baseAtkOverride: 800, redMoonStatValue: 60 },
+        necklace: { type: 'red_moon', baseAtkOverride: 400, redMoonStatValue: 45 },
+        ring1: { type: 'red_moon', baseAtkOverride: 400, redMoonStatValue: 45 },
+        emblem: { type: 'red_moon', redMoonStatValue: 50 }
+      }
+    );
+
+    expect(result.totalAtk).toBe(105638);
+    expect(result.attackBreakdown.runeAtkPct).toBeCloseTo(0.675, 10);
+    expect(result.attackBreakdown.totalAtkPct).toBeCloseTo(0.743, 10);
+    expect(result.attackBreakdown.sealBaseAtk).toBe(1600);
+    expect(result.attackBreakdown.sealAtkFromStats).toBe(600);
+    expect(result.attackBreakdown.gemAtk).toBe(1498.5);
+  });
+
   it('changes output when special seasonal passives and rune scaling are enabled', () => {
     const cycles = { ordinary: '333456', ordinaryBreak: '333456', ultimate: '333456', ultimateBreak: '333456' };
     const disabled = calculateDPS(
@@ -272,5 +309,73 @@ describe('DPS default and stance branch regression', () => {
     );
 
     expectFiniteDps(result);
+  });
+});
+
+
+describe('final damage rune regression', () => {
+  it('multiplies the complete DPS result by final-damage rune effects', () => {
+    const cycle = { ordinary: '1', ordinaryBreak: '1', ultimate: '1', ultimateBreak: '1' };
+    const parsedSkills = {
+      passives: { waveBaseDmg: 0, crashBaseDmg: 0 },
+      skills: {
+        '1-1': { 순정: { baseDamage: 100000, refLevel: 10, baseCast: 1 } },
+        '1-2': { 순정: { baseDamage: 0, refLevel: 10, baseCast: 1 } }
+      }
+    };
+    const input = { ...baseStats, useDeadlyImpact: false, useHitCombo: false, nightBlessingUptime: 0 };
+    const gimmicks = { ...activeGimmicks, boss: '함선 허수아비', ordinaryTime: 100, unarmedTime: 0, ultimateTime: 0, hasSpdBuff: false };
+    const withoutFinalDamage = calculateDPS(input, [], gimmicks, cycle, {}, {}, {}, {}, parsedSkills);
+    const withFinalDamage = calculateDPS(
+      input,
+      [{ name: '최종피해 룬', type: '장신구', transcendLevel: 0, stats: { '최종피해%': 0.1, '가동률': 1, '마도저항': 0 } }],
+      gimmicks,
+      cycle,
+      {},
+      {},
+      {},
+      {},
+      parsedSkills
+    );
+
+    expect(withFinalDamage.weightedDps).toBeCloseTo(withoutFinalDamage.weightedDps * 1.1, -2);
+  });
+});
+
+
+describe('explicit cycle token regression', () => {
+  const parsedSkills = {
+    passives: { waveBaseDmg: 0, crashBaseDmg: 0 },
+    skills: {
+      '1-1': { 순정: { baseDamage: 100000, refLevel: 10, baseCast: 1 } },
+      '1-2': { 순정: { baseDamage: 50000, refLevel: 10, baseCast: 1 } },
+      '2-1': { 순정: { baseDamage: 40000, refLevel: 10, baseCast: 1 } },
+      '2-2': { 순정: { baseDamage: 30000, refLevel: 10, baseCast: 1 } },
+      '3': { 순정: { baseDamage: 20000, refLevel: 10, baseCast: 1 } },
+      '4-1': { 순정: { baseDamage: 10000, refLevel: 10, baseCast: 1 } },
+      '4-2': { 순정: { baseDamage: 10000, refLevel: 10, baseCast: 1 } },
+      '4-3': { 순정: { baseDamage: 10000, refLevel: 10, baseCast: 1 } },
+      '5-1': { 순정: { baseDamage: 10000, refLevel: 10, baseCast: 1 } },
+      '5-2': { 순정: { baseDamage: 10000, refLevel: 10, baseCast: 1 } },
+      '5-3': { 순정: { baseDamage: 10000, refLevel: 10, baseCast: 1 } }
+    }
+  };
+  const input = { ...baseStats, useDeadlyImpact: false, useHitCombo: false, nightBlessingUptime: 0 };
+  const gimmicks = { ...activeGimmicks, boss: '함선 허수아비', ordinaryTime: 100, unarmedTime: 0, ultimateTime: 0, hasSpdBuff: false };
+
+  it('treats explicit 1-1 and 1-2 tokens as the same pair as legacy token 1', () => {
+    const legacy = calculateDPS(input, [], gimmicks, { ordinary: '1', ordinaryBreak: '1', ultimate: '1', ultimateBreak: '1' }, {}, {}, {}, {}, parsedSkills);
+    const explicit = calculateDPS(input, [], gimmicks, { ordinary: '1-1 1-2', ordinaryBreak: '1-1 1-2', ultimate: '1-1 1-2', ultimateBreak: '1-1 1-2' }, {}, {}, {}, {}, parsedSkills);
+
+    expect(explicit.states.ordinary.cycleBaseDmg).toBe(legacy.states.ordinary.cycleBaseDmg);
+    expect(explicit.states.ordinary.cycleTime).toBe(legacy.states.ordinary.cycleTime);
+  });
+
+  it('ignores human-readable parenthetical probability notes while preserving the executable cycle', () => {
+    const plain = calculateDPS(input, [], gimmicks, { ordinary: '1-1 3 4 2-2 2 3 5 2', ordinaryBreak: '1-1 3 4 2-2 2 3 5 2', ultimate: '445', ultimateBreak: '445' }, {}, {}, {}, {}, parsedSkills);
+    const annotated = calculateDPS(input, [], gimmicks, { ordinary: '1-1 3 4 2-2 2 3 5 (444) 2', ordinaryBreak: '1-1 3 4 2-2 2 3 5 (444) 2', ultimate: '445(반복)', ultimateBreak: '445(반복)' }, {}, {}, {}, {}, parsedSkills);
+
+    expect(annotated.states.ordinary.cycleBaseDmg).toBe(plain.states.ordinary.cycleBaseDmg);
+    expect(annotated.states.ordinary.cycleTime).toBe(plain.states.ordinary.cycleTime);
   });
 });

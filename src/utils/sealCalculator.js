@@ -19,8 +19,11 @@ export function calculateSealStats(seals = {}) {
     const seal = seals && seals[slot];
     if (!seal || seal.type === 'none') return;
 
-    // A. 장비 슬롯 강화 효과
-    if (slot === 'weapon') {
+    // A. 장비 슬롯 강화 효과. baseAtkOverride가 있으면 외부 측정스펙의 부위별 고정 공격력을 우선한다.
+    const baseAtkOverride = Number.isFinite(seal.baseAtkOverride) ? seal.baseAtkOverride : null;
+    if (baseAtkOverride !== null) {
+      sealBaseAtk += baseAtkOverride;
+    } else if (slot === 'weapon') {
       if (seal.type === 'star') sealBaseAtk += 300;
       else if (seal.type === 'blue_moon') sealBaseAtk += 500;
       else if (seal.type === 'red_moon') sealBaseAtk += 800;
