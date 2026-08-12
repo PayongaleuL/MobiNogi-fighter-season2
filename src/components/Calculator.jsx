@@ -117,7 +117,8 @@ export default function Calculator() {
     useNightTrace: true,
     useDeadlyImpact: true,
     useHitCombo: true,
-    nightBlessingUptime: 25
+    nightBlessingUptime: 25,
+    manualFinalDmgPct: 0
   });
 
   // 3-2. 시즌2 달의 인장 설정 상태
@@ -421,12 +422,17 @@ export default function Calculator() {
         critBonusPct: 0.0,
         strongDmgPct: 0.0,
         chainDmgPct: 0.0,
+        manualFinalDmgPct: 0.0,
         skillLevel_1: 10,
         skillLevel_2: 30,
         skillLevel_3: 10,
         skillLevel_4: 10,
         skillLevel_5: 10,
-        skillLevel_6: 10
+        skillLevel_6: 10,
+        useNightTrace: true,
+        useDeadlyImpact: true,
+        useHitCombo: true,
+        nightBlessingUptime: 25
       });
       setSelectedRunes({
         '무기': [null],
@@ -561,7 +567,7 @@ export default function Calculator() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto flex flex-col gap-6 p-4 md:p-6 text-theme-main theme-transition">
+    <div className="max-w-[1600px] mx-auto flex flex-col gap-6 p-4 md:p-6 xl:p-8 text-theme-main theme-transition">
       {/* 타이틀 및 탭 네비게이션 */}
       <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center gap-4 bg-theme-card border border-theme rounded-2xl p-6 shadow-theme theme-transition">
         <div>
@@ -575,78 +581,54 @@ export default function Calculator() {
           </p>
         </div>
 
-        <div className="flex items-center gap-4 w-full xl:w-auto justify-between xl:justify-end">
+        <div className="flex flex-col sm:flex-row sm:items-end gap-3 w-full xl:w-auto sm:justify-between xl:justify-end">
           {/* 테마 스위처 */}
-          <div className="flex flex-col gap-1">
+          <div className="flex items-center justify-between sm:justify-start gap-3 shrink-0">
             <label className="text-[9px] font-black text-theme-muted uppercase tracking-wider">UI Theme</label>
-            <div 
+            <button
+              type="button"
+              aria-label="밝은 테마와 어두운 테마 전환"
+              aria-pressed={uiTheme === 'dark'}
               onClick={() => setUiTheme(prev => prev === 'light' ? 'dark' : 'light')}
-              className="relative w-14 h-8 bg-theme-subcard border border-theme rounded-full p-1 cursor-pointer flex items-center justify-between theme-transition select-none group"
+              className="relative w-14 h-8 bg-theme-subcard border border-theme rounded-full p-1 cursor-pointer flex items-center justify-between theme-transition select-none group focus-orange-glow focus:outline-none"
             >
               <Sun className="w-3.5 h-3.5 text-orange-400 ml-0.5 opacity-55 group-hover:opacity-100 transition-opacity shrink-0" />
               <Moon className="w-3.5 h-3.5 text-indigo-400 mr-0.5 opacity-55 group-hover:opacity-100 transition-opacity shrink-0" />
-              
-              <div 
-                className={`absolute w-6 h-6 rounded-full shadow-md flex items-center justify-center transition-all duration-300 ease-in-out ${
-                  uiTheme === 'dark' 
-                    ? 'translate-x-6 bg-indigo-600' 
-                    : 'translate-x-0 bg-orange-500'
-                }`}
-              >
-                {uiTheme === 'dark' ? (
-                  <Moon className="w-3 h-3 text-white animate-pulse" />
-                ) : (
-                  <Sun className="w-3 h-3 text-white animate-spin-slow" />
-                )}
-              </div>
-            </div>
+              <span className={`absolute w-6 h-6 rounded-full shadow-md flex items-center justify-center transition-all duration-300 ease-in-out ${uiTheme === 'dark' ? 'translate-x-6 bg-indigo-600' : 'translate-x-0 bg-orange-500'}`}>
+                {uiTheme === 'dark' ? <Moon className="w-3 h-3 text-white animate-pulse" /> : <Sun className="w-3 h-3 text-white animate-spin-slow" />}
+              </span>
+            </button>
           </div>
 
           {/* 상단 탭 버튼 */}
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-1 w-full sm:w-auto">
             <label className="text-[9px] font-black text-theme-muted uppercase tracking-wider">Navigation Menu</label>
-            <div className="flex bg-theme-subcard p-1 rounded-xl border border-theme self-stretch md:self-auto theme-transition overflow-x-auto whitespace-nowrap max-w-full">
+            <div className="grid grid-cols-2 sm:flex gap-1 bg-theme-subcard p-1 rounded-xl border border-theme theme-transition w-full">
               <button
                 onClick={() => setActiveTab('calculator')}
-                className={`flex-1 md:flex-none px-5 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2 whitespace-nowrap flex-shrink-0 focus:outline-none ${
-                  activeTab === 'calculator'
-                    ? 'bg-orange-500 text-white shadow-md'
-                    : 'text-theme-sub hover:text-theme-main'
-                }`}
+                className={`min-w-0 px-3 sm:px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 focus:outline-none ${activeTab === 'calculator' ? 'bg-orange-500 text-white shadow-md' : 'text-theme-sub hover:text-theme-main'}`}
               >
                 종합 계산기
               </button>
               <button
                 onClick={() => setActiveTab('gemstone')}
-                className={`flex-1 md:flex-none px-5 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2 whitespace-nowrap flex-shrink-0 focus:outline-none ${
-                  activeTab === 'gemstone'
-                    ? 'bg-orange-500 text-white shadow-md'
-                    : 'text-theme-sub hover:text-theme-main'
-                }`}
+                className={`min-w-0 px-3 sm:px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 focus:outline-none ${activeTab === 'gemstone' ? 'bg-orange-500 text-white shadow-md' : 'text-theme-sub hover:text-theme-main'}`}
               >
-                <Gem className="w-3.5 h-3.5" />
+                <Gem className="w-3.5 h-3.5 shrink-0" />
                 보석 세공실
               </button>
               <button
                 onClick={() => setActiveTab('runeAudit')}
-                className={`flex-1 md:flex-none px-5 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2 whitespace-nowrap flex-shrink-0 focus:outline-none ${
-                  activeTab === 'runeAudit'
-                    ? 'bg-orange-500 text-white shadow-md'
-                    : 'text-theme-sub hover:text-theme-main'
-                }`}
+                className={`min-w-0 px-3 sm:px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 focus:outline-none ${activeTab === 'runeAudit' ? 'bg-orange-500 text-white shadow-md' : 'text-theme-sub hover:text-theme-main'}`}
               >
-                <Sliders className="w-3.5 h-3.5" />
+                <Sliders className="w-3.5 h-3.5 shrink-0" />
                 룬 스탯 교정실
               </button>
               <button
                 onClick={() => setActiveTab('seals')}
-                className={`flex-1 md:flex-none px-5 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2 whitespace-nowrap flex-shrink-0 focus:outline-none ${
-                  activeTab === 'seals'
-                    ? 'bg-orange-500 text-white shadow-md'
-                    : 'text-theme-sub hover:text-theme-main'
-                }`}
+                className={`min-w-0 px-3 sm:px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 focus:outline-none ${activeTab === 'seals' ? 'bg-orange-500 text-white shadow-md' : 'text-theme-sub hover:text-theme-main'}`}
               >
-                <Shield className="w-3.5 h-3.5" />
+                <Shield className="w-3.5 h-3.5 shrink-0" />
                 인장 설정실
               </button>
             </div>

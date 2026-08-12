@@ -266,10 +266,13 @@ export default function StatsInput({ stats, onStatsChange }) {
 
       {/* 시즌2 격투가 시즌스킬 및 패시브 제어 섹션 */}
       <div className="bg-theme-subcard/50 border border-theme rounded-2xl p-5 flex flex-col gap-4 mt-6 theme-transition card-lift-glow">
-        <h4 className="text-sm font-black text-theme-main flex items-center gap-2">
-          <Settings className="w-4 h-4 text-orange-500" />
-          시즌2 격투가 시즌 스킬 & 패시브 설정
-        </h4>
+        <div className="flex items-center justify-between gap-3">
+          <h4 className="text-sm font-black text-theme-main flex items-center gap-2">
+            <Settings className="w-4 h-4 text-orange-500" />
+            시즌2 격투가 시즌 스킬 & 패시브 설정
+          </h4>
+          <span className="text-[10px] font-black text-orange-600 dark:text-orange-300 bg-orange-500/10 border border-orange-500/20 px-2 py-1 rounded-full">DPS 필수</span>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* 밤의 흔적 패시브 */}
           <div className="bg-theme-card border border-theme rounded-xl p-3.5 flex justify-between items-center gap-2 theme-transition">
@@ -309,6 +312,20 @@ export default function StatsInput({ stats, onStatsChange }) {
               onChange={(e) => onStatsChange('useHitCombo', e.target.checked)}
               className="w-4.5 h-4.5 accent-orange-500 rounded border-theme cursor-pointer"
             />
+          </div>
+        </div>
+        <div className="bg-orange-500/5 border border-orange-500/25 rounded-xl p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 theme-transition">
+          <div>
+            <span className="text-xs font-black text-theme-main">최종뎀 증가 (%)</span>
+            <p className="text-[10px] text-theme-muted font-semibold mt-0.5">직접 입력한 값이 최종 DPS에 즉시 반영됩니다.</p>
+          </div>
+          <div className="flex items-center gap-2 shrink-0">
+            <button type="button" aria-label="최종뎀 증가 0.1% 감소" onClick={() => onStatsChange('manualFinalDmgPct', Math.max(0, Number(((stats.manualFinalDmgPct || 0) - 0.1).toFixed(1))))} className="w-8 h-8 rounded-lg bg-theme-card border border-theme text-theme-main font-black hover:border-orange-500 focus-orange-glow focus:outline-none">−</button>
+            <div className="flex items-center bg-theme-card border border-orange-500/50 rounded-lg overflow-hidden focus-within:shadow-[0_0_0_3px_rgba(249,115,22,0.18)]">
+              <input type="number" min="0" step="0.1" value={stats.manualFinalDmgPct || 0} onChange={(e) => handleInputChange('manualFinalDmgPct', e.target.value)} className="w-20 bg-transparent px-2.5 py-1.5 text-right text-sm font-black text-orange-600 dark:text-orange-300 focus:outline-none" />
+              <span className="pr-2.5 text-xs font-black text-orange-600 dark:text-orange-300">%</span>
+            </div>
+            <button type="button" aria-label="최종뎀 증가 0.1% 증가" onClick={() => onStatsChange('manualFinalDmgPct', Number(((stats.manualFinalDmgPct || 0) + 0.1).toFixed(1)))} className="w-8 h-8 rounded-lg bg-theme-card border border-theme text-theme-main font-black hover:border-orange-500 focus-orange-glow focus:outline-none">+</button>
           </div>
         </div>
       </div>

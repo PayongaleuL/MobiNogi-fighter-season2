@@ -230,9 +230,10 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
   const gimmicksDmgPct = (activeGimmicks.gimmickDmgPct || 0.0) / 100.0;
   const healerDmgPct = (activeGimmicks.healerDmgPct || 0.0) / 100.0;
   
-  // 특수 보석(무기 헬리오도르 등)으로 인한 최종 주는피해% 증가 연동
+  // 특수 보석(무기 헬리오도르 등) 및 시즌 스킬·패시브 설정의 최종 주는피해% 증가 연동
   const gemFinalDmgPct = (characterStats.extraFinalDmgPct || 0.0) / 100.0;
-  const totalGivesDmg = runeStats["주는피해%"] + gimmicksDmgPct + gemFinalDmgPct;
+  const manualFinalDmgPct = (characterStats.manualFinalDmgPct || 0.0) / 100.0;
+  const totalGivesDmg = runeStats["주는피해%"] + gimmicksDmgPct + gemFinalDmgPct + manualFinalDmgPct;
   const totalGetsDmg = runeStats["받는피해%"] + healerDmgPct + (activeGimmicks.skillDebuffDmgPct || 10.0) / 100.0;
 
   // 강타/연타피해
