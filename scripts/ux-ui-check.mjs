@@ -1,12 +1,15 @@
 import { chromium } from 'playwright';
 
-const baseUrl = 'http://127.0.0.1:5173/MobiNogi-fighter-season2/';
+const baseUrl = process.env.UI_E2E_BASE_URL || 'http://127.0.0.1:5173/MobiNogi-fighter-season2/';
 const targets = [
   { name: 'desktop', width: 1440, height: 1050 },
   { name: 'mobile', width: 390, height: 844 }
 ];
 
-const browser = await chromium.launch({ headless: true });
+const browser = await chromium.launch({
+  headless: true,
+  ...(process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {}),
+});
 const results = [];
 
 try {
@@ -29,7 +32,7 @@ try {
     const darkThemeApplied = await page.evaluate(() => document.documentElement.classList.contains('theme-dark'));
     await themeButton.click();
 
-    await page.screenshot({ path: `docs/ux-ui-${target.name}.png`, fullPage: true });
+    await page.screenshot({ path: `results/e2e/ux-ui-${target.name}.png`, fullPage: true });
 
     const report = await page.evaluate(() => ({
       title: document.querySelector('h2')?.textContent?.trim(),
