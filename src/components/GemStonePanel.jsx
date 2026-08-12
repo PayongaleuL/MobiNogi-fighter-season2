@@ -154,6 +154,9 @@ export default function GemStonePanel({ uiTheme, gems, onGemChange, setGems, sel
   };
 
   const { stats: sumStats, extraAllStat, extraFinalDmgPct, emblemSkillTagBoost } = getSumStats();
+  const equippedSocketCount = gems.filter(gem => gem.grade !== '미장착').length;
+  const completedSocketCount = gems.filter(gem => gem.grade !== '미장착' && (gem.options || []).length === 3).length;
+  const incompleteSocketCount = gems.filter(gem => gem.grade !== '미장착' && (gem.options || []).length < 3).length;
 
   // 프리셋 설정 도우미 (22개 보석 일괄 세팅 - 강뎀+이뎀 2줄 다중선택 적용)
   const applyPreset = (presetType) => {
@@ -270,22 +273,31 @@ export default function GemStonePanel({ uiTheme, gems, onGemChange, setGems, sel
   };
 
   return (
-    <div className="bg-theme-card border border-theme rounded-2xl p-6 shadow-theme flex flex-col gap-6 w-full max-w-7xl mx-auto theme-transition">
+    <div className="bg-theme-card border border-theme rounded-2xl p-4 md:p-6 xl:p-7 shadow-theme flex flex-col gap-6 w-full theme-transition">
       
       {/* 타이틀 및 퀵 가이드 */}
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 border-b border-theme pb-5 theme-transition">
         <div>
-          <h3 className="text-xl font-bold text-theme-main flex items-center gap-2">
-            <Gem className="w-6 h-6 text-orange-500 animate-pulse" />
-            보석 세공 인벤토리 관리
-          </h3>
-          <p className="text-xs text-theme-sub mt-1">
-            22개의 소켓 보석을 장비 부위별로 지정합니다. 무기 전용 헬리오도르, 엠블럼 전용 그린 헬리오도르 특수 보석을 장착할 수 있습니다.
+          <div className="flex items-center gap-2">
+            <Gem className="w-6 h-6 text-orange-500" />
+            <div>
+              <p className="text-[10px] font-black tracking-[0.14em] text-orange-500">GEM WORKSHOP</p>
+              <h3 className="text-xl font-black text-theme-main">보석 세공 인벤토리 관리</h3>
+            </div>
+          </div>
+          <p className="text-xs text-theme-sub mt-2">
+            22개의 소켓 보석을 장비 부위별로 지정합니다. 특수 보석과 세공 3줄 선택값은 최종 DPS에 즉시 반영됩니다.
           </p>
         </div>
 
-        {/* 프리셋 버튼 그룹 */}
-        <div className="flex flex-wrap gap-2.5">
+        <div className="flex flex-col items-start lg:items-end gap-2">
+          <div className="flex flex-wrap items-center gap-2 text-[10px] font-black">
+            <span className="px-2.5 py-1 rounded-full bg-theme-subcard border border-theme text-theme-sub">소켓 {equippedSocketCount}/22</span>
+            <span className="px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 dark:text-emerald-300">완료 {completedSocketCount}</span>
+            {incompleteSocketCount > 0 && <span className="px-2.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-700 dark:text-amber-300">미완료 {incompleteSocketCount}</span>}
+          </div>
+          {/* 프리셋 버튼 그룹 */}
+          <div className="flex flex-wrap gap-2.5">
           <button
             onClick={() => applyPreset('perfectStarPrism')}
             className="px-3 py-1.5 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-300 dark:border-purple-800/40 rounded-lg text-[10px] font-bold text-purple-700 dark:text-purple-300 transition-all active:scale-95 theme-transition"
@@ -317,6 +329,7 @@ export default function GemStonePanel({ uiTheme, gems, onGemChange, setGems, sel
           >
             전체 미장착
           </button>
+          </div>
         </div>
       </div>
 
@@ -381,18 +394,18 @@ export default function GemStonePanel({ uiTheme, gems, onGemChange, setGems, sel
       </div>
 
       {/* 3줄 완성 권장 가이드 경고 배너 */}
-      <div className="bg-amber-500/10 dark:bg-amber-950/30 border border-amber-300 dark:border-amber-800/40 text-xs p-3.5 rounded-xl font-bold flex items-center gap-2.5 animate-pulse theme-transition">
-        <span>💡</span>
-        <span className="text-amber-700 dark:text-white theme-transition">일괄 프리셋(강이) 적용 시 2줄(강뎀/이뎀)만 기본 설정됩니다. 나머지 3번째 줄 세공 옵션은 직접 클릭하여 3줄을 완성해 주십시오. (3줄 미만 시 소켓이 붉게 점멸합니다.)</span>
+      <div className="bg-amber-500/10 dark:bg-amber-950/30 border border-amber-300 dark:border-amber-800/40 text-xs p-3.5 rounded-xl font-bold flex items-start gap-2.5 theme-transition">
+        <ShieldAlert className="w-4 h-4 text-amber-600 dark:text-amber-300 shrink-0 mt-0.5" />
+        <span className="text-amber-700 dark:text-white theme-transition">3줄 세공 완성 권장: 일괄 프리셋(강이)은 2줄만 적용합니다. 마지막 세공 옵션을 선택해 완료 3/3 상태로 맞추면 DPS 계산 조건을 빠짐없이 검토할 수 있습니다.</span>
       </div>
 
       {/* 장비 부위별 소켓 리스트 렌더링 구역 */}
-      <div className="flex flex-col gap-6">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-5 xl:gap-6 items-start">
         {GEM_SLOT_CONFIGS.map(config => {
           const partGems = gems.slice(config.startIndex, config.startIndex + config.count);
 
           return (
-            <div key={config.part} className="bg-theme-subcard/40 border border-theme rounded-2xl p-5 flex flex-col gap-4 theme-transition">
+            <div key={config.part} className="bg-theme-subcard/40 border border-theme rounded-2xl p-4 xl:p-5 flex flex-col gap-4 theme-transition">
               {/* 장비명 & 장착된 룬 정보 연동 헤더 */}
               <div className="flex justify-between items-center border-b border-theme pb-2.5 theme-transition">
                 <h4 className="text-xs font-black text-orange-500 tracking-wider uppercase flex items-center gap-1.5">
@@ -408,7 +421,7 @@ export default function GemStonePanel({ uiTheme, gems, onGemChange, setGems, sel
               {/* 보석 슬롯 카드 그리드 (장신구는 flexbox로 모아 조밀하게 배치 및 세로선 보장) */}
               <div className={config.part === '장신구' 
                 ? "flex flex-col md:flex-row items-stretch justify-start gap-4 md:gap-5"
-                : "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3.5"
+                : "grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3.5"
               }>
                 {partGems.map((gem, subIdx) => {
                   const globalIdx = config.startIndex + subIdx;

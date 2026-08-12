@@ -204,6 +204,23 @@ describe('6스킬 및 보석 세공 연계 격투가 계산기 연산 검증', (
     expect(resCombo.weightedDps).toBeGreaterThan(resNormal.weightedDps);
   });
 
+  it('시즌 스킬·패시브의 직접 입력 최종뎀 증가가 DPS에 반영된다', () => {
+    const stats = {
+      baseAttack: 27166.0, critScore: 6925.0, strongDmg: 2487.0, chainDmg: 2989.0,
+      comboPower: 1532.0, skillPower: 1577.0, multiPower: 1082.0, extraProb: 987.0,
+      fastAtk: 1484.0, fastSkill: 1488.0, ultScore: 1792.0, enchantAtkPct: 6.8,
+      skillLevel_1: 10, skillLevel_2: 30, skillLevel_3: 10, skillLevel_4: 10,
+      skillLevel_5: 10, skillLevel_6: 10, manualFinalDmgPct: 0
+    };
+    const gimmicks = { boss: '함선 허수아비', ordinaryTime: 87, unarmedTime: 0, ultimateTime: 33, gimmickDmgPct: 0, healerDmgPct: 0, skillDebuffDmgPct: 10, hasSpdBuff: false };
+    const cycles = { ordinary: '235212', ordinaryBreak: '235212', ultimate: '252', ultimateBreak: '252' };
+    const withoutManualBonus = calculateDPS(stats, [], gimmicks, cycles, {}, {});
+    const withManualBonus = calculateDPS({ ...stats, manualFinalDmgPct: 12.5 }, [], gimmicks, cycles, {}, {});
+
+    expect(withManualBonus.weightedDps).toBeGreaterThan(withoutManualBonus.weightedDps);
+    expect(withoutManualBonus.weightedDps).toBe(calculateDPS({ ...stats }, [], gimmicks, cycles, {}, {}).weightedDps);
+  });
+
   it('시즌2 달의 인장은 상태창 완성값에 포함되므로 적용 공격력에 중복 가산하지 않는다', () => {
     const baseStats = {
       baseAttack: 27166.0,

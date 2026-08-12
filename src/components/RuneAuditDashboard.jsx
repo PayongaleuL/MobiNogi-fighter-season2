@@ -240,17 +240,18 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate, selectedRunes
   }, [auditList, searchTerm, selectedTypeFilter, statusFilter]);
 
   return (
-    <div className="bg-theme-card border border-theme rounded-2xl p-6 shadow-theme flex flex-col gap-6 animate-fadeIn text-theme-main theme-transition">
+    <div className="bg-theme-card border border-theme rounded-2xl p-4 md:p-6 xl:p-7 shadow-theme flex flex-col gap-6 animate-fadeIn text-theme-main theme-transition">
       
       {/* 타이틀 영역 */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-theme pb-5 theme-transition">
         <div>
-          <h3 className="text-xl font-black text-theme-main flex items-center gap-2">
+          <div className="flex items-center gap-2">
             <Sliders className="w-5.5 h-5.5 text-orange-500" />
-            룬 스탯 교정실 (Rune Customizer)
-          </h3>
+            <p className="text-[10px] font-black tracking-[0.14em] text-orange-500">RUNE AUDIT</p>
+          </div>
+          <h3 className="text-xl font-black text-theme-main mt-1">룬 스탯 교정실</h3>
           <p className="text-xs text-theme-sub mt-1">
-            룬설명 마스터 문장을 기반으로 각 룬의 연동 스탯을 실시간 교정 및 직접 커스텀하여 DPS 시뮬레이터에 적용합니다.
+            마스터 설명글 기준 룬 스탯을 검수하고, 필요한 값만 직접 교정해 DPS 시뮬레이터에 실시간 반영합니다.
           </p>
         </div>
 
@@ -288,7 +289,7 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate, selectedRunes
       </div>
 
       {/* 게이머 친화적 가이드 및 팁 박스 */}
-      <div className="bg-theme-subcard border border-theme p-4 rounded-xl flex gap-3 text-xs leading-relaxed text-theme-main theme-transition">
+      <div className="bg-orange-500/5 border border-orange-500/20 p-4 rounded-xl flex gap-3 text-xs leading-relaxed text-theme-main theme-transition">
         <Info className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
         <div className="flex flex-col gap-1.5">
           <p className="font-extrabold text-theme-main">💡 룬 스탯 교정실 안내:</p>
@@ -304,11 +305,11 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate, selectedRunes
       {/* 대시보드 요약 메트릭 카드 */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
         <div className="bg-theme-subcard border border-theme p-3 rounded-xl flex flex-col justify-center theme-transition">
-          <span className="text-[10px] font-bold text-theme-sub uppercase tracking-wider">마스터 마크다운 룬</span>
+            <span className="text-[10px] font-bold text-theme-sub uppercase tracking-wider">마스터 룬</span>
           <span className="text-lg font-black text-theme-main mt-0.5">{statsSummary.totalMd} 개</span>
         </div>
         <div className="bg-theme-subcard border border-theme p-3 rounded-xl flex flex-col justify-center theme-transition">
-          <span className="text-[10px] font-bold text-theme-sub uppercase tracking-wider">현재 JSON 룬 총합</span>
+            <span className="text-[10px] font-bold text-theme-sub uppercase tracking-wider">현재 JSON</span>
           <span className="text-lg font-black text-theme-main mt-0.5">{statsSummary.totalJson} 개</span>
         </div>
         <div className="bg-emerald-500/10 border border-emerald-300 dark:border-emerald-800/40 p-3 rounded-xl flex flex-col justify-center text-emerald-700 dark:text-emerald-400 theme-transition">
@@ -366,7 +367,7 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate, selectedRunes
       </div>
 
       {/* 룬 스탯 편집용 테이블 그리드 (가로 스크롤 & 룬 이름 열 sticky 고정) */}
-      <div className="overflow-x-auto border border-theme rounded-xl bg-theme-subcard/30 max-h-[600px] overflow-y-auto theme-transition">
+      <div className="overflow-x-auto border border-theme rounded-xl bg-theme-subcard/30 max-h-[600px] xl:max-h-[680px] overflow-y-auto theme-transition">
         <table className="w-full border-collapse text-left text-xs text-theme-main min-w-[1500px]">
           <thead>
             <tr className="bg-theme-subcard border-b border-theme text-theme-sub font-bold sticky top-0 z-20 theme-transition">

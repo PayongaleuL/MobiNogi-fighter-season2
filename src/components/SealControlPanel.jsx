@@ -96,8 +96,19 @@ export default function SealControlPanel({ seals, onSealChange }) {
 
   return (
     <div className="flex flex-col gap-6">
+      <section className="bg-theme-card border border-theme rounded-2xl p-5 shadow-theme theme-transition">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <p className="text-[10px] font-black tracking-[0.14em] text-orange-500">SEAL SETTINGS</p>
+            <h3 className="text-xl font-black text-theme-main mt-1 flex items-center gap-2"><Shield className="w-5 h-5 text-orange-500" /> 달의 인장 설정</h3>
+            <p className="text-xs text-theme-sub mt-1">선택한 인장의 강화 효과와 추가 능력치는 종합 DPS 계산에 실시간 반영됩니다.</p>
+          </div>
+          <span className="w-fit text-[10px] font-black text-orange-600 dark:text-orange-300 bg-orange-500/10 border border-orange-500/20 px-2.5 py-1.5 rounded-full">실시간 DPS 반영</span>
+        </div>
+      </section>
+
       {/* 1. 종합 설정 현황 보드 */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 bg-theme-subcard border border-theme p-5 rounded-2xl theme-transition card-lift-glow">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 bg-theme-subcard border border-theme p-5 rounded-2xl theme-transition">
         <div className="flex flex-col gap-1 md:border-r border-theme pr-4 last:border-0 theme-transition">
           <span className="text-[10px] font-black text-theme-muted uppercase">총 추가 슬롯 공격력</span>
           <span className="text-xl font-black text-orange-500">+{totalAtk}</span>
@@ -129,7 +140,7 @@ export default function SealControlPanel({ seals, onSealChange }) {
       </div>
 
       {/* 2. 10대 장비 슬롯 개별 설정 대시보드 */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 xl:gap-5">
         {Object.entries(SLOT_NAMES).map(([slot, label]) => {
           const seal = getSealData(slot);
 
@@ -150,7 +161,7 @@ export default function SealControlPanel({ seals, onSealChange }) {
           return (
             <div
               key={slot}
-              className={`p-4 rounded-2xl border flex flex-col gap-3.5 transition-all duration-300 card-lift-glow theme-transition ${cardColorClass}`}
+              className={`p-3.5 xl:p-4 rounded-2xl border flex flex-col gap-3.5 transition-all duration-300 card-lift-glow theme-transition ${cardColorClass}`}
             >
               {/* 장비 부위 명세 */}
               <div className="flex justify-between items-center">

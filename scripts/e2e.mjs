@@ -52,13 +52,14 @@ async function verifyViewport(browser, name, viewport, exerciseInput) {
   });
 
   await page.goto(baseURL, { waitUntil: 'networkidle' });
-  await page.getByText('종합 실전 예상 DPS', { exact: true }).waitFor();
-  await page.getByText('마을 공격력', { exact: true }).waitFor();
+  const dpsLabel = page.getByText('종합 실전 예상 DPS', { exact: true }).filter({ visible: true }).first();
+  await dpsLabel.waitFor();
+  await page.getByText('마을 공격력', { exact: true }).filter({ visible: true }).first().waitFor();
 
   if (exerciseInput) {
-    const dpsValue = page.locator('span.text-3xl.font-black.text-orange-500').first();
+    const dpsValue = dpsLabel.locator('xpath=following-sibling::*[1]');
     const dpsBefore = (await dpsValue.innerText()).replace(/,/g, '').replace('DPS', '').trim();
-    const attackInput = page.getByText('마을 공격력', { exact: true })
+    const attackInput = page.getByText('마을 공격력', { exact: true }).filter({ visible: true }).first()
       .locator('xpath=../..')
       .locator('input[type="number"]');
     await attackInput.fill('60607');
