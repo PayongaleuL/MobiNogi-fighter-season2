@@ -1,5 +1,5 @@
 // 마비노기 모바일 시즌2 격투가 DPS 계산기 연산 엔진 (보석세공, 6스킬, 스탠스 및 패시브 고도화)
-import { calculateSealStats } from './sealCalculator';
+import { calculateSealStats } from './sealCalculator.js';
 
 /**
  * 스킬 개조 레벨에 따른 스킬 계수 보정치 계산 (엑셀 R003 수식 참고)
@@ -203,7 +203,7 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
   const emblemAtkPct = sealEmblemAtkPct; 
   const fastAtkScore = characterStats.fastAtk || 1484.0;
   const fastSkillScore = characterStats.fastSkill || 1488.0;
-  const ultScore = characterStats.ultScore || 1792.0;
+  const ultScore = characterStats.ultScore ?? 1792.0;
 
   // 시즌2 격투가 시즌스킬: 밤의 축복 (15% 공격력 증가 버프 * 가동률 반영)
   const nightBlessingBoost = ((characterStats.nightBlessingUptime || 0) / 100.0) * 0.15;
@@ -477,7 +477,10 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
 
       // 스킬 유형별 증폭 배율 계산 (스킬피해%, 콤보피해%, 강타/연타피해% 시너지 결합)
       let typeMult = 1.0;
-      if (category) {
+      if (skillGroup === '6') {
+        const ultBoost = ultScore / 5000.0;
+        typeMult = 1 + ultBoost;
+      } else if (category) {
         if (category.dmg === 'strong') {
           typeMult = 1 + totalStrongDmg;
         } else if (category.dmg === 'chain' || category.dmg === 'move') {
@@ -485,9 +488,6 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
         } else if (category.dmg === 'double' || skillName === 'somersault') {
           typeMult = 1 + totalChainDmg;
         }
-      } else if (skillGroup === '6') {
-        const ultBoost = (characterStats.ultScore || 1792.0) / 5000.0;
-        typeMult = 1 + ultBoost;
       }
 
       // 스킬위력%와 콤보피해%를 단리(합산) 구조로 밸런싱
