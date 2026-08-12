@@ -73,7 +73,7 @@ export function parseRuneMarkdown(mdText) {
 
 function finalizeRune(rune) {
   // 수집된 cleaned_text 기반으로 스탯 파싱 진행
-  const combinedText = rune.cleaned_text.join(' ');
+  const combinedText = rune.cleaned_text.join('\n');
   rune.stats = parseStatsFromText(combinedText);
   
   // 무기, 방어구, 장신구 룬의 마도저항 기본값은 300 (엠블럼 룬은 0)
@@ -130,7 +130,7 @@ function parseStatsFromText(text) {
   if (!text) return stats;
 
   // 문장별로 분할하여 개별 파싱 진행 (밤의 축복 활성화 조건부 필터 처리)
-  const sentences = text.split(/[\.\n]/).map(s => s.trim()).filter(Boolean);
+  const sentences = text.split(/\r?\n|(?<!\d)\.(?!\d)/).map(s => s.trim()).filter(Boolean);
 
   sentences.forEach(sentence => {
     const isNightBlessing = sentence.includes("밤의 축복") || sentence.includes("밤의축복");

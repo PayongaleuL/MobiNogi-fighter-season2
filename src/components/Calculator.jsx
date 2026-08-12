@@ -12,6 +12,30 @@ import skillMdText from '../../results/260710_패시브_액티브_스킬목록.m
 import parseSkillMarkdown from '../utils/skillMdParser';
 import { calculateGemStats } from '../utils/gemCalculator';
 
+const createDefaultSeals = () => ({
+  weapon: { type: 'none', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 40 },
+  necklace: { type: 'none', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 40 },
+  ring1: { type: 'none', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 40 },
+  ring2: { type: 'none', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 40 },
+  emblem: { type: 'none', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 40 },
+  hat: { type: 'none', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 40 },
+  top: { type: 'none', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 40 },
+  bottom: { type: 'none', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 40 },
+  gloves: { type: 'none', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 40 },
+  shoes: { type: 'none', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 40 }
+});
+
+const createDefaultGimmicks = () => ({
+  boss: '함선 허수아비',
+  ordinaryTime: 87,
+  unarmedTime: 0,
+  ultimateTime: 33,
+  gimmickDmgPct: 0.0,
+  healerDmgPct: 0.0,
+  skillDebuffDmgPct: 10.0,
+  hasSpdBuff: false
+});
+
 export default function Calculator() {
   // 1. 활성화 탭 관리 ('calculator' | 'gemstone' | 'runeAudit' | 'seals')
   const [activeTab, setActiveTab] = useState('calculator');
@@ -97,18 +121,7 @@ export default function Calculator() {
         console.error(e);
       }
     }
-    return {
-      weapon: { type: 'none', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 40 },
-      necklace: { type: 'none', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 40 },
-      ring1: { type: 'none', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 40 },
-      ring2: { type: 'none', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 40 },
-      emblem: { type: 'none', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 40 },
-      hat: { type: 'none', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 40 },
-      top: { type: 'none', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 40 },
-      bottom: { type: 'none', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 40 },
-      gloves: { type: 'none', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 40 },
-      shoes: { type: 'none', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 40 }
-    };
+    return createDefaultSeals();
   });
 
   useEffect(() => {
@@ -141,16 +154,7 @@ export default function Calculator() {
   );
 
   // 5. 전투 및 보스 기믹 상태 (기본 함선 허수아비 셋팅)
-  const [gimmicks, setGimmicks] = useState({
-    boss: '함선 허수아비',
-    ordinaryTime: 87,
-    unarmedTime: 0,
-    ultimateTime: 33,
-    gimmickDmgPct: 0.0,
-    healerDmgPct: 0.0,
-    skillDebuffDmgPct: 10.0,
-    hasSpdBuff: false
-  });
+  const [gimmicks, setGimmicks] = useState(createDefaultGimmicks);
 
   // 6. 상황별 딜사이클 상태 (기본 딜사이클 셋팅)
   const [cycles, setCycles] = useState({
@@ -443,6 +447,8 @@ export default function Calculator() {
         skill_4: '순정',
         skill_5: '순정'
       });
+      setGimmicks(createDefaultGimmicks());
+      setSeals(createDefaultSeals());
       setConditionalUptimes({});
     }
   };
@@ -478,6 +484,8 @@ export default function Calculator() {
         conditionalUptimes,
         gems,
         skillStances,
+        gimmicks,
+        seals,
         weightedDps: dpsResult?.weightedDps || 0
       }
     };
@@ -529,6 +537,8 @@ export default function Calculator() {
         skill_4: '순정',
         skill_5: '순정'
       });
+      setGimmicks(preset.data.gimmicks || createDefaultGimmicks());
+      setSeals(preset.data.seals || createDefaultSeals());
     }
   };
 
