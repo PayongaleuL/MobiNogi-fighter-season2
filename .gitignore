@@ -25,3 +25,16 @@ dist-ssr
 
 # Test coverage artifacts
 coverage/
+
+# Local environment files and private keys
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+
+# Browser E2E screenshots are CI/local artifacts, not source records
+results/e2e/*.png
