@@ -43,3 +43,19 @@ describe('calculateSealStats coverage regression suite', () => {
     expect(stats.sealEmblemAtkPct).toBe(emblemPct);
   });
 });
+
+
+  it('uses an external per-slot attack override without double-counting the seal tier bonus', () => {
+    const stats = calculateSealStats({
+      weapon: { type: 'red_moon', baseAtkOverride: 800, redMoonStatValue: 60 },
+      necklace: { type: 'red_moon', baseAtkOverride: 400, redMoonStatValue: 45 },
+      ring1: { type: 'red_moon', baseAtkOverride: 400, redMoonStatValue: 45 },
+      emblem: { type: 'red_moon', redMoonStatValue: 50 }
+    });
+
+    expect(stats.sealBaseAtk).toBe(1600);
+    expect(stats.sealEmblemAtkPct).toBe(0.12);
+    expect(stats.sealStr).toBe(200);
+    expect(stats.sealWil).toBe(200);
+    expect(stats.sealLuk).toBe(200);
+  });

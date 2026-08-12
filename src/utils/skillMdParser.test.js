@@ -81,7 +81,7 @@ describe('skillMdParser 테스트', () => {
     expect(result.skills['somersault']['강격']).toEqual({
       baseDamage: 183322,
       refLevel: 28,
-      baseCast: 1.0,
+      baseCast: 2.0,
       cooldown: 13.5
     });
   });

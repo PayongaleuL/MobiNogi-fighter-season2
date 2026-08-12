@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import '@testing-library/jest-dom/vitest';
-import { cleanup, render, screen } from '@testing-library/react';
+import { cleanup, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import Calculator from './Calculator';
@@ -17,6 +17,17 @@ describe('Calculator preset state integrity', () => {
   afterEach(() => {
     cleanup();
     vi.restoreAllMocks();
+  });
+
+  it('provides the latest ship-dummy specification examples when no user preset exists', async () => {
+    const user = userEvent.setup();
+    render(<Calculator />);
+
+    const referencePreset = await screen.findByText('예시 1 · 함선허수 약승열 풀오토 (991.7만)');
+    await user.click(referencePreset);
+
+    await waitFor(() => expect(screen.getAllByDisplayValue('60607')).toHaveLength(2));
+    expect(JSON.parse(localStorage.getItem('mabi_calculator_seals')).weapon).toMatchObject({ type: 'red_moon', baseAtkOverride: 800 });
   });
 
   it('saves and restores the boss gimmick and seals with a preset', async () => {

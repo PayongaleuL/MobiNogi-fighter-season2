@@ -86,6 +86,9 @@ export default function StatsInput({ stats, onStatsChange }) {
           <User className="w-5 h-5 text-orange-500" />
           캐릭터 기본 능력치 (마을 기준)
         </h3>
+        <p className="mb-4 rounded-xl border border-orange-500/25 bg-orange-500/5 px-3 py-2 text-[11px] font-semibold leading-relaxed text-theme-sub">
+          마을에서 음식·일시 버프 없이 확인한 상태창 수치를 그대로 입력합니다. 전설 패션 세트·동행 펫·인장·장착 룬의 고정 능력치는 상태창에 포함되므로 별도 합산하지 않습니다. 적용 공격력은 기존 종합 계산기와 동일하게 <strong>마을 공격력 × (1 + 선택 룬의 상시 공격력 증가율 + 인챈트 공격력 증가율)</strong>로 계산합니다.
+        </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {statFields.map(f => (
             <div key={f.key} className="bg-theme-subcard p-3.5 rounded-xl border border-theme flex flex-col gap-2 theme-transition card-lift-glow">

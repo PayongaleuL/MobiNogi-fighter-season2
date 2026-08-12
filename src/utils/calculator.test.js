@@ -182,15 +182,16 @@ describe('6스킬 및 보석 세공 연계 격투가 계산기 연산 검증', (
     // 1. 시즌2 기능 비활성화
     const resNormal = calculateDPS(baseStats, selectedRunes, gimmicks, cycles, {}, {});
 
-    // 2. 밤의 흔적 패시브 적용 (+71 스탯 가산)
+    // 2. 마을 상태창 공격력은 이미 완성값이므로 밤의 흔적으로 재가산하지 않는다.
     const statsWithPassive = { ...baseStats, useNightTrace: true };
     const resPassive = calculateDPS(statsWithPassive, selectedRunes, gimmicks, cycles, {}, {});
-    expect(resPassive.totalAtk).toBeGreaterThan(resNormal.totalAtk);
+    expect(resPassive.totalAtk).toBe(resNormal.totalAtk);
+    expect(resPassive.critProb).toBeGreaterThan(resNormal.critProb);
 
-    // 3. 밤의 축복 활성화 (공격력 15% 버프 * 25% 가동률)
+    // 3. 밤의 축복은 전투 버프 가동률이며 마을 적용 공격력을 재가산하지 않는다.
     const statsWithBlessing = { ...baseStats, nightBlessingUptime: 25 };
     const resBlessing = calculateDPS(statsWithBlessing, selectedRunes, gimmicks, cycles, {}, {});
-    expect(resBlessing.totalAtk).toBeGreaterThan(resNormal.totalAtk);
+    expect(resBlessing.totalAtk).toBe(resNormal.totalAtk);
 
     // 4. 데들리 임팩트 활성화 (3번 스텝 추가 피해)
     const statsWithDeadly = { ...baseStats, useDeadlyImpact: true };
@@ -203,7 +204,7 @@ describe('6스킬 및 보석 세공 연계 격투가 계산기 연산 검증', (
     expect(resCombo.weightedDps).toBeGreaterThan(resNormal.weightedDps);
   });
 
-  it('시즌2 달의 인장 (무기공격력, 붉은달 스탯 가산 등) 적용 연산 검증', () => {
+  it('시즌2 달의 인장은 상태창 완성값에 포함되므로 적용 공격력에 중복 가산하지 않는다', () => {
     const baseStats = {
       baseAttack: 27166.0,
       critScore: 6925.0,
@@ -253,15 +254,18 @@ describe('6스킬 및 보석 세공 연계 격투가 계산기 연산 검증', (
       weapon: { type: 'red_moon', redMoonStatValue: 40 }
     };
     const resWeaponRed = calculateDPS(baseStats, selectedRunes, gimmicks, cycles, {}, {}, {}, sealsWeaponRed);
-    // 무기 자체 공격력 +800과 붉은달 스탯 40(Str/Wil 각 +40 = 합 +80 * 1.5 = +120 공격력) 가산 확인
-    expect(resWeaponRed.totalAtk).toBeGreaterThan(resNormal.totalAtk);
+    // 무기 공격력과 붉은달 능력치는 마을 상태창에 이미 포함되어야 한다.
+    expect(resWeaponRed.totalAtk).toBe(resNormal.totalAtk);
+    expect(resWeaponRed.attackBreakdown.sealBaseAtk).toBe(800);
+    expect(resWeaponRed.attackBreakdown.sealAtkFromStats).toBe(120);
 
     // 3. 엠블럼에 푸른 달의 인장 장착 (추가공격력% 7% -> 11% 상승)
     const sealsEmblemBlue = {
       emblem: { type: 'blue_moon', blueStat1Type: 'str', blueStat1Value: 30, blueStat2Type: 'wil', blueStat2Value: 30 }
     };
     const resEmblemBlue = calculateDPS(baseStats, selectedRunes, gimmicks, cycles, {}, {}, {}, sealsEmblemBlue);
-    expect(resEmblemBlue.totalAtk).toBeGreaterThan(resNormal.totalAtk);
+    expect(resEmblemBlue.totalAtk).toBe(resNormal.totalAtk);
+    expect(resEmblemBlue.attackBreakdown.sealEmblemAtkPct).toBeCloseTo(0.11, 10);
   });
 
   it('동적 스킬 파서 데이터(parsedSkills) 직접 주입 검증', () => {

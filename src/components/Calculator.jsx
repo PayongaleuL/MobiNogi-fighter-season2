@@ -11,6 +11,7 @@ import mdText from '../../results/260708_룬설명목록.md?raw';
 import skillMdText from '../../results/260710_패시브_액티브_스킬목록.md?raw';
 import parseSkillMarkdown from '../utils/skillMdParser';
 import { calculateGemStats } from '../utils/gemCalculator';
+import { createLatestReferencePresets } from '../data/latestReferencePresets';
 
 const createDefaultSeals = () => ({
   weapon: { type: 'none', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 40 },
@@ -64,9 +65,17 @@ export default function Calculator() {
         const getCore = (name) => name ? name.replace(/\+/g, '').replace(/\s+/g, '').trim() : '';
         return parsed.map(p => {
           const original = runesData.find(o => getCore(o.name) === getCore(p.name)) || {};
+          const mergedStats = { ...(original.stats || {}) };
+          const parserFallbackStatKeys = new Set(['공격력%', '공격력', '방어력', '모든스킬강화', '임의스킬강화', '가동률']);
+          Object.entries(p.stats || {}).forEach(([key, value]) => {
+            if (!parserFallbackStatKeys.has(key) || value !== 0 || mergedStats[key] === undefined) {
+              mergedStats[key] = value;
+            }
+          });
           return {
             ...original,
-            ...p
+            ...p,
+            stats: mergedStats
           };
         });
       }
@@ -196,11 +205,7 @@ export default function Calculator() {
         console.error("Failed to parse presets_v4:", e);
       }
     }
-    return [
-      { name: '셋팅 1', data: null },
-      { name: '셋팅 2', data: null },
-      { name: '셋팅 3', data: null }
-    ];
+    return createLatestReferencePresets();
   });
 
   // gems로부터 gemStats 및 특수보석 능력치 계산
@@ -305,6 +310,7 @@ export default function Calculator() {
         if (parsed.cycles) setCycles(parsed.cycles);
         if (parsed.conditionalUptimes) setConditionalUptimes(parsed.conditionalUptimes);
         if (parsed.gimmicks) setGimmicks(parsed.gimmicks);
+        if (parsed.seals) setSeals(parsed.seals);
         if (parsed.skillStances) setSkillStances(parsed.skillStances);
         if (parsed.gems) {
           const migGems = parsed.gems.map(g => {
@@ -336,10 +342,11 @@ export default function Calculator() {
       conditionalUptimes,
       gimmicks,
       skillStances,
-      gems
+      gems,
+      seals
     };
     localStorage.setItem('mabi_calculator_autosave_v5', JSON.stringify(dataToSave));
-  }, [isLoaded, stats, selectedRunes, transcendLevels, cycles, conditionalUptimes, gimmicks, skillStances, gems]);
+  }, [isLoaded, stats, selectedRunes, transcendLevels, cycles, conditionalUptimes, gimmicks, skillStances, gems, seals]);
 
   const handleStatsChange = (key, val) => {
     setStats(prev => ({ ...prev, [key]: val }));

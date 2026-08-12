@@ -67,8 +67,8 @@ const fallbackParsedSkills = {
       "열혈": { baseDamage: 83999, refLevel: 28, baseCast: 1.0 }
     },
     "somersault": {
-      "강격": { baseDamage: 183322, refLevel: 28, baseCast: 1.0, cooldown: 13.5 },
-      "순정": { baseDamage: 183322, refLevel: 28, baseCast: 1.0, cooldown: 13.5 }
+      "강격": { baseDamage: 183322, refLevel: 28, baseCast: 2.0, cooldown: 13.5 },
+      "순정": { baseDamage: 183322, refLevel: 28, baseCast: 2.0, cooldown: 13.5 }
     },
     "6": {
       "순정": { baseDamage: 0, refLevel: 28, baseCast: 3.0 }
@@ -168,19 +168,23 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
       if (val === undefined || val === 0) return;
 
       const isMetaKey = ['가동률', '모든스킬강화', '임의스킬강화', '마도저항'].includes(key);
-      const finalVal = isMetaKey ? val : val * scale;
+      // 공격력 증가율은 장비 툴팁의 상시 수치이며, 초월/조건부 가동률로 다시
+      // 변형하지 않는다. 조건부 공격력 증가는 별도 `조건부공증%` 키로 모델링한다.
+      const isBaseAttackPct = key === '공격력%';
+      const finalVal = (isMetaKey || isBaseAttackPct) ? val : val * scale;
+      const effectiveUptime = isBaseAttackPct ? 1.0 : uptime;
 
       if (key.startsWith("밤축_")) {
         const targetKey = key.replace("밤축_", "");
         const nbUptime = (characterStats.nightBlessingUptime || 0) / 100.0;
         if (runeStats[targetKey] !== undefined) {
-          runeStats[targetKey] += finalVal * uptime * nbUptime;
+          runeStats[targetKey] += finalVal * effectiveUptime * nbUptime;
         }
       } else {
         if (name === '거대한 분노' && key === '스킬피해%') {
-          runeStats[key] += 0.12 * uptime;
+          runeStats[key] += 0.12 * effectiveUptime;
         } else if (runeStats[key] !== undefined) {
-          runeStats[key] += finalVal * uptime;
+          runeStats[key] += finalVal * effectiveUptime;
         }
       }
     });
@@ -193,23 +197,26 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
   const {
     sealBaseAtk,
     sealEmblemAtkPct,
-    sealAtkFromStats,
-    sealCritFromStats
+    sealAtkFromStats
   } = calculateSealStats(seals);
 
-  const baseAtk = (characterStats.baseAttack || 27166.0) + nightTraceAtk + sealBaseAtk + sealAtkFromStats;
+  // 입력한 마을 공격력은 장비·인장·패션·펫·고정 능력치가 모두 반영된
+  // 상태창 완성값이다. 따라서 해당 항목을 여기에서 다시 더하지 않는다.
+  const baseAtk = characterStats.baseAttack || 27166.0;
   // 특수 보석(헬리오도르, 그린 헬리오도르)으로 인한 모든능력치 공격력 환산 (1당 1.5 공격력 가산)
   const extraGemAtk = (characterStats.extraAllStat || 0) * 1.5;
   const emblemAtkPct = sealEmblemAtkPct; 
-  const fastAtkScore = characterStats.fastAtk || 1484.0;
   const fastSkillScore = characterStats.fastSkill || 1488.0;
   const ultScore = characterStats.ultScore ?? 1792.0;
 
-  // 시즌2 격투가 시즌스킬: 밤의 축복 (15% 공격력 증가 버프 * 가동률 반영)
+  // 시즌1 종합 계산기 계약: 적용 공격력 = 마을 공격력 ×
+  // (1 + 선택 룬의 상시 공격력 증가율 합계 + 인챈트 공격력 증가율).
+  // 전설 패션·펫·인장·룬 고정 공격력·특수 보석·전투 버프는 상태창 입력값에
+  // 이미 포함되므로 이 단계에서 중복 가산하지 않는다.
   const nightBlessingBoost = ((characterStats.nightBlessingUptime || 0) / 100.0) * 0.15;
-  const totalAtkPct = runeStats["공격력%"] + runeStats["조건부공증%"] + (characterStats.enchantAtkPct || 6.8) / 100.0 + emblemAtkPct + nightBlessingBoost;
-  // 룬의 깡 공격력 추가 가산
-  const attack = (baseAtk + extraGemAtk + runeStats["공격력"]) * (1 + totalAtkPct);
+  const enchantAtkPct = (characterStats.enchantAtkPct || 6.8) / 100.0;
+  const totalAtkPct = runeStats["공격력%"] + enchantAtkPct;
+  const attack = baseAtk * (1 + totalAtkPct);
 
   // 방어도 계수
   const boss = activeGimmicks.boss || "함선 허수아비";
@@ -248,7 +255,8 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
 
   // 치명타 (시즌2 격투가 패시브: 밤의 흔적 활성 시 행운 +71 및 달의 인장 스탯 보정 추가)
   const nightTraceCrit = characterStats.useNightTrace ? 71.0 : 0.0;
-  const effectiveCritScore = (characterStats.critScore || 6925.0) + nightTraceCrit + (sealCritFromStats || 0.0);
+  // 인장 능력치의 행운 환산치는 마을 상태창 치명타에 포함되므로 중복 가산하지 않는다.
+  const effectiveCritScore = (characterStats.critScore || 6925.0) + nightTraceCrit;
   const baseCritProb = 0.5 * (effectiveCritScore / (effectiveCritScore + 2000)) + (boss === "허수아비" ? 0.3 : 0.0) + (characterStats.critBonusPct || 0);
   const totalCritProb = baseCritProb + runeStats["치명타확률%"]; // 100% 초과 상태 그대로 보존 (보스 저항 차감 대응)
   
@@ -341,7 +349,7 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
       // 섬머솔트 단일 콤보 치환 정보 (강격/열혈)
       "somersault": {
         baseCoeff: 1.53,
-        baseCast: 1.0
+        baseCast: 2.0
       },
 
       // 6번 스킬 (궁극기)
@@ -355,54 +363,49 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
     let totalHits = 0;        // 딜사이클 당 누적 적중 타수
     let s3Count = 0;          // 딜사이클 내 백 스텝 시전 수
 
-    // 딜사이클 문자열 쪼개기 매핑 (한글 스탠스명 및 특수기호 혼용 지원 보정)
+    // 딜사이클 문자열 파싱: 레거시 숫자(1~6), 한글 약어와 명시형 1-1/1-2/2-1/2-2를 함께 지원한다.
+    // 괄호는 사람을 위한 설명(예: 5 (444), 반복)으로 간주해 계산에서 제외한다.
     const listSkills = [];
-    let parsedCycle = cycle.replace(/\s+/g, '');
-    
+    let parsedCycle = cycle.replace(/\([^)]*\)/g, '').replace(/\s+/g, '');
+
     if (/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/.test(parsedCycle)) {
       const tokens = parsedCycle.match(/(도약|승천|강격|격파|약점|충돌|전진|순발력|열혈|섬머솔트|소닉|비룡|연환|차징|궁극)/g) || [];
       if (tokens.length > 0) {
-        let tempCycleStr = "";
-        tokens.forEach(tok => {
-          if (tok === '약점' || tok === '충돌' || tok === '차징') tempCycleStr += "1";
-          else if (tok === '도약' || tok === '전진' || tok === '연환') tempCycleStr += "2";
-          else if (tok === '순발력') tempCycleStr += "3";
-          else if (tok === '승천' || tok === '격파' || tok === '소닉') tempCycleStr += "4";
-          else if (tok === '강격' || tok === '열혈' || tok === '섬머솔트' || tok === '비룡') tempCycleStr += "5";
-          else if (tok === '궁극') tempCycleStr += "6";
-        });
-        parsedCycle = tempCycleStr;
+        parsedCycle = tokens.map((token) => {
+          if (token === '약점' || token === '충돌' || token === '차징') return '1';
+          if (token === '도약' || token === '전진' || token === '연환') return '2';
+          if (token === '순발력') return '3';
+          if (token === '승천' || token === '격파' || token === '소닉') return '4';
+          if (token === '강격' || token === '열혈' || token === '섬머솔트' || token === '비룡') return '5';
+          return token === '궁극' ? '6' : '';
+        }).join('');
       }
     } else {
-      parsedCycle = parsedCycle.replace(/[^1-6]/g, '');
+      parsedCycle = parsedCycle
+        .replace(/1-1/g, 'A')
+        .replace(/1-2/g, 'B')
+        .replace(/2-1/g, 'C')
+        .replace(/2-2/g, 'D')
+        .replace(/[^1-6ABCD]/g, '');
     }
 
-    for (let char of parsedCycle) {
-      if (char === '1') {
-        listSkills.push("1-1", "1-2");
-      } else if (char === '2') {
-        if (matchStance(s2Stance, '도약') || matchStance(s2Stance, '전진')) {
-          listSkills.push("2-1"); // 단일 격투 콤보형
-        } else {
-          listSkills.push("2-1", "2-2");
-        }
-      } else if (char === '3') {
-        listSkills.push("3");
-      } else if (char === '4') {
-        if (matchStance(s4Stance, '소닉') || matchStance(s4Stance, '승천')) {
-          listSkills.push("sonic");
-        } else {
-          listSkills.push("4-1", "4-2", "4-3");
-        }
-      } else if (char === '5') {
-        if (matchStance(s5Stance, '섬머') || matchStance(s5Stance, '강격')) {
-          listSkills.push("somersault");
-        } else {
-          listSkills.push("5-1", "5-2", "5-3");
-        }
-      } else if (char === '6') {
-        listSkills.push("6");
-      }
+    for (const token of parsedCycle) {
+      if (token === 'A') listSkills.push('1-1');
+      else if (token === 'B') listSkills.push('1-2');
+      else if (token === 'C') listSkills.push('2-1');
+      else if (token === 'D') listSkills.push('2-2');
+      else if (token === '1') listSkills.push('1-1', '1-2');
+      else if (token === '2') {
+        if (matchStance(s2Stance, '도약') || matchStance(s2Stance, '전진')) listSkills.push('2-1');
+        else listSkills.push('2-1', '2-2');
+      } else if (token === '3') listSkills.push('3');
+      else if (token === '4') {
+        if (matchStance(s4Stance, '소닉') || matchStance(s4Stance, '승천')) listSkills.push('sonic');
+        else listSkills.push('4-1', '4-2', '4-3');
+      } else if (token === '5') {
+        if (matchStance(s5Stance, '섬머') || matchStance(s5Stance, '강격')) listSkills.push('somersault');
+        else listSkills.push('5-1', '5-2', '5-3');
+      } else if (token === '6') listSkills.push('6');
     }
 
     // 보스 치명타 저항 추출 및 최종 치명타 적중 판정률 계산
@@ -564,7 +567,7 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
     const totalTranscendLevel = selectedRunes.reduce((acc, r) => acc + (r && r.transcendLevel ? r.transcendLevel : 0), 0);
     const transcendCoeff = 1.015 ** totalTranscendLevel;
 
-    const totalDps = (skillDps + directDps + dotDps) * transcendCoeff;
+    const totalDps = (skillDps + directDps + dotDps) * transcendCoeff * (1 + runeStats["최종피해%"]);
 
     const scaleFactor = 1.0;
     results[state] = {
@@ -609,6 +612,21 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
     critProb: parseFloat((totalCritProb * 100).toFixed(1)),
     critDmg: parseFloat((totalCritDmg * 100).toFixed(1)),
     totalResist: Math.round(runeStats["마도저항"]),
-    runeAtkAdd: Math.round(runeStats["공격력"])
+    runeAtkAdd: Math.round(runeStats["공격력"]),
+    attackBreakdown: {
+      villageAttack: characterStats.baseAttack || 27166.0,
+      nightTraceAtk,
+      sealBaseAtk,
+      sealAtkFromStats,
+      gemAtk: extraGemAtk,
+      runeFlatAtk: runeStats["공격력"],
+      runeAtkPct: runeStats["공격력%"],
+      conditionalAtkPct: runeStats["조건부공증%"],
+      enchantAtkPct,
+      sealEmblemAtkPct: emblemAtkPct,
+      nightBlessingAtkPct: nightBlessingBoost,
+      totalAtkPct,
+      attack
+    }
   };
 }

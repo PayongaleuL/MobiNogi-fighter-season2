@@ -37,6 +37,17 @@ describe('parseSkillMarkdown coverage regression suite', () => {
     expect(parsed.skills.somersault.강격).toEqual({ baseDamage: 500, refLevel: 30, baseCast: 2.5 });
   });
 
+  it('uses a two-second cast time for compressed somersault when no cast time is supplied', () => {
+    const parsed = parseSkillMarkdown(`
+# 액티브 스킬
+# 5스킬 - 섬머솔트 [강격] +28
+- 대미지 183322
+- 재사용 대기 시간 : 13.5초
+`);
+
+    expect(parsed.skills.somersault.강격).toEqual({ baseDamage: 183322, refLevel: 28, baseCast: 2, cooldown: 13.5 });
+  });
+
   it('keeps the highest-level definition of a duplicated stance', () => {
     const parsed = parseSkillMarkdown(`
 # 액티브 스킬
