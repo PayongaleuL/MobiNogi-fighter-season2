@@ -1,38 +1,70 @@
-name: Deploy to GitHub Pages
+﻿name: Verify and Deploy GitHub Pages
 
 on:
+  pull_request:
+    branches: [ main, master ]
   push:
     branches: [ main, master ]
 
+# Default permissions are read-only; Pages write permissions exist only in deploy.
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  verify:
+    name: verify
     runs-on: ubuntu-latest
     steps:
+      # actions/checkout@v4
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      # actions/setup-node@v4
       - name: Set up Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           node-version: 20
           cache: npm
-      - name: Install dependencies
-        run: npm ci
-      - name: Quality gate
-        run: npm run verify
+      - name: Install dependencies without lifecycle scripts
+        run: npm ci --ignore-scripts
+      - name: 품질 관문 (린트·커버리지·빌드)
+        run: npm run lint && npm run test:coverage && npm run build
+      - name: 브라우저 E2E용 Chromium 설치
+        run: npx playwright install --with-deps chromium
+      - name: 브라우저 E2E 관문
+        run: npm run test:e2e
+
+  deploy:
+    name: deploy
+    if: github.event_name == 'push'
+    needs: verify
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      # actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      # actions/setup-node@v4
+      - name: Set up Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 20
+          cache: npm
+      - name: Install dependencies without lifecycle scripts
+        run: npm ci --ignore-scripts
       - name: Build artifact
         run: npm run build
+      # actions/upload-pages-artifact@v3
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa
         with:
           path: ./dist
+      # actions/deploy-pages@v4
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e
