@@ -62,13 +62,31 @@ export default function ConditionalPanel({ selectedRunes, conditionalUptimes, on
     if (!slotList) return;
     slotList.forEach((rune) => {
       if (!rune) return;
+      const conditionalEffects = Array.isArray(rune.conditionalEffects)
+        ? rune.conditionalEffects.filter((effect) => effect?.id && effect?.label)
+        : [];
+
+      if (conditionalEffects.length > 0) {
+        conditionalEffects.forEach((effect) => {
+          activeConditionalRunes.push({
+            name: `${rune.name} · ${effect.label}`,
+            uptimeKey: `${rune.name}:${effect.id}`,
+            legacyUptimeKey: rune.name,
+            desc: effect.source || `${effect.label} 조건부 효과`,
+            defaultUptime: Math.round((effect.defaultUptime ?? rune.stats?.가동률 ?? 1) * 100)
+          });
+        });
+        return;
+      }
+
       const config = CONDITIONAL_RUNES.find((candidate) => candidate.name === rune.name);
       if (config) {
-        activeConditionalRunes.push({ ...rune, ...config });
+        activeConditionalRunes.push({ ...rune, ...config, uptimeKey: rune.name });
       } else if (rune.stats && rune.stats.가동률 !== undefined && rune.stats.가동률 < 1.0) {
         activeConditionalRunes.push({
           ...rune,
           name: rune.name,
+          uptimeKey: rune.name,
           desc: `실전 가동률 기댓값 반영 대상 룬 (기본 가동률: ${Math.round(rune.stats.가동률 * 100)}%)`,
           defaultUptime: Math.round(rune.stats.가동률 * 100)
         });
@@ -86,16 +104,18 @@ export default function ConditionalPanel({ selectedRunes, conditionalUptimes, on
       ) : (
         <div className="flex flex-col gap-3">
           {activeConditionalRunes.map((rune) => {
-            const currentValue = conditionalUptimes[rune.name] !== undefined
-              ? conditionalUptimes[rune.name]
-              : rune.defaultUptime;
+            const currentValue = conditionalUptimes[rune.uptimeKey] !== undefined
+              ? conditionalUptimes[rune.uptimeKey]
+              : (rune.legacyUptimeKey && conditionalUptimes[rune.legacyUptimeKey] !== undefined
+                ? conditionalUptimes[rune.legacyUptimeKey]
+                : rune.defaultUptime);
             return (
               <UptimeCard
-                key={rune.name}
+                key={rune.uptimeKey}
                 name={rune.name}
                 description={rune.desc}
                 value={currentValue}
-                onChange={(value) => onUptimeChange(rune.name, value)}
+                onChange={(value) => onUptimeChange(rune.uptimeKey, value)}
               />
             );
           })}
