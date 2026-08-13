@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import runesData from '../data/runes.json';
+import { normalizeRuneText } from '../utils/runeTextNormalizer';
 import { Search, Shield, ShieldAlert, Award, Star, ChevronDown } from 'lucide-react';
 
 export default function RuneSelector({ _uiTheme, selectedRunes, onRuneChange, transcendLevels, onTranscendChange }) {
@@ -55,136 +56,8 @@ export default function RuneSelector({ _uiTheme, selectedRunes, onRuneChange, tr
   };
 
   // 룬 설명에서 일괄 제거할 노이즈 단어 설정 테이블
-  const NOISE_WORDS = [
-    // 1글자 낱자 (인접 문자와 결합되지 않는 경우만 지워야 하므로 루프에서 분기 처리)
-    '용', '다', '쥐', '벼', '능', '어둠', '빛', '없음', '분노', '명약', '태초',
-    
-    // 메타데이터 단어 및 오타 변형
-    '거래 불가', '거래불가',
-    '판매 가능', '판매가능', '판매 기능', '판매기능', '판매',
-    '기억 가능', '기억가능',
-    '각인 시즌보존', '각인 시류보존', '각인 시료보존', 
-    '각인시류보존', '각인시료보존', '각인시즌보존',
-    '방어구에 각인', '장신구에 각인', '무기에 각인', '엠블럼에 각인', '엘불럽에 각인',
-    '전설 무기 전용 룬', '전설 장신구 전용 룬', '전설 방어구 전용 룬', '전설 업늘럼 전용 룬', '전설 엠블럼 전용 룬',
-    '전설 무기 전용문', '전설 장신구 전용률', '전설 방어구 전용률', '전설 방어구 전용문', '전설 업늘럼 전용문', '전설 업늘럼 전용률',
-    '전설 장신구 전용류', '전설 무기 전용류', '전설 방어구 전용류', '전설 전용류', '전용류',
-    '유일',
-    
-    // 룬 접두/접미 정보
-    '무기 룬', '방어구 룬', '장신구 룬', '엠블럼 룬', '임불럼 룬', '업늘럼 룬',
-    '무기 료', '방어구 문', '장신구 문', '임불럼 문', '엠블럼 문', '업늘럼 문',
-    '무기 룬:', '방어구 룬:', '장신구 룬:', '엠블럼 룬:', '임불럼 룬:', '엠블럼 룬:', '업늘럼 룬:',
-    '무기 료:', '방어구 문:', '장신구 문:', '임불럼 문:', '엠블럼 문:', '업늘럼 문:',
-    
-    // 오 OCR 잔여물
-    '하위 능력치', '하위 능력지', '하위 능력차', '하위 능력', '하위 능력치$', '하위 능력치<', '하위 능력지$', '하위 능력지<'
-  ];
+  const getCoreRuneTexts = normalizeRuneText;
 
-  // OCR 판독 오타 한글 맞춤법/어절 표준화 교정 사전
-
-  // 거래불가/각인부위/저주확률 등의 메타 데이터 및 초월/동작 안내 가이드를 지우고 핵심 스펙 텍스트만 추출
-  const getCoreRuneTexts = (cleanedText, runeName = '') => {
-    if (!cleanedText) return [];
-
-    // 1단계: 룬 이름 및 룬 고유 분류 헤더가 포함된 줄 조기 필터 제거 (문두 찌꺼기 원천 봉쇄)
-    const filteredLines = cleanedText.filter(line => {
-      if (!line) return false;
-      const cleanLine = line.trim();
-      // 룬 이름 자체를 포함하는 헤더 라인 제거
-      if (runeName && cleanLine.includes(runeName)) return false;
-      // 룬 분류 전용 표기 라인 제거
-      if (cleanLine.includes('전용 룬') || cleanLine.includes('전용문') || cleanLine.includes('전용률') || cleanLine.includes('전용류')) return false;
-      return true;
-    });
-
-    // 2단계: 전체 줄을 공백으로 합침 (줄바꿈 끊김 방지)
-    let text = filteredLines.join(' ');
-
-    // 소수점이 줄바꿈이나 기호(•, ·, º) 등에 의해 '1. • 5%' 처럼 찢겨 있는 현상 선제적 결합
-    text = text.replace(/(\d+)\.\s*[•·º·]?\s*(\d+)/g, '$1.$2');
-
-    // 유니코드 기반 한글, 영문, 숫자, 공백 및 기본 문장 부호(.,%()~) 외의 모든 OCR 노이즈 특수문자 원천 세척
-    text = text.replace(/[^ㄱ-ㅎㅏ-ㅣ가-힣0-9a-zA-Z\s.,%()~]/g, '');
-
-    // 공백 정규화
-    text = text.replace(/\s+/g, ' ');
-
-    // 3단계: 사전 정의된 블랙리스트(NOISE_WORDS) 단어를 순회하며 일괄/구조적 제거
-    NOISE_WORDS.forEach(word => {
-      if (word.length === 1) {
-        // 낱글자는 단어의 일부로 쓰인 정상 단어(예: '용의 문장')를 보존하기 위해 단어 경계 및 공백 기준으로 매칭
-        const regexSingle = new RegExp(`\\b${word}\\b|\\s+${word}\\s+|\\s+${word}$|^${word}\\s+`, 'g');
-        text = text.replace(regexSingle, ' ');
-      } else {
-        // 2글자 이상은 본문 내 발견 즉시 전역 완전 소거
-        const escaped = word.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
-        const regexWord = new RegExp(escaped, 'g');
-        text = text.replace(regexWord, '');
-      }
-    });
-
-    // 4단계: 특정 문맥 문장 통째 소거 정규식 적용 (초월/스킬 변화)
-    const contextPatterns = [
-      // 깡스탯 데이터 숫자 결합형 소거 (공격력/피해 등의 일반 한글 단어 보존)
-      /(마도\s*저항\s*\d+|마도\s*저향\s*\d+|추가\s*체력\s*\d+|방어력\s*\d+|공격력\s*\d+)/g,
-      // 저주 확률 소거
-      /(저주 확률|저주 확출)\s*\d+%\.?/g,
-      
-      // 장신구 룬 스킬 변화 문장 통째 소거
-      /[^. ]*(스킬에 변화를|스킬을 변화한|변화를 줌)[^.]*\.?/g,
-      
-      // 초월 각인 조건부 피해 증가 문장 소거
-      /(초월 각인 시|초월 각인 시;|초월 각인 시,|초월 각인 단계당)[^.]+단계마다[^.]+증가(하다|한다)\.?/g,
-      /(초월 각인 시|초월 각인 시;|초월 각인 시,|초월 각인 단계당)[^.]+최종[^.]+증가(하다|한다)\.?/g,
-      
-      // 스킬 레벨 강화 효과 가이드 소거
-      /전설 희귀도 효과 부여\.?/g,
-      /모든 스킬 \d+강화\.?/g,
-      /임의 \d+개 스킬 \d+강화\.?/g
-    ];
-
-    contextPatterns.forEach(pat => {
-      text = text.replace(pat, '');
-    });
-
-    // 4단계: 마침표(.)를 기준으로 끊어 온전한 통문장 리스트 반환
-    const sentences = text
-      .split(/(?<=[가-힣a-zA-Z%])\.(?=\s|$)/g)
-      .map(s => s.trim())
-      .filter(s => {
-        if (!s) return false;
-        if (s.startsWith('하위 능력치') || s.startsWith('하위 능력지')) return false;
-        if (s === '.') return false;
-        return s.length > 2;
-      });
-
-    // 5단계: 한글 문법 및 오타 교정 피드백 적용
-    return sentences.map(s => {
-      return s
-        .replace(/증가하다\.?/g, '증가')
-        .replace(/증가한다\.?/g, '증가')
-        .replace(/감소하다\.?/g, '감소')
-        .replace(/감소한다\.?/g, '감소')
-        .replace(/중되다\.?/g, '중첩')
-        .replace(/중첩되다\.?/g, '중첩')
-        .replace(/중첩된다\.?/g, '중첩')
-        .replace(/해제되다\.?/g, '해제')
-        .replace(/해제된다\.?/g, '해제')
-        .replace(/;/g, ',')
-        .replace(/아난/g, '아닌')
-        .replace(/타켓에거/g, '타겟에게')
-        .replace(/타켓에게/g, '타겟에게')
-        .replace(/피해지 준다/g, '피해를 줌')
-        .replace(/피해름 주고/g, '피해를 주고')
-        .replace(/피해를 주고/g, '피해를 주고')
-        .replace(/추가 공격올/g, '추가 공격을')
-        .trim();
-    });
-  };
-
-  // 룬 타입별로 슬롯 구분
-  // 무기(1개), 방어구(5개), 장신구(3개), 엠블럼(1개)
   const slots = [
     { label: '무기 룬', type: '무기', index: 0, count: 1 },
     { label: '방어구 룬 1', type: '방어구', index: 0, count: 5 },
