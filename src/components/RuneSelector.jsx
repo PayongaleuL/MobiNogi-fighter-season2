@@ -57,7 +57,7 @@ export default function RuneSelector({ _uiTheme, selectedRunes, onRuneChange, tr
   // 룬 설명에서 일괄 제거할 노이즈 단어 설정 테이블
   const NOISE_WORDS = [
     // 1글자 낱자 (인접 문자와 결합되지 않는 경우만 지워야 하므로 루프에서 분기 처리)
-    '용', '다', '쥐', '벼', '능', '어둠', '빛', '전투', '없음', '분노', '명약', '태초',
+    '용', '다', '쥐', '벼', '능', '어둠', '빛', '없음', '분노', '명약', '태초',
     
     // 메타데이터 단어 및 오타 변형
     '거래 불가', '거래불가',
@@ -150,7 +150,7 @@ export default function RuneSelector({ _uiTheme, selectedRunes, onRuneChange, tr
 
     // 4단계: 마침표(.)를 기준으로 끊어 온전한 통문장 리스트 반환
     const sentences = text
-      .split(/(?<=\.)/g)
+      .split(/(?<=[가-힣a-zA-Z%])\.(?=\s|$)/g)
       .map(s => s.trim())
       .filter(s => {
         if (!s) return false;
