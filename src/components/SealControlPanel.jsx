@@ -1,5 +1,5 @@
 import React from 'react';
-import { Shield, Sparkles, Plus, Minus, Info } from 'lucide-react';
+import { Shield, Sparkles, Plus, Minus } from 'lucide-react';
 
 const SLOT_NAMES = {
   weapon: '무기',

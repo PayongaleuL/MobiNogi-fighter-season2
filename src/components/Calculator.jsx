@@ -421,68 +421,6 @@ export default function Calculator() {
     setSkillStances(prev => ({ ...prev, [key]: val }));
   };
 
-  const handleReset = () => {
-    if (window.confirm('모든 능력치, 룬, 보석 세공, 스탠스 설정을 초기화하시겠습니까?')) {
-      setStats({
-        baseAttack: 27166.0,
-        critScore: 6925.0,
-        strongDmg: 2487.0,
-        chainDmg: 2989.0,
-        comboPower: 1532.0,
-        skillPower: 1577.0,
-        multiPower: 1082.0,
-        extraProb: 987.0,
-        fastAtk: 1484.0,
-        fastSkill: 1488.0,
-        ultScore: 1792.0,
-        enchantAtkPct: 6.8,
-        critBonusPct: 0.0,
-        strongDmgPct: 0.0,
-        chainDmgPct: 0.0,
-        manualFinalDmgPct: 0.0,
-        skillLevel_1: 10,
-        skillLevel_2: 30,
-        skillLevel_3: 10,
-        skillLevel_4: 10,
-        skillLevel_5: 10,
-        skillLevel_6: 10,
-        useNightTrace: true,
-        useDeadlyImpact: true,
-        useHitCombo: true,
-        nightBlessingUptime: 25
-      });
-      setSelectedRunes({
-        '무기': [null],
-        '방어구': [null, null, null, null, null],
-        '장신구': [null, null, null],
-        '엠블럼': [null]
-      });
-      setTranscendLevels({
-        '무기': [0],
-        '방어구': [0, 0, 0, 0, 0],
-        '장신구': [0, 0, 0],
-        '엠블럼': [0]
-      });
-      setGems(
-        Array.from({ length: 22 }, (_, idx) => ({
-          id: idx + 1,
-          grade: '온전한 스타프리즘',
-          options: []
-        }))
-      );
-      setSkillStances({
-        skill_1: '순정',
-        skill_2: '순정',
-        skill_3: '순정',
-        skill_4: '순정',
-        skill_5: '순정'
-      });
-      setGimmicks(createDefaultGimmicks());
-      setSeals(createDefaultSeals());
-      setConditionalUptimes({});
-    }
-  };
-
   const handleRunesUpdate = (updatedRunes) => {
     setCustomRunes(updatedRunes);
     setSelectedRunes(prev => {

@@ -11,6 +11,7 @@ const burningGlory = {
     id: 'ember-stack-ultimate',
     label: '불씨름 12중첩 궁극기 소모',
     defaultUptime: 0.13,
+    uptimeStep: 1,
     source: '궁극기 사용 시 15초 동안 소모한 불씨름 중첩당 공격력 3.5% 증가'
   }]
 };
@@ -23,6 +24,8 @@ describe('ConditionalPanel conditional effect labels', () => {
     render(<ConditionalPanel selectedRunes={{ weapon: [burningGlory] }} conditionalUptimes={{}} onUptimeChange={onUptimeChange} />);
     expect(screen.getByText('타오르는 영광 · 불씨름 12중첩 궁극기 소모')).toBeInTheDocument();
     expect(screen.getByText(/궁극기 사용 시 15초 동안/)).toBeInTheDocument();
+    expect(screen.getByRole('slider')).toHaveValue('13');
+    expect(screen.getByRole('slider')).toHaveAttribute('step', '1');
     fireEvent.change(screen.getByRole('slider'), { target: { value: '25' } });
     expect(onUptimeChange).toHaveBeenCalledWith('타오르는 영광:ember-stack-ultimate', 25);
   });

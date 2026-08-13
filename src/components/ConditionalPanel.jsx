@@ -16,7 +16,7 @@ const CONDITIONAL_RUNES = [
   { name: '거대한 분노', desc: '강타 적중 시 스킬피해 3% 증가(최대 4회 중첩). 가동률에 비례하여 최대 12.0%의 스킬피증이 기댓값에 반영됩니다.', defaultUptime: 100 }
 ];
 
-function UptimeCard({ name, description, value, onChange }) {
+function UptimeCard({ name, description, value, onChange, step = 5 }) {
   return (
     <div className="rounded-xl border border-theme bg-theme-subcard p-3 theme-transition">
       <div className="flex items-start justify-between gap-2">
@@ -34,7 +34,7 @@ function UptimeCard({ name, description, value, onChange }) {
           type="range"
           min="0"
           max="100"
-          step="5"
+          step={step}
           value={value}
           onChange={(event) => onChange(parseInt(event.target.value, 10))}
           className="h-1.5 flex-1 cursor-pointer appearance-none rounded-lg bg-slate-200 accent-orange-500 theme-transition dark:bg-slate-800"
@@ -73,7 +73,8 @@ export default function ConditionalPanel({ selectedRunes, conditionalUptimes, on
             uptimeKey: `${rune.name}:${effect.id}`,
             legacyUptimeKey: rune.name,
             desc: effect.source || `${effect.label} 조건부 효과`,
-            defaultUptime: Math.round((effect.defaultUptime ?? rune.stats?.가동률 ?? 1) * 100)
+            defaultUptime: Math.round((effect.defaultUptime ?? rune.stats?.가동률 ?? 1) * 100),
+            step: effect.uptimeStep ?? 5
           });
         });
         return;
@@ -116,6 +117,7 @@ export default function ConditionalPanel({ selectedRunes, conditionalUptimes, on
                 description={rune.desc}
                 value={currentValue}
                 onChange={(value) => onUptimeChange(rune.uptimeKey, value)}
+                step={rune.step}
               />
             );
           })}

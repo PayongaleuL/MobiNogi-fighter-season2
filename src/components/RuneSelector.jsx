@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import runesData from '../data/runes.json';
-import { Search, Shield, ShieldAlert, Award, Star, ChevronDown, ChevronUp } from 'lucide-react';
+import { Search, Shield, ShieldAlert, Award, Star, ChevronDown } from 'lucide-react';
 
-export default function RuneSelector({ uiTheme, selectedRunes, onRuneChange, transcendLevels, onTranscendChange }) {
+export default function RuneSelector({ _uiTheme, selectedRunes, onRuneChange, transcendLevels, onTranscendChange }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedTypeFilter, setSelectedTypeFilter] = useState('ALL');
   const [activeSlot, setActiveSlot] = useState(null); // { type, index }
@@ -82,17 +82,6 @@ export default function RuneSelector({ uiTheme, selectedRunes, onRuneChange, tra
   ];
 
   // OCR 판독 오타 한글 맞춤법/어절 표준화 교정 사전
-  const KOREAN_SPELL_CORRECTIONS = {
-    '변화지 준다': '변화를 준다',
-    '변화지': '변화를',
-    '피해지 주며': '피해를 주며',
-    '피해지': '피해를',
-    '피해름 주고': '피해를 주고',
-    '추가 공격올': '추가 공격을',
-    '타켓에거': '타겟에게',
-    '타켓에게': '타겟에게',
-    '아난': '아닌'
-  };
 
   // 거래불가/각인부위/저주확률 등의 메타 데이터 및 초월/동작 안내 가이드를 지우고 핵심 스펙 텍스트만 추출
   const getCoreRuneTexts = (cleanedText, runeName = '') => {
@@ -129,7 +118,7 @@ export default function RuneSelector({ uiTheme, selectedRunes, onRuneChange, tra
         text = text.replace(regexSingle, ' ');
       } else {
         // 2글자 이상은 본문 내 발견 즉시 전역 완전 소거
-        const escaped = word.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+        const escaped = word.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
         const regexWord = new RegExp(escaped, 'g');
         text = text.replace(regexWord, '');
       }
@@ -251,7 +240,7 @@ export default function RuneSelector({ uiTheme, selectedRunes, onRuneChange, tra
 
       {/* 룬 장착 슬롯 그리드 */}
       <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-5 gap-1.5 mb-2">
-        {slots.map((slot, idx) => {
+        {slots.map((slot) => {
           const key = `${slot.type}-${slot.index}`;
           const currentRune = selectedRunes[slot.type] ? selectedRunes[slot.type][slot.index] : null;
           const currentLevel = transcendLevels ? transcendLevels[slot.type][slot.index] : 0;
