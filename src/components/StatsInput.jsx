@@ -21,8 +21,10 @@ export default function StatsInput({ stats, onStatsChange }) {
   };
 
   const statFields = [
-    { label: '마을 공격력', key: 'baseAttack', min: 1000, max: 100000, step: 1 },
+        { label: '마을 공격력', key: 'baseAttack', min: 1000, max: 100000, step: 1 },
+    { label: '마도저항', key: 'magicResistance', min: 0, max: 10000, step: 1 },
     { label: '치명타 수치', key: 'critScore', min: 100, max: 20000, step: 1 },
+
     { label: '강타강화 수치', key: 'strongDmg', min: 100, max: 10000, step: 1 },
     { label: '연타강화 수치', key: 'chainDmg', min: 100, max: 10000, step: 1 },
     { label: '콤보강화 수치', key: 'comboPower', min: 100, max: 10000, step: 1 },
@@ -34,8 +36,8 @@ export default function StatsInput({ stats, onStatsChange }) {
     { label: '궁극기 수치', key: 'ultScore', min: 100, max: 5000, step: 1 }
   ];
 
-  const primaryStatFields = statFields.slice(0, 8);
-  const secondaryStatFields = statFields.slice(8);
+  const primaryStatFields = statFields.slice(0, 9);
+  const secondaryStatFields = statFields.slice(9);
 
   const skillFields = [
     { label: '1번 스킬 개조', key: 'skillLevel_1' },
@@ -55,7 +57,11 @@ export default function StatsInput({ stats, onStatsChange }) {
   const getStatPercent = (key, val) => {
     if (!val) return '';
     let pct = 0;
+        if (key === 'magicResistance') {
+      return '상태창 완료값 입력';
+    }
     if (key === 'critScore') {
+
       const baseProb = 0.5 * (val / (val + 2000)) * 100;
       return `실제: ${baseProb.toFixed(2)}% / 허수아비: ${(baseProb + 30).toFixed(2)}%`;
     }
@@ -90,16 +96,20 @@ export default function StatsInput({ stats, onStatsChange }) {
           )}
         </div>
         <input
-          type="number"
+                    type="number"
+          aria-label={field.label}
           value={stats[field.key] || 0}
+
           onChange={(event) => handleInputChange(field.key, event.target.value)}
           className="w-[4.4rem] bg-theme-card border border-theme rounded px-1.5 py-0.5 text-[11px] font-mono font-black text-emerald-600 dark:text-emerald-400 focus-orange-glow focus:outline-none theme-transition"
         />
       </div>
       <input
         type="range"
+                aria-label={`${field.label} 슬라이더`}
         min={field.min}
         max={field.max}
+
         step={field.step}
         value={stats[field.key] || 0}
         onChange={(event) => handleInputChange(field.key, event.target.value)}
@@ -123,7 +133,8 @@ export default function StatsInput({ stats, onStatsChange }) {
           <details className="group relative">
             <summary className="cursor-pointer list-none text-[9px] font-bold text-orange-500">계산 기준 안내</summary>
             <p className="absolute right-0 top-5 z-20 w-[22rem] rounded-lg border border-orange-500/25 bg-theme-card px-3 py-2 text-[10px] font-semibold leading-relaxed text-theme-sub shadow-lg">
-              마을에서 음식·일시 버프 없이 확인한 상태창 수치를 그대로 입력합니다. 적용 공격력은 <strong>마을 공격력 × (1 + 선택 룬의 상시 공격력 증가율 + 인챈트 공격력 증가율)</strong>로 계산합니다.
+                            마을에서 음식·일시 버프 없이 확인한 상태창 수치를 그대로 입력합니다. 마도저항도 장비·선택 룬이 반영된 상태창 완료값을 한 번만 입력하며, 룬 고정 수치를 따로 더하지 않습니다. 적용 공격력은 <strong>마을 공격력 × (1 + 선택 룬의 상시 공격력 증가율 + 인챈트 공격력 증가율)</strong>로 계산합니다.
+
             </p>
           </details>
         </div>
