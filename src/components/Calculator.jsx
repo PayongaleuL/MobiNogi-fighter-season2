@@ -5,7 +5,7 @@ import SealControlPanel from './SealControlPanel';
 import MainCalculatorTab from './MainCalculatorTab';
 import ConditionalSettingsSidebar from './ConditionalSettingsSidebar';
 import { calculateDPS } from '../utils/calculator';
-import { Sun, Moon, Shield, Sliders, Activity, Gem } from 'lucide-react';
+import { Sun, Moon } from 'lucide-react';
 import runesData from '../data/runes.json';
 import { parseRuneMarkdown } from '../utils/runeMdParser';
 import mdText from '../../results/260708_룬설명목록.md?raw';
@@ -584,65 +584,62 @@ export default function Calculator() {
   }
 
   return (
-    <div className="max-w-[2520px] mx-auto flex flex-col gap-3 p-3 md:p-4 xl:px-6 xl:py-4 2xl:px-8 text-theme-main theme-transition">
-      {/* 타이틀 및 탭 네비게이션 */}
-      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-2.5 border-b border-theme pb-3 theme-transition">
-        <div>
-          <h2 className="text-xl xl:text-[1.65rem] font-black tracking-tight text-theme-main leading-tight">
+    <div className="max-w-[2520px] mx-auto flex flex-col gap-1.5 p-2.5 md:p-3 xl:px-5 xl:py-2.5 2xl:px-6 text-theme-main theme-transition">
+      {/* 시안형 상단 제목·테마·탭 네비게이션 */}
+      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-1.5 lg:gap-3 border-b border-theme pb-1.5 md:pb-2 theme-transition">
+        <div className="shrink-0">
+          <h2 className="text-xl xl:text-[1.6rem] font-black tracking-tight text-theme-main leading-tight whitespace-nowrap">
             Mabinogi Mobile 격투가 계산기 <span className="text-theme-muted">· 시즌 2</span>
           </h2>
-          <p className="text-[10px] xl:text-[11px] text-theme-sub mt-1 leading-relaxed">
+          <p className="lg:hidden text-[10px] text-theme-sub mt-0.5 leading-relaxed">
             격투가 시즌 2의 보석·룬·인장·실전 딜사이클을 한 화면에서 계산합니다.
           </p>
         </div>
 
-        <div className="flex flex-col sm:flex-row sm:items-center gap-2 w-full lg:w-auto sm:justify-between lg:justify-end">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-1.5 w-full lg:w-auto sm:justify-between lg:justify-end">
           {/* 테마 스위처 */}
-          <div className="flex items-center justify-between sm:justify-start gap-3 shrink-0">
+          <div className="flex items-center justify-between sm:justify-start gap-1.5 shrink-0">
             <label className="hidden xl:block text-[8px] font-black text-theme-muted uppercase tracking-wider">UI Theme</label>
             <button
               type="button"
               aria-label="밝은 테마와 어두운 테마 전환"
               aria-pressed={uiTheme === 'dark'}
               onClick={() => setUiTheme(prev => prev === 'light' ? 'dark' : 'light')}
-              className="relative w-12 h-7 bg-theme-subcard border border-theme rounded-full p-1 cursor-pointer flex items-center justify-between theme-transition select-none group focus-orange-glow focus:outline-none"
+              className="relative w-11 h-6 bg-theme-subcard border border-theme rounded-full p-0.5 cursor-pointer flex items-center justify-between theme-transition select-none group focus-orange-glow focus:outline-none"
             >
-              <Sun className="w-3.5 h-3.5 text-orange-400 ml-0.5 opacity-55 group-hover:opacity-100 transition-opacity shrink-0" />
-              <Moon className="w-3.5 h-3.5 text-indigo-400 mr-0.5 opacity-55 group-hover:opacity-100 transition-opacity shrink-0" />
-              <span className={`absolute w-6 h-6 rounded-full shadow-md flex items-center justify-center transition-all duration-300 ease-in-out ${uiTheme === 'dark' ? 'translate-x-6 bg-indigo-600' : 'translate-x-0 bg-orange-500'}`}>
-                {uiTheme === 'dark' ? <Moon className="w-3 h-3 text-white animate-pulse" /> : <Sun className="w-3 h-3 text-white animate-spin-slow" />}
+              <Sun className="w-3 h-3 text-orange-400 ml-0.5 opacity-55 group-hover:opacity-100 transition-opacity shrink-0" />
+              <Moon className="w-3 h-3 text-indigo-400 mr-0.5 opacity-55 group-hover:opacity-100 transition-opacity shrink-0" />
+              <span className={`absolute w-5 h-5 rounded-full shadow-sm flex items-center justify-center transition-all duration-300 ease-in-out ${uiTheme === 'dark' ? 'translate-x-5 bg-indigo-600' : 'translate-x-0 bg-orange-500'}`}>
+                {uiTheme === 'dark' ? <Moon className="w-2.5 h-2.5 text-white animate-pulse" /> : <Sun className="w-2.5 h-2.5 text-white animate-spin-slow" />}
               </span>
             </button>
           </div>
 
-          {/* 상단 탭 버튼 */}
-          <div className="flex flex-col gap-1 w-full sm:w-auto">
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-0.5 bg-theme-subcard p-0.5 rounded-lg border border-theme theme-transition w-full">
+          {/* 상단 텍스트 탭 버튼 */}
+          <div className="w-full sm:w-auto">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-px bg-theme-subcard p-px rounded-md border border-theme theme-transition w-full">
               <button
                 onClick={() => setActiveTab('calculator')}
-                className={`min-w-0 px-2.5 sm:px-3 py-1.5 rounded-md text-[10px] xl:text-[11px] font-black transition-all flex items-center justify-center gap-1.5 focus:outline-none whitespace-nowrap ${activeTab === 'calculator' ? 'bg-orange-500 text-white shadow-md' : 'text-theme-sub hover:text-theme-main'}`}
+                className={`min-w-0 px-2.5 sm:px-3 py-1.5 rounded-[5px] text-[10px] xl:text-[11px] font-black transition-all flex items-center justify-center focus:outline-none whitespace-nowrap ${activeTab === 'calculator' ? 'bg-orange-500 text-white shadow-sm' : 'text-theme-sub hover:text-theme-main'}`}
               >
                 종합 계산기
               </button>
               <button
                 onClick={() => setActiveTab('gemstone')}
-                className={`min-w-0 px-2.5 sm:px-3 py-1.5 rounded-md text-[10px] xl:text-[11px] font-black transition-all flex items-center justify-center gap-1.5 focus:outline-none whitespace-nowrap ${activeTab === 'gemstone' ? 'bg-orange-500 text-white shadow-md' : 'text-theme-sub hover:text-theme-main'}`}
+                className={`min-w-0 px-2.5 sm:px-3 py-1.5 rounded-[5px] text-[10px] xl:text-[11px] font-black transition-all flex items-center justify-center focus:outline-none whitespace-nowrap ${activeTab === 'gemstone' ? 'bg-orange-500 text-white shadow-sm' : 'text-theme-sub hover:text-theme-main'}`}
               >
-                <Gem className="w-3.5 h-3.5 shrink-0" />
                 보석 세공실
               </button>
               <button
                 onClick={() => setActiveTab('runeAudit')}
-                className={`min-w-0 px-2.5 sm:px-3 py-1.5 rounded-md text-[10px] xl:text-[11px] font-black transition-all flex items-center justify-center gap-1.5 focus:outline-none whitespace-nowrap ${activeTab === 'runeAudit' ? 'bg-orange-500 text-white shadow-md' : 'text-theme-sub hover:text-theme-main'}`}
+                className={`min-w-0 px-2.5 sm:px-3 py-1.5 rounded-[5px] text-[10px] xl:text-[11px] font-black transition-all flex items-center justify-center focus:outline-none whitespace-nowrap ${activeTab === 'runeAudit' ? 'bg-orange-500 text-white shadow-sm' : 'text-theme-sub hover:text-theme-main'}`}
               >
-                <Sliders className="w-3.5 h-3.5 shrink-0" />
                 룬 교정실
               </button>
               <button
                 onClick={() => setActiveTab('seals')}
-                className={`min-w-0 px-2.5 sm:px-3 py-1.5 rounded-md text-[10px] xl:text-[11px] font-black transition-all flex items-center justify-center gap-1.5 focus:outline-none whitespace-nowrap ${activeTab === 'seals' ? 'bg-orange-500 text-white shadow-md' : 'text-theme-sub hover:text-theme-main'}`}
+                className={`min-w-0 px-2.5 sm:px-3 py-1.5 rounded-[5px] text-[10px] xl:text-[11px] font-black transition-all flex items-center justify-center focus:outline-none whitespace-nowrap ${activeTab === 'seals' ? 'bg-orange-500 text-white shadow-sm' : 'text-theme-sub hover:text-theme-main'}`}
               >
-                <Shield className="w-3.5 h-3.5 shrink-0" />
                 인장 설정실
               </button>
             </div>
