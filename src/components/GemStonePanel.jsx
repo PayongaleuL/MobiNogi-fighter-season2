@@ -273,10 +273,10 @@ export default function GemStonePanel({ uiTheme, gems, onGemChange, setGems, sel
   };
 
   return (
-    <div className="bg-theme-card border border-theme rounded-2xl p-4 md:p-6 xl:p-7 shadow-theme flex flex-col gap-6 w-full theme-transition">
+    <div className="bg-theme-card border border-theme rounded-2xl p-4 md:p-5 xl:p-6 shadow-theme flex flex-col gap-4 w-full theme-transition">
       
       {/* 타이틀 및 퀵 가이드 */}
-      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 border-b border-theme pb-5 theme-transition">
+      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-3 border-b border-theme pb-4 theme-transition">
         <div>
           <div className="flex items-center gap-2">
             <Gem className="w-6 h-6 text-orange-500" />
@@ -334,8 +334,8 @@ export default function GemStonePanel({ uiTheme, gems, onGemChange, setGems, sel
       </div>
 
       {/* 세공 실시간 합산 현황 보드 (16대 세공 옵션 종합) */}
-      <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,1.65fr)_minmax(320px,0.85fr)] gap-4">
-        <div className="bg-theme-subcard border border-theme rounded-2xl p-5 flex flex-col gap-4 theme-transition">
+      <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,1.65fr)_minmax(320px,0.85fr)] gap-3">
+        <div className="bg-theme-subcard border border-theme rounded-2xl p-4 flex flex-col gap-3 theme-transition">
           <h4 className="text-xs font-black text-theme-muted flex items-center gap-1.5 uppercase tracking-wider">
             <Sparkles className="w-4 h-4 text-emerald-500" />
             세공 핵심값 합산 현황
@@ -384,7 +384,7 @@ export default function GemStonePanel({ uiTheme, gems, onGemChange, setGems, sel
         </div>
         </div>
 
-        <aside className="bg-orange-500/5 border border-orange-500/25 rounded-2xl p-5 flex flex-col gap-4 theme-transition">
+        <aside className="bg-orange-500/5 border border-orange-500/25 rounded-2xl p-4 flex flex-col gap-3 theme-transition">
           <h4 className="text-sm font-black text-orange-600 dark:text-orange-300 flex items-center gap-2">
             <Sparkles className="w-4 h-4" />
             특수 보석 효과
@@ -414,12 +414,12 @@ export default function GemStonePanel({ uiTheme, gems, onGemChange, setGems, sel
       </div>
 
       {/* 장비 부위별 소켓 리스트 렌더링 구역 */}
-      <div className="grid grid-cols-1 xl:grid-cols-12 gap-5 xl:gap-6 items-start">
+      <div className="grid grid-cols-1 xl:grid-cols-12 gap-4 xl:gap-5 items-start">
         {GEM_SLOT_CONFIGS.map(config => {
           const partGems = gems.slice(config.startIndex, config.startIndex + config.count);
 
           return (
-            <div key={config.part} className={`bg-theme-subcard/40 border border-theme rounded-2xl p-4 xl:p-5 flex flex-col gap-4 theme-transition ${config.part === '무기' || config.part === '장신구' ? 'xl:col-span-6' : 'xl:col-span-4'}`}>
+            <div key={config.part} className={`bg-theme-subcard/40 border border-theme rounded-2xl p-3 xl:p-4 flex flex-col gap-3 theme-transition ${config.part === '무기' || config.part === '장신구' ? 'xl:col-span-6' : 'xl:col-span-4'}`}>
               {/* 장비명 & 장착된 룬 정보 연동 헤더 */}
               <div className="flex justify-between items-center border-b border-theme pb-2.5 theme-transition">
                 <h4 className="text-xs font-black text-orange-500 tracking-wider uppercase flex items-center gap-1.5">

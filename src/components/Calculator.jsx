@@ -3,6 +3,7 @@ import GemStonePanel from './GemStonePanel';
 import RuneAuditDashboard from './RuneAuditDashboard';
 import SealControlPanel from './SealControlPanel';
 import MainCalculatorTab from './MainCalculatorTab';
+import ConditionalSettingsSidebar from './ConditionalSettingsSidebar';
 import { calculateDPS } from '../utils/calculator';
 import { Sun, Moon, Shield, Sliders, Activity, Gem } from 'lucide-react';
 import runesData from '../data/runes.json';
@@ -40,6 +41,7 @@ const createDefaultGimmicks = () => ({
 export default function Calculator() {
   // 1. 활성화 탭 관리 ('calculator' | 'gemstone' | 'runeAudit' | 'seals')
   const [activeTab, setActiveTab] = useState('calculator');
+  const [isConditionalSidebarOpen, setIsConditionalSidebarOpen] = useState(false);
 
   // 1-2. UI 테마 관리 ('light' | 'dark')
   const [uiTheme, setUiTheme] = useState(() => {
@@ -56,6 +58,21 @@ export default function Calculator() {
       root.classList.add('theme-dark');
     }
   }, [uiTheme]);
+
+  useEffect(() => {
+    if (!isConditionalSidebarOpen) return undefined;
+
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') setIsConditionalSidebarOpen(false);
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isConditionalSidebarOpen]);
+
+  useEffect(() => {
+    if (activeTab !== 'calculator') setIsConditionalSidebarOpen(false);
+  }, [activeTab]);
 
   // 1-1. 룬 데이터베이스 수정 가능한 커스텀 룬 목록 상태 (마스터 마크다운 자동 파싱 연동)
   const [customRunes, setCustomRunes] = useState(() => {
@@ -633,6 +650,19 @@ export default function Calculator() {
         </div>
       </div>
 
+      {activeTab === 'calculator' && (
+        <ConditionalSettingsSidebar
+          isOpen={isConditionalSidebarOpen}
+          onOpen={() => setIsConditionalSidebarOpen(true)}
+          onClose={() => setIsConditionalSidebarOpen(false)}
+          selectedRunes={selectedRunes}
+          conditionalUptimes={conditionalUptimes}
+          onUptimeChange={handleUptimeChange}
+          nightBlessingUptime={stats.nightBlessingUptime}
+          onNightBlessingChange={(value) => handleStatsChange('nightBlessingUptime', value)}
+        />
+      )}
+
       {/* 탭 내용 분기 렌더링 */}
       {activeTab === 'gemstone' ? (
         <GemStonePanel uiTheme={uiTheme} gems={gems} onGemChange={handleGemChange} setGems={setGems} selectedRunes={selectedRunes} />
@@ -660,8 +690,6 @@ export default function Calculator() {
           savePreset={savePreset}
           loadPreset={loadPreset}
           clearPreset={clearPreset}
-          conditionalUptimes={conditionalUptimes}
-          onUptimeChange={handleUptimeChange}
         />
       )}
 
