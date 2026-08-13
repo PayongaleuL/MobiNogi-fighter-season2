@@ -322,8 +322,8 @@ export default function MainCalculatorTab({
     <div className="flex flex-col gap-6 animate-fadeIn">
       <WorkflowStrip equippedRuneCount={equippedRuneCount} />
 
-      <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 xl:gap-8 items-start">
-        <main className="xl:col-span-5 flex flex-col gap-5 min-w-0">
+      <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,0.86fr)_minmax(0,1.14fr)] gap-6 xl:gap-8 items-start">
+        <main className="flex flex-col gap-5 min-w-0">
           <section className="bg-theme-card border border-theme rounded-2xl p-4 sm:p-5 xl:p-6 shadow-theme theme-transition">
             <SectionIntro step="01 · REQUIRED SETUP" title="기본 스펙과 시즌 패시브" description="마을 기준 능력치·스킬 개조·최종뎀 증가를 순서대로 설정합니다." icon={Sparkles} badge="DPS 필수" />
             <div className="mt-4">
@@ -352,8 +352,8 @@ export default function MainCalculatorTab({
           <ConditionalPanel uiTheme={uiTheme} selectedRunes={selectedRunes} conditionalUptimes={conditionalUptimes} onUptimeChange={onUptimeChange} nightBlessingUptime={stats.nightBlessingUptime} onNightBlessingChange={(value) => onStatsChange('nightBlessingUptime', value)} />
         </main>
 
-        <aside className="xl:col-span-7 flex flex-col gap-5 min-w-0">
-          <div className="hidden xl:block xl:sticky xl:top-5 z-20">
+        <aside className="flex flex-col gap-5 min-w-0">
+          <div className="hidden xl:block">
             <DpsOverview dpsResult={dpsResult} equippedRuneCount={equippedRuneCount} />
           </div>
 

@@ -288,22 +288,14 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate, selectedRunes
         </div>
       </div>
 
-      {/* 게이머 친화적 가이드 및 팁 박스 */}
-      <div className="bg-orange-500/5 border border-orange-500/20 p-4 rounded-xl flex gap-3 text-xs leading-relaxed text-theme-main theme-transition">
-        <Info className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
-        <div className="flex flex-col gap-1.5">
-          <p className="font-extrabold text-theme-main">💡 룬 스탯 교정실 안내:</p>
-          <p>
-            본 교정실의 기본 스탯 데이터는 <span className="text-emerald-600 font-bold font-mono">results/260708_룬설명목록.md</span> 마스터 문서에 수동 정제 완료된 실제 게임 내 룬 효과 설명과 <strong>100% 일치하도록 검증 및 동기화가 완료된 상태</strong>입니다. 따라서 일반적인 상황에서는 스탯 수치를 굳이 직접 수정(교정)하실 필요가 없습니다.
-          </p>
-          <p>
-            다만, <strong>직접 피해(깡피해)를 주는 룬들의 경우</strong>(예: 암운+, 부패+, 악몽, 아귀, 초월, 침묵 등 설명문에 고정 피해 수치가 들어있는 룬들) 인게임 깡데미지가 유저의 기본 공격력이나 레벨 스펙에 비례해 변동되므로, 필요에 따라 <strong>직피 데미지 수치(가장 우측의 깡공격력/가동률 등) 정도만 직접 수정하여</strong> 시뮬레이션해 보시는 것을 권장합니다.
-          </p>
-        </div>
+      {/* 한 줄형 교정 가이드 */}
+      <div className="bg-orange-500/5 border border-orange-500/20 px-4 py-3 rounded-xl flex items-center gap-3 text-xs leading-relaxed text-theme-main theme-transition">
+        <Info className="w-4 h-4 text-orange-500 shrink-0" />
+        <p><strong className="text-orange-600 dark:text-orange-300">룬 스탯 교정실 안내:</strong> 마스터 설명과 현재 JSON을 비교합니다. 수정한 값은 DPS 시뮬레이터에 즉시 반영되며, 직접 피해 룬만 필요한 범위에서 조정하세요.</p>
       </div>
 
       {/* 대시보드 요약 메트릭 카드 */}
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
         <div className="bg-theme-subcard border border-theme p-3 rounded-xl flex flex-col justify-center theme-transition">
             <span className="text-[10px] font-bold text-theme-sub uppercase tracking-wider">마스터 룬</span>
           <span className="text-lg font-black text-theme-main mt-0.5">{statsSummary.totalMd} 개</span>
@@ -327,7 +319,7 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate, selectedRunes
       </div>
 
       {/* 필터 및 검색 컨트롤 */}
-      <div className="flex flex-col md:flex-row gap-4 bg-theme-subcard p-4 rounded-xl border border-theme theme-transition">
+      <div className="flex flex-col xl:flex-row gap-4 bg-theme-subcard p-4 rounded-xl border border-theme theme-transition">
         <div className="flex-1 relative">
           <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-theme-muted" />
           <input
@@ -339,7 +331,7 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate, selectedRunes
           />
         </div>
 
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           <select
             value={selectedTypeFilter}
             onChange={(e) => setSelectedTypeFilter(e.target.value)}
@@ -367,7 +359,7 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate, selectedRunes
       </div>
 
       {/* 룬 스탯 편집용 테이블 그리드 (가로 스크롤 & 룬 이름 열 sticky 고정) */}
-      <div className="overflow-x-auto border border-theme rounded-xl bg-theme-subcard/30 max-h-[600px] xl:max-h-[680px] overflow-y-auto theme-transition">
+      <div className="overflow-x-auto border border-theme rounded-xl bg-theme-subcard/30 max-h-[620px] xl:max-h-[700px] overflow-y-auto theme-transition">
         <table className="w-full border-collapse text-left text-xs text-theme-main min-w-[1500px]">
           <thead>
             <tr className="bg-theme-subcard border-b border-theme text-theme-sub font-bold sticky top-0 z-20 theme-transition">

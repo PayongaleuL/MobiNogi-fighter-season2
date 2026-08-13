@@ -567,21 +567,19 @@ export default function Calculator() {
   }
 
   return (
-    <div className="max-w-[2480px] mx-auto flex flex-col gap-6 p-4 md:p-6 xl:p-8 2xl:px-10 text-theme-main theme-transition">
+    <div className="max-w-[2480px] mx-auto flex flex-col gap-5 p-4 md:p-6 xl:px-8 xl:py-6 2xl:px-10 text-theme-main theme-transition">
       {/* 타이틀 및 탭 네비게이션 */}
-      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 bg-theme-card border border-theme rounded-2xl p-5 xl:px-6 xl:py-5 shadow-theme theme-transition">
+      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 border-b border-theme pb-5 xl:pb-6 theme-transition">
         <div>
-          <h2 className="text-2xl xl:text-3xl font-black text-theme-main flex flex-wrap items-center gap-x-2 gap-y-1.5 leading-tight">
-            <span className="text-orange-500 font-extrabold whitespace-nowrap">Mabinogi Mobile</span>
-            <span className="whitespace-nowrap">격투가 종합 계산기</span>
-            <span className="text-xs bg-theme-subcard border border-theme px-2 py-0.5 rounded-full text-theme-sub font-bold whitespace-nowrap">시즌2.ver (260710)</span>
+          <h2 className="text-2xl xl:text-[2rem] font-black tracking-tight text-theme-main leading-tight">
+            Mabinogi Mobile 격투가 계산기 <span className="text-theme-muted">· 시즌 2</span>
           </h2>
-          <p className="text-xs text-theme-sub mt-1 leading-relaxed">
-            보석 세공 3줄 다중 지정, 장비 부위별 묶음 연동 및 3줄 미만 경고 시스템이 이식된 7차 완성 대시보드입니다.
+          <p className="text-xs text-theme-sub mt-1.5 leading-relaxed">
+            격투가 시즌 2의 보석·룬·인장·실전 딜사이클을 한 화면에서 계산합니다.
           </p>
         </div>
 
-        <div className="flex flex-col sm:flex-row sm:items-end gap-3 w-full lg:w-auto sm:justify-between lg:justify-end">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3 w-full lg:w-auto sm:justify-between lg:justify-end">
           {/* 테마 스위처 */}
           <div className="flex items-center justify-between sm:justify-start gap-3 shrink-0">
             <label className="text-[9px] font-black text-theme-muted uppercase tracking-wider">UI Theme</label>
@@ -602,31 +600,30 @@ export default function Calculator() {
 
           {/* 상단 탭 버튼 */}
           <div className="flex flex-col gap-1 w-full sm:w-auto">
-            <label className="text-[9px] font-black text-theme-muted uppercase tracking-wider">Navigation Menu</label>
-            <div className="grid grid-cols-2 sm:flex gap-1 bg-theme-subcard p-1 rounded-xl border border-theme theme-transition w-full">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-1 bg-theme-subcard p-1 rounded-xl border border-theme theme-transition w-full">
               <button
                 onClick={() => setActiveTab('calculator')}
-                className={`min-w-0 px-3 sm:px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 focus:outline-none ${activeTab === 'calculator' ? 'bg-orange-500 text-white shadow-md' : 'text-theme-sub hover:text-theme-main'}`}
+                className={`min-w-0 px-3 sm:px-4 py-2.5 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 focus:outline-none whitespace-nowrap ${activeTab === 'calculator' ? 'bg-orange-500 text-white shadow-md' : 'text-theme-sub hover:text-theme-main'}`}
               >
                 종합 계산기
               </button>
               <button
                 onClick={() => setActiveTab('gemstone')}
-                className={`min-w-0 px-3 sm:px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 focus:outline-none ${activeTab === 'gemstone' ? 'bg-orange-500 text-white shadow-md' : 'text-theme-sub hover:text-theme-main'}`}
+                className={`min-w-0 px-3 sm:px-4 py-2.5 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 focus:outline-none whitespace-nowrap ${activeTab === 'gemstone' ? 'bg-orange-500 text-white shadow-md' : 'text-theme-sub hover:text-theme-main'}`}
               >
                 <Gem className="w-3.5 h-3.5 shrink-0" />
                 보석 세공실
               </button>
               <button
                 onClick={() => setActiveTab('runeAudit')}
-                className={`min-w-0 px-3 sm:px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 focus:outline-none ${activeTab === 'runeAudit' ? 'bg-orange-500 text-white shadow-md' : 'text-theme-sub hover:text-theme-main'}`}
+                className={`min-w-0 px-3 sm:px-4 py-2.5 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 focus:outline-none whitespace-nowrap ${activeTab === 'runeAudit' ? 'bg-orange-500 text-white shadow-md' : 'text-theme-sub hover:text-theme-main'}`}
               >
                 <Sliders className="w-3.5 h-3.5 shrink-0" />
-                룬 스탯 교정실
+                룬 교정실
               </button>
               <button
                 onClick={() => setActiveTab('seals')}
-                className={`min-w-0 px-3 sm:px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 focus:outline-none ${activeTab === 'seals' ? 'bg-orange-500 text-white shadow-md' : 'text-theme-sub hover:text-theme-main'}`}
+                className={`min-w-0 px-3 sm:px-4 py-2.5 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 focus:outline-none whitespace-nowrap ${activeTab === 'seals' ? 'bg-orange-500 text-white shadow-md' : 'text-theme-sub hover:text-theme-main'}`}
               >
                 <Shield className="w-3.5 h-3.5 shrink-0" />
                 인장 설정실
