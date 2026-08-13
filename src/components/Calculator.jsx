@@ -567,11 +567,11 @@ export default function Calculator() {
   }
 
   return (
-    <div className="max-w-[1600px] mx-auto flex flex-col gap-6 p-4 md:p-6 xl:p-8 text-theme-main theme-transition">
+    <div className="max-w-[2480px] mx-auto flex flex-col gap-6 p-4 md:p-6 xl:p-8 2xl:px-10 text-theme-main theme-transition">
       {/* 타이틀 및 탭 네비게이션 */}
-      <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center gap-4 bg-theme-card border border-theme rounded-2xl p-6 shadow-theme theme-transition">
+      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 bg-theme-card border border-theme rounded-2xl p-5 xl:px-6 xl:py-5 shadow-theme theme-transition">
         <div>
-          <h2 className="text-2xl font-black text-theme-main flex flex-wrap items-center gap-x-2 gap-y-1.5 leading-tight">
+          <h2 className="text-2xl xl:text-3xl font-black text-theme-main flex flex-wrap items-center gap-x-2 gap-y-1.5 leading-tight">
             <span className="text-orange-500 font-extrabold whitespace-nowrap">Mabinogi Mobile</span>
             <span className="whitespace-nowrap">격투가 종합 계산기</span>
             <span className="text-xs bg-theme-subcard border border-theme px-2 py-0.5 rounded-full text-theme-sub font-bold whitespace-nowrap">시즌2.ver (260710)</span>
@@ -581,7 +581,7 @@ export default function Calculator() {
           </p>
         </div>
 
-        <div className="flex flex-col sm:flex-row sm:items-end gap-3 w-full xl:w-auto sm:justify-between xl:justify-end">
+        <div className="flex flex-col sm:flex-row sm:items-end gap-3 w-full lg:w-auto sm:justify-between lg:justify-end">
           {/* 테마 스위처 */}
           <div className="flex items-center justify-between sm:justify-start gap-3 shrink-0">
             <label className="text-[9px] font-black text-theme-muted uppercase tracking-wider">UI Theme</label>

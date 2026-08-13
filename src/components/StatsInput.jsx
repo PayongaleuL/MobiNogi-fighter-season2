@@ -76,7 +76,7 @@ export default function StatsInput({ stats, onStatsChange }) {
   };
 
   return (
-    <div className={`bg-theme-card border rounded-2xl p-6 shadow-theme flex flex-col gap-6 transition-all duration-350 ${
+    <div className={`bg-theme-card border rounded-2xl p-4 xl:p-5 shadow-theme flex flex-col gap-5 transition-all duration-350 ${
       isSkillLimitExceeded ? 'border-red-500 shadow-red-100' : 'border-theme'
     }`}>
       
@@ -89,9 +89,9 @@ export default function StatsInput({ stats, onStatsChange }) {
         <p className="mb-4 rounded-xl border border-orange-500/25 bg-orange-500/5 px-3 py-2 text-[11px] font-semibold leading-relaxed text-theme-sub">
           마을에서 음식·일시 버프 없이 확인한 상태창 수치를 그대로 입력합니다. 전설 패션 세트·동행 펫·인장·장착 룬의 고정 능력치는 상태창에 포함되므로 별도 합산하지 않습니다. 적용 공격력은 기존 종합 계산기와 동일하게 <strong>마을 공격력 × (1 + 선택 룬의 상시 공격력 증가율 + 인챈트 공격력 증가율)</strong>로 계산합니다.
         </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-3">
           {statFields.map(f => (
-            <div key={f.key} className="bg-theme-subcard p-3.5 rounded-xl border border-theme flex flex-col gap-2 theme-transition card-lift-glow">
+            <div key={f.key} className="bg-theme-subcard p-3 rounded-xl border border-theme flex flex-col gap-2 theme-transition card-lift-glow">
               <div className="flex justify-between items-start">
                 <div className="flex flex-col gap-0.5">
                   <label className="text-sm font-black text-theme-sub">{f.label}</label>
@@ -265,7 +265,7 @@ export default function StatsInput({ stats, onStatsChange }) {
       </div>
 
       {/* 시즌2 격투가 시즌스킬 및 패시브 제어 섹션 */}
-      <div className="bg-theme-subcard/50 border border-theme rounded-2xl p-5 flex flex-col gap-4 mt-6 theme-transition card-lift-glow">
+      <div className="bg-theme-subcard/50 border border-theme rounded-2xl p-4 xl:p-5 flex flex-col gap-4 mt-5 theme-transition card-lift-glow">
         <div className="flex items-center justify-between gap-3">
           <h4 className="text-sm font-black text-theme-main flex items-center gap-2">
             <Settings className="w-4 h-4 text-orange-500" />

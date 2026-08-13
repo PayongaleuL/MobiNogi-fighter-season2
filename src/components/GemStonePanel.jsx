@@ -400,12 +400,12 @@ export default function GemStonePanel({ uiTheme, gems, onGemChange, setGems, sel
       </div>
 
       {/* 장비 부위별 소켓 리스트 렌더링 구역 */}
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-5 xl:gap-6 items-start">
+      <div className="grid grid-cols-1 xl:grid-cols-12 gap-5 xl:gap-6 items-start">
         {GEM_SLOT_CONFIGS.map(config => {
           const partGems = gems.slice(config.startIndex, config.startIndex + config.count);
 
           return (
-            <div key={config.part} className="bg-theme-subcard/40 border border-theme rounded-2xl p-4 xl:p-5 flex flex-col gap-4 theme-transition">
+            <div key={config.part} className={`bg-theme-subcard/40 border border-theme rounded-2xl p-4 xl:p-5 flex flex-col gap-4 theme-transition ${config.part === '무기' || config.part === '장신구' ? 'xl:col-span-6' : 'xl:col-span-4'}`}>
               {/* 장비명 & 장착된 룬 정보 연동 헤더 */}
               <div className="flex justify-between items-center border-b border-theme pb-2.5 theme-transition">
                 <h4 className="text-xs font-black text-orange-500 tracking-wider uppercase flex items-center gap-1.5">
@@ -420,7 +420,7 @@ export default function GemStonePanel({ uiTheme, gems, onGemChange, setGems, sel
 
               {/* 보석 슬롯 카드 그리드 (장신구는 flexbox로 모아 조밀하게 배치 및 세로선 보장) */}
               <div className={config.part === '장신구' 
-                ? "flex flex-col md:flex-row items-stretch justify-start gap-4 md:gap-5"
+                ? "flex flex-col xl:flex-row items-stretch justify-start gap-4 xl:gap-5"
                 : "grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3.5"
               }>
                 {partGems.map((gem, subIdx) => {
@@ -433,14 +433,14 @@ export default function GemStonePanel({ uiTheme, gems, onGemChange, setGems, sel
                       {/* 장신구 3종 소켓 간 세로선/가로선 분리 (Flexbox 내부에서 높이 가득 채움) */}
                       {isJangsinGu && subIdx > 0 && (
                         <>
-                          <div className="hidden md:block w-px bg-theme self-stretch my-1.5 shrink-0 theme-transition" />
-                          <div className="block md:hidden h-px bg-theme w-full my-1.5 shrink-0 theme-transition" />
+                          <div className="hidden xl:block w-px bg-theme self-stretch my-1.5 shrink-0 theme-transition" />
+                          <div className="block xl:hidden h-px bg-theme w-full my-1.5 shrink-0 theme-transition" />
                         </>
                       )}
 
                       <div
                         className={`p-3.5 rounded-xl border flex flex-col gap-3.5 transition-all hover:border-orange-500/50 card-lift-glow theme-transition ${
-                          isJangsinGu ? 'flex-1 w-full md:max-w-[240px]' : ''
+                          isJangsinGu ? 'flex-1 w-full xl:max-w-none' : ''
                         } ${
                           gem.grade === '미장착' 
                             ? 'bg-theme-main/30 border-theme border-dashed opacity-60' 

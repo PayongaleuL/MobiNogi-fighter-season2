@@ -2,6 +2,7 @@ import { chromium } from 'playwright';
 
 const baseUrl = process.env.UI_E2E_BASE_URL || 'http://127.0.0.1:5173/MobiNogi-fighter-season2/';
 const targets = [
+  { name: 'ultrawide', width: 2560, height: 1440 },
   { name: 'desktop', width: 1440, height: 1050 },
   { name: 'mobile', width: 390, height: 844 }
 ];
