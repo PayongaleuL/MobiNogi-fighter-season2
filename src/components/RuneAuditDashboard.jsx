@@ -239,6 +239,43 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate, selectedRunes
     });
   }, [auditList, searchTerm, selectedTypeFilter, statusFilter]);
 
+  const getRowVisual = (item) => {
+    if (item.isEquipped) {
+      return {
+        label: '장착 중',
+        rowClass: 'bg-emerald-500/8 border-l-4 border-emerald-500',
+        stickyClass: 'bg-emerald-500/10 dark:bg-emerald-500/15',
+        cellClass: 'bg-emerald-500/8',
+        badgeClass: 'bg-emerald-500/10 border-emerald-300 dark:border-emerald-800 text-emerald-700 dark:text-emerald-400'
+      };
+    }
+    if (item.status === 'MISSING') {
+      return {
+        label: 'JSON 누락',
+        rowClass: 'bg-rose-500/8 border-l-4 border-rose-500',
+        stickyClass: 'bg-rose-500/10 dark:bg-rose-500/15',
+        cellClass: 'bg-rose-500/8',
+        badgeClass: 'bg-rose-500/10 border-rose-300 dark:border-rose-800 text-rose-700 dark:text-rose-300'
+      };
+    }
+    if (item.isCustomized) {
+      return {
+        label: '수정됨',
+        rowClass: 'bg-amber-500/8 border-l-4 border-amber-500',
+        stickyClass: 'bg-amber-500/10 dark:bg-amber-500/15',
+        cellClass: 'bg-amber-500/8',
+        badgeClass: 'bg-amber-500/10 border-amber-300 dark:border-amber-800 text-amber-700 dark:text-amber-300'
+      };
+    }
+    return {
+      label: '기본 일치',
+      rowClass: 'bg-slate-500/5 border-l-4 border-slate-300 dark:border-slate-700',
+      stickyClass: 'bg-slate-500/5 dark:bg-slate-500/10',
+      cellClass: 'bg-slate-500/5',
+      badgeClass: 'bg-slate-500/10 border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-300'
+    };
+  };
+
   return (
     <div className="bg-theme-card border border-theme rounded-2xl p-4 md:p-6 xl:p-7 shadow-theme flex flex-col gap-6 animate-fadeIn text-theme-main theme-transition">
       
@@ -384,25 +421,20 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate, selectedRunes
                 </td>
               </tr>
             ) : (
-              filteredList.map((item, idx) => (
-                <tr key={idx} className="hover:bg-theme-subcard/40 transition-colors">
+              filteredList.map((item, idx) => {
+                const rowVisual = getRowVisual(item);
+                return (
+                <tr key={idx} className={`${rowVisual.rowClass} hover:brightness-[0.98] transition-colors`}>
                   
                   {/* 룬 정보 열 (Sticky 고정) */}
-                  <td className="p-3 sticky left-0 bg-theme-card/95 backdrop-blur-sm z-10 shadow-[2px_0_4px_-2px_rgba(0,0,0,0.1)] border-r border-theme theme-transition">
+                  <td className={`p-3 sticky left-0 ${rowVisual.stickyClass} backdrop-blur-sm z-10 shadow-[2px_0_4px_-2px_rgba(0,0,0,0.1)] border-r border-theme theme-transition`}>
                     <div className="flex flex-col gap-1.5 justify-center">
                       {/* 줄 1: 이름 및 누락/장착 뱃지 */}
                       <div className="flex flex-row items-center gap-1.5 flex-wrap">
                         <span className="text-sm font-black text-theme-main whitespace-nowrap">{item.name}</span>
-                        {item.isEquipped && (
-                          <span className="px-1.5 py-0.5 rounded text-[9px] font-black bg-emerald-500/10 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-800 text-emerald-700 dark:text-emerald-450 whitespace-nowrap">
-                            장착 중
-                          </span>
-                        )}
-                        {item.status === 'MISSING' && (
-                          <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-rose-50 text-rose-600 border border-rose-200">
-                            누락
-                          </span>
-                        )}
+                        <span className={`px-1.5 py-0.5 rounded text-[9px] font-black border whitespace-nowrap ${rowVisual.badgeClass}`}>
+                          {rowVisual.label}
+                        </span>
                       </div>
                       {/* 줄 2: 부위 및 속성 뱃지 */}
                       <div className="flex flex-row items-center gap-1">
@@ -440,10 +472,8 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate, selectedRunes
                     return (
                       <td 
                         key={col.key} 
-                        className={`p-1.5 border-l border-theme text-center transition-all theme-transition ${
-                          isActive 
-                            ? 'bg-emerald-500/10 hover:bg-emerald-500/20' 
-                            : 'opacity-50 hover:opacity-100 bg-theme-main/10'
+                        className={`p-1.5 border-l border-theme text-center transition-all theme-transition ${rowVisual.cellClass} ${
+                          isActive ? 'hover:brightness-[0.98]' : 'opacity-65 hover:opacity-100'
                         }`}
                       >
                         <div className="flex flex-col items-center justify-center gap-1">
@@ -481,7 +511,8 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate, selectedRunes
                     );
                   })}
                 </tr>
-              ))
+                );
+              })
             )}
           </tbody>
         </table>

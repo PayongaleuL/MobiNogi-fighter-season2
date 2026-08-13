@@ -1,12 +1,10 @@
 import React from 'react';
 import StatsInput from './StatsInput';
 import RuneSelector from './RuneSelector';
-import ConditionalPanel from './ConditionalPanel';
 import {
   Activity,
   CheckCircle2,
   Info,
-  Sliders,
   Sparkles,
   Target,
   Timer,
@@ -78,10 +76,10 @@ function DpsOverview({ dpsResult, equippedRuneCount }) {
   ];
 
   return (
-    <section aria-label="실전 DPS 결과 요약" className="relative overflow-hidden bg-theme-card border border-orange-500/30 rounded-2xl p-5 sm:p-6 xl:p-7 shadow-theme theme-transition">
+    <section aria-label="실전 DPS 결과 요약" className="relative overflow-hidden bg-theme-card border border-orange-500/30 rounded-2xl p-4 sm:p-5 shadow-theme theme-transition">
       <div className="absolute -right-16 -top-16 w-44 h-44 rounded-full bg-orange-500/10 blur-3xl pointer-events-none" />
       <div className="relative">
-        <div className="flex flex-wrap items-center justify-between gap-3 mb-5">
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-xl bg-orange-500 text-white shadow-sm flex items-center justify-center">
               <Target className="w-4 h-4" />
@@ -94,11 +92,11 @@ function DpsOverview({ dpsResult, equippedRuneCount }) {
           <span className="text-[10px] font-black bg-theme-subcard border border-theme text-theme-sub px-2.5 py-1 rounded-full">룬 {equippedRuneCount}/10 장착</span>
         </div>
 
-        <div className="rounded-2xl bg-theme-subcard border border-theme p-4 sm:p-5">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div className="rounded-2xl bg-theme-subcard border border-theme p-3 sm:p-4">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="text-[11px] font-bold text-theme-sub">종합 실전 예상 DPS</p>
-              <p className="text-4xl sm:text-5xl xl:text-6xl font-black text-orange-500 tracking-[-0.045em] leading-none mt-1.5">
+              <p className="text-4xl sm:text-5xl xl:text-5xl font-black text-orange-500 tracking-[-0.045em] leading-none mt-1.5">
                 {dpsResult ? dpsResult.weightedDps.toLocaleString() : '0'}
                 <span className="text-xs tracking-normal text-theme-muted font-bold ml-1.5">DPS</span>
               </p>
@@ -134,24 +132,15 @@ function StancePanel({ skillStances, onStanceChange }) {
   ];
 
   return (
-    <section className="bg-theme-card border border-theme rounded-2xl p-5 shadow-theme theme-transition">
-      <div className="flex items-start gap-3 mb-4">
-        <div className="w-8 h-8 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center shrink-0">
-          <Activity className="w-4 h-4 text-orange-500" />
-        </div>
-        <div>
-          <h3 className="text-sm font-black text-theme-main">스킬 스탠스 시뮬레이션</h3>
-          <p className="text-[11px] text-theme-muted mt-0.5 leading-relaxed">룬 장착과 별도로 각 스킬의 행동 변화를 선택해 딜사이클을 가상 적용합니다.</p>
-        </div>
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-5 gap-2.5">
+    <section aria-label="스킬 스탠스 선택">
+      <div className="grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-5 gap-2">
         {stances.map((stance) => (
-          <label key={stance.key} className="flex flex-col gap-1.5 bg-theme-subcard border border-theme rounded-xl p-3 theme-transition">
+          <label key={stance.key} className="flex flex-col gap-1 bg-theme-subcard border border-theme rounded-xl p-2.5 theme-transition">
             <span className="text-[10px] font-black text-theme-sub">{stance.label}</span>
             <select
               value={skillStances[stance.key]}
               onChange={(event) => onStanceChange(stance.key, event.target.value)}
-              className="w-full bg-theme-card border border-theme rounded-lg px-2.5 py-2 text-xs text-theme-main font-bold focus-orange-glow focus:outline-none theme-transition"
+              className="w-full bg-theme-card border border-theme rounded-lg px-2 py-1.5 text-[11px] text-theme-main font-bold focus-orange-glow focus:outline-none theme-transition"
             >
               {stance.options.map(([value, label]) => <option key={value} value={value}>{label}</option>)}
             </select>
@@ -164,22 +153,9 @@ function StancePanel({ skillStances, onStanceChange }) {
 
 function CombatScenarioPanel({ gimmicks, onGimmickChange, cycles, onCycleChange }) {
   return (
-    <section className="bg-theme-card border border-theme rounded-2xl p-5 shadow-theme theme-transition">
-      <div className="flex items-start justify-between gap-3 mb-4">
-        <div className="flex items-start gap-3">
-          <div className="w-8 h-8 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center shrink-0">
-            <Sliders className="w-4 h-4 text-orange-500" />
-          </div>
-          <div>
-            <h3 className="text-sm font-black text-theme-main">실전 시뮬레이션</h3>
-            <p className="text-[11px] text-theme-muted mt-0.5 leading-relaxed">보스와 전투 시간, 사이클을 지정하여 가중치 기반 실전 DPS를 계산합니다.</p>
-          </div>
-        </div>
-        <span className="text-[9px] font-black tracking-wider text-orange-500 bg-orange-500/10 border border-orange-500/20 rounded-full px-2 py-1">GIMMICKS</span>
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-        <label className="sm:col-span-2 flex flex-col gap-1.5 bg-theme-subcard p-3 rounded-xl border border-theme theme-transition">
+    <section aria-label="실전 전투 조건">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        <label className="sm:col-span-2 flex flex-col gap-1 bg-theme-subcard p-2.5 rounded-xl border border-theme theme-transition">
           <span className="text-[10px] font-black text-theme-sub">대상 몬스터</span>
           <select value={gimmicks.boss} onChange={(event) => onGimmickChange('boss', event.target.value)} className="bg-theme-card border border-theme rounded-lg px-2.5 py-2 text-xs text-theme-main font-bold focus-orange-glow focus:outline-none theme-transition">
             <option value="함선 허수아비">함선 허수아비 (치명타 저항 0% / 방어도 30)</option>
@@ -190,27 +166,27 @@ function CombatScenarioPanel({ gimmicks, onGimmickChange, cycles, onCycleChange 
             <option value="바리어비스">바리어비스 (치명타 저항 20% / 방어도 15,903)</option>
           </select>
         </label>
-        <label className="flex flex-col gap-1.5 bg-theme-subcard p-3 rounded-xl border border-theme theme-transition">
+        <label className="flex flex-col gap-1 bg-theme-subcard p-2.5 rounded-xl border border-theme theme-transition">
           <span className="text-[10px] font-black text-theme-sub">평상시 딜 시간 (초)</span>
           <input type="number" value={gimmicks.ordinaryTime} onChange={(event) => onGimmickChange('ordinaryTime', parseInt(event.target.value) || 0)} className="bg-theme-card border border-theme rounded-lg px-2.5 py-2 text-xs text-theme-main font-bold text-right focus-orange-glow focus:outline-none theme-transition" />
         </label>
-        <label className="flex flex-col gap-1.5 bg-theme-subcard p-3 rounded-xl border border-theme theme-transition">
+        <label className="flex flex-col gap-1 bg-theme-subcard p-2.5 rounded-xl border border-theme theme-transition">
           <span className="text-[10px] font-black text-theme-sub">궁극기 딜 시간 (초)</span>
           <input type="number" value={gimmicks.ultimateTime} onChange={(event) => onGimmickChange('ultimateTime', parseInt(event.target.value) || 0)} className="bg-theme-card border border-theme rounded-lg px-2.5 py-2 text-xs text-theme-main font-bold text-right focus-orange-glow focus:outline-none theme-transition" />
         </label>
       </div>
 
-      <div className="mt-4 pt-4 border-t border-theme">
+      <div className="mt-3 pt-3 border-t border-theme">
         <div className="flex items-center gap-2 mb-2.5">
           <Timer className="w-3.5 h-3.5 text-orange-500" />
           <span className="text-[11px] font-black text-theme-sub">딜사이클 입력</span>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-          <label className="bg-theme-subcard p-3 rounded-xl border border-theme flex flex-col gap-1.5 theme-transition">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <label className="bg-theme-subcard p-2.5 rounded-xl border border-theme flex flex-col gap-1 theme-transition">
             <span className="text-[10px] text-theme-muted font-bold">평상시 사이클</span>
             <input type="text" value={cycles.ordinary} onChange={(event) => onCycleChange('ordinary', event.target.value)} className="w-full bg-theme-card border border-theme rounded-lg px-3 py-2 text-sm font-black text-orange-500 tracking-[0.18em] focus-orange-glow focus:outline-none theme-transition" />
           </label>
-          <label className="bg-theme-subcard p-3 rounded-xl border border-theme flex flex-col gap-1.5 theme-transition">
+          <label className="bg-theme-subcard p-2.5 rounded-xl border border-theme flex flex-col gap-1 theme-transition">
             <span className="text-[10px] text-theme-muted font-bold">궁극기 활성 사이클</span>
             <input type="text" value={cycles.ultimate} onChange={(event) => onCycleChange('ultimate', event.target.value)} className="w-full bg-theme-card border border-theme rounded-lg px-3 py-2 text-sm font-black text-orange-500 tracking-[0.18em] focus-orange-glow focus:outline-none theme-transition" />
           </label>
@@ -312,21 +288,19 @@ export default function MainCalculatorTab({
   presets,
   savePreset,
   loadPreset,
-  clearPreset,
-  conditionalUptimes,
-  onUptimeChange
+  clearPreset
 }) {
   const equippedRuneCount = Object.values(selectedRunes).flat().filter(Boolean).length;
 
   return (
-    <div className="flex flex-col gap-6 animate-fadeIn">
+    <div className="flex flex-col gap-4 animate-fadeIn">
       <WorkflowStrip equippedRuneCount={equippedRuneCount} />
 
-      <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,0.86fr)_minmax(0,1.14fr)] gap-6 xl:gap-8 items-start">
-        <main className="flex flex-col gap-5 min-w-0">
-          <section className="bg-theme-card border border-theme rounded-2xl p-4 sm:p-5 xl:p-6 shadow-theme theme-transition">
+      <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,0.86fr)_minmax(0,1.14fr)] gap-4 xl:gap-5 items-start">
+        <main className="flex flex-col gap-4 min-w-0">
+          <section className="bg-theme-card border border-theme rounded-2xl p-3 sm:p-4 shadow-theme theme-transition">
             <SectionIntro step="01 · REQUIRED SETUP" title="기본 스펙과 시즌 패시브" description="마을 기준 능력치·스킬 개조·최종뎀 증가를 순서대로 설정합니다." icon={Sparkles} badge="DPS 필수" />
-            <div className="mt-4">
+            <div className="mt-3">
               <StatsInput stats={stats} onStatsChange={onStatsChange} />
             </div>
           </section>
@@ -335,36 +309,35 @@ export default function MainCalculatorTab({
             <DpsOverview dpsResult={dpsResult} equippedRuneCount={equippedRuneCount} />
           </div>
 
-          <section className="bg-theme-card border border-theme rounded-2xl p-4 sm:p-5 xl:p-6 shadow-theme theme-transition">
+          <section className="bg-theme-card border border-theme rounded-2xl p-3 sm:p-4 shadow-theme theme-transition">
             <SectionIntro step="02 · STANCE" title="스킬별 스탠스 시뮬레이션" description="선택한 스탠스가 각 스킬 계수와 최종 DPS에 반영됩니다." icon={Activity} badge="DPS 필수" />
-            <div className="mt-4">
+            <div className="mt-3">
               <StancePanel skillStances={skillStances} onStanceChange={onStanceChange} />
             </div>
           </section>
 
-          <section className="bg-theme-card border border-theme rounded-2xl p-4 sm:p-5 xl:p-6 shadow-theme theme-transition">
+          <section className="bg-theme-card border border-theme rounded-2xl p-3 sm:p-4 shadow-theme theme-transition">
             <SectionIntro step="03 · COMBAT" title="전투 상황과 딜사이클" description="보스·시간·사이클을 입력해 실전 가중 DPS를 계산합니다." icon={Target} badge="DPS 필수" />
-            <div className="mt-4">
+            <div className="mt-3">
               <CombatScenarioPanel gimmicks={gimmicks} onGimmickChange={onGimmickChange} cycles={cycles} onCycleChange={onCycleChange} />
             </div>
           </section>
 
-          <ConditionalPanel uiTheme={uiTheme} selectedRunes={selectedRunes} conditionalUptimes={conditionalUptimes} onUptimeChange={onUptimeChange} nightBlessingUptime={stats.nightBlessingUptime} onNightBlessingChange={(value) => onStatsChange('nightBlessingUptime', value)} />
         </main>
 
-        <aside className="flex flex-col gap-5 min-w-0">
+        <aside className="flex flex-col gap-4 min-w-0">
           <div className="hidden xl:block">
             <DpsOverview dpsResult={dpsResult} equippedRuneCount={equippedRuneCount} />
           </div>
 
-          <section className="bg-theme-card border border-theme rounded-2xl p-4 sm:p-5 xl:p-6 shadow-theme theme-transition">
+          <section className="bg-theme-card border border-theme rounded-2xl p-3 sm:p-4 shadow-theme theme-transition">
             <SectionIntro step="04 · RUNE SETUP" title="시즌 2 룬 세팅 구성" description="부위별 룬과 초월 단계를 조합하면 결과가 즉시 갱신됩니다." icon={Activity} badge={`${equippedRuneCount}/10 장착`} />
-            <div className="mt-4">
+            <div className="mt-3">
               <RuneSelector uiTheme={uiTheme} selectedRunes={selectedRunes} onRuneChange={onRuneChange} transcendLevels={transcendLevels} onTranscendChange={onTranscendChange} />
             </div>
           </section>
 
-          <section className="bg-theme-card border border-theme rounded-2xl p-4 sm:p-5 xl:p-6 shadow-theme theme-transition">
+          <section className="bg-theme-card border border-theme rounded-2xl p-3 sm:p-4 shadow-theme theme-transition">
             <DpsBreakdown dpsResult={dpsResult} gimmicks={gimmicks} />
             <PresetComparison presets={presets} dpsResult={dpsResult} savePreset={savePreset} loadPreset={loadPreset} clearPreset={clearPreset} />
           </section>

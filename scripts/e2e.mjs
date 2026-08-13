@@ -4,8 +4,7 @@ import { chromium } from 'playwright';
 
 const port = Number(process.env.E2E_PORT || 4175);
 const baseURL = `http://127.0.0.1:${port}/MobiNogi-fighter-season2/`;
-const npmCommand = process.platform === 'win32' ? 'npm.cmd' : 'npm';
-const server = spawn(npmCommand, ['run', 'preview', '--', '--host', '127.0.0.1', '--port', String(port)], {
+const server = spawn(process.execPath, ['node_modules/vite/bin/vite.js', 'preview', '--host', '127.0.0.1', '--port', String(port)], {
   stdio: ['ignore', 'pipe', 'pipe'],
   detached: process.platform !== 'win32',
 });

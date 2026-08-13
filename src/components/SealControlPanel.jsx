@@ -95,8 +95,8 @@ export default function SealControlPanel({ seals, onSealChange }) {
   const dpsCritGain = totalLuk * 1.0;
 
   return (
-    <div className="flex flex-col gap-6">
-      <section className="bg-theme-card border border-theme rounded-2xl p-5 shadow-theme theme-transition">
+    <div className="flex flex-col gap-4">
+      <section className="bg-theme-card border border-theme rounded-2xl p-4 shadow-theme theme-transition">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
             <p className="text-[10px] font-black tracking-[0.14em] text-orange-500">SEAL SETTINGS</p>
@@ -108,7 +108,7 @@ export default function SealControlPanel({ seals, onSealChange }) {
       </section>
 
       {/* 1. 종합 설정 현황 보드 */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 bg-theme-subcard border border-theme p-5 rounded-2xl theme-transition">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-3 bg-theme-subcard border border-theme p-4 rounded-2xl theme-transition">
         <div className="flex flex-col gap-1 md:border-r border-theme pr-4 last:border-0 theme-transition">
           <span className="text-[10px] font-black text-theme-muted uppercase">총 추가 슬롯 공격력</span>
           <span className="text-xl font-black text-orange-500">+{totalAtk}</span>
@@ -140,7 +140,7 @@ export default function SealControlPanel({ seals, onSealChange }) {
       </div>
 
       {/* 2. 10대 장비 슬롯 개별 설정 대시보드 */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 xl:gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 xl:gap-4">
         {Object.entries(SLOT_NAMES).map(([slot, label]) => {
           const seal = getSealData(slot);
 
@@ -161,7 +161,7 @@ export default function SealControlPanel({ seals, onSealChange }) {
           return (
             <div
               key={slot}
-              className={`p-3.5 xl:p-4 rounded-2xl border flex flex-col gap-3.5 transition-all duration-300 card-lift-glow theme-transition ${cardColorClass}`}
+              className={`p-3 xl:p-3.5 rounded-2xl border flex flex-col gap-3 transition-all duration-300 card-lift-glow theme-transition ${cardColorClass}`}
             >
               {/* 장비 부위 명세 */}
               <div className="flex justify-between items-center">
