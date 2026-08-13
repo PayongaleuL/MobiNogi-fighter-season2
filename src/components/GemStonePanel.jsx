@@ -273,19 +273,19 @@ export default function GemStonePanel({ uiTheme, gems, onGemChange, setGems, sel
   };
 
   return (
-    <div className="bg-theme-card border border-theme rounded-2xl p-4 md:p-5 xl:p-6 shadow-theme flex flex-col gap-4 w-full theme-transition">
+    <div className="bg-theme-card border border-theme rounded-xl p-3 md:p-4 shadow-theme flex flex-col gap-3 w-full theme-transition">
       
       {/* 타이틀 및 퀵 가이드 */}
-      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-3 border-b border-theme pb-4 theme-transition">
+      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-2 border-b border-theme pb-3 theme-transition">
         <div>
           <div className="flex items-center gap-2">
             <Gem className="w-6 h-6 text-orange-500" />
             <div>
               <p className="text-[10px] font-black tracking-[0.14em] text-orange-500">GEM WORKSHOP</p>
-              <h3 className="text-xl font-black text-theme-main">보석 세공 인벤토리 관리</h3>
+              <h3 className="text-lg font-black text-theme-main">보석 세공 인벤토리 관리</h3>
             </div>
           </div>
-          <p className="text-xs text-theme-sub mt-2">
+          <p className="text-[10px] text-theme-sub mt-1">
             22개의 소켓 보석을 장비 부위별로 지정합니다. 특수 보석과 세공 3줄 선택값은 최종 DPS에 즉시 반영됩니다.
           </p>
         </div>
@@ -297,7 +297,7 @@ export default function GemStonePanel({ uiTheme, gems, onGemChange, setGems, sel
             {incompleteSocketCount > 0 && <span className="px-2.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-700 dark:text-amber-300">미완료 {incompleteSocketCount}</span>}
           </div>
           {/* 프리셋 버튼 그룹 */}
-          <div className="flex flex-wrap gap-2.5">
+          <div className="flex flex-wrap gap-1.5">
           <button
             onClick={() => applyPreset('perfectStarPrism')}
             className="px-3 py-1.5 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-300 dark:border-purple-800/40 rounded-lg text-[10px] font-bold text-purple-700 dark:text-purple-300 transition-all active:scale-95 theme-transition"
@@ -334,62 +334,62 @@ export default function GemStonePanel({ uiTheme, gems, onGemChange, setGems, sel
       </div>
 
       {/* 세공 실시간 합산 현황 보드 (16대 세공 옵션 종합) */}
-      <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,1.65fr)_minmax(320px,0.85fr)] gap-3">
-        <div className="bg-theme-subcard border border-theme rounded-2xl p-4 flex flex-col gap-3 theme-transition">
+      <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,1.8fr)_minmax(320px,0.8fr)] gap-2">
+        <div className="bg-theme-subcard border border-theme rounded-xl p-2.5 flex flex-col gap-2 theme-transition">
           <h4 className="text-xs font-black text-theme-muted flex items-center gap-1.5 uppercase tracking-wider">
             <Sparkles className="w-4 h-4 text-emerald-500" />
             세공 핵심값 합산 현황
           </h4>
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8 gap-1.5">
           {/* 강타/이동 */}
-          <div className="bg-theme-card border border-theme p-2.5 rounded-xl flex flex-col theme-transition shadow-sm">
+          <div className="bg-theme-card border border-theme p-1.5 rounded-lg flex flex-col theme-transition shadow-sm">
             <span className="text-[9px] font-semibold text-rose-600 dark:text-red-400">강타뎀 / 강타쿨</span>
             <span className="text-sm font-black text-theme-main mt-0.5">{sumStats.strongDmg.toFixed(1)}% / {sumStats.strongCd.toFixed(1)}%</span>
           </div>
-          <div className="bg-theme-card border border-theme p-2.5 rounded-xl flex flex-col theme-transition shadow-sm">
+          <div className="bg-theme-card border border-theme p-1.5 rounded-lg flex flex-col theme-transition shadow-sm">
             <span className="text-[9px] font-semibold text-blue-600 dark:text-blue-400">이동뎀 / 이동쿨</span>
             <span className="text-sm font-black text-theme-main mt-0.5">{sumStats.moveDmg.toFixed(1)}% / {sumStats.moveCd.toFixed(1)}%</span>
           </div>
 
           {/* 보조/생존 */}
-          <div className="bg-theme-card border border-theme p-2.5 rounded-xl flex flex-col theme-transition shadow-sm">
+          <div className="bg-theme-card border border-theme p-1.5 rounded-lg flex flex-col theme-transition shadow-sm">
             <span className="text-[9px] font-semibold text-emerald-600 dark:text-emerald-400">보조뎀 / 보조쿨</span>
             <span className="text-sm font-black text-theme-main mt-0.5">{sumStats.subDmg.toFixed(1)}% / {sumStats.subCd.toFixed(1)}%</span>
           </div>
-          <div className="bg-theme-card border border-theme p-2.5 rounded-xl flex flex-col theme-transition shadow-sm">
+          <div className="bg-theme-card border border-theme p-1.5 rounded-lg flex flex-col theme-transition shadow-sm">
             <span className="text-[9px] font-semibold text-amber-600 dark:text-amber-400">생존뎀 / 생존쿨</span>
             <span className="text-sm font-black text-theme-main mt-0.5">{sumStats.saveDmg.toFixed(1)}% / {sumStats.saveCd.toFixed(1)}%</span>
           </div>
 
           {/* 방해/연타 */}
-          <div className="bg-theme-card border border-theme p-2.5 rounded-xl flex flex-col theme-transition shadow-sm">
+          <div className="bg-theme-card border border-theme p-1.5 rounded-lg flex flex-col theme-transition shadow-sm">
             <span className="text-[9px] font-semibold text-purple-600 dark:text-purple-400">방해뎀 / 방해쿨</span>
             <span className="text-sm font-black text-theme-main mt-0.5">{sumStats.disableDmg.toFixed(1)}% / {sumStats.disableCd.toFixed(1)}%</span>
           </div>
-          <div className="bg-theme-card border border-theme p-2.5 rounded-xl flex flex-col theme-transition shadow-sm">
+          <div className="bg-theme-card border border-theme p-1.5 rounded-lg flex flex-col theme-transition shadow-sm">
             <span className="text-[9px] font-semibold text-rose-500 dark:text-rose-450">연타뎀 / 연타쿨</span>
             <span className="text-sm font-black text-theme-main mt-0.5">{sumStats.doubleDmg.toFixed(1)}% / {sumStats.doubleCd.toFixed(1)}%</span>
           </div>
 
           {/* 소환/원소 */}
-          <div className="bg-theme-card border border-theme p-2.5 rounded-xl flex flex-col theme-transition shadow-sm">
+          <div className="bg-theme-card border border-theme p-1.5 rounded-lg flex flex-col theme-transition shadow-sm">
             <span className="text-[9px] font-semibold text-sky-600 dark:text-sky-400">소환뎀 / 소환쿨</span>
             <span className="text-sm font-black text-theme-main mt-0.5">{sumStats.summonDmg.toFixed(1)}% / {sumStats.summonCd.toFixed(1)}%</span>
           </div>
-          <div className="bg-theme-card border border-theme p-2.5 rounded-xl flex flex-col theme-transition shadow-sm">
+          <div className="bg-theme-card border border-theme p-1.5 rounded-lg flex flex-col theme-transition shadow-sm">
             <span className="text-[9px] font-semibold text-indigo-600 dark:text-indigo-400">원소뎀 / 원소쿨</span>
             <span className="text-sm font-black text-theme-main mt-0.5">{sumStats.elementDmg.toFixed(1)}% / {sumStats.elementCd.toFixed(1)}%</span>
           </div>
         </div>
         </div>
 
-        <aside className="bg-orange-500/5 border border-orange-500/25 rounded-2xl p-4 flex flex-col gap-3 theme-transition">
+        <aside className="bg-orange-500/5 border border-orange-500/25 rounded-xl p-2.5 flex flex-col gap-2 theme-transition">
           <h4 className="text-sm font-black text-orange-600 dark:text-orange-300 flex items-center gap-2">
             <Sparkles className="w-4 h-4" />
             특수 보석 효과
           </h4>
-          <div className="grid grid-cols-3 gap-3 text-center">
+          <div className="grid grid-cols-3 gap-2 text-center">
             <div className="flex flex-col gap-1">
               <span className="text-[10px] font-bold text-theme-muted">모든 능력치</span>
               <strong className="text-lg text-orange-500">+{extraAllStat}</strong>
@@ -403,25 +403,25 @@ export default function GemStonePanel({ uiTheme, gems, onGemChange, setGems, sel
               <strong className="text-lg text-orange-500">+{emblemSkillTagBoost.toFixed(1)}%</strong>
             </div>
           </div>
-          <p className="text-[10px] leading-relaxed text-theme-sub">특수 보석의 능력치는 선택 즉시 종합 DPS 계산에 반영됩니다.</p>
+          <p className="text-[9px] leading-relaxed text-theme-sub">선택값은 최종 DPS에 즉시 반영됩니다.</p>
         </aside>
       </div>
 
       {/* 3줄 완성 권장 가이드 경고 배너 */}
-      <div className="bg-amber-500/10 dark:bg-amber-950/30 border border-amber-300 dark:border-amber-800/40 text-xs p-3.5 rounded-xl font-bold flex items-start gap-2.5 theme-transition">
+      <div className="bg-amber-500/10 dark:bg-amber-950/30 border border-amber-300 dark:border-amber-800/40 text-[10px] p-2 rounded-lg font-bold flex items-start gap-2 theme-transition">
         <ShieldAlert className="w-4 h-4 text-amber-600 dark:text-amber-300 shrink-0 mt-0.5" />
         <span className="text-amber-700 dark:text-white theme-transition">3줄 세공 완성 권장: 일괄 프리셋(강이)은 2줄만 적용합니다. 마지막 세공 옵션을 선택해 완료 3/3 상태로 맞추면 DPS 계산 조건을 빠짐없이 검토할 수 있습니다.</span>
       </div>
 
       {/* 장비 부위별 소켓 리스트 렌더링 구역 */}
-      <div className="grid grid-cols-1 xl:grid-cols-12 gap-4 xl:gap-5 items-start">
+      <div className="grid grid-cols-1 xl:grid-cols-12 gap-2 xl:gap-3 items-start">
         {GEM_SLOT_CONFIGS.map(config => {
           const partGems = gems.slice(config.startIndex, config.startIndex + config.count);
 
           return (
-            <div key={config.part} className={`bg-theme-subcard/40 border border-theme rounded-2xl p-3 xl:p-4 flex flex-col gap-3 theme-transition ${config.part === '무기' || config.part === '장신구' ? 'xl:col-span-6' : 'xl:col-span-4'}`}>
+            <div key={config.part} className={`bg-theme-subcard/40 border border-theme rounded-xl p-2 xl:p-2.5 flex flex-col gap-2 theme-transition ${config.part === '무기' || config.part === '장신구' ? 'xl:col-span-6' : 'xl:col-span-4'}`}>
               {/* 장비명 & 장착된 룬 정보 연동 헤더 */}
-              <div className="flex justify-between items-center border-b border-theme pb-2.5 theme-transition">
+              <div className="flex justify-between items-center border-b border-theme pb-1.5 theme-transition">
                 <h4 className="text-xs font-black text-orange-500 tracking-wider uppercase flex items-center gap-1.5">
                   <Layers className="w-3.5 h-3.5 text-theme-muted" />
                   {config.part === '장신구' ? '장신구 통합 세공' : `${config.part} 보석 세공`}
@@ -434,8 +434,8 @@ export default function GemStonePanel({ uiTheme, gems, onGemChange, setGems, sel
 
               {/* 보석 슬롯 카드 그리드 (장신구는 flexbox로 모아 조밀하게 배치 및 세로선 보장) */}
               <div className={config.part === '장신구' 
-                ? "flex flex-col xl:flex-row items-stretch justify-start gap-4 xl:gap-5"
-                : "grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3.5"
+                ? "flex flex-col xl:flex-row items-stretch justify-start gap-2 xl:gap-3"
+                : "grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-2"
               }>
                 {partGems.map((gem, subIdx) => {
                   const globalIdx = config.startIndex + subIdx;
@@ -453,7 +453,7 @@ export default function GemStonePanel({ uiTheme, gems, onGemChange, setGems, sel
                       )}
 
                       <div
-                        className={`p-3.5 rounded-xl border flex flex-col gap-3.5 transition-all hover:border-orange-500/50 card-lift-glow theme-transition ${
+                        className={`p-2 rounded-lg border flex flex-col gap-2 transition-all hover:border-orange-500/50 card-lift-glow theme-transition ${
                           isJangsinGu ? 'flex-1 w-full xl:max-w-none' : ''
                         } ${
                           gem.grade === '미장착' 
@@ -540,7 +540,7 @@ export default function GemStonePanel({ uiTheme, gems, onGemChange, setGems, sel
       </div>
 
       {/* 가이드 메시지 */}
-      <div className="bg-theme-subcard border border-theme rounded-xl p-4 flex gap-2.5 items-start theme-transition">
+      <div className="bg-theme-subcard border border-theme rounded-lg p-2 flex gap-2 items-start theme-transition">
         <ShieldAlert className="w-4 h-4 text-orange-500 shrink-0 mt-0.5" />
         <span className="text-[10px] text-theme-sub leading-normal">
           마비노기 모바일 격투가 장비 세공의 22개 소켓 구조를 1:1 완벽 이식했습니다. 방해 및 생존 계열 보석을 공란으로 두길 원할 시, 옵션 버튼을 한 번 더 클릭하여 비활성화(회색) 상태로 두시면 최종 DPS 연산 대상에서 자동으로 제외 처리됩니다.
