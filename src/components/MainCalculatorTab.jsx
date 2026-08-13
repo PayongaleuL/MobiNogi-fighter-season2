@@ -68,7 +68,7 @@ function SectionIntro({ step, title, description, icon: Icon, badge }) {
   );
 }
 
-function DpsOverview({ dpsResult, equippedRuneCount }) {
+export function DpsOverview({ dpsResult, equippedRuneCount }) {
   const metrics = [
     { label: '적용 공격력', value: dpsResult ? dpsResult.totalAtk.toLocaleString() : '0', accent: 'text-theme-main' },
     { label: '룬 공격력 가산', value: `+${dpsResult ? dpsResult.runeAtkAdd.toLocaleString() : '0'}`, accent: 'text-orange-600 dark:text-orange-300' },
@@ -103,10 +103,17 @@ function DpsOverview({ dpsResult, equippedRuneCount }) {
               </p>
               <p className="text-[10px] text-theme-muted mt-2">현재 입력값과 전투 조건을 기준으로 즉시 계산됩니다.</p>
             </div>
-            <div className="flex items-center gap-2 text-[10px] font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-500/10 border border-emerald-500/20 rounded-xl px-3 py-2">
-              <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
-              계산 상태 정상
-            </div>
+            {dpsResult?.status === 'invalid' ? (
+              <div aria-live="polite" className="flex items-center gap-2 rounded-xl border border-red-500/30 bg-red-500/10 px-3 py-2 text-[10px] font-bold text-red-700 dark:text-red-300">
+                <AlertTriangle className="h-3.5 w-3.5 shrink-0" />
+                계산 입력 오류
+              </div>
+            ) : (
+              <div className="flex items-center gap-2 text-[10px] font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-500/10 border border-emerald-500/20 rounded-xl px-3 py-2">
+                <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
+                계산 상태 정상
+              </div>
+            )}
           </div>
         </div>
 
