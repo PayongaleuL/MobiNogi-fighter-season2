@@ -23,6 +23,12 @@ try {
     await page.locator('input[type="number"]').first().fill('28000');
     await page.waitForTimeout(100);
     const updatedDps = await dpsSection.innerText();
+    const dpsHasStickyAncestor = await dpsSection.evaluate((element) => {
+      for (let node = element; node; node = node.parentElement) {
+        if (window.getComputedStyle(node).position === 'sticky') return true;
+      }
+      return false;
+    });
 
     await page.getByRole('button', { name: '보석 세공실' }).click();
     const gemstoneTabVisible = await page.getByText('보석 세공 인벤토리 관리', { exact: false }).isVisible();
@@ -64,6 +70,7 @@ try {
       dpsText: report.dpsText,
       overflowCandidates: report.overflowCandidates,
       dpsUpdatesWhenStatChanges: baselineDps !== updatedDps,
+      dpsHasStickyAncestor,
       gemstoneTabVisible,
       darkThemeApplied
     });
@@ -71,7 +78,7 @@ try {
   }
 
   console.log(JSON.stringify(results, null, 2));
-  if (results.some((result) => result.hasHorizontalOverflow || !result.dpsHeading || !result.dpsUpdatesWhenStatChanges || !result.gemstoneTabVisible || !result.darkThemeApplied)) {
+  if (results.some((result) => result.hasHorizontalOverflow || !result.dpsHeading || result.dpsHasStickyAncestor || !result.dpsUpdatesWhenStatChanges || !result.gemstoneTabVisible || !result.darkThemeApplied)) {
     process.exitCode = 1;
   }
 } finally {

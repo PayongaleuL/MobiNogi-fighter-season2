@@ -334,21 +334,12 @@ export default function GemStonePanel({ uiTheme, gems, onGemChange, setGems, sel
       </div>
 
       {/* 세공 실시간 합산 현황 보드 (16대 세공 옵션 종합) */}
-      <div className="bg-theme-subcard border border-theme rounded-2xl p-5 flex flex-col gap-4 theme-transition">
-        <div className="flex justify-between items-center">
+      <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,1.65fr)_minmax(320px,0.85fr)] gap-4">
+        <div className="bg-theme-subcard border border-theme rounded-2xl p-5 flex flex-col gap-4 theme-transition">
           <h4 className="text-xs font-black text-theme-muted flex items-center gap-1.5 uppercase tracking-wider">
             <Sparkles className="w-4 h-4 text-emerald-500" />
-            보석 세공 및 특수 보석 합산 스탯 총합 보드
+            세공 핵심값 합산 현황
           </h4>
-          {/* 특수 보석 가산 스탯 요약 */}
-          {(extraAllStat > 0 || extraFinalDmgPct > 0 || emblemSkillTagBoost > 0) && (
-            <div className="flex gap-3 text-[10px] text-orange-500 font-bold">
-              {extraAllStat > 0 && <span>모든능력치 +{extraAllStat} (공격력 +{extraAllStat * 1.5})</span>}
-              {extraFinalDmgPct > 0 && <span>최종 주는피해 +{extraFinalDmgPct.toFixed(1)}%</span>}
-              {emblemSkillTagBoost > 0 && <span>스킬태그 데미지 추가강화 +{emblemSkillTagBoost.toFixed(1)}% (합산됨)</span>}
-            </div>
-          )}
-        </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8 gap-3">
           {/* 강타/이동 */}
@@ -391,6 +382,29 @@ export default function GemStonePanel({ uiTheme, gems, onGemChange, setGems, sel
             <span className="text-sm font-black text-theme-main mt-0.5">{sumStats.elementDmg.toFixed(1)}% / {sumStats.elementCd.toFixed(1)}%</span>
           </div>
         </div>
+        </div>
+
+        <aside className="bg-orange-500/5 border border-orange-500/25 rounded-2xl p-5 flex flex-col gap-4 theme-transition">
+          <h4 className="text-sm font-black text-orange-600 dark:text-orange-300 flex items-center gap-2">
+            <Sparkles className="w-4 h-4" />
+            특수 보석 효과
+          </h4>
+          <div className="grid grid-cols-3 gap-3 text-center">
+            <div className="flex flex-col gap-1">
+              <span className="text-[10px] font-bold text-theme-muted">모든 능력치</span>
+              <strong className="text-lg text-orange-500">+{extraAllStat}</strong>
+            </div>
+            <div className="flex flex-col gap-1 border-x border-orange-500/15 px-2">
+              <span className="text-[10px] font-bold text-theme-muted">최종 주는피해</span>
+              <strong className="text-lg text-orange-500">+{extraFinalDmgPct.toFixed(1)}%</strong>
+            </div>
+            <div className="flex flex-col gap-1">
+              <span className="text-[10px] font-bold text-theme-muted">스킬태그 강화</span>
+              <strong className="text-lg text-orange-500">+{emblemSkillTagBoost.toFixed(1)}%</strong>
+            </div>
+          </div>
+          <p className="text-[10px] leading-relaxed text-theme-sub">특수 보석의 능력치는 선택 즉시 종합 DPS 계산에 반영됩니다.</p>
+        </aside>
       </div>
 
       {/* 3줄 완성 권장 가이드 경고 배너 */}
