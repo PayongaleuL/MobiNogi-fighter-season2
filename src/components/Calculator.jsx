@@ -1,17 +1,15 @@
-﻿import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import GemStonePanel from './GemStonePanel';
 import RuneAuditDashboard from './RuneAuditDashboard';
 import SealControlPanel from './SealControlPanel';
 import MainCalculatorTab from './MainCalculatorTab';
 import ConditionalSettingsSidebar from './ConditionalSettingsSidebar';
-import { calculateDPS } from '../utils/calculator';
+import { useDpsResult } from '../adapters/useDpsResult';
 import { Sun, Moon } from 'lucide-react';
 import runesData from '../data/runes.json';
 import { parseRuneMarkdown } from '../utils/runeMdParser';
 import mdText from '../../results/260708_룬설명목록.md?raw';
-import skillMdText from '../../results/260710_패시브_액티브_스킬목록.md?raw';
-import parseSkillMarkdown from '../utils/skillMdParser';
-import { calculateGemStats } from '../utils/gemCalculator';
+
 import { createLatestReferencePresets } from '../data/latestReferencePresets';
 
 const createDefaultSeals = () => ({
@@ -102,8 +100,7 @@ export default function Calculator() {
     return runesData;
   });
 
-  // 1-3. 파싱된 스킬 데이터 구성
-  const parsedSkills = useMemo(() => parseSkillMarkdown(skillMdText), []);
+
 
   // 1-4. 로컬 스토리지 초기 로딩 완료 여부 플래그
   const [isLoaded, setIsLoaded] = useState(false);
@@ -227,50 +224,19 @@ export default function Calculator() {
     return createLatestReferencePresets();
   });
 
-  // gems로부터 gemStats 및 특수보석 능력치 계산
-  const { gemStats, extraAllStat, extraFinalDmgPct } = useMemo(() => {
-    return calculateGemStats(gems);
-  }, [gems]);
-
-  // 룬 정보 전개 및 개별 초월 레벨 주입
-  const flattenedRunes = useMemo(() => {
-    const flattened = [];
-    const getCoreName = (name) => name ? name.replace(/\+/g, '').replace(/\s+/g, '').trim() : '';
-    Object.keys(selectedRunes).forEach(type => {
-      selectedRunes[type].forEach((r, idx) => {
-        if (r) {
-          const latestRune = customRunes.find(cr => getCoreName(cr.name) === getCoreName(r.name)) || 
-                             runesData.find(o => getCoreName(o.name) === getCoreName(r.name)) || 
-                             r;
-          const rCopy = {
-            ...latestRune,
-            stats: latestRune.stats || {},
-            transcendLevel: transcendLevels[type] ? transcendLevels[type][idx] : 0
-          };
-          flattened.push(rCopy);
-        }
-      });
-    });
-    return flattened;
-  }, [selectedRunes, customRunes, transcendLevels]);
-
-  // DPS 실시간 연산 (인장 설정 데이터 seals 결합 전달 및 parsedSkills 전달)
-  const dpsResult = useMemo(() => {
-    const statsWithGems = {
-      ...stats,
-      extraAllStat,
-      extraFinalDmgPct
-    };
-    const res = calculateDPS(statsWithGems, flattenedRunes, gimmicks, cycles, conditionalUptimes, gemStats, skillStances, seals, parsedSkills);
-    console.log("CALC_DETAILS:", JSON.stringify({
-      weightedDps: res.weightedDps,
-      totalAtk: res.totalAtk,
-      gemStats,
-      skillStances,
-      seals
-    }));
-    return res;
-  }, [stats, extraAllStat, extraFinalDmgPct, flattenedRunes, gimmicks, cycles, conditionalUptimes, gemStats, skillStances, seals, parsedSkills]);
+  // 렌더러는 계산 입력 상태만 소유한다. 룬 전개·보석 집계·스킬 파싱·DPS 연산은 어댑터 훅이 담당한다.
+  const dpsResult = useDpsResult({
+    stats,
+    selectedRunes,
+    customRunes,
+    transcendLevels,
+    gems,
+    gimmicks,
+    cycles,
+    conditionalUptimes,
+    skillStances,
+    seals,
+  });
 
   // 로컬 스토리지 프리셋 로드 및 하위 호환 마이그레이션
   useEffect(() => {
@@ -476,7 +442,7 @@ export default function Calculator() {
   const loadPreset = (slotIndex) => {
     const preset = presets[slotIndex];
     if (!preset || !preset.data) return;
-    
+
     if (window.confirm(`'${preset.name}' 셋팅을 불러오시겠습니까? 현재 구성은 덮어씌워집니다.`)) {
       setStats(preset.data.stats);
       setSelectedRunes(preset.data.selectedRunes);
