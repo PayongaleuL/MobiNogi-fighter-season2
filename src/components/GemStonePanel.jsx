@@ -1,7 +1,7 @@
 import React from 'react';
-import { Gem, ArrowRight, ShieldAlert, Sparkles, RefreshCw, Layers } from 'lucide-react';
+import { Gem, ShieldAlert, Sparkles, RefreshCw, Layers } from 'lucide-react';
 
-export default function GemStonePanel({ uiTheme, gems, onGemChange, setGems, selectedRunes }) {
+export default function GemStonePanel({ _uiTheme, gems, onGemChange, setGems, selectedRunes }) {
   
   // 보석 등급별 고정 세공 증가율 계수 (특수 보석은 스타프리즘S 수치 기본 매핑)
   const gradeValues = {
@@ -550,5 +550,3 @@ export default function GemStonePanel({ uiTheme, gems, onGemChange, setGems, sel
     </div>
   );
 }
-
-

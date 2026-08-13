@@ -222,6 +222,7 @@
         "id": "ember-stack-ultimate",
         "label": "불씨름 12중첩 궁극기 소모",
         "defaultUptime": 0.13,
+        "uptimeStep": 1,
         "stats": { "조건부공증%": 0.42 },
         "source": "궁극기 사용 시 15초 동안 소모한 불씨름 중첩당 공격력 3.5% 증가 (최대 12중첩)"
       }

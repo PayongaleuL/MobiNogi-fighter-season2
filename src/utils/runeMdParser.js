@@ -24,7 +24,6 @@ export function parseRuneMarkdown(mdText) {
       }
 
       const category = headerMatch[1]; // '신화' 등
-      const indexStr = headerMatch[2]; // '1' 등
       const name = category ? `[${category}] ${headerMatch[3].trim()}` : headerMatch[3].trim();
       const type = headerMatch[4].trim(); // 무기, 방어구, 장신구, 엠블럼
       const element = headerMatch[5].trim(); // 빛, 어둠, 용, 없음
@@ -148,74 +147,74 @@ function parseStatsFromText(text) {
     const temp = {};
 
     // 1. 공격력%
-    const atkMatches = [...sentence.matchAll(/공격력(?:이|을|은)?\s*([\d\.]+)%/g)];
+    const atkMatches = [...sentence.matchAll(/공격력(?:이|을|은)?\s*([\d.]+)%/g)];
     if (atkMatches.length > 0) {
       temp["공격력%"] = parseFloat(atkMatches[0][1]) / 100.0;
     }
 
     // 2. 주는피해%
-    const dmgMatches = [...sentence.matchAll(/(?<!강타\s*|연타\s*|추가타\s*|치명타\s*|콤보\s*|멀티\s*|스킬\s*|받는\s*|최종\s*)피해(?:가|량)?\s*([\d\.]+)%/g)];
+    const dmgMatches = [...sentence.matchAll(/(?<!강타\s*|연타\s*|추가타\s*|치명타\s*|콤보\s*|멀티\s*|스킬\s*|받는\s*|최종\s*)피해(?:가|량)?\s*([\d.]+)%/g)];
     if (dmgMatches.length > 0) {
       temp["주는피해%"] = parseFloat(dmgMatches[0][1]) / 100.0;
     }
 
     // 3. 강타피해%
-    const strongMatches = [...sentence.matchAll(/강타\s*피해(?:가|량)?\s*([\d\.]+)%/g)];
+    const strongMatches = [...sentence.matchAll(/강타\s*피해(?:가|량)?\s*([\d.]+)%/g)];
     if (strongMatches.length > 0) {
       temp["강타피해%"] = parseFloat(strongMatches[0][1]) / 100.0;
     }
 
     // 4. 연타피해%
-    const chainMatches = [...sentence.matchAll(/연타\s*피해(?:가|량)?\s*([\d\.]+)%/g)];
+    const chainMatches = [...sentence.matchAll(/연타\s*피해(?:가|량)?\s*([\d.]+)%/g)];
     if (chainMatches.length > 0) {
       temp["연타피해%"] = parseFloat(chainMatches[0][1]) / 100.0;
     }
 
     // 5. 추가타피해%
-    const extraDmgMatches = [...sentence.matchAll(/추가타\s*피해(?:가|량)?\s*([\d\.]+)%/g)];
+    const extraDmgMatches = [...sentence.matchAll(/추가타\s*피해(?:가|량)?\s*([\d.]+)%/g)];
     if (extraDmgMatches.length > 0) {
       temp["추가타피해%"] = parseFloat(extraDmgMatches[0][1]) / 100.0;
     }
 
     // 6. 치명타피해%
-    const critDmgMatches = [...sentence.matchAll(/치명타\s*피해(?:가|량)?\s*([\d\.]+)%/g)];
+    const critDmgMatches = [...sentence.matchAll(/치명타\s*피해(?:가|량)?\s*([\d.]+)%/g)];
     if (critDmgMatches.length > 0) {
       temp["치명타피해%"] = parseFloat(critDmgMatches[0][1]) / 100.0;
     }
 
     // 7. 스킬피해%
-    const skillDmgMatches = [...sentence.matchAll(/스킬\s*피해(?:가|량)?\s*([\d\.]+)%/g)];
+    const skillDmgMatches = [...sentence.matchAll(/스킬\s*피해(?:가|량)?\s*([\d.]+)%/g)];
     if (skillDmgMatches.length > 0) {
       temp["스킬피해%"] = parseFloat(skillDmgMatches[0][1]) / 100.0;
     }
 
     // 8. 추가타확률%
-    const extraProbMatches = [...sentence.matchAll(/추가타\s*확률이?\s*([\d\.]+)%/g)];
+    const extraProbMatches = [...sentence.matchAll(/추가타\s*확률이?\s*([\d.]+)%/g)];
     if (extraProbMatches.length > 0) {
       temp["추가타확률%"] = parseFloat(extraProbMatches[0][1]) / 100.0;
     }
 
     // 9. 치명타확률%
-    const critProbMatches = [...sentence.matchAll(/치명타\s*확률이?\s*([\d\.]+)%/g)];
+    const critProbMatches = [...sentence.matchAll(/치명타\s*확률이?\s*([\d.]+)%/g)];
     if (critProbMatches.length > 0) {
       temp["치명타확률%"] = parseFloat(critProbMatches[0][1]) / 100.0;
     }
 
     // 10. 스킬속도%
-    const speedMatches = [...sentence.matchAll(/(공격\s*속도|스킬\s*사용\s*속도|캐스팅\s*및\s*차지\s*속도)(?:가|가\s*추가로|가\s*5초\s*동안|가\s*6초\s*동안|가\s*7초\s*동안|이)?\s*([\d\.]+)%/g)];
+    const speedMatches = [...sentence.matchAll(/(공격\s*속도|스킬\s*사용\s*속도|캐스팅\s*및\s*차지\s*속도)(?:가|가\s*추가로|가\s*5초\s*동안|가\s*6초\s*동안|가\s*7초\s*동안|이)?\s*([\d.]+)%/g)];
     if (speedMatches.length > 0) {
       const maxVal = Math.max(...speedMatches.map(m => parseFloat(m[2])));
       temp["스킬속도%"] = maxVal / 100.0;
     }
 
     // 11. 재사용회복%
-    const cdMatches = [...sentence.matchAll(/재사용\s*대기시간\s*회복\s*속도가?\s*([\d\.]+)%/g)];
+    const cdMatches = [...sentence.matchAll(/재사용\s*대기시간\s*회복\s*속도가?\s*([\d.]+)%/g)];
     if (cdMatches.length > 0) {
       temp["재사용회복%"] = parseFloat(cdMatches[0][1]) / 100.0;
     }
 
     // 12. 최종피해%
-    const finalMatches = [...sentence.matchAll(/최종\s*피해량이?\s*단계마다\s*([\d\.]+)%/g)];
+    const finalMatches = [...sentence.matchAll(/최종\s*피해량이?\s*단계마다\s*([\d.]+)%/g)];
     if (finalMatches.length > 0) {
       temp["최종피해%"] = parseFloat(finalMatches[0][1]) / 100.0;
     }

@@ -33,6 +33,7 @@ describe("season2 rune data contract", () => {
     expect(blurredForm.stats["가동률"]).toBeCloseTo(0.7, 10);
     expect(burningGlory.stats["가동률"]).toBeCloseTo(0.13, 10);
     expect(burningGlory.conditionalEffects[0].stats["조건부공증%"]).toBeCloseTo(0.42, 10);
+    expect(burningGlory.conditionalEffects[0].uptimeStep).toBe(1);
   });
 });
 
@@ -48,6 +49,10 @@ describe('condition label data contract', () => {
         expect(effect.label).toMatch(/\S/);
         expect(effect.label).not.toMatch(/^\s*(~?시|조건부|효과)\s*$/);
         expect(effect.source).not.toMatch(/^\s*~?시\s/);
+        if (effect.uptimeStep !== undefined) {
+          expect(Number.isInteger(effect.uptimeStep)).toBe(true);
+          expect(effect.uptimeStep).toBeGreaterThan(0);
+        }
       }
     }
   });
