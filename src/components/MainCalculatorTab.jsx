@@ -175,10 +175,7 @@ function CombatScenarioPanel({ gimmicks, onGimmickChange, cycles, onCycleChange 
           <select value={gimmicks.boss} onChange={(event) => onGimmickChange('boss', event.target.value)} className="bg-theme-card border border-theme rounded-lg px-2.5 py-2 text-xs text-theme-main font-bold focus-orange-glow focus:outline-none theme-transition">
             <option value="함선 허수아비">함선 허수아비 (치명타 저항 0% / 방어도 30)</option>
             <option value="허수아비">허수아비 (상시 무방비 90% 오버라이드 / 방어도 30)</option>
-            <option value="글라스기브넨">글라스기브넨 (일반 레이드 / 방어도 6,410)</option>
-            <option value="화이트서큐버스">화이트서큐버스 (일반 레이드 / 방어도 6,410)</option>
             <option value="어비스 지옥2">어비스 지옥2 (치명타 저항 20% / 방어도 9,153)</option>
-            <option value="바리어비스">바리어비스 (치명타 저항 20% / 방어도 15,903)</option>
           </select>
         </label>
         <label className="flex flex-col gap-1 bg-theme-subcard p-2.5 rounded-xl border border-theme theme-transition">
