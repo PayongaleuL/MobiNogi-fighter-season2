@@ -3,9 +3,9 @@
     "name": "예시 1 · 함선허수 약승열 풀오토 (991.7만)",
     "sourceUrl": "https://mobi-score.com/r/2rA4Ozk3cs5UQPtK",
     "observedDps": 9916757,
-    "modeledDps": 9483931,
-    "variancePct": -4.36,
-    "totalAtk": 105638,
+    "modeledDps": 9777913,
+    "variancePct": -1.4,
+    "totalAtk": 108947,
     "attackBreakdown": {
       "villageAttack": 60607,
       "nightTraceAtk": 106.5,
@@ -14,49 +14,49 @@
       "gemAtk": 0,
       "runeFlatAtk": 134.94,
       "runeAtkPct": 0.675,
-      "conditionalAtkPct": 0,
+      "conditionalAtkPct": 0.0546,
       "enchantAtkPct": 0.068,
       "sealEmblemAtkPct": 0.12,
       "nightBlessingAtkPct": 0.0375,
-      "totalAtkPct": 0.7430000000000001,
-      "attack": 105638.001
+      "totalAtkPct": 0.7976000000000001,
+      "attack": 108947.1432
     },
     "states": {
       "ordinary": {
-        "skillDps": 7329121,
-        "directDps": 479217,
-        "dotDps": 150848,
-        "totalDps": 8697273,
+        "skillDps": 7555958,
+        "directDps": 494229,
+        "dotDps": 155574,
+        "totalDps": 8966713,
         "cycleTime": 11.55,
-        "cycleCoeff": 14229594.944,
-        "cycleBaseDmg": 14229595
+        "cycleCoeff": 14675341.292,
+        "cycleBaseDmg": 14675341
       },
       "ordinaryBreak": {
-        "skillDps": 14089362,
-        "directDps": 479217,
-        "dotDps": 150848,
-        "totalDps": 16084417,
+        "skillDps": 14525430,
+        "directDps": 494229,
+        "dotDps": 155574,
+        "totalDps": 16582491,
         "cycleTime": 11.55,
-        "cycleCoeff": 14229594.944,
-        "cycleBaseDmg": 14229595
+        "cycleCoeff": 14675341.292,
+        "cycleBaseDmg": 14675341
       },
       "ultimate": {
-        "skillDps": 10006246,
-        "directDps": 479217,
-        "dotDps": 150848,
-        "totalDps": 11622659,
+        "skillDps": 10316603,
+        "directDps": 494229,
+        "dotDps": 155574,
+        "totalDps": 11983363,
         "cycleTime": 6.83,
-        "cycleCoeff": 11964294.863,
-        "cycleBaseDmg": 11964295
+        "cycleCoeff": 12339080.003,
+        "cycleBaseDmg": 12339080
       },
       "ultimateBreak": {
-        "skillDps": 19235817,
-        "directDps": 479217,
-        "dotDps": 150848,
-        "totalDps": 21708124,
+        "skillDps": 19832441,
+        "directDps": 494229,
+        "dotDps": 155574,
+        "totalDps": 22381642,
         "cycleTime": 6.83,
-        "cycleCoeff": 11964294.863,
-        "cycleBaseDmg": 11964295
+        "cycleCoeff": 12339080.003,
+        "cycleBaseDmg": 12339080
       }
     },
     "gems": {
@@ -82,9 +82,9 @@
     "name": "예시 2 · 함선허수 약승열 풀오토 (946.2만)",
     "sourceUrl": "https://mobi-score.com/r/a45ep94tqYHtjSVZ",
     "observedDps": 9462052,
-    "modeledDps": 9483931,
-    "variancePct": 0.23,
-    "totalAtk": 105638,
+    "modeledDps": 9777913,
+    "variancePct": 3.34,
+    "totalAtk": 108947,
     "attackBreakdown": {
       "villageAttack": 60607,
       "nightTraceAtk": 106.5,
@@ -93,49 +93,49 @@
       "gemAtk": 0,
       "runeFlatAtk": 134.94,
       "runeAtkPct": 0.675,
-      "conditionalAtkPct": 0,
+      "conditionalAtkPct": 0.0546,
       "enchantAtkPct": 0.068,
       "sealEmblemAtkPct": 0.12,
       "nightBlessingAtkPct": 0.0375,
-      "totalAtkPct": 0.7430000000000001,
-      "attack": 105638.001
+      "totalAtkPct": 0.7976000000000001,
+      "attack": 108947.1432
     },
     "states": {
       "ordinary": {
-        "skillDps": 7329121,
-        "directDps": 479217,
-        "dotDps": 150848,
-        "totalDps": 8697273,
+        "skillDps": 7555958,
+        "directDps": 494229,
+        "dotDps": 155574,
+        "totalDps": 8966713,
         "cycleTime": 11.55,
-        "cycleCoeff": 14229594.944,
-        "cycleBaseDmg": 14229595
+        "cycleCoeff": 14675341.292,
+        "cycleBaseDmg": 14675341
       },
       "ordinaryBreak": {
-        "skillDps": 14089362,
-        "directDps": 479217,
-        "dotDps": 150848,
-        "totalDps": 16084417,
+        "skillDps": 14525430,
+        "directDps": 494229,
+        "dotDps": 155574,
+        "totalDps": 16582491,
         "cycleTime": 11.55,
-        "cycleCoeff": 14229594.944,
-        "cycleBaseDmg": 14229595
+        "cycleCoeff": 14675341.292,
+        "cycleBaseDmg": 14675341
       },
       "ultimate": {
-        "skillDps": 10006246,
-        "directDps": 479217,
-        "dotDps": 150848,
-        "totalDps": 11622659,
+        "skillDps": 10316603,
+        "directDps": 494229,
+        "dotDps": 155574,
+        "totalDps": 11983363,
         "cycleTime": 6.83,
-        "cycleCoeff": 11964294.863,
-        "cycleBaseDmg": 11964295
+        "cycleCoeff": 12339080.003,
+        "cycleBaseDmg": 12339080
       },
       "ultimateBreak": {
-        "skillDps": 19235817,
-        "directDps": 479217,
-        "dotDps": 150848,
-        "totalDps": 21708124,
+        "skillDps": 19832441,
+        "directDps": 494229,
+        "dotDps": 155574,
+        "totalDps": 22381642,
         "cycleTime": 6.83,
-        "cycleCoeff": 11964294.863,
-        "cycleBaseDmg": 11964295
+        "cycleCoeff": 12339080.003,
+        "cycleBaseDmg": 12339080
       }
     },
     "gems": {
@@ -161,9 +161,9 @@
     "name": "예시 3 · 함선허수 전승강 (1059.4만)",
     "sourceUrl": "https://mobi-score.com/r/08aQG7NnfNXVpTVj",
     "observedDps": 10593957,
-    "modeledDps": 11060584,
-    "variancePct": 4.4,
-    "totalAtk": 105638,
+    "modeledDps": 11403780,
+    "variancePct": 7.64,
+    "totalAtk": 108947,
     "attackBreakdown": {
       "villageAttack": 60607,
       "nightTraceAtk": 106.5,
@@ -172,49 +172,49 @@
       "gemAtk": 0,
       "runeFlatAtk": 134.94,
       "runeAtkPct": 0.675,
-      "conditionalAtkPct": 0,
+      "conditionalAtkPct": 0.0546,
       "enchantAtkPct": 0.068,
       "sealEmblemAtkPct": 0.12,
       "nightBlessingAtkPct": 0.0375,
-      "totalAtkPct": 0.7430000000000001,
-      "attack": 105638.001
+      "totalAtkPct": 0.7976000000000001,
+      "attack": 108947.1432
     },
     "states": {
       "ordinary": {
-        "skillDps": 8138793,
-        "directDps": 479217,
-        "dotDps": 150848,
-        "totalDps": 9582029,
+        "skillDps": 8390938,
+        "directDps": 494229,
+        "dotDps": 155574,
+        "totalDps": 9879124,
         "cycleTime": 11.32,
-        "cycleCoeff": 15875110.127,
-        "cycleBaseDmg": 15875110
+        "cycleCoeff": 16372402.733,
+        "cycleBaseDmg": 16372403
       },
       "ordinaryBreak": {
-        "skillDps": 15645861,
-        "directDps": 479217,
-        "dotDps": 150848,
-        "totalDps": 17785257,
+        "skillDps": 16130580,
+        "directDps": 494229,
+        "dotDps": 155574,
+        "totalDps": 18336493,
         "cycleTime": 11.32,
-        "cycleCoeff": 15875110.127,
-        "cycleBaseDmg": 15875110
+        "cycleCoeff": 16372402.733,
+        "cycleBaseDmg": 16372403
       },
       "ultimate": {
-        "skillDps": 13170553,
-        "directDps": 479217,
-        "dotDps": 150848,
-        "totalDps": 15080404,
+        "skillDps": 13579588,
+        "directDps": 494229,
+        "dotDps": 155574,
+        "totalDps": 15548938,
         "cycleTime": 5.98,
-        "cycleCoeff": 13942692.883,
-        "cycleBaseDmg": 13942693
+        "cycleCoeff": 14379451.937,
+        "cycleBaseDmg": 14379452
       },
       "ultimateBreak": {
-        "skillDps": 25318820,
-        "directDps": 479217,
-        "dotDps": 150848,
-        "totalDps": 28355227,
+        "skillDps": 26105142,
+        "directDps": 494229,
+        "dotDps": 155574,
+        "totalDps": 29236035,
         "cycleTime": 5.98,
-        "cycleCoeff": 13942692.883,
-        "cycleBaseDmg": 13942693
+        "cycleCoeff": 14379451.937,
+        "cycleBaseDmg": 14379452
       }
     },
     "gems": {
@@ -240,9 +240,9 @@
     "name": "예시 4 · 함선허수 전승강 (1117.8만)",
     "sourceUrl": "https://mobi-score.com/r/bA903LtPSxYhtcst",
     "observedDps": 11177554,
-    "modeledDps": 11060584,
-    "variancePct": -1.05,
-    "totalAtk": 105638,
+    "modeledDps": 11403780,
+    "variancePct": 2.02,
+    "totalAtk": 108947,
     "attackBreakdown": {
       "villageAttack": 60607,
       "nightTraceAtk": 106.5,
@@ -251,49 +251,49 @@
       "gemAtk": 0,
       "runeFlatAtk": 134.94,
       "runeAtkPct": 0.675,
-      "conditionalAtkPct": 0,
+      "conditionalAtkPct": 0.0546,
       "enchantAtkPct": 0.068,
       "sealEmblemAtkPct": 0.12,
       "nightBlessingAtkPct": 0.0375,
-      "totalAtkPct": 0.7430000000000001,
-      "attack": 105638.001
+      "totalAtkPct": 0.7976000000000001,
+      "attack": 108947.1432
     },
     "states": {
       "ordinary": {
-        "skillDps": 8138793,
-        "directDps": 479217,
-        "dotDps": 150848,
-        "totalDps": 9582029,
+        "skillDps": 8390938,
+        "directDps": 494229,
+        "dotDps": 155574,
+        "totalDps": 9879124,
         "cycleTime": 11.32,
-        "cycleCoeff": 15875110.127,
-        "cycleBaseDmg": 15875110
+        "cycleCoeff": 16372402.733,
+        "cycleBaseDmg": 16372403
       },
       "ordinaryBreak": {
-        "skillDps": 15645861,
-        "directDps": 479217,
-        "dotDps": 150848,
-        "totalDps": 17785257,
+        "skillDps": 16130580,
+        "directDps": 494229,
+        "dotDps": 155574,
+        "totalDps": 18336493,
         "cycleTime": 11.32,
-        "cycleCoeff": 15875110.127,
-        "cycleBaseDmg": 15875110
+        "cycleCoeff": 16372402.733,
+        "cycleBaseDmg": 16372403
       },
       "ultimate": {
-        "skillDps": 13170553,
-        "directDps": 479217,
-        "dotDps": 150848,
-        "totalDps": 15080404,
+        "skillDps": 13579588,
+        "directDps": 494229,
+        "dotDps": 155574,
+        "totalDps": 15548938,
         "cycleTime": 5.98,
-        "cycleCoeff": 13942692.883,
-        "cycleBaseDmg": 13942693
+        "cycleCoeff": 14379451.937,
+        "cycleBaseDmg": 14379452
       },
       "ultimateBreak": {
-        "skillDps": 25318820,
-        "directDps": 479217,
-        "dotDps": 150848,
-        "totalDps": 28355227,
+        "skillDps": 26105142,
+        "directDps": 494229,
+        "dotDps": 155574,
+        "totalDps": 29236035,
         "cycleTime": 5.98,
-        "cycleCoeff": 13942692.883,
-        "cycleBaseDmg": 13942693
+        "cycleCoeff": 14379451.937,
+        "cycleBaseDmg": 14379452
       }
     },
     "gems": {
@@ -319,9 +319,9 @@
     "name": "예시 5 · 함선허수 전승강 (1083.5만)",
     "sourceUrl": "https://mobi-score.com/r/4GlO5T5ex5GeNlOf",
     "observedDps": 10835203,
-    "modeledDps": 11060584,
-    "variancePct": 2.08,
-    "totalAtk": 105638,
+    "modeledDps": 11403780,
+    "variancePct": 5.25,
+    "totalAtk": 108947,
     "attackBreakdown": {
       "villageAttack": 60607,
       "nightTraceAtk": 106.5,
@@ -330,49 +330,49 @@
       "gemAtk": 0,
       "runeFlatAtk": 134.94,
       "runeAtkPct": 0.675,
-      "conditionalAtkPct": 0,
+      "conditionalAtkPct": 0.0546,
       "enchantAtkPct": 0.068,
       "sealEmblemAtkPct": 0.12,
       "nightBlessingAtkPct": 0.0375,
-      "totalAtkPct": 0.7430000000000001,
-      "attack": 105638.001
+      "totalAtkPct": 0.7976000000000001,
+      "attack": 108947.1432
     },
     "states": {
       "ordinary": {
-        "skillDps": 8138793,
-        "directDps": 479217,
-        "dotDps": 150848,
-        "totalDps": 9582029,
+        "skillDps": 8390938,
+        "directDps": 494229,
+        "dotDps": 155574,
+        "totalDps": 9879124,
         "cycleTime": 11.32,
-        "cycleCoeff": 15875110.127,
-        "cycleBaseDmg": 15875110
+        "cycleCoeff": 16372402.733,
+        "cycleBaseDmg": 16372403
       },
       "ordinaryBreak": {
-        "skillDps": 15645861,
-        "directDps": 479217,
-        "dotDps": 150848,
-        "totalDps": 17785257,
+        "skillDps": 16130580,
+        "directDps": 494229,
+        "dotDps": 155574,
+        "totalDps": 18336493,
         "cycleTime": 11.32,
-        "cycleCoeff": 15875110.127,
-        "cycleBaseDmg": 15875110
+        "cycleCoeff": 16372402.733,
+        "cycleBaseDmg": 16372403
       },
       "ultimate": {
-        "skillDps": 13170553,
-        "directDps": 479217,
-        "dotDps": 150848,
-        "totalDps": 15080404,
+        "skillDps": 13579588,
+        "directDps": 494229,
+        "dotDps": 155574,
+        "totalDps": 15548938,
         "cycleTime": 5.98,
-        "cycleCoeff": 13942692.883,
-        "cycleBaseDmg": 13942693
+        "cycleCoeff": 14379451.937,
+        "cycleBaseDmg": 14379452
       },
       "ultimateBreak": {
-        "skillDps": 25318820,
-        "directDps": 479217,
-        "dotDps": 150848,
-        "totalDps": 28355227,
+        "skillDps": 26105142,
+        "directDps": 494229,
+        "dotDps": 155574,
+        "totalDps": 29236035,
         "cycleTime": 5.98,
-        "cycleCoeff": 13942692.883,
-        "cycleBaseDmg": 13942693
+        "cycleCoeff": 14379451.937,
+        "cycleBaseDmg": 14379452
       }
     },
     "gems": {

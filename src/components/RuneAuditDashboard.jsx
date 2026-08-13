@@ -149,57 +149,38 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate, selectedRunes
   };
 
   // 5. 마스터 마크다운 설명글 기반 스탯 자동 복원 / 싱크 핸들러
-  const handleResetToMaster = () => {
-    if (!window.confirm('정말로 모든 수동 수정 내역을 버리고, 마크다운 마스터 설명글에서 파싱된 최신 기본 스탯으로 전체 초기화(복원)하시겠습니까?\n\n(기존에 누락되었던 장신구 및 엠블럼 룬들도 기본 가동률로 자동 복구됩니다)')) {
+  const handleSyncMissingFromMaster = () => {
+    if (!window.confirm("마스터 설명에는 있으나 현재 데이터에 없는 룬만 추가합니다. 기존 수동 보정 수치와 가동률은 변경하지 않습니다. 계속하시겠습니까?")) {
       return;
     }
 
     setIsUpdating(true);
     const updatedRunes = [...runes];
-
-    auditList.forEach(item => {
-      if (item.status === 'MISSING') {
-        // 누락 룬 생성 추가
-        const newRune = {
-          file: `MabinogiMobile_${Math.random().toString(36).substring(2, 12)}.png`,
-          type: item.type,
-          name: item.name,
-          element: item.element,
-          raw_text: item.cleaned_text,
-          cleaned_text: item.cleaned_text,
-          stats: {
-            ...item.parsedStats,
-            "가동률": item.type === '장신구' ? 1.0 : (item.name.match(/(흐릿한|잿빛|금 간|무너진|복수|거두는|부서진|흐릿|잿빛)/) ? 0.7 : 1.0),
-            "공격력": item.type === '무기' ? 1038.0 : 0.0,
-            "방어력": item.type === '방어구' ? 445.0 : 0.0,
-            "마도저항": item.type === '무기' ? 300.0 : (item.type === '방어구' ? 300.0 : 0.0),
-            "모든스킬강화": 1.0,
-            "임의스킬강화": 2.0
-          },
-          description: item.cleaned_text[0] || `${item.name} 효과`
-        };
-        updatedRunes.push(newRune);
-      } else {
-        // 기존 룬은 마크다운 파싱 스탯으로 리셋
-        const index = updatedRunes.findIndex(r => r.name === item.existingRune.name);
-        if (index !== -1) {
-          const target = { ...updatedRunes[index] };
-          target.stats = { ...target.stats };
-          
-          STAT_COLUMNS.forEach(col => {
-            target.stats[col.key] = item.parsedStats[col.key] || 0.0;
-          });
-          
-          target.cleaned_text = item.cleaned_text;
-          updatedRunes[index] = target;
-        }
-      }
+    auditList.filter((item) => item.status === "MISSING").forEach((item) => {
+      updatedRunes.push({
+        file: `MabinogiMobile_${Math.random().toString(36).substring(2, 12)}.png`,
+        type: item.type,
+        name: item.name,
+        element: item.element,
+        raw_text: item.cleaned_text,
+        cleaned_text: item.cleaned_text,
+        stats: {
+          ...item.parsedStats,
+          "가동률": item.parsedStats["가동률"] ?? 1.0,
+          "공격력": item.type === "무기" ? 1038.0 : 0.0,
+          "방어력": item.type === "방어구" ? 445.0 : 0.0,
+          "마도저항": item.type === "엠블럼" ? 0.0 : 300.0,
+          "모든스킬강화": 1.0,
+          "임의스킬강화": 2.0
+        },
+        description: item.cleaned_text.join("\n")
+      });
     });
 
     onRunesUpdate(updatedRunes);
     setTimeout(() => {
       setIsUpdating(false);
-      alert('마스터 설명글 기반으로 룬 데이터베이스 초기화 및 자동 복구 완료!');
+      alert("누락 룬 동기화가 완료되었습니다. 기존 수동 보정과 가동률은 유지되었습니다.");
     }, 450);
   };
 
@@ -303,12 +284,12 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate, selectedRunes
 
           <div className="flex gap-2">
             <button
-              onClick={handleResetToMaster}
+              onClick={handleSyncMissingFromMaster}
               className="px-2.5 py-1.5 bg-theme-card hover:bg-theme-subcard text-theme-main border border-theme rounded-lg text-[10px] font-bold transition-all flex items-center gap-1.5 shadow-sm focus:outline-none"
               title="수동 변경된 값을 마스터 설명글 기준 기본 스탯으로 복원합니다."
             >
               <RotateCcw className="w-4 h-4" />
-              마스터 기본값 복원
+              누락 룬만 동기화
             </button>
             <button
               onClick={handleCopyJson}

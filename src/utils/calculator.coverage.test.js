@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+﻿import { describe, expect, it } from 'vitest';
 import { calculateDPS, getModifiedCoeff } from './calculator';
 
 const baseStats = {
@@ -377,5 +377,49 @@ describe('explicit cycle token regression', () => {
 
     expect(annotated.states.ordinary.cycleBaseDmg).toBe(plain.states.ordinary.cycleBaseDmg);
     expect(annotated.states.ordinary.cycleTime).toBe(plain.states.ordinary.cycleTime);
+  });
+});
+
+describe("conditional rune effect branch coverage", () => {
+  it("applies night-blessing conditional effects and the somersault double-damage path", () => {
+    const result = calculateDPS(
+      { ...baseStats, useNightTrace: false, useDeadlyImpact: false, useHitCombo: false, nightBlessingUptime: 50 },
+      [{
+        name: "밤 조건부 테스트",
+        type: "방어구",
+        stats: { "가동률": 1 },
+        conditionalEffects: [{ id: "night", defaultUptime: 0.5, stats: { "밤축_주는피해%": 0.1 } }]
+      }],
+      { boss: "함선 허수아비" },
+      { ordinary: "5", ordinaryBreak: "5", ultimate: "5", ultimateBreak: "5" },
+      {}, {}, { skill_5: "섬머솔트" }, {}
+    );
+    expectFiniteDps(result);
+  });
+});
+
+describe("conditional effect branch matrix", () => {
+  it("supports effect-specific overrides, fallback uptimes, permanent attack and ignored metadata", () => {
+    const result = calculateDPS(
+      { ...baseStats, useNightTrace: false, useDeadlyImpact: false, useHitCombo: false, nightBlessingUptime: 50 },
+      [{
+        name: "조건부 분기 테스트",
+        type: "방어구",
+        stats: { "가동률": 0.4 },
+        conditionalEffects: [
+          { id: "override", defaultUptime: 0.2, stats: { "조건부공증%": 0.2 } },
+          { id: "fallback", stats: { "공격력%": 0.1, "모든스킬강화": 1, "가동률": 0 } },
+          { id: "night-unknown", defaultUptime: 0.5, stats: { "밤축_알수없는스탯": 0.1 } },
+          { id: "unknown", defaultUptime: 0.5, stats: { "알수없는스탯": 0.1 } }
+        ]
+      }],
+      { boss: "함선 허수아비" },
+      {},
+      { "조건부 분기 테스트:override": 60 },
+      {}, {}, {}
+    );
+    expect(result.attackBreakdown.runeAtkPct).toBeCloseTo(0.1, 10);
+    expect(result.attackBreakdown.conditionalAtkPct).toBeCloseTo(0.12, 10);
+    expectFiniteDps(result);
   });
 });

@@ -1,4 +1,4 @@
-// 마비노기 모바일 시즌2 격투가 DPS 계산기 연산 엔진 (보석세공, 6스킬, 스탠스 및 패시브 고도화)
+﻿// 마비노기 모바일 시즌2 격투가 DPS 계산기 연산 엔진 (보석세공, 6스킬, 스탠스 및 패시브 고도화)
 import { calculateSealStats } from './sealCalculator.js';
 
 /**
@@ -188,6 +188,34 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
         }
       }
     });
+
+    // 룬 단위 스탯과 분리된 조건부 효과는 효과별 기본 가동률을 사용한다.
+    // 수동 입력은 `룬명:효과ID`를 우선하고 기존 룬명 가동률 입력도 그대로 지원한다.
+    (rune.conditionalEffects || []).forEach((effect) => {
+      const effectKey = `${name}:${effect.id}`;
+      const effectUptime = conditionalUptimes[effectKey] !== undefined
+        ? conditionalUptimes[effectKey] / 100.0
+        : (conditionalUptimes[name] !== undefined
+          ? conditionalUptimes[name] / 100.0
+          : (effect.defaultUptime ?? rune.stats.가동률 ?? 1.0));
+
+      Object.entries(effect.stats || {}).forEach(([key, val]) => {
+        if (val === undefined || val === 0 || key === "가동률") return;
+        const isBaseAttackPct = key === "공격력%";
+        const isMetaKey = ["모든스킬강화", "임의스킬강화", "마도저항"].includes(key);
+        // 상시·조건부 공격력%는 초월 배율을 중복 적용하지 않는다.
+        const finalVal = (isMetaKey || isBaseAttackPct || key === "조건부공증%") ? val : val * scale;
+        const effectiveUptime = isBaseAttackPct ? 1.0 : effectUptime;
+        if (key.startsWith("밤축_")) {
+          const targetKey = key.replace("밤축_", "");
+          const nbUptime = (characterStats.nightBlessingUptime || 0) / 100.0;
+          if (runeStats[targetKey] !== undefined) runeStats[targetKey] += finalVal * effectiveUptime * nbUptime;
+        } else if (runeStats[key] !== undefined) {
+          runeStats[key] += finalVal * effectiveUptime;
+        }
+      });
+    });
+
   });
 
   // 2. 캐릭터 스펙 연산 (시즌2 격투가 패시브: 밤의 흔적 활성 시 힘/의지/행운 +71에 따른 공격력 보정 추가)
@@ -215,7 +243,7 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
   // 이미 포함되므로 이 단계에서 중복 가산하지 않는다.
   const nightBlessingBoost = ((characterStats.nightBlessingUptime || 0) / 100.0) * 0.15;
   const enchantAtkPct = (characterStats.enchantAtkPct || 6.8) / 100.0;
-  const totalAtkPct = runeStats["공격력%"] + enchantAtkPct;
+  const totalAtkPct = runeStats["공격력%"] + runeStats["조건부공증%"] + enchantAtkPct;
   const attack = baseAtk * (1 + totalAtkPct);
 
   // 방어도 계수
