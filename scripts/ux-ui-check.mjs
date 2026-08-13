@@ -30,6 +30,13 @@ try {
       }
       return false;
     });
+    const bossOptionValues = await page
+      .locator('section[aria-label="실전 전투 조건"] select')
+      .first()
+      .locator('option')
+      .evaluateAll((options) => options.map((option) => option.value));
+    const legacyBossOptionsHidden = !['글라스기브넨', '화이트서큐버스', '바리어비스']
+      .some((boss) => bossOptionValues.includes(boss));
 
     let conditionalSettingsBehavior = false;
     let stanceSettingsBehavior = false;
@@ -133,6 +140,7 @@ try {
       overflowCandidates: report.overflowCandidates,
       dpsUpdatesWhenStatChanges: baselineDps !== updatedDps,
       dpsHasStickyAncestor,
+      legacyBossOptionsHidden,
       gemstoneTabVisible,
       equippedRuneVisual,
       darkThemeApplied,
@@ -149,6 +157,7 @@ try {
     result.hasHorizontalOverflow ||
     !result.dpsHeading ||
     result.dpsHasStickyAncestor ||
+    !result.legacyBossOptionsHidden ||
     !result.dpsUpdatesWhenStatChanges ||
     !result.gemstoneTabVisible ||
     !result.equippedRuneVisual ||
