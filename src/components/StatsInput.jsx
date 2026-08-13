@@ -79,10 +79,10 @@ export default function StatsInput({ stats, onStatsChange }) {
   };
 
   const renderStatField = (field) => (
-    <div key={field.key} className="bg-theme-subcard p-2.5 rounded-xl border border-theme flex flex-col gap-1.5 theme-transition card-lift-glow">
+    <div key={field.key} className="bg-theme-subcard p-1.5 rounded-lg border border-theme flex flex-col gap-1 theme-transition card-lift-glow">
       <div className="flex justify-between items-start gap-2">
         <div className="flex flex-col gap-0.5 min-w-0">
-          <label className="text-[11px] font-black text-theme-sub leading-tight">{field.label}</label>
+          <label className="text-[9px] font-black text-theme-sub leading-tight">{field.label}</label>
           {getStatPercent(field.key, stats[field.key]) && (
             <span className="text-[8.5px] text-emerald-600 dark:text-emerald-400 font-extrabold theme-transition truncate">
               {getStatPercent(field.key, stats[field.key])}
@@ -93,7 +93,7 @@ export default function StatsInput({ stats, onStatsChange }) {
           type="number"
           value={stats[field.key] || 0}
           onChange={(event) => handleInputChange(field.key, event.target.value)}
-          className="w-[4.8rem] bg-theme-card border border-theme rounded px-2 py-1 text-xs font-mono font-black text-emerald-600 dark:text-emerald-400 focus-orange-glow focus:outline-none theme-transition"
+          className="w-[4.4rem] bg-theme-card border border-theme rounded px-1.5 py-0.5 text-[11px] font-mono font-black text-emerald-600 dark:text-emerald-400 focus-orange-glow focus:outline-none theme-transition"
         />
       </div>
       <input
@@ -109,40 +109,45 @@ export default function StatsInput({ stats, onStatsChange }) {
   );
 
   return (
-    <div className={`bg-theme-card border rounded-2xl p-4 xl:p-5 shadow-theme flex flex-col gap-5 transition-all duration-350 ${
-      isSkillLimitExceeded ? 'border-red-500 shadow-red-100' : 'border-theme'
+    <div className={`flex flex-col gap-3 transition-all duration-350 ${
+      isSkillLimitExceeded ? 'rounded-xl border border-red-500 bg-red-500/5 p-2 shadow-red-100' : ''
     }`}>
       
       {/* 캐릭터 스펙 입력 */}
       <div>
-        <h3 className="text-lg font-black text-theme-main mb-4 flex items-center gap-2">
-          <User className="w-5 h-5 text-orange-500" />
-          캐릭터 기본 능력치 (마을 기준)
-        </h3>
-        <p className="mb-4 rounded-xl border border-orange-500/25 bg-orange-500/5 px-3 py-2 text-[11px] font-semibold leading-relaxed text-theme-sub">
-          마을에서 음식·일시 버프 없이 확인한 상태창 수치를 그대로 입력합니다. 전설 패션 세트·동행 펫·인장·장착 룬의 고정 능력치는 상태창에 포함되므로 별도 합산하지 않습니다. 적용 공격력은 기존 종합 계산기와 동일하게 <strong>마을 공격력 × (1 + 선택 룬의 상시 공격력 증가율 + 인챈트 공격력 증가율)</strong>로 계산합니다.
-        </p>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5">
+        <div className="mb-2 flex items-center justify-between gap-3">
+          <h3 className="flex items-center gap-1.5 text-sm font-black text-theme-main">
+            <User className="h-4 w-4 text-orange-500" />
+            기본 스펙
+          </h3>
+          <details className="group relative">
+            <summary className="cursor-pointer list-none text-[9px] font-bold text-orange-500">계산 기준 안내</summary>
+            <p className="absolute right-0 top-5 z-20 w-[22rem] rounded-lg border border-orange-500/25 bg-theme-card px-3 py-2 text-[10px] font-semibold leading-relaxed text-theme-sub shadow-lg">
+              마을에서 음식·일시 버프 없이 확인한 상태창 수치를 그대로 입력합니다. 적용 공격력은 <strong>마을 공격력 × (1 + 선택 룬의 상시 공격력 증가율 + 인챈트 공격력 증가율)</strong>로 계산합니다.
+            </p>
+          </details>
+        </div>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-1.5">
           {primaryStatFields.map(renderStatField)}
         </div>
-        <details className="group mt-3 rounded-xl border border-theme bg-theme-subcard/60 theme-transition">
-          <summary className="cursor-pointer list-none px-3 py-2 text-[10px] font-black text-theme-sub flex items-center justify-between">
+        <details className="group mt-2 rounded-lg border border-theme bg-theme-subcard/60 theme-transition">
+          <summary className="cursor-pointer list-none px-2.5 py-1.5 text-[9px] font-black text-theme-sub flex items-center justify-between">
             보조 능력치 3종 설정
             <span className="text-orange-500 transition-transform group-open:rotate-180">⌄</span>
           </summary>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 border-t border-theme p-3">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-1.5 border-t border-theme p-2">
             {secondaryStatFields.map(renderStatField)}
           </div>
         </details>
       </div>
 
-      <hr className="border-theme" />
+      <hr className="border-theme/70" />
 
       {/* 6개 스킬 개조 레벨 입력 */}
       <div>
-        <div className="flex justify-between items-center mb-3">
-          <h3 className="text-base font-black text-theme-main flex items-center gap-2">
-            <Activity className="w-5 h-5 text-purple-600" />
+        <div className="flex justify-between items-center mb-2">
+          <h3 className="text-sm font-black text-theme-main flex items-center gap-1.5">
+            <Activity className="w-4 h-4 text-purple-600" />
             스킬 개조 단계 설정
           </h3>
           <span className={`text-[10px] px-2 py-0.5 rounded font-extrabold border ${
@@ -155,7 +160,7 @@ export default function StatsInput({ stats, onStatsChange }) {
         </div>
 
         {/* 단축 프리셋 버튼군 */}
-        <div className="flex flex-wrap gap-1.5 mb-3 bg-theme-subcard p-2 rounded-xl border border-theme theme-transition">
+        <div className="flex flex-wrap gap-1.5 mb-2 bg-theme-subcard p-1.5 rounded-lg border border-theme theme-transition">
           <span className="text-[10px] font-bold text-theme-sub self-center mr-1">개조 단계 프리셋:</span>
           {[
             { label: '156 프리셋', key: '156' },
@@ -173,13 +178,13 @@ export default function StatsInput({ stats, onStatsChange }) {
           ))}
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 2xl:grid-cols-6 gap-2">
+        <div className="grid grid-cols-3 2xl:grid-cols-6 gap-1.5">
           {skillFields.map(f => {
             const is30 = stats[f.key] === 30;
             return (
               <div 
                 key={f.key} 
-                className={`p-2 rounded-xl border flex flex-col items-center gap-0.5 transition-all theme-transition ${
+                className={`p-1.5 rounded-lg border flex flex-col items-center gap-0.5 transition-all theme-transition ${
                   is30 
                     ? 'bg-purple-500/10 border-purple-300 dark:border-purple-800/60 shadow-sm shadow-purple-500/5' 
                     : 'bg-theme-subcard border-theme'
@@ -236,15 +241,15 @@ export default function StatsInput({ stats, onStatsChange }) {
         )}
       </div>
 
-      <hr className="border-theme" />
+      <hr className="border-theme/70" />
 
       {/* 추가 인챈트 설정 */}
       <div>
-        <h3 className="text-md font-black text-theme-main mb-3 flex items-center gap-2">
+        <h3 className="text-sm font-black text-theme-main mb-2 flex items-center gap-1.5">
           <Settings className="w-4 h-4 text-theme-muted" />
           추가 인챈트 설정
         </h3>
-        <div className="bg-theme-subcard p-3 rounded-xl border border-theme flex flex-col sm:flex-row gap-3 justify-between theme-transition">
+        <div className="bg-theme-subcard p-2 rounded-lg border border-theme grid grid-cols-1 sm:grid-cols-3 gap-2 theme-transition">
           <div className="flex-1 flex justify-between items-center gap-2">
             <span className="text-xs font-bold text-theme-sub">인챈트공증 (%)</span>
             <input
@@ -279,7 +284,7 @@ export default function StatsInput({ stats, onStatsChange }) {
       </div>
 
       {/* 시즌2 격투가 시즌스킬 및 패시브 제어 섹션 */}
-      <div className="bg-theme-subcard/50 border border-theme rounded-2xl p-3 xl:p-4 flex flex-col gap-2.5 theme-transition card-lift-glow">
+      <div className="bg-theme-subcard/50 border border-theme rounded-xl p-2.5 flex flex-col gap-2 theme-transition card-lift-glow">
         <div className="flex items-center justify-between gap-3">
           <h4 className="text-sm font-black text-theme-main flex items-center gap-2">
             <Settings className="w-4 h-4 text-orange-500" />
@@ -287,9 +292,9 @@ export default function StatsInput({ stats, onStatsChange }) {
           </h4>
           <span className="text-[10px] font-black text-orange-600 dark:text-orange-300 bg-orange-500/10 border border-orange-500/20 px-2 py-1 rounded-full">DPS 필수</span>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-1.5">
           {/* 밤의 흔적 패시브 */}
-          <div className="bg-theme-card border border-theme rounded-xl p-2.5 flex justify-between items-center gap-2 theme-transition">
+          <div className="bg-theme-card border border-theme rounded-lg p-2 flex justify-between items-center gap-2 theme-transition">
             <div className="flex flex-col gap-0.5">
               <span className="text-xs font-black text-theme-main">밤의 흔적 패시브 (Lv.30)</span>
               <span className="text-[10px] text-theme-muted font-semibold">체크 시 5대스탯 +71 / 체력 +1148 가산</span>
@@ -302,7 +307,7 @@ export default function StatsInput({ stats, onStatsChange }) {
             />
           </div>
           {/* 데들리 임팩트 */}
-          <div className="bg-theme-card border border-theme rounded-xl p-2.5 flex justify-between items-center gap-2 theme-transition">
+          <div className="bg-theme-card border border-theme rounded-lg p-2 flex justify-between items-center gap-2 theme-transition">
             <div className="flex flex-col gap-0.5">
               <span className="text-xs font-black text-theme-main">데들리 임팩트 활성화</span>
               <span className="text-[10px] text-theme-muted font-semibold">백스텝 시 강타비례 추가 범위피해</span>
@@ -315,7 +320,7 @@ export default function StatsInput({ stats, onStatsChange }) {
             />
           </div>
           {/* 히트 콤보 */}
-          <div className="bg-theme-card border border-theme rounded-xl p-2.5 flex justify-between items-center gap-2 theme-transition">
+          <div className="bg-theme-card border border-theme rounded-lg p-2 flex justify-between items-center gap-2 theme-transition">
             <div className="flex flex-col gap-0.5">
               <span className="text-xs font-black text-theme-main">히트 콤보 활성화</span>
               <span className="text-[10px] text-theme-muted font-semibold">10회 적중시 확정 치명타 폭발피해</span>
@@ -328,7 +333,7 @@ export default function StatsInput({ stats, onStatsChange }) {
             />
           </div>
         </div>
-        <div className="bg-orange-500/5 border border-orange-500/25 rounded-xl p-2.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 theme-transition">
+        <div className="bg-orange-500/5 border border-orange-500/25 rounded-lg p-2 flex flex-col sm:flex-row sm:items-center justify-between gap-2 theme-transition">
           <div>
             <span className="text-xs font-black text-theme-main">최종뎀 증가 (%)</span>
             <p className="text-[10px] text-theme-muted font-semibold mt-0.5">직접 입력한 값이 최종 DPS에 즉시 반영됩니다.</p>

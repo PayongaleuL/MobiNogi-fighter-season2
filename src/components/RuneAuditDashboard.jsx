@@ -277,24 +277,24 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate, selectedRunes
   };
 
   return (
-    <div className="bg-theme-card border border-theme rounded-2xl p-4 md:p-6 xl:p-7 shadow-theme flex flex-col gap-6 animate-fadeIn text-theme-main theme-transition">
+    <div className="bg-theme-card border border-theme rounded-xl p-3 md:p-4 shadow-theme flex flex-col gap-3 animate-fadeIn text-theme-main theme-transition">
       
       {/* 타이틀 영역 */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-theme pb-5 theme-transition">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2.5 border-b border-theme pb-3 theme-transition">
         <div>
           <div className="flex items-center gap-2">
             <Sliders className="w-5.5 h-5.5 text-orange-500" />
             <p className="text-[10px] font-black tracking-[0.14em] text-orange-500">RUNE AUDIT</p>
           </div>
-          <h3 className="text-xl font-black text-theme-main mt-1">룬 스탯 교정실</h3>
-          <p className="text-xs text-theme-sub mt-1">
+          <h3 className="text-lg font-black text-theme-main mt-0.5">룬 스탯 교정실</h3>
+          <p className="text-[10px] text-theme-sub mt-1">
             마스터 설명글 기준 룬 스탯을 검수하고, 필요한 값만 직접 교정해 DPS 시뮬레이터에 실시간 반영합니다.
           </p>
         </div>
 
         {/* 상단 액션 버튼 그룹 및 상태 라이트 */}
-        <div className="flex items-center gap-4 self-stretch md:self-auto justify-between">
-          <div className="flex items-center gap-2 text-xs bg-theme-subcard px-3.5 py-2 rounded-xl border border-theme theme-transition">
+        <div className="flex items-center gap-2 self-stretch md:self-auto justify-between">
+          <div className="flex items-center gap-1.5 text-[10px] bg-theme-subcard px-2 py-1.5 rounded-lg border border-theme theme-transition">
             <span className={`w-2.5 h-2.5 rounded-full ${isUpdating ? 'bg-amber-500 animate-ping' : 'bg-emerald-500'} transition-all`} />
             <span className="font-extrabold text-theme-sub">
               {isUpdating ? '계산기 스탯 동기화 중...' : '시뮬레이터 실시간 반영 중'}
@@ -304,7 +304,7 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate, selectedRunes
           <div className="flex gap-2">
             <button
               onClick={handleResetToMaster}
-              className="px-4 py-2.5 bg-theme-card hover:bg-theme-subcard text-theme-main border border-theme rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shadow-sm focus:outline-none"
+              className="px-2.5 py-1.5 bg-theme-card hover:bg-theme-subcard text-theme-main border border-theme rounded-lg text-[10px] font-bold transition-all flex items-center gap-1.5 shadow-sm focus:outline-none"
               title="수동 변경된 값을 마스터 설명글 기준 기본 스탯으로 복원합니다."
             >
               <RotateCcw className="w-4 h-4" />
@@ -312,7 +312,7 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate, selectedRunes
             </button>
             <button
               onClick={handleCopyJson}
-              className={`px-4 py-2.5 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 shadow-sm focus:outline-none ${
+              className={`px-2.5 py-1.5 rounded-lg text-[10px] font-black transition-all flex items-center gap-1.5 shadow-sm focus:outline-none ${
                 copySuccess 
                   ? 'bg-blue-600 text-white' 
                   : 'bg-orange-500 text-white hover:bg-orange-600 shadow-orange-100'
@@ -326,18 +326,18 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate, selectedRunes
       </div>
 
       {/* 한 줄형 교정 가이드 */}
-      <div className="bg-orange-500/5 border border-orange-500/20 px-4 py-3 rounded-xl flex items-center gap-3 text-xs leading-relaxed text-theme-main theme-transition">
+      <div className="bg-orange-500/5 border border-orange-500/20 px-3 py-2 rounded-lg flex items-center gap-2 text-[10px] leading-relaxed text-theme-main theme-transition">
         <Info className="w-4 h-4 text-orange-500 shrink-0" />
         <p><strong className="text-orange-600 dark:text-orange-300">룬 스탯 교정실 안내:</strong> 마스터 설명과 현재 JSON을 비교합니다. 수정한 값은 DPS 시뮬레이터에 즉시 반영되며, 직접 피해 룬만 필요한 범위에서 조정하세요.</p>
       </div>
 
       {/* 대시보드 요약 메트릭 카드 */}
-      <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
-        <div className="bg-theme-subcard border border-theme p-3 rounded-xl flex flex-col justify-center theme-transition">
+      <div className="grid grid-cols-2 lg:grid-cols-5 gap-2">
+        <div className="bg-theme-subcard border border-theme p-2 rounded-lg flex flex-col justify-center theme-transition">
             <span className="text-[10px] font-bold text-theme-sub uppercase tracking-wider">마스터 룬</span>
           <span className="text-lg font-black text-theme-main mt-0.5">{statsSummary.totalMd} 개</span>
         </div>
-        <div className="bg-theme-subcard border border-theme p-3 rounded-xl flex flex-col justify-center theme-transition">
+        <div className="bg-theme-subcard border border-theme p-2 rounded-lg flex flex-col justify-center theme-transition">
             <span className="text-[10px] font-bold text-theme-sub uppercase tracking-wider">현재 JSON</span>
           <span className="text-lg font-black text-theme-main mt-0.5">{statsSummary.totalJson} 개</span>
         </div>
@@ -356,7 +356,7 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate, selectedRunes
       </div>
 
       {/* 필터 및 검색 컨트롤 */}
-      <div className="flex flex-col xl:flex-row gap-4 bg-theme-subcard p-4 rounded-xl border border-theme theme-transition">
+      <div className="flex flex-col xl:flex-row gap-2 bg-theme-subcard p-2.5 rounded-lg border border-theme theme-transition">
         <div className="flex-1 relative">
           <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-theme-muted" />
           <input
@@ -368,7 +368,7 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate, selectedRunes
           />
         </div>
 
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-1.5">
           <select
             value={selectedTypeFilter}
             onChange={(e) => setSelectedTypeFilter(e.target.value)}
@@ -396,13 +396,13 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate, selectedRunes
       </div>
 
       {/* 룬 스탯 편집용 테이블 그리드 (가로 스크롤 & 룬 이름 열 sticky 고정) */}
-      <div className="overflow-x-auto border border-theme rounded-xl bg-theme-subcard/30 max-h-[620px] xl:max-h-[700px] overflow-y-auto theme-transition">
+      <div className="overflow-x-auto border border-theme rounded-lg bg-theme-subcard/30 max-h-[580px] xl:max-h-[650px] overflow-y-auto theme-transition">
         <table className="w-full border-collapse text-left text-xs text-theme-main min-w-[1500px]">
           <thead>
             <tr className="bg-theme-subcard border-b border-theme text-theme-sub font-bold sticky top-0 z-20 theme-transition">
-              <th className="p-3 w-48 text-sm sticky left-0 bg-theme-subcard z-30 shadow-[2px_0_4px_-2px_rgba(0,0,0,0.1)] theme-transition">룬 정보</th>
+              <th className="p-2 w-44 text-xs sticky left-0 bg-theme-subcard z-30 shadow-[2px_0_4px_-2px_rgba(0,0,0,0.1)] theme-transition">룬 정보</th>
               {STAT_COLUMNS.map(col => (
-                <th key={col.key} className="p-3 text-center w-32 border-l border-theme theme-transition">
+                <th key={col.key} className="p-2 text-center w-28 border-l border-theme theme-transition">
                   <div className="flex flex-col items-center justify-center gap-0.5">
                     <span className="text-sm font-black text-theme-main">{col.label}</span>
                     <span className="text-[10px] text-theme-muted font-bold font-mono">
@@ -427,7 +427,7 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate, selectedRunes
                 <tr key={idx} className={`${rowVisual.rowClass} hover:brightness-[0.98] transition-colors`}>
                   
                   {/* 룬 정보 열 (Sticky 고정) */}
-                  <td className={`p-3 sticky left-0 ${rowVisual.stickyClass} backdrop-blur-sm z-10 shadow-[2px_0_4px_-2px_rgba(0,0,0,0.1)] border-r border-theme theme-transition`}>
+                  <td className={`p-2 sticky left-0 ${rowVisual.stickyClass} backdrop-blur-sm z-10 shadow-[2px_0_4px_-2px_rgba(0,0,0,0.1)] border-r border-theme theme-transition`}>
                     <div className="flex flex-col gap-1.5 justify-center">
                       {/* 줄 1: 이름 및 누락/장착 뱃지 */}
                       <div className="flex flex-row items-center gap-1.5 flex-wrap">

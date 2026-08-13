@@ -95,28 +95,28 @@ export default function SealControlPanel({ seals, onSealChange }) {
   const dpsCritGain = totalLuk * 1.0;
 
   return (
-    <div className="flex flex-col gap-4">
-      <section className="bg-theme-card border border-theme rounded-2xl p-4 shadow-theme theme-transition">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+    <div className="flex flex-col gap-3">
+      <section className="bg-theme-card border border-theme rounded-xl p-3 shadow-theme theme-transition">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
             <p className="text-[10px] font-black tracking-[0.14em] text-orange-500">SEAL SETTINGS</p>
-            <h3 className="text-xl font-black text-theme-main mt-1 flex items-center gap-2"><Shield className="w-5 h-5 text-orange-500" /> 달의 인장 설정</h3>
-            <p className="text-xs text-theme-sub mt-1">선택한 인장의 강화 효과와 추가 능력치는 종합 DPS 계산에 실시간 반영됩니다.</p>
+            <h3 className="text-lg font-black text-theme-main mt-0.5 flex items-center gap-1.5"><Shield className="w-4 h-4 text-orange-500" /> 달의 인장 설정</h3>
+            <p className="text-[10px] text-theme-sub mt-1">선택한 인장의 강화 효과와 추가 능력치는 종합 DPS 계산에 실시간 반영됩니다.</p>
           </div>
-          <span className="w-fit text-[10px] font-black text-orange-600 dark:text-orange-300 bg-orange-500/10 border border-orange-500/20 px-2.5 py-1.5 rounded-full">실시간 DPS 반영</span>
+          <span className="w-fit text-[9px] font-black text-orange-600 dark:text-orange-300 bg-orange-500/10 border border-orange-500/20 px-2 py-1 rounded-full">실시간 DPS 반영</span>
         </div>
       </section>
 
       {/* 1. 종합 설정 현황 보드 */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-3 bg-theme-subcard border border-theme p-4 rounded-2xl theme-transition">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-2 bg-theme-subcard border border-theme p-3 rounded-xl theme-transition">
         <div className="flex flex-col gap-1 md:border-r border-theme pr-4 last:border-0 theme-transition">
           <span className="text-[10px] font-black text-theme-muted uppercase">총 추가 슬롯 공격력</span>
-          <span className="text-xl font-black text-orange-500">+{totalAtk}</span>
+          <span className="text-lg font-black text-orange-500">+{totalAtk}</span>
           <span className="text-[9.5px] text-theme-sub font-bold mt-0.5">무기, 목걸이 인장 강화 합산</span>
         </div>
         <div className="flex flex-col gap-1 md:border-r border-theme pr-4 last:border-0 theme-transition">
           <span className="text-[10px] font-black text-theme-muted uppercase">엠블럼 추가공격력 배율</span>
-          <span className="text-xl font-black text-emerald-500">{totalEmblemPct}%</span>
+          <span className="text-lg font-black text-emerald-500">{totalEmblemPct}%</span>
           <span className="text-[9.5px] text-theme-sub font-bold mt-0.5">엠블럼 인장 등급 보정치</span>
         </div>
         <div className="flex flex-col gap-1 md:border-r border-theme pr-4 last:border-0 theme-transition">
@@ -140,7 +140,7 @@ export default function SealControlPanel({ seals, onSealChange }) {
       </div>
 
       {/* 2. 10대 장비 슬롯 개별 설정 대시보드 */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 xl:gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2">
         {Object.entries(SLOT_NAMES).map(([slot, label]) => {
           const seal = getSealData(slot);
 
@@ -161,11 +161,11 @@ export default function SealControlPanel({ seals, onSealChange }) {
           return (
             <div
               key={slot}
-              className={`p-3 xl:p-3.5 rounded-2xl border flex flex-col gap-3 transition-all duration-300 card-lift-glow theme-transition ${cardColorClass}`}
+              className={`p-2 rounded-xl border flex flex-col gap-2 transition-all duration-300 card-lift-glow theme-transition ${cardColorClass}`}
             >
               {/* 장비 부위 명세 */}
               <div className="flex justify-between items-center">
-                <span className="text-sm font-black text-theme-main flex items-center gap-1.5">
+                <span className="text-[11px] font-black text-theme-main flex items-center gap-1.5">
                   <Shield className="w-4 h-4 text-orange-500" />
                   {label} 슬롯 인장
                 </span>
@@ -178,13 +178,13 @@ export default function SealControlPanel({ seals, onSealChange }) {
               </div>
 
               {/* 강화 인장 종류 선택 세그먼트 */}
-              <div className="grid grid-cols-4 gap-1 bg-theme-subcard p-1 rounded-xl border border-theme theme-transition">
+              <div className="grid grid-cols-4 gap-0.5 bg-theme-subcard p-0.5 rounded-lg border border-theme theme-transition">
                 {SEAL_TYPES.map(st => (
                   <button
                     key={st.value}
                     type="button"
                     onClick={() => handleTypeChange(slot, st.value)}
-                    className={`py-1 text-[9.5px] font-bold rounded-lg transition-all focus:outline-none ${
+                    className={`py-1 text-[8px] font-bold rounded-md transition-all focus:outline-none ${
                       seal.type === st.value
                         ? 'bg-theme-card border border-theme text-orange-500 shadow-sm'
                         : 'text-theme-muted hover:text-theme-main'
@@ -197,7 +197,7 @@ export default function SealControlPanel({ seals, onSealChange }) {
 
               {/* 강화 효과 일람 안내 */}
               {seal.type !== 'none' && (
-                <div className="text-[10px] bg-theme-subcard/50 border border-theme/60 p-2 rounded-xl text-theme-sub font-semibold theme-transition">
+                <div className="text-[9px] bg-theme-subcard/50 border border-theme/60 p-1.5 rounded-lg text-theme-sub font-semibold theme-transition">
                   {slot === 'weapon' && (
                     <span>강화 효과: <strong className="text-orange-500 font-extrabold">공격력 {seal.type === 'star' ? '+300' : seal.type === 'blue_moon' ? '+500' : '+800'}</strong></span>
                   )}

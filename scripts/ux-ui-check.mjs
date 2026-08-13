@@ -32,21 +32,31 @@ try {
     });
 
     let conditionalSettingsBehavior = false;
+    let stanceSettingsBehavior = false;
     if (target.width >= 1024) {
-      const conditionalToggle = page.getByRole('button', { name: '조건부 버프 및 가동률 설정 열기' });
+      const combatSettingsToggle = page.getByRole('button', { name: '전투 보조 설정 열기' });
       const drawer = page.locator('#conditional-settings-drawer');
-      await conditionalToggle.click();
+      await combatSettingsToggle.click();
       const opens = await drawer.getAttribute('aria-hidden') === 'false';
-      await page.getByRole('button', { name: '조건부 설정 패널 닫기' }).click();
+      const stanceSelects = drawer.getByRole('combobox');
+      const stanceCount = await stanceSelects.count();
+      const firstStance = stanceSelects.first();
+      const currentStance = await firstStance.inputValue();
+      const nextStance = currentStance === '충돌' ? '약점' : '충돌';
+      await firstStance.selectOption(nextStance);
+      const stanceValueUpdated = await firstStance.inputValue() === nextStance;
+      stanceSettingsBehavior = stanceCount === 5 && stanceValueUpdated;
+      await page.getByRole('button', { name: '전투 보조 설정 패널 닫기' }).click();
       const closesOnOutsideClick = await drawer.getAttribute('aria-hidden') === 'true';
-      await conditionalToggle.click();
+      await combatSettingsToggle.click();
       await page.keyboard.press('Escape');
       const closesOnEscape = await drawer.getAttribute('aria-hidden') === 'true';
       conditionalSettingsBehavior = opens && closesOnOutsideClick && closesOnEscape;
     } else {
-      const mobileConditionalDetails = page.locator('details').first();
-      await mobileConditionalDetails.locator('summary').click();
-      conditionalSettingsBehavior = await mobileConditionalDetails.getAttribute('open') !== null;
+      const mobileCombatDetails = page.locator('details').first();
+      await mobileCombatDetails.locator('summary').click();
+      conditionalSettingsBehavior = await mobileCombatDetails.getAttribute('open') !== null;
+      stanceSettingsBehavior = await mobileCombatDetails.getByRole('combobox').count() === 5;
     }
 
     await page.getByRole('button', { name: '보석 세공실' }).click();
@@ -116,6 +126,7 @@ try {
       equippedRuneVisual,
       darkThemeApplied,
       conditionalSettingsBehavior,
+      stanceSettingsBehavior,
       firstFoldCheck
     });
     await page.close();
@@ -131,6 +142,7 @@ try {
     !result.equippedRuneVisual ||
     !result.darkThemeApplied ||
     !result.conditionalSettingsBehavior ||
+    !result.stanceSettingsBehavior ||
     !result.firstFoldCheck
   ))) {
     process.exitCode = 1;

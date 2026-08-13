@@ -19,7 +19,7 @@ function WorkflowStrip({ equippedRuneCount }) {
   ];
 
   return (
-    <section aria-label="계산기 설정 진행 순서" className="bg-theme-card border border-theme rounded-2xl px-4 py-3.5 shadow-theme theme-transition">
+    <section aria-label="계산기 설정 진행 순서" aria-hidden="true" className="hidden">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center">
@@ -51,18 +51,18 @@ function WorkflowStrip({ equippedRuneCount }) {
 
 function SectionIntro({ step, title, description, icon: Icon, badge }) {
   return (
-    <div className="flex items-start justify-between gap-3 px-1">
+    <div className="flex items-start justify-between gap-2 px-0.5">
       <div className="flex items-start gap-3">
-        <div className="mt-0.5 w-8 h-8 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center shrink-0">
-          <Icon className="w-4 h-4 text-orange-500" />
+        <div className="mt-0.5 w-6 h-6 rounded-lg bg-orange-500/10 border border-orange-500/20 flex items-center justify-center shrink-0">
+          <Icon className="w-3.5 h-3.5 text-orange-500" />
         </div>
         <div>
-          <p className="text-[10px] font-black tracking-[0.14em] text-orange-500">{step}</p>
-          <h3 className="text-sm font-black text-theme-main mt-0.5">{title}</h3>
-          {description && <p className="text-[11px] text-theme-muted mt-0.5 leading-relaxed">{description}</p>}
+          <p className="text-[8px] font-black tracking-[0.14em] text-orange-500">{step}</p>
+          <h3 className="text-xs font-black text-theme-main mt-0.5">{title}</h3>
+          {description && <p className="hidden 2xl:block text-[9px] text-theme-muted mt-0.5 leading-relaxed">{description}</p>}
         </div>
       </div>
-      {badge && <span className="shrink-0 text-[10px] font-black px-2 py-1 rounded-full bg-theme-subcard border border-theme text-theme-sub">{badge}</span>}
+      {badge && <span className="shrink-0 text-[8px] font-black px-1.5 py-0.5 rounded-full bg-theme-subcard border border-theme text-theme-sub">{badge}</span>}
     </div>
   );
 }
@@ -76,10 +76,10 @@ function DpsOverview({ dpsResult, equippedRuneCount }) {
   ];
 
   return (
-    <section aria-label="실전 DPS 결과 요약" className="relative overflow-hidden bg-theme-card border border-orange-500/30 rounded-2xl p-4 sm:p-5 shadow-theme theme-transition">
+    <section aria-label="실전 DPS 결과 요약" className="relative overflow-hidden bg-theme-card border border-orange-500/30 rounded-xl p-3 sm:p-3.5 shadow-theme theme-transition">
       <div className="absolute -right-16 -top-16 w-44 h-44 rounded-full bg-orange-500/10 blur-3xl pointer-events-none" />
       <div className="relative">
-        <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
+        <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-xl bg-orange-500 text-white shadow-sm flex items-center justify-center">
               <Target className="w-4 h-4" />
@@ -92,11 +92,11 @@ function DpsOverview({ dpsResult, equippedRuneCount }) {
           <span className="text-[10px] font-black bg-theme-subcard border border-theme text-theme-sub px-2.5 py-1 rounded-full">룬 {equippedRuneCount}/10 장착</span>
         </div>
 
-        <div className="rounded-2xl bg-theme-subcard border border-theme p-3 sm:p-4">
+        <div className="rounded-xl bg-theme-subcard border border-theme p-2.5 sm:p-3">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="text-[11px] font-bold text-theme-sub">종합 실전 예상 DPS</p>
-              <p className="text-4xl sm:text-5xl xl:text-5xl font-black text-orange-500 tracking-[-0.045em] leading-none mt-1.5">
+              <p className="text-4xl sm:text-5xl 2xl:text-6xl font-black text-orange-500 tracking-[-0.045em] leading-none mt-1">
                 {dpsResult ? dpsResult.weightedDps.toLocaleString() : '0'}
                 <span className="text-xs tracking-normal text-theme-muted font-bold ml-1.5">DPS</span>
               </p>
@@ -109,9 +109,9 @@ function DpsOverview({ dpsResult, equippedRuneCount }) {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 xl:grid-cols-4 gap-2.5 mt-3">
+        <div className="grid grid-cols-2 xl:grid-cols-4 gap-1.5 mt-2">
           {metrics.map((metric) => (
-            <div key={metric.label} className="bg-theme-main/60 border border-theme rounded-xl px-3 py-2.5 theme-transition">
+            <div key={metric.label} className="bg-theme-main/60 border border-theme rounded-lg px-2 py-1.5 theme-transition">
               <p className="text-[10px] font-bold text-theme-muted truncate">{metric.label}</p>
               <p className={`text-sm font-black mt-1 ${metric.accent}`}>{metric.value}</p>
             </div>
@@ -122,7 +122,7 @@ function DpsOverview({ dpsResult, equippedRuneCount }) {
   );
 }
 
-function StancePanel({ skillStances, onStanceChange }) {
+export function StancePanel({ skillStances, onStanceChange }) {
   const stances = [
     { key: 'skill_1', label: '1번 차징 피스트', options: [['순정', '순정 (1.475 계수)'], ['충돌', '충돌 (1.775 계수 / 범위피)'], ['약점', '약점 (0.92 계수 / 카운터 디버프)']] },
     { key: 'skill_2', label: '2번 스러스트 킥', options: [['순정', '순정 (0.405 계수)'], ['전진', '전진 (0.465 계수 / 콤보피증)'], ['도약', '도약 (0.64 계수 / 거리 비례피)']] },
@@ -293,14 +293,14 @@ export default function MainCalculatorTab({
   const equippedRuneCount = Object.values(selectedRunes).flat().filter(Boolean).length;
 
   return (
-    <div className="flex flex-col gap-4 animate-fadeIn">
+    <div className="flex flex-col gap-3 animate-fadeIn">
       <WorkflowStrip equippedRuneCount={equippedRuneCount} />
 
-      <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,0.86fr)_minmax(0,1.14fr)] gap-4 xl:gap-5 items-start">
-        <main className="flex flex-col gap-4 min-w-0">
-          <section className="bg-theme-card border border-theme rounded-2xl p-3 sm:p-4 shadow-theme theme-transition">
+      <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)] gap-3 xl:gap-4 items-start">
+        <main className="flex flex-col gap-3 min-w-0">
+          <section className="bg-theme-card border border-theme rounded-xl p-2.5 sm:p-3 shadow-theme theme-transition">
             <SectionIntro step="01 · REQUIRED SETUP" title="기본 스펙과 시즌 패시브" description="마을 기준 능력치·스킬 개조·최종뎀 증가를 순서대로 설정합니다." icon={Sparkles} badge="DPS 필수" />
-            <div className="mt-3">
+            <div className="mt-2">
               <StatsInput stats={stats} onStatsChange={onStatsChange} />
             </div>
           </section>
@@ -309,38 +309,35 @@ export default function MainCalculatorTab({
             <DpsOverview dpsResult={dpsResult} equippedRuneCount={equippedRuneCount} />
           </div>
 
-          <section className="bg-theme-card border border-theme rounded-2xl p-3 sm:p-4 shadow-theme theme-transition">
-            <SectionIntro step="02 · STANCE" title="스킬별 스탠스 시뮬레이션" description="선택한 스탠스가 각 스킬 계수와 최종 DPS에 반영됩니다." icon={Activity} badge="DPS 필수" />
-            <div className="mt-3">
-              <StancePanel skillStances={skillStances} onStanceChange={onStanceChange} />
-            </div>
-          </section>
-
-          <section className="bg-theme-card border border-theme rounded-2xl p-3 sm:p-4 shadow-theme theme-transition">
+          <section className="bg-theme-card border border-theme rounded-xl p-2.5 sm:p-3 shadow-theme theme-transition">
             <SectionIntro step="03 · COMBAT" title="전투 상황과 딜사이클" description="보스·시간·사이클을 입력해 실전 가중 DPS를 계산합니다." icon={Target} badge="DPS 필수" />
-            <div className="mt-3">
+            <div className="mt-2">
               <CombatScenarioPanel gimmicks={gimmicks} onGimmickChange={onGimmickChange} cycles={cycles} onCycleChange={onCycleChange} />
             </div>
           </section>
 
         </main>
 
-        <aside className="flex flex-col gap-4 min-w-0">
+        <aside className="flex flex-col gap-3 min-w-0">
           <div className="hidden xl:block">
             <DpsOverview dpsResult={dpsResult} equippedRuneCount={equippedRuneCount} />
           </div>
 
-          <section className="bg-theme-card border border-theme rounded-2xl p-3 sm:p-4 shadow-theme theme-transition">
+          <section className="bg-theme-card border border-theme rounded-xl p-2.5 sm:p-3 shadow-theme theme-transition">
             <SectionIntro step="04 · RUNE SETUP" title="시즌 2 룬 세팅 구성" description="부위별 룬과 초월 단계를 조합하면 결과가 즉시 갱신됩니다." icon={Activity} badge={`${equippedRuneCount}/10 장착`} />
-            <div className="mt-3">
+            <div className="mt-2">
               <RuneSelector uiTheme={uiTheme} selectedRunes={selectedRunes} onRuneChange={onRuneChange} transcendLevels={transcendLevels} onTranscendChange={onTranscendChange} />
             </div>
           </section>
 
-          <section className="bg-theme-card border border-theme rounded-2xl p-3 sm:p-4 shadow-theme theme-transition">
-            <DpsBreakdown dpsResult={dpsResult} gimmicks={gimmicks} />
-            <PresetComparison presets={presets} dpsResult={dpsResult} savePreset={savePreset} loadPreset={loadPreset} clearPreset={clearPreset} />
-          </section>
+          <div className="grid grid-cols-1 2xl:grid-cols-2 gap-3">
+            <section className="bg-theme-card border border-theme rounded-xl p-2.5 sm:p-3 shadow-theme theme-transition">
+              <DpsBreakdown dpsResult={dpsResult} gimmicks={gimmicks} />
+            </section>
+            <section className="bg-theme-card border border-theme rounded-xl p-2.5 sm:p-3 shadow-theme theme-transition">
+              <PresetComparison presets={presets} dpsResult={dpsResult} savePreset={savePreset} loadPreset={loadPreset} clearPreset={clearPreset} />
+            </section>
+          </div>
         </aside>
       </div>
     </div>
