@@ -61,3 +61,17 @@ describe('parseRuneMarkdown', () => {
     expect(emblem.stats['마도저항']).toBe(0);
   });
 });
+
+describe('known malformed condition-text normalization', () => {
+  it('restores the missing 광채+ condition name without changing unrelated text', () => {
+    const markdown = `### 광채+ (무기 / 속성: 빛)
+**인게임 정제 문장 (cleaned_text)**
+- 시 적에게 주는 피해가 20% 증가한다.
+- 지속 피해: 화상 방결; 감전 심판을 보유한 적 공격 시 15초 동안 치명타 피해가 15% 증가한다.`;
+    const [glow] = parseRuneMarkdown(markdown);
+    expect(glow.cleaned_text).toEqual([
+      '지속 피해: 화상·빙결·감전·심판을 보유한 적에게 주는 피해가 20% 증가한다.',
+      '지속 피해: 화상·빙결·감전·심판을 보유한 적 공격 시 15초 동안 치명타 피해가 15% 증가한다.'
+    ]);
+  });
+});
