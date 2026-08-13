@@ -79,12 +79,12 @@ export default function StatsInput({ stats, onStatsChange }) {
   };
 
   const renderStatField = (field) => (
-    <div key={field.key} className="bg-theme-subcard p-1.5 rounded-lg border border-theme flex flex-col gap-1 theme-transition card-lift-glow">
+    <div key={field.key} className="bg-theme-subcard p-2 rounded-lg border border-theme flex flex-col gap-1.5 theme-transition card-lift-glow">
       <div className="flex justify-between items-start gap-2">
         <div className="flex flex-col gap-0.5 min-w-0">
-          <label className="text-[9px] font-black text-theme-sub leading-tight">{field.label}</label>
+          <label className="text-[10px] font-black text-theme-sub leading-tight">{field.label}</label>
           {getStatPercent(field.key, stats[field.key]) && (
-            <span className="text-[8.5px] text-emerald-600 dark:text-emerald-400 font-extrabold theme-transition truncate">
+            <span className="text-[9px] text-emerald-600 dark:text-emerald-400 font-extrabold theme-transition truncate">
               {getStatPercent(field.key, stats[field.key])}
             </span>
           )}
@@ -93,7 +93,7 @@ export default function StatsInput({ stats, onStatsChange }) {
           type="number"
           value={stats[field.key] || 0}
           onChange={(event) => handleInputChange(field.key, event.target.value)}
-          className="w-[4.4rem] bg-theme-card border border-theme rounded px-1.5 py-0.5 text-[11px] font-mono font-black text-emerald-600 dark:text-emerald-400 focus-orange-glow focus:outline-none theme-transition"
+          className="w-[4.8rem] bg-theme-card border border-theme rounded px-2 py-1 text-xs font-mono font-black text-emerald-600 dark:text-emerald-400 focus-orange-glow focus:outline-none theme-transition"
         />
       </div>
       <input
@@ -103,7 +103,7 @@ export default function StatsInput({ stats, onStatsChange }) {
         step={field.step}
         value={stats[field.key] || 0}
         onChange={(event) => handleInputChange(field.key, event.target.value)}
-        className="w-full h-1 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-orange-500 theme-transition"
+        className="w-full h-1.5 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-orange-500 theme-transition"
       />
     </div>
   );
@@ -178,24 +178,24 @@ export default function StatsInput({ stats, onStatsChange }) {
           ))}
         </div>
 
-        <div className="grid grid-cols-3 2xl:grid-cols-6 gap-1.5">
+        <div className="grid grid-cols-2 sm:grid-cols-3 min-[1900px]:grid-cols-6 gap-2">
           {skillFields.map(f => {
             const is30 = stats[f.key] === 30;
             return (
               <div 
                 key={f.key} 
-                className={`p-1.5 rounded-lg border flex flex-col items-center gap-0.5 transition-all theme-transition ${
+                className={`p-2 rounded-lg border flex flex-col items-center gap-1 transition-all theme-transition ${
                   is30 
                     ? 'bg-purple-500/10 border-purple-300 dark:border-purple-800/60 shadow-sm shadow-purple-500/5' 
                     : 'bg-theme-subcard border-theme'
                 }`}
               >
-                <span className={`text-[10px] font-bold theme-transition ${is30 ? 'text-purple-750 dark:text-purple-300' : 'text-theme-sub'}`}>{f.label}</span>
-                <div className="flex items-center mt-1.5 border border-theme rounded-lg overflow-hidden theme-transition shadow-sm">
+                <span className={`text-[11px] font-bold theme-transition ${is30 ? 'text-purple-750 dark:text-purple-300' : 'text-theme-sub'}`}>{f.label}</span>
+                <div className="flex items-center border border-theme rounded-lg overflow-hidden theme-transition shadow-sm">
                   <button
                     type="button"
                     onClick={() => onStatsChange(f.key, Math.max(10, (stats[f.key] || 10) - 1))}
-                    className="w-5 h-6 bg-theme-subcard hover:bg-theme-card text-xs font-black text-theme-sub active:scale-95 transition-all focus:outline-none flex items-center justify-center border-none"
+                    className="w-8 h-8 bg-theme-subcard hover:bg-theme-card text-sm font-black text-theme-sub active:scale-95 transition-all focus:outline-none flex items-center justify-center border-none"
                   >
                     -
                   </button>
@@ -215,14 +215,14 @@ export default function StatsInput({ stats, onStatsChange }) {
                         onStatsChange(f.key, checked);
                       }
                     }}
-                    className={`w-8 h-6 bg-theme-card text-center text-xs font-black focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none border-l border-r border-theme theme-transition ${
+                    className={`w-10 h-8 bg-theme-card text-center text-sm font-black focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none border-l border-r border-theme theme-transition ${
                       is30 ? 'text-purple-700 dark:text-purple-300 font-extrabold' : 'text-theme-main'
                     }`}
                   />
                   <button
                     type="button"
                     onClick={() => onStatsChange(f.key, Math.min(30, (stats[f.key] || 10) + 1))}
-                    className="w-5 h-6 bg-theme-subcard hover:bg-theme-card text-xs font-black text-theme-sub active:scale-95 transition-all focus:outline-none flex items-center justify-center border-none"
+                    className="w-8 h-8 bg-theme-subcard hover:bg-theme-card text-sm font-black text-theme-sub active:scale-95 transition-all focus:outline-none flex items-center justify-center border-none"
                   >
                     +
                   </button>

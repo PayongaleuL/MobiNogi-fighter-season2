@@ -22,7 +22,7 @@ function UptimeCard({ name, description, value, onChange, step = 5 }) {
       <div className="flex items-start justify-between gap-2">
         <div className="min-w-0">
           <p className="text-xs font-black text-theme-main">{name}</p>
-          <p className="mt-0.5 text-[10px] font-semibold leading-relaxed text-theme-sub">{description}</p>
+          <p className="mt-0.5 text-[11px] font-semibold leading-relaxed text-theme-sub">{description}</p>
         </div>
         <span className="shrink-0 rounded border border-theme bg-theme-card px-2 py-0.5 text-xs font-black text-emerald-600 dark:text-emerald-400 theme-transition">
           {value}%
@@ -37,12 +37,12 @@ function UptimeCard({ name, description, value, onChange, step = 5 }) {
           step={step}
           value={value}
           onChange={(event) => onChange(parseInt(event.target.value, 10))}
-          className="h-1.5 flex-1 cursor-pointer appearance-none rounded-lg bg-slate-200 accent-orange-500 theme-transition dark:bg-slate-800"
+          className="h-2 flex-1 cursor-pointer appearance-none rounded-lg bg-slate-200 accent-orange-500 theme-transition dark:bg-slate-800"
         />
         <button
           type="button"
           onClick={() => onChange(value === 100 ? 0 : 100)}
-          className={`rounded border px-2 py-1 text-[10px] font-bold transition-all focus:outline-none ${
+          className={`min-h-8 rounded border px-2 py-1.5 text-[11px] font-bold transition-all focus:outline-none ${
             value === 100
               ? 'border-emerald-300 bg-emerald-500/10 text-emerald-700 dark:border-emerald-800/40 dark:text-emerald-400'
               : 'border-theme bg-theme-card text-theme-sub hover:text-theme-main'
@@ -126,7 +126,7 @@ export default function ConditionalPanel({ selectedRunes, conditionalUptimes, on
 
       {onNightBlessingChange && (
         <div className="border-t border-theme pt-3 theme-transition">
-          <p className="mb-2 flex items-center gap-1.5 text-[10px] font-black tracking-[0.08em] text-orange-500">
+          <p className="mb-2 flex items-center gap-1.5 text-[11px] font-black tracking-[0.08em] text-orange-500">
             <Info className="h-3.5 w-3.5" />
             시즌 스킬 버프
           </p>

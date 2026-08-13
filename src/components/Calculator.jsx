@@ -531,7 +531,7 @@ export default function Calculator() {
           <h2 className="text-xl xl:text-[1.6rem] font-black tracking-tight text-theme-main leading-tight whitespace-nowrap">
             Mabinogi Mobile 격투가 계산기 <span className="text-theme-muted">· 시즌 2</span>
           </h2>
-          <p className="lg:hidden text-[10px] text-theme-sub mt-0.5 leading-relaxed">
+          <p className="hidden sm:block lg:hidden text-[11px] text-theme-sub mt-0.5 leading-relaxed">
             격투가 시즌 2의 보석·룬·인장·실전 딜사이클을 한 화면에서 계산합니다.
           </p>
         </div>
@@ -545,7 +545,7 @@ export default function Calculator() {
               aria-label="밝은 테마와 어두운 테마 전환"
               aria-pressed={uiTheme === 'dark'}
               onClick={() => setUiTheme(prev => prev === 'light' ? 'dark' : 'light')}
-              className="relative w-11 h-6 bg-theme-subcard border border-theme rounded-full p-0.5 cursor-pointer flex items-center justify-between theme-transition select-none group focus-orange-glow focus:outline-none"
+              className="relative w-12 min-h-11 sm:min-h-0 sm:h-6 bg-theme-subcard border border-theme rounded-full p-0.5 cursor-pointer flex items-center justify-between theme-transition select-none group focus-orange-glow focus:outline-none"
             >
               <Sun className="w-3 h-3 text-orange-400 ml-0.5 opacity-55 group-hover:opacity-100 transition-opacity shrink-0" />
               <Moon className="w-3 h-3 text-indigo-400 mr-0.5 opacity-55 group-hover:opacity-100 transition-opacity shrink-0" />
@@ -560,25 +560,25 @@ export default function Calculator() {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-px bg-theme-subcard p-px rounded-md border border-theme theme-transition w-full">
               <button
                 onClick={() => setActiveTab('calculator')}
-                className={`min-w-0 px-2.5 sm:px-3 py-1.5 rounded-[5px] text-[10px] xl:text-[11px] font-black transition-all flex items-center justify-center focus:outline-none whitespace-nowrap ${activeTab === 'calculator' ? 'bg-orange-500 text-white shadow-sm' : 'text-theme-sub hover:text-theme-main'}`}
+                className={`min-h-11 min-w-0 px-2.5 sm:min-h-0 sm:px-3 sm:py-1.5 py-2 rounded-[5px] text-[11px] xl:text-[11px] font-black transition-all flex items-center justify-center focus:outline-none whitespace-nowrap ${activeTab === 'calculator' ? 'bg-orange-500 text-white shadow-sm' : 'text-theme-sub hover:text-theme-main'}`}
               >
                 종합 계산기
               </button>
               <button
                 onClick={() => setActiveTab('gemstone')}
-                className={`min-w-0 px-2.5 sm:px-3 py-1.5 rounded-[5px] text-[10px] xl:text-[11px] font-black transition-all flex items-center justify-center focus:outline-none whitespace-nowrap ${activeTab === 'gemstone' ? 'bg-orange-500 text-white shadow-sm' : 'text-theme-sub hover:text-theme-main'}`}
+                className={`min-h-11 min-w-0 px-2.5 sm:min-h-0 sm:px-3 sm:py-1.5 py-2 rounded-[5px] text-[11px] xl:text-[11px] font-black transition-all flex items-center justify-center focus:outline-none whitespace-nowrap ${activeTab === 'gemstone' ? 'bg-orange-500 text-white shadow-sm' : 'text-theme-sub hover:text-theme-main'}`}
               >
                 보석 세공실
               </button>
               <button
                 onClick={() => setActiveTab('runeAudit')}
-                className={`min-w-0 px-2.5 sm:px-3 py-1.5 rounded-[5px] text-[10px] xl:text-[11px] font-black transition-all flex items-center justify-center focus:outline-none whitespace-nowrap ${activeTab === 'runeAudit' ? 'bg-orange-500 text-white shadow-sm' : 'text-theme-sub hover:text-theme-main'}`}
+                className={`min-h-11 min-w-0 px-2.5 sm:min-h-0 sm:px-3 sm:py-1.5 py-2 rounded-[5px] text-[11px] xl:text-[11px] font-black transition-all flex items-center justify-center focus:outline-none whitespace-nowrap ${activeTab === 'runeAudit' ? 'bg-orange-500 text-white shadow-sm' : 'text-theme-sub hover:text-theme-main'}`}
               >
                 룬 교정실
               </button>
               <button
                 onClick={() => setActiveTab('seals')}
-                className={`min-w-0 px-2.5 sm:px-3 py-1.5 rounded-[5px] text-[10px] xl:text-[11px] font-black transition-all flex items-center justify-center focus:outline-none whitespace-nowrap ${activeTab === 'seals' ? 'bg-orange-500 text-white shadow-sm' : 'text-theme-sub hover:text-theme-main'}`}
+                className={`min-h-11 min-w-0 px-2.5 sm:min-h-0 sm:px-3 sm:py-1.5 py-2 rounded-[5px] text-[11px] xl:text-[11px] font-black transition-all flex items-center justify-center focus:outline-none whitespace-nowrap ${activeTab === 'seals' ? 'bg-orange-500 text-white shadow-sm' : 'text-theme-sub hover:text-theme-main'}`}
               >
                 인장 설정실
               </button>

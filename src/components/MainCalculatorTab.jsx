@@ -58,12 +58,12 @@ function SectionIntro({ step, title, description, icon: Icon, badge }) {
           <Icon className="w-3.5 h-3.5 text-orange-500" />
         </div>
         <div>
-          <p className="text-[8px] font-black tracking-[0.14em] text-orange-500">{step}</p>
-          <h3 className="text-xs font-black text-theme-main mt-0.5">{title}</h3>
-          {description && <p className="hidden 2xl:block text-[9px] text-theme-muted mt-0.5 leading-relaxed">{description}</p>}
+          <p className="text-[9px] font-black tracking-[0.12em] text-orange-500">{step}</p>
+          <h3 className="text-sm font-black text-theme-main mt-0.5">{title}</h3>
+          {description && <p className="hidden 2xl:block text-[10px] text-theme-muted mt-0.5 leading-relaxed">{description}</p>}
         </div>
       </div>
-      {badge && <span className="shrink-0 text-[8px] font-black px-1.5 py-0.5 rounded-full bg-theme-subcard border border-theme text-theme-sub">{badge}</span>}
+      {badge && <span className="shrink-0 text-[9px] font-black px-2 py-0.5 rounded-full bg-theme-subcard border border-theme text-theme-sub">{badge}</span>}
     </div>
   );
 }
@@ -206,13 +206,17 @@ function CombatScenarioPanel({ gimmicks, onGimmickChange, cycles, onCycleChange 
             <input type="text" value={cycles.ultimate} onChange={(event) => onCycleChange('ultimate', event.target.value)} className="w-full bg-theme-card border border-theme rounded-lg px-3 py-2 text-sm font-black text-orange-500 tracking-[0.18em] focus-orange-glow focus:outline-none theme-transition" />
           </label>
         </div>
-        <p className="text-[10px] text-theme-muted leading-relaxed mt-2.5">
-          새 입력에서는 같은 1번 스킬을 연속으로 적으면 첫 번째는 1-1, 다음은 1-2로 순차 계산합니다. 입력을 수정하면 일반·브레이크 상태가 함께 동기화되며, 빈 사이클은 0 DPS 오류로 처리됩니다.
-        </p>
-        <p className="text-[10px] text-theme-muted leading-relaxed mt-1 flex items-start gap-1.5">
-          <Info className="w-3.5 h-3.5 shrink-0 mt-0.5" />
-          스킬 약어: 1 차징피스트, 2 스러스트킥, 3 백스텝, 4 버스트펀치/소닉피스트, 5 비룡격/섬머솔트, 6 궁극기
-        </p>
+        <details className="group mt-2.5 rounded-lg border border-theme bg-theme-subcard/60 theme-transition">
+          <summary className="flex cursor-pointer list-none items-center gap-1.5 px-2.5 py-2 text-[11px] font-bold text-theme-sub">
+            <Info className="h-3.5 w-3.5 shrink-0 text-orange-500" />
+            딜사이클 입력 도움말
+            <span className="ml-auto text-orange-500 transition-transform group-open:rotate-180">⌄</span>
+          </summary>
+          <div className="border-t border-theme px-2.5 py-2 text-[10px] leading-relaxed text-theme-muted">
+            <p>같은 1번 스킬을 연속으로 적으면 첫 번째는 1-1, 다음은 1-2로 순차 계산합니다. 입력을 수정하면 일반·브레이크 상태가 함께 동기화되며, 빈 사이클은 0 DPS 오류로 처리됩니다.</p>
+            <p className="mt-1.5">스킬 약어: 1 차징피스트, 2 스러스트킥, 3 백스텝, 4 버스트펀치/소닉피스트, 5 비룡격/섬머솔트, 6 궁극기</p>
+          </div>
+        </details>
       </div>
     </section>
   );
@@ -316,16 +320,16 @@ export default function MainCalculatorTab({
 
       <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)] gap-3 xl:gap-4 items-start">
         <main className="flex flex-col gap-3 min-w-0">
+          <div className="xl:hidden">
+            <DpsOverview dpsResult={dpsResult} equippedRuneCount={equippedRuneCount} />
+          </div>
+
           <section className="bg-theme-card border border-theme rounded-xl p-2.5 sm:p-3 shadow-theme theme-transition">
             <SectionIntro step="01 · REQUIRED SETUP" title="기본 스펙과 시즌 패시브" description="마을 기준 능력치·스킬 개조·최종뎀 증가를 순서대로 설정합니다." icon={Sparkles} badge="DPS 필수" />
             <div className="mt-2">
               <StatsInput stats={stats} onStatsChange={onStatsChange} />
             </div>
           </section>
-
-          <div className="xl:hidden">
-            <DpsOverview dpsResult={dpsResult} equippedRuneCount={equippedRuneCount} />
-          </div>
 
           <section className="bg-theme-card border border-theme rounded-xl p-2.5 sm:p-3 shadow-theme theme-transition">
             <SectionIntro step="03 · COMBAT" title="전투 상황과 딜사이클" description="보스·시간·사이클을 입력해 실전 가중 DPS를 계산합니다." icon={Target} badge="DPS 필수" />

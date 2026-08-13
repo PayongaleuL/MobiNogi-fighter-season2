@@ -48,7 +48,7 @@ export default function ConditionalSettingsSidebar({
   return (
     <>
       <details className="mb-1 rounded-lg border border-theme bg-theme-card theme-transition lg:hidden">
-        <summary className="flex cursor-pointer list-none items-center justify-between px-3 py-2.5 text-xs font-black text-theme-main">
+        <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between px-3 py-2.5 text-xs font-black text-theme-main">
           <span className="flex items-center gap-2"><SlidersHorizontal className="h-4 w-4 text-orange-500" />스킬 스탠스·조건부 설정</span>
           <span className="text-[10px] text-orange-500">열기</span>
         </summary>
@@ -91,7 +91,7 @@ export default function ConditionalSettingsSidebar({
         id="conditional-settings-drawer"
         aria-label="스킬 스탠스 및 조건부 버프 설정"
         aria-hidden={!isOpen}
-        className={`fixed left-0 top-0 z-50 hidden h-dvh w-[390px] max-w-[calc(100vw-1rem)] border-r border-theme bg-theme-main shadow-2xl transition-transform duration-300 ease-out lg:flex lg:flex-col ${isOpen ? 'translate-x-0' : '-translate-x-full pointer-events-none'}`}
+        className={`fixed left-0 top-0 z-50 hidden h-dvh w-[420px] max-w-[calc(100vw-1rem)] border-r border-theme bg-theme-main shadow-2xl transition-transform duration-300 ease-out lg:flex lg:flex-col ${isOpen ? 'translate-x-0' : '-translate-x-full pointer-events-none'}`}
       >
         <div className="flex items-center justify-between border-b border-theme bg-theme-card px-4 py-3 theme-transition">
           <div>

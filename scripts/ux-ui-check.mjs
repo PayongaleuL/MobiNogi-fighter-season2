@@ -101,6 +101,27 @@ try {
       return headerRect.top <= 32 && headerRect.height <= 70 && sectionRect.top <= 110;
     });
 
+    const mobileErgonomicsCheck = target.width >= 1024 || await page.evaluate(() => {
+      const tabButtons = ['종합 계산기', '보석 세공실', '룬 교정실', '인장 설정실']
+        .map((label) => [...document.querySelectorAll('button')].find((button) => button.textContent?.trim() === label));
+      const themeButton = document.querySelector('button[aria-label="밝은 테마와 어두운 테마 전환"]');
+      const combatSummary = document.querySelector('details > summary');
+      const dpsHeading = [...document.querySelectorAll('h2')]
+        .find((heading) => heading.textContent?.trim() === '실전 DPS 결과');
+      const basicHeading = [...document.querySelectorAll('h3')]
+        .find((heading) => heading.textContent?.trim() === '기본 스펙과 시즌 패시브');
+      const firstStatInput = document.querySelector('input[type="number"]');
+      const firstTranscendButton = [...document.querySelectorAll('button')]
+        .find((button) => button.textContent?.trim() === '미초월');
+      if (!themeButton || !combatSummary || !dpsHeading || !basicHeading || !firstStatInput || !firstTranscendButton || tabButtons.some((button) => !button)) return false;
+      const controlsHaveComfortableTargets = [...tabButtons, themeButton, combatSummary]
+        .every((element) => element.getBoundingClientRect().height >= 44);
+      const resultComesBeforeSetup = dpsHeading.getBoundingClientRect().top < basicHeading.getBoundingClientRect().top;
+      const statTextIsReadable = parseFloat(window.getComputedStyle(firstStatInput).fontSize) >= 12;
+      const transcendTargetIsUsable = firstTranscendButton.getBoundingClientRect().height >= 32;
+      return controlsHaveComfortableTargets && resultComesBeforeSetup && statTextIsReadable && transcendTargetIsUsable;
+    });
+
     await page.screenshot({ path: `results/e2e/ux-ui-${target.name}.png`, fullPage: true });
 
     const report = await page.evaluate(() => ({
@@ -139,7 +160,8 @@ try {
       conditionalSettingsBehavior,
       stanceSettingsBehavior,
       firstFoldCheck,
-      headerDensityCheck
+      headerDensityCheck,
+      mobileErgonomicsCheck
     });
     await page.close();
   }
@@ -156,7 +178,8 @@ try {
     !result.conditionalSettingsBehavior ||
     !result.stanceSettingsBehavior ||
     !result.firstFoldCheck ||
-    !result.headerDensityCheck
+    !result.headerDensityCheck ||
+    !result.mobileErgonomicsCheck
   ))) {
     process.exitCode = 1;
   }

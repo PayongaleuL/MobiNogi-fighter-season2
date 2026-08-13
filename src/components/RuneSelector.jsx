@@ -233,13 +233,13 @@ export default function RuneSelector({ _uiTheme, selectedRunes, onRuneChange, tr
 
   return (
     <div className="theme-transition">
-      <div className="mb-1.5 flex items-center justify-between gap-2 text-[9px] font-black text-theme-muted">
+      <div className="mb-2 flex items-center justify-between gap-2 text-[10px] font-black text-theme-muted">
         <span>슬롯을 눌러 장착 룬을 선택하고 초월 단계를 즉시 반영합니다.</span>
         <span className="shrink-0 rounded-full border border-theme bg-theme-subcard px-1.5 py-0.5 text-orange-500">10 SLOTS</span>
       </div>
 
       {/* 룬 장착 슬롯 그리드 */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-5 gap-1.5 mb-2">
+      <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-5 gap-2 mb-2">
         {slots.map((slot) => {
           const key = `${slot.type}-${slot.index}`;
           const currentRune = selectedRunes[slot.type] ? selectedRunes[slot.type][slot.index] : null;
@@ -254,7 +254,7 @@ export default function RuneSelector({ _uiTheme, selectedRunes, onRuneChange, tr
                 setActiveSlot({ type: slot.type, index: slot.index });
                 setSelectedTypeFilter(slot.type);
               }}
-              className={`relative cursor-pointer flex flex-col gap-1 p-1.5 rounded-lg border transition-all duration-300 theme-transition card-lift-glow ${
+              className={`relative cursor-pointer flex flex-col gap-1.5 p-2 rounded-lg border transition-all duration-300 theme-transition card-lift-glow ${
                 currentRune 
                   ? 'bg-theme-subcard border-orange-500/80 shadow-sm' 
                   : 'bg-theme-main border-theme border-dashed'
@@ -266,13 +266,13 @@ export default function RuneSelector({ _uiTheme, selectedRunes, onRuneChange, tr
                     {getRuneIcon(slot.type)}
                   </div>
                   <div>
-                    <span className="text-[8px] text-theme-muted font-bold block leading-none">{slot.label}</span>
-                    <span className="text-[10px] font-black text-theme-main mt-0.5 block truncate">
+                    <span className="text-[9px] text-theme-muted font-bold block leading-none">{slot.label}</span>
+                    <span className="text-[11px] font-black text-theme-main mt-0.5 block truncate">
                       {currentRune ? (
                         <>
                           {currentRune.name}
                           {currentLevel > 0 && (
-                            <span className={`text-[10.5px] font-black ${levelBadgeColor}`}>
+                            <span className={`text-[10px] font-black ${levelBadgeColor}`}>
                               {levelLabels[currentLevel]}
                             </span>
                           )}
@@ -287,7 +287,7 @@ export default function RuneSelector({ _uiTheme, selectedRunes, onRuneChange, tr
                 {currentRune && (
                   <button
                     onClick={(e) => handleClearSlot(slot.type, slot.index, e)}
-                    className="w-5 h-5 hover:bg-slate-200 rounded-full text-slate-400 hover:text-red-500 transition-colors leading-none text-base flex items-center justify-center focus:outline-none"
+                    className="w-7 h-7 hover:bg-slate-200 rounded-full text-slate-400 hover:text-red-500 transition-colors leading-none text-lg flex items-center justify-center focus:outline-none"
                   >
                     &times;
                   </button>
@@ -296,12 +296,12 @@ export default function RuneSelector({ _uiTheme, selectedRunes, onRuneChange, tr
 
               {currentRune ? (
                 <div className="flex flex-col gap-1 w-full mt-0.5" onClick={(e) => e.stopPropagation()}>
-                  <span className="text-[8px] text-emerald-600 font-extrabold truncate block">
+                  <span className="text-[9px] text-emerald-600 font-extrabold leading-tight truncate block">
                     {formatRuneDescCompact(currentRune)}
                   </span>
                   
                   {/* 초월 레벨 선택 버튼 세그먼트 */}
-                  <div className="flex gap-1 border-t border-theme pt-1 theme-transition">
+                  <div className="flex gap-1 border-t border-theme pt-1.5 theme-transition">
                     {[0, 1, 2].map((lvl) => {
                       const labels = ['미초월', '초월+', '초월++'];
                       const activeColor = lvl === 0 
@@ -313,7 +313,7 @@ export default function RuneSelector({ _uiTheme, selectedRunes, onRuneChange, tr
                         <button
                           key={lvl}
                           onClick={() => onTranscendChange(slot.type, slot.index, lvl)}
-                          className={`text-[7px] flex-1 px-1 py-0.5 rounded border transition-all focus:outline-none ${
+                          className={`min-h-8 text-[9px] flex-1 px-1 py-1 rounded border transition-all focus:outline-none ${
                             currentLevel === lvl 
                               ? activeColor 
                               : 'bg-theme-subcard border-theme text-theme-muted hover:text-theme-main hover:bg-theme-card'
