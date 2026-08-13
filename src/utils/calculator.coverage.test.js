@@ -31,6 +31,8 @@ const baseStats = {
   extraFinalDmgPct: 2
 };
 
+const validCycles = { ordinary: '123', ordinaryBreak: '123', ultimate: '123', ultimateBreak: '123' };
+
 const activeGimmicks = {
   boss: '글라스기브넨',
   ordinaryTime: 40,
@@ -160,20 +162,22 @@ describe('calculateDPS coverage regression suite', () => {
     expectFiniteDps(result);
   });
 
-  it('uses fallback values for empty and malformed cycle input', () => {
+  it('returns zero DPS with explicit errors for empty and malformed cycle input', () => {
     const result = calculateDPS(
       { ...baseStats, baseAttack: 0, critScore: 0, fastSkill: 0, extraProb: 0 },
       [{ name: '가동률 룬', type: '무기', transcendLevel: 1, stats: { '가동률': 1, '공격력': 0, '마도저항': 0 } }],
       { ...activeGimmicks, boss: '함선 허수아비', ordinaryTime: 0, unarmedTime: 0, ultimateTime: 0 },
       { ordinary: '', ordinaryBreak: '알 수 없음', ultimate: '---', ultimateBreak: ' ' },
-      {},
-      {},
-      { skill_1: '', skill_2: '', skill_3: '', skill_4: '', skill_5: '' },
-      {},
-      { passives: {}, skills: {} }
+      {}, {}, { skill_1: '', skill_2: '', skill_3: '', skill_4: '', skill_5: '' }, {}, { passives: {}, skills: {} }
     );
-
-    expectFiniteDps(result);
+    expect(result.status).toBe('invalid');
+    expect(result.weightedDps).toBe(0);
+    expect(result.errors).toHaveLength(4);
+    expect(result.errors.map((error) => error.code)).toEqual(['EMPTY_ROTATION', 'INVALID_ROTATION', 'INVALID_ROTATION', 'EMPTY_ROTATION']);
+    for (const state of Object.values(result.states)) {
+      expect(state.totalDps).toBe(0);
+      expect(state.cycleTime).toBe(0);
+    }
   });
 
   it('uses the spreadsheet village-attack contract without double-counting status-included equipment', () => {
@@ -300,7 +304,7 @@ describe('DPS default and stance branch regression', () => {
         stats: { '밤축_알수없는스탯': 1, '마도저항': 0, '가동률': 1 }
       }],
       { boss: '함선 허수아비' },
-      {},
+      validCycles,
       {},
       {},
       null,
@@ -312,6 +316,21 @@ describe('DPS default and stance branch regression', () => {
   });
 });
 
+
+describe('cycle sequence-v2 regression', () => {
+  it('normalizes repeated 1 tokens as 1-1 then 1-2', () => {
+    const result = calculateDPS(
+      { ...baseStats, useDeadlyImpact: false, useHitCombo: false },
+      [],
+      activeGimmicks,
+      { ordinary: '11', ordinaryBreak: '11', ultimate: '11', ultimateBreak: '11', inputMode: 'sequence-v2' },
+      {}, {}, {}, {}, { passives: {}, skills: {} }
+    );
+    expect(result.status).toBe('ok');
+    expect(result.normalizedCycles.ordinary).toEqual(['1-1', '1-2']);
+    expect(result.normalizedCycles.ultimate).toEqual(['1-1', '1-2']);
+  });
+});
 
 describe('final damage rune regression', () => {
   it('multiplies the complete DPS result by final-damage rune effects', () => {
@@ -414,7 +433,7 @@ describe("conditional effect branch matrix", () => {
         ]
       }],
       { boss: "함선 허수아비" },
-      {},
+      validCycles,
       { "조건부 분기 테스트:override": 60 },
       {}, {}, {}
     );

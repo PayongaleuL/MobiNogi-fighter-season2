@@ -315,10 +315,10 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
   // 3. 상황별 딜사이클 연산
   const states = ["ordinary", "ordinaryBreak", "ultimate", "ultimateBreak"];
   const results = {};
+  const errors = [];
+  const normalizedCycles = {};
 
   states.forEach(state => {
-    let cycle = cycleText[state] || "235212";
-
     // 스펙 기반 스킬 기본 쿨타임 및 계수 데이터 셋팅
     const skillData = {
       // 1번 스킬 (차징 피스트)
@@ -392,23 +392,23 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
     let totalHits = 0;        // 딜사이클 당 누적 적중 타수
     let s3Count = 0;          // 딜사이클 내 백 스텝 시전 수
 
-    // 딜사이클 문자열 파싱: 레거시 숫자(1~6), 한글 약어와 명시형 1-1/1-2/2-1/2-2를 함께 지원한다.
-    // 괄호는 사람을 위한 설명(예: 5 (444), 반복)으로 간주해 계산에서 제외한다.
+    // 딜사이클 문자열 파싱: 레거시 숫자, 한글 약어, 명시형 1-1/1-2/2-1/2-2를 지원한다.
+    // 공백·오류 입력에는 절대 기본 사이클을 대입하지 않는다.
     const listSkills = [];
-    let parsedCycle = cycle.replace(/\([^)]*\)/g, '').replace(/\s+/g, '');
+    const rawCycle = typeof cycleText?.[state] === 'string' ? cycleText[state] : '';
+    let parsedCycle = rawCycle.replace(/\([^)]*\)/g, '').replace(/\s+/g, '');
+    const isSequentialInput = cycleText?.inputMode === 'sequence-v2';
 
     if (/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/.test(parsedCycle)) {
-      const tokens = parsedCycle.match(/(도약|승천|강격|격파|약점|충돌|전진|순발력|열혈|섬머솔트|소닉|비룡|연환|차징|궁극)/g) || [];
-      if (tokens.length > 0) {
-        parsedCycle = tokens.map((token) => {
-          if (token === '약점' || token === '충돌' || token === '차징') return '1';
-          if (token === '도약' || token === '전진' || token === '연환') return '2';
-          if (token === '순발력') return '3';
-          if (token === '승천' || token === '격파' || token === '소닉') return '4';
-          if (token === '강격' || token === '열혈' || token === '섬머솔트' || token === '비룡') return '5';
-          return token === '궁극' ? '6' : '';
-        }).join('');
-      }
+      const tokens = parsedCycle.match(/(도약|승천|강격|격파|약점|충돌|차징|전진|순발력|열혈|섬머솔트|소닉|비룡|연환|궁극)/g) || [];
+      parsedCycle = tokens.map((token) => {
+        if (token === '약점' || token === '충돌' || token === '차징') return '1';
+        if (token === '도약' || token === '전진' || token === '연환') return '2';
+        if (token === '순발력') return '3';
+        if (token === '승천' || token === '격파' || token === '소닉') return '4';
+        if (token === '강격' || token === '열혈' || token === '섬머솔트' || token === '비룡') return '5';
+        return token === '궁극' ? '6' : '';
+      }).join('');
     } else {
       parsedCycle = parsedCycle
         .replace(/1-1/g, 'A')
@@ -418,13 +418,20 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
         .replace(/[^1-6ABCD]/g, '');
     }
 
+    let nextSkillOnePart = 1;
     for (const token of parsedCycle) {
       if (token === 'A') listSkills.push('1-1');
       else if (token === 'B') listSkills.push('1-2');
       else if (token === 'C') listSkills.push('2-1');
       else if (token === 'D') listSkills.push('2-2');
-      else if (token === '1') listSkills.push('1-1', '1-2');
-      else if (token === '2') {
+      else if (token === '1') {
+        if (isSequentialInput) {
+          listSkills.push(nextSkillOnePart === 1 ? '1-1' : '1-2');
+          nextSkillOnePart = nextSkillOnePart === 1 ? 2 : 1;
+        } else {
+          listSkills.push('1-1', '1-2');
+        }
+      } else if (token === '2') {
         if (matchStance(s2Stance, '도약') || matchStance(s2Stance, '전진')) listSkills.push('2-1');
         else listSkills.push('2-1', '2-2');
       } else if (token === '3') listSkills.push('3');
@@ -437,6 +444,15 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
       } else if (token === '6') listSkills.push('6');
     }
 
+    if (listSkills.length === 0) {
+      const code = rawCycle.trim().length === 0 ? 'EMPTY_ROTATION' : 'INVALID_ROTATION';
+      errors.push({ state, code, input: rawCycle });
+      normalizedCycles[state] = [];
+      results[state] = { skillDps: 0, directDps: 0, dotDps: 0, totalDps: 0, cycleTime: 0, cycleCoeff: 0, cycleBaseDmg: 0 };
+      return;
+    }
+
+    normalizedCycles[state] = [...listSkills];
     // 보스 치명타 저항 추출 및 최종 치명타 적중 판정률 계산
     const bossCritResist = boss.includes('어비스') ? 0.20 : 0.0;
     const finalCritProb = Math.min(1.0, Math.max(0.0, totalCritProb - bossCritResist));
@@ -611,9 +627,14 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
   });
 
   // 상황 비중별 혼합 DPS 연산
-  let ordTime = activeGimmicks.ordinaryTime || 87;
-  let breakTime = activeGimmicks.unarmedTime || 0;
-  let ultTime = activeGimmicks.ultimateTime || 33;
+  const normalizeDuration = (value, fallback) => {
+    if (value === undefined || value === null) return fallback;
+    const duration = Number(value);
+    return Number.isFinite(duration) ? Math.max(0, duration) : fallback;
+  };
+  let ordTime = normalizeDuration(activeGimmicks.ordinaryTime, 87);
+  let breakTime = normalizeDuration(activeGimmicks.unarmedTime, 0);
+  let ultTime = normalizeDuration(activeGimmicks.ultimateTime, 33);
 
   if (boss === "허수아비") {
     // 그냥 허수아비는 실전 데이터 기준 90% 이상 무방비(Break) 상태가 유지됨
@@ -634,6 +655,9 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
   }
 
   return {
+    status: errors.length > 0 ? 'invalid' : 'ok',
+    errors,
+    normalizedCycles,
     states: results,
     weightedDps: Math.round(weightedDps),
     totalAtk: Math.round(attack),
