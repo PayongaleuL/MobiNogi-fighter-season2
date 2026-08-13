@@ -78,7 +78,7 @@ function DpsOverview({ dpsResult, equippedRuneCount }) {
   ];
 
   return (
-    <section aria-label="실전 DPS 결과 요약" className="relative overflow-hidden bg-theme-card border border-orange-500/30 rounded-2xl p-5 sm:p-6 shadow-theme theme-transition">
+    <section aria-label="실전 DPS 결과 요약" className="relative overflow-hidden bg-theme-card border border-orange-500/30 rounded-2xl p-5 sm:p-6 xl:p-7 shadow-theme theme-transition">
       <div className="absolute -right-16 -top-16 w-44 h-44 rounded-full bg-orange-500/10 blur-3xl pointer-events-none" />
       <div className="relative">
         <div className="flex flex-wrap items-center justify-between gap-3 mb-5">
@@ -98,7 +98,7 @@ function DpsOverview({ dpsResult, equippedRuneCount }) {
           <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="text-[11px] font-bold text-theme-sub">종합 실전 예상 DPS</p>
-              <p className="text-4xl sm:text-5xl font-black text-orange-500 tracking-[-0.045em] leading-none mt-1.5">
+              <p className="text-4xl sm:text-5xl xl:text-6xl font-black text-orange-500 tracking-[-0.045em] leading-none mt-1.5">
                 {dpsResult ? dpsResult.weightedDps.toLocaleString() : '0'}
                 <span className="text-xs tracking-normal text-theme-muted font-bold ml-1.5">DPS</span>
               </p>
@@ -144,7 +144,7 @@ function StancePanel({ skillStances, onStanceChange }) {
           <p className="text-[11px] text-theme-muted mt-0.5 leading-relaxed">룬 장착과 별도로 각 스킬의 행동 변화를 선택해 딜사이클을 가상 적용합니다.</p>
         </div>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-5 gap-2.5">
         {stances.map((stance) => (
           <label key={stance.key} className="flex flex-col gap-1.5 bg-theme-subcard border border-theme rounded-xl p-3 theme-transition">
             <span className="text-[10px] font-black text-theme-sub">{stance.label}</span>
@@ -322,30 +322,49 @@ export default function MainCalculatorTab({
     <div className="flex flex-col gap-6 animate-fadeIn">
       <WorkflowStrip equippedRuneCount={equippedRuneCount} />
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        <div className="lg:col-span-5 flex flex-col gap-5">
-          <SectionIntro step="01 · CHARACTER" title="기본 스펙을 입력하세요" description="마을 기준 능력치, 스킬 개조, 인챈트 및 패시브를 설정합니다." icon={Sparkles} badge="필수 입력" />
-          <StatsInput stats={stats} onStatsChange={onStatsChange} />
+      <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 xl:gap-8 items-start">
+        <main className="xl:col-span-5 flex flex-col gap-5 min-w-0">
+          <section className="bg-theme-card border border-theme rounded-2xl p-4 sm:p-5 xl:p-6 shadow-theme theme-transition">
+            <SectionIntro step="01 · REQUIRED SETUP" title="기본 스펙과 시즌 패시브" description="마을 기준 능력치·스킬 개조·최종뎀 증가를 순서대로 설정합니다." icon={Sparkles} badge="DPS 필수" />
+            <div className="mt-4">
+              <StatsInput stats={stats} onStatsChange={onStatsChange} />
+            </div>
+          </section>
 
-          <div className="lg:hidden">
+          <div className="xl:hidden">
             <DpsOverview dpsResult={dpsResult} equippedRuneCount={equippedRuneCount} />
           </div>
 
-          <SectionIntro step="02 · SIMULATION" title="실전 조건을 조정하세요" description="스탠스와 보스 조건, 딜사이클은 최종 DPS에 직접 반영됩니다." icon={Target} />
-          <StancePanel skillStances={skillStances} onStanceChange={onStanceChange} />
-          <CombatScenarioPanel gimmicks={gimmicks} onGimmickChange={onGimmickChange} cycles={cycles} onCycleChange={onCycleChange} />
+          <section className="bg-theme-card border border-theme rounded-2xl p-4 sm:p-5 xl:p-6 shadow-theme theme-transition">
+            <SectionIntro step="02 · STANCE" title="스킬별 스탠스 시뮬레이션" description="선택한 스탠스가 각 스킬 계수와 최종 DPS에 반영됩니다." icon={Activity} badge="DPS 필수" />
+            <div className="mt-4">
+              <StancePanel skillStances={skillStances} onStanceChange={onStanceChange} />
+            </div>
+          </section>
+
+          <section className="bg-theme-card border border-theme rounded-2xl p-4 sm:p-5 xl:p-6 shadow-theme theme-transition">
+            <SectionIntro step="03 · COMBAT" title="전투 상황과 딜사이클" description="보스·시간·사이클을 입력해 실전 가중 DPS를 계산합니다." icon={Target} badge="DPS 필수" />
+            <div className="mt-4">
+              <CombatScenarioPanel gimmicks={gimmicks} onGimmickChange={onGimmickChange} cycles={cycles} onCycleChange={onCycleChange} />
+            </div>
+          </section>
+
           <ConditionalPanel uiTheme={uiTheme} selectedRunes={selectedRunes} conditionalUptimes={conditionalUptimes} onUptimeChange={onUptimeChange} nightBlessingUptime={stats.nightBlessingUptime} onNightBlessingChange={(value) => onStatsChange('nightBlessingUptime', value)} />
-        </div>
+        </main>
 
-        <aside className="lg:col-span-7 flex flex-col gap-5">
-          <div className="hidden lg:block lg:sticky lg:top-4 z-10">
+        <aside className="xl:col-span-7 flex flex-col gap-5 min-w-0">
+          <div className="hidden xl:block xl:sticky xl:top-5 z-20">
             <DpsOverview dpsResult={dpsResult} equippedRuneCount={equippedRuneCount} />
           </div>
 
-          <SectionIntro step="03 · RUNE SETUP" title="룬 세팅을 완성하세요" description="부위별 룬과 초월 단계를 장착하면 계산 결과가 즉시 갱신됩니다." icon={Activity} badge={`${equippedRuneCount}/10 장착`} />
-          <RuneSelector uiTheme={uiTheme} selectedRunes={selectedRunes} onRuneChange={onRuneChange} transcendLevels={transcendLevels} onTranscendChange={onTranscendChange} />
+          <section className="bg-theme-card border border-theme rounded-2xl p-4 sm:p-5 xl:p-6 shadow-theme theme-transition">
+            <SectionIntro step="04 · RUNE SETUP" title="시즌 2 룬 세팅 구성" description="부위별 룬과 초월 단계를 조합하면 결과가 즉시 갱신됩니다." icon={Activity} badge={`${equippedRuneCount}/10 장착`} />
+            <div className="mt-4">
+              <RuneSelector uiTheme={uiTheme} selectedRunes={selectedRunes} onRuneChange={onRuneChange} transcendLevels={transcendLevels} onTranscendChange={onTranscendChange} />
+            </div>
+          </section>
 
-          <section className="bg-theme-card border border-theme rounded-2xl p-5 sm:p-6 shadow-theme theme-transition">
+          <section className="bg-theme-card border border-theme rounded-2xl p-4 sm:p-5 xl:p-6 shadow-theme theme-transition">
             <DpsBreakdown dpsResult={dpsResult} gimmicks={gimmicks} />
             <PresetComparison presets={presets} dpsResult={dpsResult} savePreset={savePreset} loadPreset={loadPreset} clearPreset={clearPreset} />
           </section>
