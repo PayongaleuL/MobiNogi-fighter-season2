@@ -1,8 +1,9 @@
-import React from 'react';
+﻿import React from 'react';
 import StatsInput from './StatsInput';
 import RuneSelector from './RuneSelector';
 import {
   Activity,
+  AlertTriangle,
   CheckCircle2,
   Info,
   Sparkles,
@@ -109,6 +110,13 @@ function DpsOverview({ dpsResult, equippedRuneCount }) {
           </div>
         </div>
 
+        {dpsResult?.status === 'invalid' && (
+          <div role="alert" className="mt-2 flex items-start gap-2 rounded-lg border border-red-500/30 bg-red-500/10 px-2.5 py-2 text-[10px] font-bold text-red-700 dark:text-red-300">
+            <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+            <span>딜사이클 입력 오류: {dpsResult.errors.map((error) => error.code === 'EMPTY_ROTATION' ? '빈 사이클' : '해석할 수 없는 사이클').join(', ')}. 오류 구간은 0 DPS로 계산됩니다.</span>
+          </div>
+        )}
+
         <div className="grid grid-cols-2 xl:grid-cols-4 gap-1.5 mt-2">
           {metrics.map((metric) => (
             <div key={metric.label} className="bg-theme-main/60 border border-theme rounded-lg px-2 py-1.5 theme-transition">
@@ -191,7 +199,10 @@ function CombatScenarioPanel({ gimmicks, onGimmickChange, cycles, onCycleChange 
             <input type="text" value={cycles.ultimate} onChange={(event) => onCycleChange('ultimate', event.target.value)} className="w-full bg-theme-card border border-theme rounded-lg px-3 py-2 text-sm font-black text-orange-500 tracking-[0.18em] focus-orange-glow focus:outline-none theme-transition" />
           </label>
         </div>
-        <p className="text-[10px] text-theme-muted leading-relaxed mt-2.5 flex items-start gap-1.5">
+        <p className="text-[10px] text-theme-muted leading-relaxed mt-2.5">
+          새 입력에서는 같은 1번 스킬을 연속으로 적으면 첫 번째는 1-1, 다음은 1-2로 순차 계산합니다. 입력을 수정하면 일반·브레이크 상태가 함께 동기화되며, 빈 사이클은 0 DPS 오류로 처리됩니다.
+        </p>
+        <p className="text-[10px] text-theme-muted leading-relaxed mt-1 flex items-start gap-1.5">
           <Info className="w-3.5 h-3.5 shrink-0 mt-0.5" />
           스킬 약어: 1 차징피스트, 2 스러스트킥, 3 백스텝, 4 버스트펀치/소닉피스트, 5 비룡격/섬머솔트, 6 궁극기
         </p>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+﻿import React, { useState, useEffect, useMemo } from 'react';
 import GemStonePanel from './GemStonePanel';
 import RuneAuditDashboard from './RuneAuditDashboard';
 import SealControlPanel from './SealControlPanel';
@@ -188,7 +188,8 @@ export default function Calculator() {
     ordinary: '235212',
     ordinaryBreak: '235212',
     ultimate: '252',
-    ultimateBreak: '252'
+    ultimateBreak: '252',
+    inputMode: 'legacy-v1'
   });
 
   // 7. 조건부 룬 가동률 상태
@@ -410,7 +411,8 @@ export default function Calculator() {
   };
 
   const handleCycleChange = (key, val) => {
-    setCycles(prev => ({ ...prev, [key]: val }));
+    const pairedKey = key === 'ordinary' ? 'ordinaryBreak' : 'ultimateBreak';
+    setCycles(prev => ({ ...prev, inputMode: 'sequence-v2', [key]: val, [pairedKey]: val }));
   };
 
   const handleUptimeChange = (runeName, val) => {
