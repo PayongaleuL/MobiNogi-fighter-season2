@@ -35,8 +35,27 @@ try {
       .first()
       .locator('option')
       .evaluateAll((options) => options.map((option) => option.value));
-    const legacyBossOptionsHidden = !['글라스기브넨', '화이트서큐버스', '바리어비스']
+    const legacyBossOptionsHidden = !['글라스기브넨', '화이트서큐버스', '바리어비스', '어비스 지옥2']
       .some((boss) => bossOptionValues.includes(boss));
+    const currentSeasonTargetsVisible = [
+      '칼드레드 · 허상의 정박지 매우 어려움',
+      '데스펠 · 광기의 동굴 매우 어려움',
+      '테로사 · 흩어진 물길 매우 어려움',
+      '카브락 · 입문',
+    ].every((boss) => bossOptionValues.includes(boss));
+    const combatSection = page.locator('section[aria-label="실전 전투 조건"]');
+    const bossSelect = combatSection.getByRole('combobox').first();
+    await bossSelect.selectOption('카브락 · 입문');
+    const magicResistanceInput = page.getByRole('spinbutton', { name: '마도저항' });
+    await magicResistanceInput.fill('2500');
+    await page.waitForTimeout(100);
+    const dpsAtPressure = await dpsSection.innerText();
+    await magicResistanceInput.fill('4500');
+    await page.waitForTimeout(100);
+    const dpsWithExcess = await dpsSection.innerText();
+    const magicResistanceUpdatesDps = dpsAtPressure !== dpsWithExcess && dpsWithExcess.includes('+14.6%');
+    const targetDataDisclosureVisible = await combatSection.getByLabel('선택 대상 데이터 상태').innerText()
+      .then((text) => text.includes('방어도·치명타저항: P2-B 로그만으로 미확정'));
 
     let conditionalSettingsBehavior = false;
     let stanceSettingsBehavior = false;
@@ -140,8 +159,12 @@ try {
       overflowCandidates: report.overflowCandidates,
       dpsUpdatesWhenStatChanges: baselineDps !== updatedDps,
       dpsHasStickyAncestor,
-      legacyBossOptionsHidden,
+            legacyBossOptionsHidden,
+      currentSeasonTargetsVisible,
+      magicResistanceUpdatesDps,
+      targetDataDisclosureVisible,
       gemstoneTabVisible,
+
       equippedRuneVisual,
       darkThemeApplied,
       conditionalSettingsBehavior,
@@ -157,8 +180,12 @@ try {
     result.hasHorizontalOverflow ||
     !result.dpsHeading ||
     result.dpsHasStickyAncestor ||
-    !result.legacyBossOptionsHidden ||
+        !result.legacyBossOptionsHidden ||
+    !result.currentSeasonTargetsVisible ||
+    !result.magicResistanceUpdatesDps ||
+    !result.targetDataDisclosureVisible ||
     !result.dpsUpdatesWhenStatChanges ||
+
     !result.gemstoneTabVisible ||
     !result.equippedRuneVisual ||
     !result.darkThemeApplied ||

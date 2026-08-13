@@ -38,3 +38,7 @@ coverage/
 
 # Browser E2E screenshots are CI/local artifacts, not source records
 results/e2e/*.png
+
+# P2-B 개인 전투 기록과 일회성 역산 중간 산출물
+results/p2b_raw_logs/
+results/p2b_tmp/

@@ -1,5 +1,7 @@
 // 마비노기 모바일 시즌2 격투가 DPS 계산기 연산 엔진 (보석세공, 6스킬, 스탠스 및 패시브 고도화)
 import { calculateSealStats } from './sealCalculator.js';
+import { calculateMagicResistanceEffect } from './magicResistance.js';
+import { getTargetDefinition } from '../data/targets.js';
 
 /**
  * 스킬 개조 레벨에 따른 스킬 계수 보정치 계산 (엑셀 R003 수식 참고)
@@ -246,13 +248,20 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
   const totalAtkPct = runeStats["공격력%"] + runeStats["조건부공증%"] + enchantAtkPct;
   const attack = baseAtk * (1 + totalAtkPct);
 
-  // 방어도 계수
+  // 대상별 보정은 정적 데이터 계약에서만 읽는다. 방어도·치명타저항이
+  // 미확정인 현행 콘텐츠는 기존 엔진의 기준 방어도(30) 외 임의 보정을 적용하지 않는다.
   const boss = activeGimmicks.boss || "함선 허수아비";
-  let armorVal = 30;
-  if (boss === "글라스기브넨" || boss === "화이트서큐버스") armorVal = 6410;
-  else if (boss === "어비스 지옥2") armorVal = 9153;
-  else if (boss === "바리어비스") armorVal = 15903;
+  const targetDefinition = getTargetDefinition(boss);
+  const armorVal = targetDefinition?.armor ?? 30;
   const armorCoeff = 1 / (1 + armorVal / 10328);
+
+  // 마도저항 입력은 장비·선택 룬이 모두 반영된 상태창 완료값이다.
+  // 선택 룬의 고정 마도저항을 다시 더하면 상태창 값과 중복되므로 합산하지 않는다.
+  const magicResistance = Math.max(0, Number(characterStats.magicResistance) || 0);
+  const magicResistanceEffect = calculateMagicResistanceEffect(
+    magicResistance,
+    targetDefinition?.magicPressure ?? 0,
+  );
 
   // 시뮬레이션용 총 주는피해, 받는피해
   const gimmicksDmgPct = (activeGimmicks.gimmickDmgPct || 0.0) / 100.0;
@@ -454,7 +463,8 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
 
     normalizedCycles[state] = [...listSkills];
     // 보스 치명타 저항 추출 및 최종 치명타 적중 판정률 계산
-    const bossCritResist = boss.includes('어비스') ? 0.20 : 0.0;
+        const bossCritResist = targetDefinition?.critResistance ?? 0.0;
+
     const finalCritProb = Math.min(1.0, Math.max(0.0, totalCritProb - bossCritResist));
     const critMultiplier = (1 - finalCritProb) + (totalCritDmg * finalCritProb);
 
@@ -612,7 +622,10 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
     const totalTranscendLevel = selectedRunes.reduce((acc, r) => acc + (r && r.transcendLevel ? r.transcendLevel : 0), 0);
     const transcendCoeff = 1.015 ** totalTranscendLevel;
 
-    const totalDps = (skillDps + directDps + dotDps) * transcendCoeff * (1 + runeStats["최종피해%"]);
+    const totalDps = (skillDps + directDps + dotDps)
+      * transcendCoeff
+      * (1 + runeStats["최종피해%"])
+      * magicResistanceEffect.finalDamageMultiplier;
 
     const scaleFactor = 1.0;
     results[state] = {
@@ -664,7 +677,21 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
     extraProb: parseFloat((totalExtraProb * 100).toFixed(1)),
     critProb: parseFloat((totalCritProb * 100).toFixed(1)),
     critDmg: parseFloat((totalCritDmg * 100).toFixed(1)),
+        // 하위 호환: 기존 totalResist는 선택 룬에서 읽은 마도저항 합계다.
+    // 실제 DPS 보정에는 상태창 완료값 totalMagicResistance만 사용한다.
     totalResist: Math.round(runeStats["마도저항"]),
+    totalMagicResistance: Math.round(magicResistance),
+    magicResistanceEffect,
+    target: {
+      id: targetDefinition?.id ?? boss,
+      label: targetDefinition?.label ?? boss,
+      requiredMagicResistance: targetDefinition?.requiredMagicResistance ?? 0,
+      magicPressure: targetDefinition?.magicPressure ?? 0,
+      defenseStatus: targetDefinition?.defenseStatus ?? '미확정',
+      armorApplied: armorVal,
+      critResistanceApplied: targetDefinition?.critResistance ?? null,
+    },
+
     runeAtkAdd: Math.round(runeStats["공격력"]),
     attackBreakdown: {
       villageAttack: characterStats.baseAttack || 27166.0,

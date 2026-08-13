@@ -36,19 +36,21 @@ describe('Calculator preset state integrity', () => {
 
     const comboboxes = await screen.findAllByRole('combobox');
     const bossSelect = comboboxes[5];
-    await user.selectOptions(bossSelect, '어비스 지옥2');
+    await user.selectOptions(bossSelect, '카브락 · 입문');
 
     const saveButtons = screen.getAllByRole('button', { name: '현재 구성 저장' });
     await user.click(saveButtons[0]);
 
     const presets = JSON.parse(localStorage.getItem('mabi_runes_presets_v5'));
-    expect(presets[0].data.gimmicks.boss).toBe('어비스 지옥2');
+        expect(presets[0].data.gimmicks.boss).toBe('카브락 · 입문');
+
     expect(presets[0].data.seals.weapon.type).toBe('none');
 
     await user.selectOptions(bossSelect, '함선 허수아비');
     expect(bossSelect).toHaveValue('함선 허수아비');
 
     await user.click(screen.getByText('QA 보스 설정'));
-    expect(bossSelect).toHaveValue('어비스 지옥2');
+        expect(bossSelect).toHaveValue('카브락 · 입문');
+
   });
 });

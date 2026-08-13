@@ -1,6 +1,8 @@
 ﻿import React from 'react';
 import StatsInput from './StatsInput';
 import RuneSelector from './RuneSelector';
+import { getTargetDefinition, TARGET_DEFINITIONS } from '../data/targets';
+
 import {
   Activity,
   AlertTriangle,
@@ -69,8 +71,12 @@ function SectionIntro({ step, title, description, icon: Icon, badge }) {
 }
 
 export function DpsOverview({ dpsResult, equippedRuneCount }) {
+  const magicEffect = dpsResult?.magicResistanceEffect;
+  const targetPressure = dpsResult?.target?.magicPressure ?? 0;
   const metrics = [
     { label: '적용 공격력', value: dpsResult ? dpsResult.totalAtk.toLocaleString() : '0', accent: 'text-theme-main' },
+    { label: '마도저항 / 압력', value: `${(dpsResult?.totalMagicResistance ?? 0).toLocaleString()} / ${targetPressure.toLocaleString()}`, accent: 'text-sky-600 dark:text-sky-300' },
+    { label: '마도저항 최종피해', value: `+${magicEffect ? magicEffect.excessFinalDamagePct.toFixed(1) : '0.0'}%`, accent: 'text-cyan-600 dark:text-cyan-300' },
     { label: '룬 공격력 가산', value: `+${dpsResult ? dpsResult.runeAtkAdd.toLocaleString() : '0'}`, accent: 'text-orange-600 dark:text-orange-300' },
     { label: '치명타 확률', value: `${dpsResult ? dpsResult.critProb : '0.0'}%`, accent: 'text-violet-600 dark:text-violet-300' },
     { label: '추가타 확률', value: `${dpsResult ? dpsResult.extraProb : '0.0'}%`, accent: 'text-emerald-600 dark:text-emerald-300' }
@@ -124,7 +130,8 @@ export function DpsOverview({ dpsResult, equippedRuneCount }) {
           </div>
         )}
 
-        <div className="grid grid-cols-2 xl:grid-cols-4 gap-1.5 mt-2">
+                <div className="grid grid-cols-2 xl:grid-cols-3 gap-1.5 mt-2">
+
           {metrics.map((metric) => (
             <div key={metric.label} className="bg-theme-main/60 border border-theme rounded-lg px-2 py-1.5 theme-transition">
               <p className="text-[10px] font-bold text-theme-muted truncate">{metric.label}</p>
@@ -167,17 +174,39 @@ export function StancePanel({ skillStances, onStanceChange }) {
 }
 
 function CombatScenarioPanel({ gimmicks, onGimmickChange, cycles, onCycleChange }) {
+  const target = getTargetDefinition(gimmicks.boss);
+  const hasMagicPressure = (target?.magicPressure ?? 0) > 0;
+
   return (
+
     <section aria-label="실전 전투 조건">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
         <label className="sm:col-span-2 flex flex-col gap-1 bg-theme-subcard p-2.5 rounded-xl border border-theme theme-transition">
           <span className="text-[10px] font-black text-theme-sub">대상 몬스터</span>
-          <select value={gimmicks.boss} onChange={(event) => onGimmickChange('boss', event.target.value)} className="bg-theme-card border border-theme rounded-lg px-2.5 py-2 text-xs text-theme-main font-bold focus-orange-glow focus:outline-none theme-transition">
-            <option value="함선 허수아비">함선 허수아비 (치명타 저항 0% / 방어도 30)</option>
-            <option value="허수아비">허수아비 (상시 무방비 90% 오버라이드 / 방어도 30)</option>
-            <option value="어비스 지옥2">어비스 지옥2 (치명타 저항 20% / 방어도 9,153)</option>
+                    <select value={gimmicks.boss} onChange={(event) => onGimmickChange('boss', event.target.value)} className="bg-theme-card border border-theme rounded-lg px-2.5 py-2 text-xs text-theme-main font-bold focus-orange-glow focus:outline-none theme-transition">
+            {TARGET_DEFINITIONS.map((definition) => (
+              <option key={definition.id} value={definition.id}>
+                {definition.label} · 필요 저항 {definition.requiredMagicResistance.toLocaleString()} / 압력 {definition.magicPressure.toLocaleString()}
+              </option>
+            ))}
           </select>
         </label>
+        <div aria-label="선택 대상 데이터 상태" className="sm:col-span-2 rounded-xl border border-sky-500/20 bg-sky-500/5 px-2.5 py-2 text-[10px] leading-relaxed text-theme-sub theme-transition">
+          <div className="flex items-start gap-1.5">
+            <Info className="mt-0.5 h-3.5 w-3.5 shrink-0 text-sky-600 dark:text-sky-300" />
+            <div>
+              <p className="font-black text-theme-main">{target?.label} · 필요 마도저항 {target?.requiredMagicResistance.toLocaleString()} / 마도압력 {target?.magicPressure.toLocaleString()}</p>
+              {hasMagicPressure ? (
+                <p className="mt-0.5">마도저항 초과분은 공식 예시점 보간으로 최종피해에 반영합니다. 미달 시 정량 피해 계수는 공식 비공개라 수치 보정을 적용하지 않습니다.</p>
+              ) : (
+                <p className="mt-0.5">훈련 대상은 마도압력 0으로 계산합니다. 마도저항 입력 시에도 공식 초과 보정 규칙은 적용됩니다.</p>
+              )}
+              <p className="mt-0.5 text-amber-700 dark:text-amber-300">방어도·치명타저항: {target?.defenseStatus}. 미확정 대상에는 임의 보정을 적용하지 않습니다.</p>
+              {target?.source && <a className="mt-1 inline-flex font-black text-sky-700 underline underline-offset-2 dark:text-sky-300" href={target.source} target="_blank" rel="noreferrer">공식 수치 근거 확인</a>}
+            </div>
+          </div>
+        </div>
+
         <label className="flex flex-col gap-1 bg-theme-subcard p-2.5 rounded-xl border border-theme theme-transition">
           <span className="text-[10px] font-black text-theme-sub">평상시 딜 시간 (초)</span>
           <input type="number" value={gimmicks.ordinaryTime} onChange={(event) => onGimmickChange('ordinaryTime', parseInt(event.target.value) || 0)} className="bg-theme-card border border-theme rounded-lg px-2.5 py-2 text-xs text-theme-main font-bold text-right focus-orange-glow focus:outline-none theme-transition" />

@@ -11,6 +11,7 @@ import { parseRuneMarkdown } from '../utils/runeMdParser';
 import mdText from '../../results/260708_룬설명목록.md?raw';
 
 import { createLatestReferencePresets } from '../data/latestReferencePresets';
+import { DEFAULT_TARGET_ID, getTargetDefinition } from '../data/targets';
 
 const createDefaultSeals = () => ({
   weapon: { type: 'none', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 40 },
@@ -26,7 +27,7 @@ const createDefaultSeals = () => ({
 });
 
 const createDefaultGimmicks = () => ({
-  boss: '함선 허수아비',
+  boss: DEFAULT_TARGET_ID,
   ordinaryTime: 87,
   unarmedTime: 0,
   ultimateTime: 33,
@@ -35,6 +36,13 @@ const createDefaultGimmicks = () => ({
   skillDebuffDmgPct: 10.0,
   hasSpdBuff: false
 });
+
+const normalizeGimmicks = (gimmicks) => ({
+  ...createDefaultGimmicks(),
+  ...(gimmicks || {}),
+  boss: getTargetDefinition(gimmicks?.boss)?.id ?? DEFAULT_TARGET_ID,
+});
+
 
 export default function Calculator() {
   // 1. 활성화 탭 관리 ('calculator' | 'gemstone' | 'runeAudit' | 'seals')
@@ -107,8 +115,10 @@ export default function Calculator() {
 
   // 2. 캐릭터 스펙 상태
   const [stats, setStats] = useState({
-    baseAttack: 27166.0,
+        baseAttack: 27166.0,
+    magicResistance: 0,
     critScore: 6925.0,
+
     strongDmg: 2487.0,
     chainDmg: 2989.0,
     comboPower: 1532.0,
@@ -294,7 +304,8 @@ export default function Calculator() {
         if (parsed.transcendLevels) setTranscendLevels(parsed.transcendLevels);
         if (parsed.cycles) setCycles(parsed.cycles);
         if (parsed.conditionalUptimes) setConditionalUptimes(parsed.conditionalUptimes);
-        if (parsed.gimmicks) setGimmicks(parsed.gimmicks);
+                if (parsed.gimmicks) setGimmicks(normalizeGimmicks(parsed.gimmicks));
+
         if (parsed.seals) setSeals(parsed.seals);
         if (parsed.skillStances) setSkillStances(parsed.skillStances);
         if (parsed.gems) {
@@ -473,7 +484,8 @@ export default function Calculator() {
         skill_4: '순정',
         skill_5: '순정'
       });
-      setGimmicks(preset.data.gimmicks || createDefaultGimmicks());
+            setGimmicks(normalizeGimmicks(preset.data.gimmicks));
+
       setSeals(preset.data.seals || createDefaultSeals());
     }
   };
