@@ -90,6 +90,17 @@ try {
       });
     });
 
+    const headerDensityCheck = target.width < 1024 || await page.evaluate(() => {
+      const title = document.querySelector('h2');
+      const header = title?.closest('div[class*="border-b"]');
+      const firstSection = [...document.querySelectorAll('h2, h3')]
+        .find((heading) => heading.textContent?.trim() === '기본 스펙과 시즌 패시브');
+      if (!header || !firstSection) return false;
+      const headerRect = header.getBoundingClientRect();
+      const sectionRect = firstSection.getBoundingClientRect();
+      return headerRect.top <= 32 && headerRect.height <= 70 && sectionRect.top <= 110;
+    });
+
     await page.screenshot({ path: `results/e2e/ux-ui-${target.name}.png`, fullPage: true });
 
     const report = await page.evaluate(() => ({
@@ -127,7 +138,8 @@ try {
       darkThemeApplied,
       conditionalSettingsBehavior,
       stanceSettingsBehavior,
-      firstFoldCheck
+      firstFoldCheck,
+      headerDensityCheck
     });
     await page.close();
   }
@@ -143,7 +155,8 @@ try {
     !result.darkThemeApplied ||
     !result.conditionalSettingsBehavior ||
     !result.stanceSettingsBehavior ||
-    !result.firstFoldCheck
+    !result.firstFoldCheck ||
+    !result.headerDensityCheck
   ))) {
     process.exitCode = 1;
   }
