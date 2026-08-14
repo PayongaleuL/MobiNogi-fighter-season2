@@ -43,14 +43,18 @@
 
 로그의 장비 제거는 공격력·치명타·마도저항·세공을 동시에 바꾸며, 실제 전투에는 버프·무방비·브레이크 차이가 있다. 그러므로 본 값은 **입력한 상태창·동일 딜사이클의 현실적인 근사 출력**을 위한 값이지, 보스의 공식 스탯을 확정하는 값이 아니다. 마도저항 요구치·초과 최종피해는 공식 안내에 따른 기존 계약을 유지하며 이 역산으로 변경하지 않는다.
 
-## References
+## 비식별 참조 기록
 
-[1]: https://mobi-score.com/r/4Qq19MnzmZiC0a7e "칼드레드 · 허상의 정박지 매우 어려움 · 장착 공개 전투 기록"
-[2]: https://mobi-score.com/r/WKx26orrtszkzEME "칼드레드 · 허상의 정박지 매우 어려움 · 제거 공개 전투 기록"
-[3]: https://mobi-score.com/r/PeFuIadiNfJVC4sA "데스펠 · 광기의 동굴 매우 어려움 · 장착 공개 전투 기록"
-[4]: https://mobi-score.com/r/1AjC9mmQJHCSw8bD "데스펠 · 광기의 동굴 매우 어려움 · 제거 공개 전투 기록"
-[5]: https://mobi-score.com/r/uOSkrIy94NhcZfH8 "테로사 · 흩어진 물길 매우 어려움 · 장착 공개 전투 기록"
-[6]: https://mobi-score.com/r/TU0xlhPHmWCBWjCP "테로사 · 흩어진 물길 매우 어려움 · 제거 공개 전투 기록"
-[7]: https://mobi-score.com/r/qEfbzhpgazVcqm2N "카브락 · 입문 · 장착 공개 전투 기록"
-[8]: https://mobi-score.com/r/vGjwTiRp7FlNDokk "카브락 · 입문 · 장착 공개 전투 기록"
-[9]: https://mobi-score.com/r/HlrVreU9CzMZwmlt "카브락 · 입문 · 제거 공개 전투 기록"
+원본 기록 주소와 원시 응답은 저장소에 보관하지 않는다. 아래 비식별 분석 ID는 로컬 원본 기록과만 대응하며, 각 행의 대상·장비 상태는 재현 조건을 설명하기 위한 최소 정보다.
+
+| 분석 ID | 대상·난이도 | 장비 상태 |
+| --- | --- | --- |
+| LEGACY-A01 | 칼드레드 · 허상의 정박지 매우 어려움 | 장착 |
+| LEGACY-A02 | 칼드레드 · 허상의 정박지 매우 어려움 | 제거 |
+| LEGACY-A03 | 데스펠 · 광기의 동굴 매우 어려움 | 장착 |
+| LEGACY-A04 | 데스펠 · 광기의 동굴 매우 어려움 | 제거 |
+| LEGACY-A05 | 테로사 · 흩어진 물길 매우 어려움 | 장착 |
+| LEGACY-A06 | 테로사 · 흩어진 물길 매우 어려움 | 제거 |
+| LEGACY-A07 | 카브락 · 입문 | 장착 |
+| LEGACY-A08 | 카브락 · 입문 | 장착 |
+| LEGACY-A09 | 카브락 · 입문 | 제거 |
