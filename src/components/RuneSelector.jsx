@@ -1,7 +1,24 @@
 import React, { useState } from 'react';
 import runesData from '../data/runes.json';
 import { normalizeRuneText } from '../utils/runeTextNormalizer';
+import { applyRuneEffectModels } from '../data/runeEffectModels';
 import { Search, Shield, ShieldAlert, Award, Star, ChevronDown } from 'lucide-react';
+
+const canonicalRuneName = (name) => String(name ?? '').replace(/\+/g, '').replace(/\s+/g, '').trim() === '그음달'
+  ? '그믐달'
+  : String(name ?? '');
+
+// 기존 저장 프리셋은 룬 객체 전체를 보관하므로, 과거의 OCR·수동 스탯이 카드 표기에
+// 남을 수 있다. 표시도 계산 코어와 같은 최신 수동 데이터·효과 모델을 사용한다.
+export const resolveDisplayRune = (rune) => {
+  if (!rune) return rune;
+  const canonicalName = canonicalRuneName(rune.name);
+  const curated = runesData.find((candidate) => canonicalRuneName(candidate.name) === canonicalName);
+  const merged = curated
+    ? { ...rune, ...curated, stats: { ...(rune.stats ?? {}), ...(curated.stats ?? {}) } }
+    : rune;
+  return applyRuneEffectModels([merged])[0];
+};
 
 export default function RuneSelector({ _uiTheme, selectedRunes, onRuneChange, transcendLevels, onTranscendChange }) {
   const [searchTerm, setSearchTerm] = useState('');
@@ -37,6 +54,7 @@ export default function RuneSelector({ _uiTheme, selectedRunes, onRuneChange, tr
       "추가타피해%": "추가타피",
       "치명타피해%": "치피",
       "콤보피해%": "콤보피",
+      "무방비피해%": "무방비피",
       "멀티피해%": "멀티피",
       "스킬피해%": "스킬피",
       "추가타확률%": "추가타확",
@@ -115,7 +133,8 @@ export default function RuneSelector({ _uiTheme, selectedRunes, onRuneChange, tr
       <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-5 gap-1.5 mb-2">
         {slots.map((slot) => {
           const key = `${slot.type}-${slot.index}`;
-          const currentRune = selectedRunes[slot.type] ? selectedRunes[slot.type][slot.index] : null;
+          const storedRune = selectedRunes[slot.type] ? selectedRunes[slot.type][slot.index] : null;
+          const currentRune = resolveDisplayRune(storedRune);
           const currentLevel = transcendLevels ? transcendLevels[slot.type][slot.index] : 0;
           const levelLabels = ['', ' [초월+]', ' [초월++]'];
           const levelBadgeColor = currentLevel === 1 ? 'text-amber-600' : 'text-red-500';
@@ -379,7 +398,8 @@ export default function RuneSelector({ _uiTheme, selectedRunes, onRuneChange, tr
             {Object.entries(selectedRunes).flatMap(([type, list]) => 
               list.map((rune, idx) => {
                 if (!rune) return null;
-                const coreLines = getCoreRuneTexts(rune.cleaned_text, rune.name);
+                const displayRune = resolveDisplayRune(rune);
+                const coreLines = getCoreRuneTexts(displayRune.cleaned_text, displayRune.name);
                 if (coreLines.length === 0) return null; // 빈 카드는 아예 렌더링 스킵 처리
                 
                 return (
@@ -387,10 +407,10 @@ export default function RuneSelector({ _uiTheme, selectedRunes, onRuneChange, tr
                     <div className="flex justify-between items-center border-b border-theme pb-2 theme-transition">
                       <span className="text-xs font-black text-theme-main flex items-center gap-1.5 theme-transition">
                         <span className="w-1.5 h-1.5 rounded-full bg-orange-500" />
-                        {rune.name} ({type} 룬)
+                        {displayRune.name} ({type} 룬)
                       </span>
                       <span className="text-[9px] bg-theme-card border border-theme px-2 py-0.5 rounded text-emerald-600 dark:text-emerald-400 font-bold leading-none theme-transition">
-                        {formatRuneDescCompact(rune)}
+                        {formatRuneDescCompact(displayRune)}
                       </span>
                     </div>
                     <div className="text-[10px] text-theme-sub leading-relaxed flex flex-col gap-1 font-medium theme-transition">
@@ -406,7 +426,10 @@ export default function RuneSelector({ _uiTheme, selectedRunes, onRuneChange, tr
               })
             ).filter(Boolean)}
             
-            {Object.values(selectedRunes).flat().filter(Boolean).filter(r => getCoreRuneTexts(r.cleaned_text, r.name).length > 0).length === 0 && (
+            {Object.values(selectedRunes).flat().filter(Boolean).filter((rune) => {
+              const displayRune = resolveDisplayRune(rune);
+              return getCoreRuneTexts(displayRune.cleaned_text, displayRune.name).length > 0;
+            }).length === 0 && (
               <div className="col-span-full py-8 text-center text-xs text-theme-muted border border-dashed border-theme rounded-xl theme-transition">
                 현재 장착된 룬이 없습니다. 상단 슬롯을 클릭해 룬을 장착해 주세요.
               </div>
