@@ -650,6 +650,9 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
       if (scope === 'attackArmorBreak') return totalHits / totalCycleTime;
       if (scope === 'unarmedHitArmorBreak') return isUnarmed ? totalHits / totalCycleTime : 0;
       if (scope === 'ultimateUse') return listSkills.filter((skill) => skill === '6').length / totalCycleTime;
+      if (scope === 'fiveExtraHit') return (totalHits * Math.max(0, totalExtraProb) / totalCycleTime) / (effect.hitsPerTrigger ?? 5);
+      if (scope === 'fiveCritHit') return (totalHits * finalCritProb / totalCycleTime) / (effect.hitsPerTrigger ?? 5);
+      if (scope === 'nightBlessingHit') return (totalHits / totalCycleTime) * ((characterStats.nightBlessingUptime || 0) / 100);
       return 0;
     };
     const staticRuneEffects = appliedRuneEffects.map((effect) => ({

@@ -34,6 +34,9 @@ export function calculateEffectTimeline(effect = {}, context = {}) {
   } else if (effect.forceDefaultUptime && effect.defaultUptime !== undefined) {
     uptime = clamp(percent(effect.defaultUptime), 0, 1);
     provenance = 'forced-declared-default';
+  } else if (duration > 0 && cooldown > 0 && triggerRate > 0) {
+    uptime = clamp(Math.min(duration / cooldown, duration * triggerRate), 0, 1);
+    provenance = 'event-rate-cooldown';
   } else if (duration > 0 && cooldown > 0) {
     uptime = clamp(duration / cooldown, 0, 1);
     provenance = 'duration-cooldown';

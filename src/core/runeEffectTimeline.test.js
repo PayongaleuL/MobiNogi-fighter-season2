@@ -14,6 +14,16 @@ describe('rune effect timeline', () => {
     expect(result.uptimeProvenance).toBe('duration-cooldown');
   });
 
+  it('caps event-driven uptime by both trigger frequency and cooldown', () => {
+    const result = calculateEffectTimeline(
+      { durationSeconds: 10, cooldownSeconds: 20 },
+      { triggerRatePerSecond: 0.02 },
+    );
+
+    expect(result.uptime).toBeCloseTo(0.2, 8);
+    expect(result.uptimeProvenance).toBe('event-rate-cooldown');
+  });
+
   it('uses a supplied effect input before automatic uptime rules', () => {
     const result = calculateEffectTimeline(
       { durationSeconds: 10, cooldownSeconds: 20 },

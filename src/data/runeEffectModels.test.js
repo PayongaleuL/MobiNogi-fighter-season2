@@ -9,7 +9,8 @@ describe('rune effect models v2', () => {
       '첫 번째 서약', '흐릿한 형상', '잿빛 장막', '금 간 봉인', '무너진 경계', '아귀', '정복자+', '은빛 찬가', '승전',
       '거두는 손길', '맹세+', '복수+', '부서진 왕관',
       '별바라기', '황동 날개', '잠들지 않는 불', '번개 숨결', '돌 심장', '용암 비늘', '얼음 발톱',
-      '악몽', '[신화] 유폐된 어둠', '[신화] 무형'
+      '악몽', '[신화] 유폐된 어둠', '[신화] 무형',
+      '고결함', '해방', '위대함', '침묵', '초월'
     ];
     expect(Object.keys(runeEffectModels)).toEqual(reviewedNames);
 
@@ -134,6 +135,42 @@ describe('rune effect models v2', () => {
     expect(formless).toMatchObject({ stats: { '공격력%': 0.29 } });
     expect(formless.conditionalEffects).toHaveLength(3);
     expect(formless.conditionalEffects.every((effect) => effect.replacesBaseStats['공격력%'] === 0.29)).toBe(true);
+  });
+
+  it('maps night-blessing damage and hit effects without shrinking their permanent stats', () => {
+    const [nobility, liberation, greatness, silence] = applyRuneEffectModels([
+      { name: '고결함', stats: { '주는피해%': 0.48 } },
+      { name: '해방', stats: { '연타피해%': 0.25 } },
+      { name: '위대함', stats: { '강타피해%': 0.25 } },
+      { name: '침묵', stats: { '주는피해%': 0.33 } },
+    ]);
+
+    expect(nobility).toMatchObject({ stats: { '스킬속도%': 0.15, '재사용회복%': 0.10, '주는피해%': 0 } });
+    expect(nobility.conditionalEffects[0].stats).toEqual({ '밤축_주는피해%': 0.48 });
+    expect(liberation.conditionalEffects[1]).toMatchObject({ directDamage: 13004, cooldownSeconds: 1, triggerScope: 'nightBlessingHit' });
+    expect(greatness.conditionalEffects[1]).toMatchObject({ directDamage: 10048, cooldownSeconds: 1, triggerScope: 'nightBlessingHit' });
+    expect(silence.conditionalEffects[0]).toMatchObject({ directDamage: 229941, damageScalesWithUptime: true, defaultUptime: 0 });
+  });
+
+  it('models Transcendence extra-hit and critical-hit threshold effects from the real cycle event rates', () => {
+    const [transcendence] = applyRuneEffectModels([{ name: '초월', stats: {} }]);
+
+    expect(transcendence.conditionalEffects).toEqual(expect.arrayContaining([
+      expect.objectContaining({
+        triggerScope: 'fiveExtraHit',
+        directDamage: 24235,
+        durationSeconds: 10,
+        cooldownSeconds: 4,
+        stats: { '주는피해%': 0.15 },
+      }),
+      expect.objectContaining({
+        triggerScope: 'fiveCritHit',
+        directDamage: 24235,
+        durationSeconds: 10,
+        cooldownSeconds: 4,
+        stats: { '치명타피해%': 0.15 },
+      }),
+    ]));
   });
 
   it('models Pride armor break and Burning Glory conditional attack as DPS inputs', () => {
