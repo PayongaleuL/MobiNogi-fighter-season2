@@ -653,6 +653,7 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
       if (scope === 'fiveExtraHit') return (totalHits * Math.max(0, totalExtraProb) / totalCycleTime) / (effect.hitsPerTrigger ?? 5);
       if (scope === 'fiveCritHit') return (totalHits * finalCritProb / totalCycleTime) / (effect.hitsPerTrigger ?? 5);
       if (scope === 'nightBlessingHit') return (totalHits / totalCycleTime) * ((characterStats.nightBlessingUptime || 0) / 100);
+      if (scope === 'tenHits') return (totalHits / totalCycleTime) / (effect.hitsPerTrigger ?? 10);
       return 0;
     };
     const staticRuneEffects = appliedRuneEffects.map((effect) => ({

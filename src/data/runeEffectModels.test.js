@@ -12,6 +12,7 @@ describe('rune effect models v2', () => {
       '악몽', '[신화] 유폐된 어둠', '[신화] 무형',
       '고결함', '해방', '위대함', '침묵',
       '[신화] 용 사냥꾼', '[신화] 여신', '[신화] 사슬로 묶은 법전', '[신화] 가라앉은 왕국',
+      '수호자', '서광', '끓는 피', '숲 길잡이',
       '영원한 밤', '빛바랜 별', '초월'
     ];
     expect(Object.keys(runeEffectModels)).toEqual(reviewedNames);
@@ -152,6 +153,21 @@ describe('rune effect models v2', () => {
     expect(liberation.conditionalEffects[1]).toMatchObject({ directDamage: 13004, cooldownSeconds: 1, triggerScope: 'nightBlessingHit' });
     expect(greatness.conditionalEffects[1]).toMatchObject({ directDamage: 10048, cooldownSeconds: 1, triggerScope: 'nightBlessingHit' });
     expect(silence.conditionalEffects[0]).toMatchObject({ directDamage: 229941, damageScalesWithUptime: true, defaultUptime: 0 });
+  });
+
+  it('models guardian, dawn, boiling blood, and forest guide conditions without treating restricted bonuses as permanent', () => {
+    const [guardian, dawn, boilingBlood, forestGuide] = applyRuneEffectModels([
+      { name: '수호자', stats: {} },
+      { name: '서광', stats: {} },
+      { name: '끓는 피', stats: {} },
+      { name: '숲 길잡이', stats: {} },
+    ]);
+
+    expect(guardian).toMatchObject({ stats: { '공격력%': 0.24, '주는피해%': 0 } });
+    expect(guardian.conditionalEffects[0]).toMatchObject({ modelStatus: 'mechanics-only', includedInDps: false });
+    expect(dawn.conditionalEffects[0]).toMatchObject({ stats: { '주는피해%': 0.20 }, defaultUptime: 0.70 });
+    expect(boilingBlood.conditionalEffects[0]).toMatchObject({ stats: { '스킬피해%': 0.24 }, defaultUptime: 0 });
+    expect(forestGuide.conditionalEffects[0]).toMatchObject({ triggerScope: 'tenHits', hitsPerTrigger: 10, stats: { '주는피해%': 0.21 } });
   });
 
   it('separates mythic rune permanent DPS stats from manual and mechanics-only conditions', () => {
