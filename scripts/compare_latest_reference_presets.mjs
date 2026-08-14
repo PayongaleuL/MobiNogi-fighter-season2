@@ -15,11 +15,10 @@ const coreName = (name) => (name ?? '').replace(/\+/g, '').replace(/\s+/g, '').t
 function calculatorRunes() {
   return parsedRunes.map((parsed) => {
     const original = runesData.find((item) => coreName(item.name) === coreName(parsed.name)) ?? {};
-    const mergedStats = { ...(original.stats ?? {}) };
-    const fallbackKeys = new Set(['공격력%', '공격력', '방어력', '모든스킬강화', '임의스킬강화', '가동률']);
-    for (const [key, value] of Object.entries(parsed.stats ?? {})) {
-      if (!fallbackKeys.has(key) || value !== 0 || mergedStats[key] === undefined) mergedStats[key] = value;
-    }
+    // 계산기 UI의 mergeMasterRunes와 같은 계약: 최신 원문은 이름·문구의 기준,
+    // runes.json은 사용자가 검수한 계산 스탯의 기준이다. 원문 OCR 파서가
+    // 승전 치명타 피해 10% 같은 수동 보정을 다시 3%로 축소해서는 안 된다.
+    const mergedStats = { ...(parsed.stats ?? {}), ...(original.stats ?? {}) };
     return { ...original, ...parsed, stats: mergedStats };
   });
 }

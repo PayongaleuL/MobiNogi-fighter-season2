@@ -1,6 +1,6 @@
 # 시즌2 룬 마스터 원문 읽기 전용 감사
 
-**생성 시각:** 2026-08-14T07:48:05.365Z
+**생성 시각:** 2026-08-14T08:48:39.376Z
 
 **권위 원문:** `results/260814_룬설명목록.md` (SHA-256: `A86E44F39200A2872DD15A9C8B2C577B2EAA052F6BF9476B5A2254D61908B93A`)
 
@@ -11,7 +11,7 @@
 | 항목 | 값 |
 | --- | --- |
 | matchedByName | 88 |
-| aliasMappings | 1 |
+| aliasMappings | 0 |
 | missingInJson | 0 |
 | jsonOnly | 0 |
 | recordsWithConflicts | 73 |
@@ -27,7 +27,6 @@
 
 | 마스터 원문명 | 현행 데이터명 | 근거 |
 | --- | --- | --- |
-| 그믐달 | 그음달 | 사용자 검수 이름 정규화 별칭 |
 
 ## 충돌 코드별 대상
 
@@ -83,7 +82,7 @@
 | 잿빛 장막 | 방어구 | MANUAL_STAT_DIFFERENCE, CONDITIONAL_TEXT_WITHOUT_EFFECT_MODEL | 가동률: 1 → 0.7 | — | 0 |
 | 금 간 봉인 | 방어구 | MANUAL_STAT_DIFFERENCE, CONDITIONAL_TEXT_WITHOUT_EFFECT_MODEL | 가동률: 1 → 0.7 | — | 0 |
 | 무너진 경계 | 방어구 | MANUAL_STAT_DIFFERENCE, CONDITIONAL_TEXT_WITHOUT_EFFECT_MODEL | 가동률: 1 → 0.7 | — | 0 |
-| 아귀 | 방어구 | MANUAL_STAT_DIFFERENCE, CONDITIONAL_TEXT_WITHOUT_EFFECT_MODEL, DIRECT_DAMAGE_POLICY_REQUIRED | 콤보피해%: 0 → 0.12 | — | 0 |
+| 아귀 | 방어구 | MANUAL_STAT_DIFFERENCE, CONDITIONAL_TEXT_WITHOUT_EFFECT_MODEL, DIRECT_DAMAGE_POLICY_REQUIRED | 주는피해%: 0.12 → 0 | — | 0 |
 | 부서진 왕관 | 방어구 | MANUAL_STAT_DIFFERENCE, CONDITIONAL_TEXT_WITHOUT_EFFECT_MODEL, STACK_POLICY_REQUIRED | 가동률: 1 → 0.7 | — | 0 |
 | 거두는 손길 | 방어구 | MANUAL_STAT_DIFFERENCE, CONDITIONAL_TEXT_WITHOUT_EFFECT_MODEL | 가동률: 1 → 0.7 | — | 0 |
 | 무한한 탐욕 | 방어구 | CONDITIONAL_TEXT_WITHOUT_EFFECT_MODEL, COOLDOWN_POLICY_REQUIRED | — | — | 0 |
@@ -123,11 +122,11 @@
 
 | 참조 프리셋 | 계산 DPS | 실전 대비 편차 |
 | --- | --- | --- |
-| 예시 1 · 함선허수 약승열 풀오토 (991.7만) | 9777913 | -1.4% |
-| 예시 2 · 함선허수 약승열 풀오토 (946.2만) | 9777913 | 3.34% |
-| 예시 3 · 함선허수 전승강 (1059.4만) | 11403780 | 7.64% |
-| 예시 4 · 함선허수 전승강 (1117.8만) | 11403780 | 2.02% |
-| 예시 5 · 함선허수 전승강 (1083.5만) | 11403780 | 5.25% |
+| 예시 1 · 함선허수 약승열 풀오토 (991.7만) | 9526853 | -3.93% |
+| 예시 2 · 함선허수 약승열 풀오토 (946.2만) | 9526853 | 0.68% |
+| 예시 3 · 함선허수 전승강 (1059.4만) | 11124717 | 5.01% |
+| 예시 4 · 함선허수 전승강 (1117.8만) | 11124717 | -0.47% |
+| 예시 5 · 함선허수 전승강 (1083.5만) | 11124717 | 2.67% |
 
 ## 다음 HOLD 게이트
 

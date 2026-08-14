@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-14T07:48:05.365Z",
+  "generatedAt": "2026-08-14T08:48:39.376Z",
   "master": {
     "path": "results/260814_룬설명목록.md",
     "sha256": "A86E44F39200A2872DD15A9C8B2C577B2EAA052F6BF9476B5A2254D61908B93A",
@@ -12,7 +12,7 @@
   },
   "summary": {
     "matchedByName": 88,
-    "aliasMappings": 1,
+    "aliasMappings": 0,
     "missingInJson": 0,
     "jsonOnly": 0,
     "recordsWithConflicts": 73,
@@ -2657,7 +2657,7 @@
     {
       "runeId": "MabinogiMobile_n69SDugvSB.png",
       "displayName": "그믐달",
-      "matchedDataName": "그음달",
+      "matchedDataName": "그믐달",
       "slotType": "방어구",
       "masterSourcePath": "results/260814_룬설명목록.md",
       "masterSourceHash": "A86E44F39200A2872DD15A9C8B2C577B2EAA052F6BF9476B5A2254D61908B93A",
@@ -5404,13 +5404,14 @@
       "currentManualStats": {
         "공격력%": 0.15,
         "조건부공증%": 0,
-        "주는피해%": 0.12,
+        "주는피해%": 0,
         "받는피해%": 0,
         "강타피해%": 0,
         "연타피해%": 0,
         "추가타피해%": 0,
         "치명타피해%": 0,
-        "콤보피해%": 0.12,
+        "콤보피해%": 0,
+        "무방비피해%": 0.12,
         "멀티피해%": 0,
         "스킬피해%": 0,
         "추가타확률%": 0,
@@ -5468,13 +5469,14 @@
       "correctionLabDefaults": {
         "공격력%": 0.15,
         "조건부공증%": 0,
-        "주는피해%": 0.12,
+        "주는피해%": 0,
         "받는피해%": 0,
         "강타피해%": 0,
         "연타피해%": 0,
         "추가타피해%": 0,
         "치명타피해%": 0,
-        "콤보피해%": 0.12,
+        "콤보피해%": 0,
+        "무방비피해%": 0.12,
         "멀티피해%": 0,
         "스킬피해%": 0,
         "추가타확률%": 0,
@@ -5498,9 +5500,9 @@
       "speedTerms": [],
       "numericDifferences": [
         {
-          "key": "콤보피해%",
-          "master": 0,
-          "current": 0.12
+          "key": "주는피해%",
+          "master": 0.12,
+          "current": 0
         }
       ],
       "validationStatus": "review",
@@ -10902,28 +10904,28 @@
   "referencePresets": [
     {
       "name": "예시 1 · 함선허수 약승열 풀오토 (991.7만)",
-      "modeledDps": 9777913,
-      "variancePct": -1.4
+      "modeledDps": 9526853,
+      "variancePct": -3.93
     },
     {
       "name": "예시 2 · 함선허수 약승열 풀오토 (946.2만)",
-      "modeledDps": 9777913,
-      "variancePct": 3.34
+      "modeledDps": 9526853,
+      "variancePct": 0.68
     },
     {
       "name": "예시 3 · 함선허수 전승강 (1059.4만)",
-      "modeledDps": 11403780,
-      "variancePct": 7.64
+      "modeledDps": 11124717,
+      "variancePct": 5.01
     },
     {
       "name": "예시 4 · 함선허수 전승강 (1117.8만)",
-      "modeledDps": 11403780,
-      "variancePct": 2.02
+      "modeledDps": 11124717,
+      "variancePct": -0.47
     },
     {
       "name": "예시 5 · 함선허수 전승강 (1083.5만)",
-      "modeledDps": 11403780,
-      "variancePct": 5.25
+      "modeledDps": 11124717,
+      "variancePct": 2.67
     }
   ]
 }

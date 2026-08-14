@@ -2,6 +2,7 @@
 import { calculateSealStats } from './sealCalculator.js';
 import { calculateMagicResistanceEffect } from './magicResistance.js';
 import { getTargetDefinition } from '../data/targets.js';
+import { applyRuneEffectModels } from '../data/runeEffectModels.js';
 
 /**
  * 스킬 개조 레벨에 따른 스킬 계수 보정치 계산 (엑셀 R003 수식 참고)
@@ -128,6 +129,8 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
   const conditionalUptimes = enchantStats;
   const parsed = (parsedSkills && Object.keys(parsedSkills).length > 0) ? parsedSkills : fallbackParsedSkills;
   // 1. 적용된 룬의 스탯 합산
+  // 수동 효과 모델은 UI·참조 스크립트·단위 테스트의 선택 경로와 무관하게 동일하게 적용한다.
+  const normalizedSelectedRunes = applyRuneEffectModels(selectedRunes || []);
   const runeStats = {
     "공격력%": 0.0,
     "조건부공증%": 0.0,
@@ -138,6 +141,7 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
     "추가타피해%": 0.0,
     "치명타피해%": 0.0,
     "콤보피해%": 0.0,
+    "무방비피해%": 0.0,
     "멀티피해%": 0.0,
     "스킬피해%": 0.0,
     "추가타확률%": 0.0,
@@ -153,10 +157,16 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
     "임의스킬강화": 0.0
   };
 
-  selectedRunes.forEach(rune => {
+  normalizedSelectedRunes.forEach(rune => {
     if (!rune) return;
     const name = rune.name;
-    const uptime = conditionalUptimes[name] !== undefined ? conditionalUptimes[name] / 100.0 : (rune.stats.가동률 !== undefined ? rune.stats.가동률 : 1.0);
+    const hasEffectModel = rune.effectModelVersion >= 2;
+    // 레거시 룬은 기존 계산을 보존한다. 효과 모델 v2 룬은 상시 stats와
+    // conditionalEffects를 분리하므로 룬 단위 가동률이 상시 수치를 축소하지 않는다.
+    const legacyUptime = conditionalUptimes[name] !== undefined
+      ? conditionalUptimes[name] / 100.0
+      : (rune.stats.가동률 !== undefined ? rune.stats.가동률 : 1.0);
+    const uptime = hasEffectModel ? 1.0 : legacyUptime;
 
     // 장신구가 아닌 룬들의 초월(1: 1.1배, 2: 1.25배) 스케일링 배율 계산
     let scale = 1.0;
@@ -194,12 +204,15 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
     // 룬 단위 스탯과 분리된 조건부 효과는 효과별 기본 가동률을 사용한다.
     // 수동 입력은 `룬명:효과ID`를 우선하고 기존 룬명 가동률 입력도 그대로 지원한다.
     (rune.conditionalEffects || []).forEach((effect) => {
-      const effectKey = `${name}:${effect.id}`;
-      const effectUptime = conditionalUptimes[effectKey] !== undefined
-        ? conditionalUptimes[effectKey] / 100.0
-        : (conditionalUptimes[name] !== undefined
-          ? conditionalUptimes[name] / 100.0
-          : (effect.defaultUptime ?? rune.stats.가동률 ?? 1.0));
+      const runeId = rune.id ?? name;
+      const effectKey = `${runeId}:${effect.id}`;
+      const legacyEffectKey = `${name}:${effect.id}`;
+      const configuredUptime = conditionalUptimes[effectKey]
+        ?? conditionalUptimes[legacyEffectKey]
+        ?? conditionalUptimes[name];
+      const effectUptime = configuredUptime !== undefined
+        ? configuredUptime / 100.0
+        : (effect.defaultUptime ?? (hasEffectModel ? 1.0 : (rune.stats.가동률 ?? 1.0)));
 
       Object.entries(effect.stats || {}).forEach(([key, val]) => {
         if (val === undefined || val === 0 || key === "가동률") return;
@@ -575,7 +588,9 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
 
     // 2) 전투 숙련: 파멸 적용 (무방비 상태 가해지는 피해량 +5%)
     const isUnarmed = state.includes("Break");
-    const unarmedDmgCoeff = isUnarmed ? (1 + (characterStats.comboPower || 1532.0) / 5250.0 + 0.4 + 0.05) : 1.0;
+    const unarmedDmgCoeff = isUnarmed
+      ? (1 + (characterStats.comboPower || 1532.0) / 5250.0 + 0.4 + 0.05 + runeStats["무방비피해%"])
+      : 1.0;
 
     // DPS 계산 (주는피해% 및 치명타 기댓값 배율 반영 - 물리 피해 200% 배율 복원)
     let skillDps = (totalCycleBaseDmg * 2) * (1 + totalGivesDmg) * (1 + totalGetsDmg) * critMultiplier * armorCoeff * unarmedDmgCoeff / totalCycleTime;
@@ -613,13 +628,13 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
     // 추가타(직접피해) 계산
     const baseDamageMultiplier = (1 + totalGivesDmg + totalSkillDmg + totalComboDmg) * (1 + totalGetsDmg) * (1 + totalStrongDmg + totalChainDmg);
     const extraProbMultiplier = (1 - totalExtraProb) + (totalExtraDmg * totalExtraProb);
-    const directDps = baseDamageMultiplier * critMultiplier * extraProbMultiplier * attack * 2 * totalExtraProb * armorCoeff;
+    const directDps = baseDamageMultiplier * critMultiplier * extraProbMultiplier * attack * 2 * totalExtraProb * armorCoeff * unarmedDmgCoeff;
 
     // 지속피해 계산
-    const dotDps = (1 + totalGivesDmg + totalSkillDmg + totalComboDmg) * (1 + totalGetsDmg) * totalMultiDmg * attack * 2 * armorCoeff;
+    const dotDps = (1 + totalGivesDmg + totalSkillDmg + totalComboDmg) * (1 + totalGetsDmg) * totalMultiDmg * attack * 2 * armorCoeff * unarmedDmgCoeff;
 
     // 초월 룬 각인 보정 (각 룬의 transcendLevel 누적 합)
-    const totalTranscendLevel = selectedRunes.reduce((acc, r) => acc + (r && r.transcendLevel ? r.transcendLevel : 0), 0);
+    const totalTranscendLevel = normalizedSelectedRunes.reduce((acc, r) => acc + (r && r.transcendLevel ? r.transcendLevel : 0), 0);
     const transcendCoeff = 1.015 ** totalTranscendLevel;
 
     const totalDps = (skillDps + directDps + dotDps)

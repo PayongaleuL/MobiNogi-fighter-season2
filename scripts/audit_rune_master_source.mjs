@@ -9,9 +9,9 @@ const OUTPUT_JSON_PATH = new URL('../results/rune_master_source_audit.json', imp
 const OUTPUT_MD_PATH = new URL('../results/rune_master_source_audit.md', import.meta.url);
 const REFERENCE_PATH = new URL('../results/latest_reference_preset_comparison.json', import.meta.url);
 
-const NAME_ALIASES = new Map([
-  ['그믐달', '그음달'],
-]);
+const NAME_ALIASES = new Map();
+
+
 
 const STAT_KEYS = [
   '공격력%', '조건부공증%', '주는피해%', '받는피해%', '강타피해%',
