@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { BookOpen, CheckCircle, Copy, Info, RotateCcw, Search, Sliders, X } from 'lucide-react';
 import { parseRuneMarkdown } from '../utils/runeMdParser';
-import mdText from '../../results/260708_룬설명목록.md?raw';
+import mdText from '../../results/260814_룬설명목록.md?raw';
 
 const STAT_COLUMNS = [
   { key: "공격력%", label: "공격력", isPercent: true },

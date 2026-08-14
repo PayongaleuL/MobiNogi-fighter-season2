@@ -8,7 +8,7 @@ import { useDpsResult } from '../adapters/useDpsResult';
 import { Sun, Moon } from 'lucide-react';
 import runesData from '../data/runes.json';
 import { parseRuneMarkdown } from '../utils/runeMdParser';
-import mdText from '../../results/260708_룬설명목록.md?raw';
+import mdText from '../../results/260814_룬설명목록.md?raw';
 
 import { createLatestReferencePresets } from '../data/latestReferencePresets';
 import { DEFAULT_TARGET_ID, getTargetDefinition } from '../data/targets';
