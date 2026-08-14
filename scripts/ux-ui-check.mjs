@@ -105,9 +105,11 @@ try {
     await page.locator('select').nth(1).selectOption('EQUIPPED');
     const equippedRuneVisual = await page.locator('tbody tr').first().evaluate((row) => {
       const stickyCell = row.querySelector('td');
-      return row.className.includes('bg-emerald-500/8') &&
+      const rowHasEquippedSurface = row.className.includes('bg-emerald-50') || row.className.includes('bg-emerald-500/8');
+      const stickyHasEquippedSurface = stickyCell?.className.includes('bg-emerald-100') || stickyCell?.className.includes('bg-emerald-500/10');
+      return rowHasEquippedSurface &&
         row.className.includes('border-emerald-500') &&
-        stickyCell?.className.includes('bg-emerald-500/10');
+        stickyHasEquippedSurface;
     });
     await page.getByRole('button', { name: '종합 계산기' }).click();
 

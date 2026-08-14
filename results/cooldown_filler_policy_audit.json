@@ -1,0 +1,344 @@
+{
+  "generatedAt": "2026-08-14T07:48:05.457Z",
+  "conclusion": {
+    "modelStatus": "unresolved",
+    "includedInDps": false,
+    "impact": "N/A",
+    "reason": "게임 내 평타 필러 현상은 사용자 확인으로 존재하지만, 현행 엔진에는 공백 기반 기본 공격 이벤트가 구현돼 있지 않아 빈도·피해·트리거를 안전하게 산출할 수 없다."
+  },
+  "currentEngineFacts": [
+    {
+      "fact": "딜사이클 입력은 스킬 토큰만 정규화한다.",
+      "evidence": "src/core/calculator.js:404-464",
+      "consequence": "기본 공격 토큰이나 자동 삽입 이벤트가 없다."
+    },
+    {
+      "fact": "총 사이클 시간은 스킬 시전 시간 합계와 평균 보석 쿨감 압축으로 계산한다.",
+      "evidence": "src/core/calculator.js:518-572",
+      "consequence": "스킬별 쿨다운 준비 시점과 공백 길이를 계산하지 않는다."
+    },
+    {
+      "fact": "계산 결과의 피해 채널은 skillDps, directDps, dotDps다.",
+      "evidence": "src/core/calculator.js:581-639",
+      "consequence": "기본 공격 DPS 채널과 기본 공격 적중 트리거가 없다."
+    },
+    {
+      "fact": "룬의 공격 속도·스킬 사용 속도·캐스팅 및 차지 속도는 현재 단일 스킬속도%로 합산된다.",
+      "evidence": "src/utils/runeMdParser.js:203-208; src/core/calculator.js:518-521",
+      "consequence": "공격 속도를 평타 필러에만 적용하는 정책은 아직 구현되지 않았다."
+    }
+  ],
+  "referencePresetEvidence": [
+    {
+      "name": "예시 1 · 함선허수 약승열 풀오토 (991.7만)",
+      "referenceId": "TRAINING-01",
+      "cycleInput": {
+        "ordinary": "1 3 4 2 3 5 2",
+        "ordinaryBreak": "1 3 4 2 3 5 2",
+        "ultimate": "445",
+        "ultimateBreak": "445"
+      },
+      "normalizedCycles": {
+        "ordinary": [
+          "1-1",
+          "1-2",
+          "3",
+          "sonic",
+          "2-1",
+          "2-2",
+          "3",
+          "5-1",
+          "5-2",
+          "5-3",
+          "2-1",
+          "2-2"
+        ],
+        "ordinaryBreak": [
+          "1-1",
+          "1-2",
+          "3",
+          "sonic",
+          "2-1",
+          "2-2",
+          "3",
+          "5-1",
+          "5-2",
+          "5-3",
+          "2-1",
+          "2-2"
+        ],
+        "ultimate": [
+          "sonic",
+          "sonic",
+          "5-1",
+          "5-2",
+          "5-3"
+        ],
+        "ultimateBreak": [
+          "sonic",
+          "sonic",
+          "5-1",
+          "5-2",
+          "5-3"
+        ]
+      },
+      "stateCycleTimes": {
+        "ordinary": 11.55,
+        "ordinaryBreak": 11.55,
+        "ultimate": 6.83,
+        "ultimateBreak": 6.83
+      },
+      "engineReportedDamageChannels": [
+        "skillDps",
+        "directDps",
+        "dotDps"
+      ],
+      "baseAttackChannelReported": false,
+      "fillerPolicyStatus": "unresolved",
+      "reason": "현행 코어는 스킬 토큰의 시전 시간 합계와 평균 보석 쿨감 압축만 계산하며, 스킬별 실제 쿨다운 준비 시점·공백·기본 공격 행동·기본 공격 시간을 추적하지 않는다."
+    },
+    {
+      "name": "예시 2 · 함선허수 약승열 풀오토 (946.2만)",
+      "referenceId": "TRAINING-02",
+      "cycleInput": {
+        "ordinary": "1 3 4 2 3 5 2",
+        "ordinaryBreak": "1 3 4 2 3 5 2",
+        "ultimate": "445",
+        "ultimateBreak": "445"
+      },
+      "normalizedCycles": {
+        "ordinary": [
+          "1-1",
+          "1-2",
+          "3",
+          "sonic",
+          "2-1",
+          "2-2",
+          "3",
+          "5-1",
+          "5-2",
+          "5-3",
+          "2-1",
+          "2-2"
+        ],
+        "ordinaryBreak": [
+          "1-1",
+          "1-2",
+          "3",
+          "sonic",
+          "2-1",
+          "2-2",
+          "3",
+          "5-1",
+          "5-2",
+          "5-3",
+          "2-1",
+          "2-2"
+        ],
+        "ultimate": [
+          "sonic",
+          "sonic",
+          "5-1",
+          "5-2",
+          "5-3"
+        ],
+        "ultimateBreak": [
+          "sonic",
+          "sonic",
+          "5-1",
+          "5-2",
+          "5-3"
+        ]
+      },
+      "stateCycleTimes": {
+        "ordinary": 11.55,
+        "ordinaryBreak": 11.55,
+        "ultimate": 6.83,
+        "ultimateBreak": 6.83
+      },
+      "engineReportedDamageChannels": [
+        "skillDps",
+        "directDps",
+        "dotDps"
+      ],
+      "baseAttackChannelReported": false,
+      "fillerPolicyStatus": "unresolved",
+      "reason": "현행 코어는 스킬 토큰의 시전 시간 합계와 평균 보석 쿨감 압축만 계산하며, 스킬별 실제 쿨다운 준비 시점·공백·기본 공격 행동·기본 공격 시간을 추적하지 않는다."
+    },
+    {
+      "name": "예시 3 · 함선허수 전승강 (1059.4만)",
+      "referenceId": "TRAINING-03",
+      "cycleInput": {
+        "ordinary": "1-1 3 4 2-2 2 3 5 (444) 2",
+        "ordinaryBreak": "1-1 3 4 2-2 2 3 5 (444) 2",
+        "ultimate": "445 (반복)",
+        "ultimateBreak": "445 (반복)"
+      },
+      "normalizedCycles": {
+        "ordinary": [
+          "1-1",
+          "3",
+          "sonic",
+          "2-2",
+          "2-1",
+          "3",
+          "somersault",
+          "2-1"
+        ],
+        "ordinaryBreak": [
+          "1-1",
+          "3",
+          "sonic",
+          "2-2",
+          "2-1",
+          "3",
+          "somersault",
+          "2-1"
+        ],
+        "ultimate": [
+          "sonic",
+          "sonic",
+          "somersault"
+        ],
+        "ultimateBreak": [
+          "sonic",
+          "sonic",
+          "somersault"
+        ]
+      },
+      "stateCycleTimes": {
+        "ordinary": 11.32,
+        "ordinaryBreak": 11.32,
+        "ultimate": 5.98,
+        "ultimateBreak": 5.98
+      },
+      "engineReportedDamageChannels": [
+        "skillDps",
+        "directDps",
+        "dotDps"
+      ],
+      "baseAttackChannelReported": false,
+      "fillerPolicyStatus": "unresolved",
+      "reason": "현행 코어는 스킬 토큰의 시전 시간 합계와 평균 보석 쿨감 압축만 계산하며, 스킬별 실제 쿨다운 준비 시점·공백·기본 공격 행동·기본 공격 시간을 추적하지 않는다."
+    },
+    {
+      "name": "예시 4 · 함선허수 전승강 (1117.8만)",
+      "referenceId": "TRAINING-04",
+      "cycleInput": {
+        "ordinary": "1-1 3 4 2-2 2 3 5 (444) 2",
+        "ordinaryBreak": "1-1 3 4 2-2 2 3 5 (444) 2",
+        "ultimate": "445 (반복)",
+        "ultimateBreak": "445 (반복)"
+      },
+      "normalizedCycles": {
+        "ordinary": [
+          "1-1",
+          "3",
+          "sonic",
+          "2-2",
+          "2-1",
+          "3",
+          "somersault",
+          "2-1"
+        ],
+        "ordinaryBreak": [
+          "1-1",
+          "3",
+          "sonic",
+          "2-2",
+          "2-1",
+          "3",
+          "somersault",
+          "2-1"
+        ],
+        "ultimate": [
+          "sonic",
+          "sonic",
+          "somersault"
+        ],
+        "ultimateBreak": [
+          "sonic",
+          "sonic",
+          "somersault"
+        ]
+      },
+      "stateCycleTimes": {
+        "ordinary": 11.32,
+        "ordinaryBreak": 11.32,
+        "ultimate": 5.98,
+        "ultimateBreak": 5.98
+      },
+      "engineReportedDamageChannels": [
+        "skillDps",
+        "directDps",
+        "dotDps"
+      ],
+      "baseAttackChannelReported": false,
+      "fillerPolicyStatus": "unresolved",
+      "reason": "현행 코어는 스킬 토큰의 시전 시간 합계와 평균 보석 쿨감 압축만 계산하며, 스킬별 실제 쿨다운 준비 시점·공백·기본 공격 행동·기본 공격 시간을 추적하지 않는다."
+    },
+    {
+      "name": "예시 5 · 함선허수 전승강 (1083.5만)",
+      "referenceId": "TRAINING-05",
+      "cycleInput": {
+        "ordinary": "1-1 3 4 2-2 2 3 5 (444) 2",
+        "ordinaryBreak": "1-1 3 4 2-2 2 3 5 (444) 2",
+        "ultimate": "445 (반복)",
+        "ultimateBreak": "445 (반복)"
+      },
+      "normalizedCycles": {
+        "ordinary": [
+          "1-1",
+          "3",
+          "sonic",
+          "2-2",
+          "2-1",
+          "3",
+          "somersault",
+          "2-1"
+        ],
+        "ordinaryBreak": [
+          "1-1",
+          "3",
+          "sonic",
+          "2-2",
+          "2-1",
+          "3",
+          "somersault",
+          "2-1"
+        ],
+        "ultimate": [
+          "sonic",
+          "sonic",
+          "somersault"
+        ],
+        "ultimateBreak": [
+          "sonic",
+          "sonic",
+          "somersault"
+        ]
+      },
+      "stateCycleTimes": {
+        "ordinary": 11.32,
+        "ordinaryBreak": 11.32,
+        "ultimate": 5.98,
+        "ultimateBreak": 5.98
+      },
+      "engineReportedDamageChannels": [
+        "skillDps",
+        "directDps",
+        "dotDps"
+      ],
+      "baseAttackChannelReported": false,
+      "fillerPolicyStatus": "unresolved",
+      "reason": "현행 코어는 스킬 토큰의 시전 시간 합계와 평균 보석 쿨감 압축만 계산하며, 스킬별 실제 쿨다운 준비 시점·공백·기본 공격 행동·기본 공격 시간을 추적하지 않는다."
+    }
+  ],
+  "holdRequirements": [
+    "기본 공격 1회의 피해 계수·타수·유효 시간·공격 속도 공식",
+    "스킬별 실제 쿨다운 시작 시점·충전·재사용 회복·연계 잠금 규칙",
+    "공백이 평타 1회보다 짧을 때의 대기·캔슬·예약 스킬 우선 규칙",
+    "기본 공격 적중, 다음 기본 공격, 공격 적중, 스킬 사용의 트리거 자격 매트릭스",
+    "기본 공격·스킬·룬 직접 발동 피해의 치명타·방어도·마도저항·무방비·대상 수 적용 정책"
+  ]
+}
