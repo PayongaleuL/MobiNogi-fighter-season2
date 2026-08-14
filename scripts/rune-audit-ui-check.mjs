@@ -51,6 +51,16 @@ async function assertIncludes(locator, expectedClass, message) {
   }
 }
 
+async function getRenderedColors(locator) {
+  return locator.evaluate((element) => {
+    const style = window.getComputedStyle(element);
+    return {
+      background: style.backgroundColor,
+      borderLeft: style.borderLeftColor,
+    };
+  });
+}
+
 async function verifyViewport(browser, name, viewport) {
   const context = await browser.newContext({ viewport });
   const page = await context.newPage();
@@ -78,6 +88,11 @@ async function verifyViewport(browser, name, viewport) {
     throw new Error(`${name} 미장착 행에 장착 강조색이 적용되었습니다.`);
   }
 
+  const lightEquippedColors = await getRenderedColors(equippedRow);
+  const lightInactiveColors = await getRenderedColors(inactiveRow);
+  if (lightEquippedColors.background === lightInactiveColors.background) {
+    throw new Error(`${name} 라이트 모드에서 장착·미장착 행의 실제 배경색이 같습니다.`);
+  }
   await page.screenshot({ path: `${screenshotDir}/${name}-light-table.png`, fullPage: true });
   await equippedTrigger.click();
   const dialog = page.getByRole('dialog', { name: /타오르는 영광 사전 데이터/ });
@@ -89,8 +104,21 @@ async function verifyViewport(browser, name, viewport) {
   await page.keyboard.press('Escape');
   await dialog.waitFor({ state: 'hidden' });
 
-  await assertIncludes(equippedRow, 'dark:bg-emerald-500/8', `${name} 장착 행 다크 모드 클래스 보존`);
-  await assertIncludes(inactiveRow, 'dark:bg-slate-500/5', `${name} 미장착 행 다크 모드 클래스 보존`);
+  await page.getByLabel('밝은 테마와 어두운 테마 전환').click();
+  await page.waitForTimeout(350);
+
+  await assertIncludes(equippedRow, 'dark:bg-emerald-950/80', `${name} 장착 행 다크 모드 상태색`);
+  await assertIncludes(inactiveRow, 'dark:bg-slate-900/70', `${name} 미장착 행 다크 모드 상태색`);
+
+  const darkEquippedColors = await getRenderedColors(equippedRow);
+  const darkInactiveColors = await getRenderedColors(inactiveRow);
+  if (darkEquippedColors.background === darkInactiveColors.background) {
+    throw new Error(`${name} 다크 모드에서 장착·미장착 행의 실제 배경색이 같습니다.`);
+  }
+  if (darkEquippedColors.background === lightEquippedColors.background || darkInactiveColors.background === lightInactiveColors.background) {
+    throw new Error(`${name} 라이트와 다크 모드의 룬 행 색상 체계가 분리되지 않았습니다.`);
+  }
+  await page.screenshot({ path: `${screenshotDir}/${name}-dark-table.png`, fullPage: true });
 
   await context.close();
   if (errors.length) throw new Error(`${name} 브라우저 오류:\n${errors.join('\n')}`);
