@@ -6,7 +6,7 @@ import runesData from '../src/data/runes.json' with { type: 'json' };
 import { parseRuneMarkdown } from '../src/utils/runeMdParser.js';
 import parseSkillMarkdown from '../src/utils/skillMdParser.js';
 
-const runeMarkdown = fs.readFileSync(new URL('../results/260708_룬설명목록.md', import.meta.url), 'utf8');
+const runeMarkdown = fs.readFileSync(new URL('../results/260814_룬설명목록.md', import.meta.url), 'utf8');
 const skillMarkdown = fs.readFileSync(new URL('../results/260710_패시브_액티브_스킬목록.md', import.meta.url), 'utf8');
 const parsedRunes = parseRuneMarkdown(runeMarkdown);
 const parsedSkills = parseSkillMarkdown(skillMarkdown);
