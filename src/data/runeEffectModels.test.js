@@ -14,6 +14,7 @@ describe('rune effect models v2', () => {
       '[신화] 용 사냥꾼', '[신화] 여신', '[신화] 사슬로 묶은 법전', '[신화] 가라앉은 왕국',
       '수호자', '서광', '끓는 피', '숲 길잡이',
       '바다뱀+', '계승자', '잠든 땅', '비늘 덮인 현자',
+      '빛살+', '교차하는 사슬', '무한한 탐욕', '뼈 인장', '공허', '칼바람',
       '영원한 밤', '빛바랜 별', '초월'
     ];
     expect(Object.keys(runeEffectModels)).toEqual(reviewedNames);
@@ -186,6 +187,25 @@ describe('rune effect models v2', () => {
     expect(sleepingLand).toMatchObject({ stats: { '강타피해%': 0.13, '연타피해%': 0.13 } });
     expect(sleepingLand.conditionalEffects[0]).toMatchObject({ modelStatus: 'mechanics-only', includedInDps: false });
     expect(scaledSage.conditionalEffects).toHaveLength(2);
+  });
+
+  it('maps class-restricted, break, and cooldown-routine rune effects to explicit manual or mechanics paths', () => {
+    const [ray, crossingChain, infiniteGreed, boneSeal, voidRune, gale] = applyRuneEffectModels([
+      { name: '빛살+', stats: {} },
+      { name: '교차하는 사슬', stats: {} },
+      { name: '무한한 탐욕', stats: {} },
+      { name: '뼈 인장', stats: {} },
+      { name: '공허', stats: {} },
+      { name: '칼바람', stats: {} },
+    ]);
+
+    expect(ray).toMatchObject({ stats: { '주는피해%': 0.055, '스킬속도%': 0.05 } });
+    expect(ray.conditionalEffects[0]).toMatchObject({ modelStatus: 'mechanics-only', includedInDps: false });
+    expect(crossingChain.conditionalEffects[0].stats).toEqual({ '밤축_연타피해%': 0.11, '밤축_추가타확률%': 0.11 });
+    expect(infiniteGreed).toMatchObject({ stats: { '주는피해%': 0, '재사용회복%': -0.10 } });
+    expect(boneSeal.conditionalEffects[0].stats).toEqual({ '주는피해%': 0.53 });
+    expect(voidRune.conditionalEffects[0]).toMatchObject({ modelStatus: 'mechanics-only', includedInDps: false });
+    expect(gale.conditionalEffects[0]).toMatchObject({ durationSeconds: 7, stats: { '주는피해%': 0.29, '치명타피해%': 0.10 } });
   });
 
   it('separates mythic rune permanent DPS stats from manual and mechanics-only conditions', () => {
