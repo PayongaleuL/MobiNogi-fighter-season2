@@ -6,7 +6,7 @@ describe('season 2 target definitions', () => {
     expect(TARGET_DEFINITIONS.map((target) => target.id)).not.toContain('어비스 지옥2');
   });
 
-  it('keeps the three current Lunda very-hard bosses with official pressure data', () => {
+  it('keeps the three Lunda very-hard bosses separate because the calibrated common-defense model failed', () => {
     const lundaTargets = TARGET_DEFINITIONS.filter((target) => target.content === '룬다 어비스');
 
     expect(lundaTargets.map((target) => target.label)).toEqual([
@@ -16,15 +16,25 @@ describe('season 2 target definitions', () => {
     ]);
     expect(lundaTargets.every((target) => target.requiredMagicResistance === 2200)).toBe(true);
     expect(lundaTargets.every((target) => target.magicPressure === 2700)).toBe(true);
+    expect(lundaTargets.map((target) => target.armor)).toEqual([8408, 17125, 18967]);
+    expect(lundaTargets.every((target) => target.critResistance === 0)).toBe(true);
+    expect(lundaTargets.every((target) => target.calibration?.confidence === 'low')).toBe(true);
   });
 
-  it('keeps Kabrak intro official magic values while leaving unidentifiable combat reductions unset', () => {
+  it('keeps Kabrak intro official magic values and applies the separate log-calibrated defense proxy', () => {
     expect(getTargetDefinition('카브락 · 입문')).toMatchObject({
       requiredMagicResistance: 2000,
       magicPressure: 2500,
-      armor: null,
-      critResistance: null,
-      defenseStatus: 'P2-B 로그만으로 미확정',
+      armor: 7203,
+      critResistance: 0,
+      defenseStatus: 'P2-B 로그 기반 근사치 · 낮은 신뢰도',
+      calibration: {
+        source: 'P2-B 로그 기반 근사치',
+        sampleCount: 3,
+        armorRange: [7039, 9542],
+        critResistanceRange: [0, 0],
+        confidence: 'low',
+      },
     });
   });
 
