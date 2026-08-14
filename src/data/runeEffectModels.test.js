@@ -10,7 +10,9 @@ describe('rune effect models v2', () => {
       '거두는 손길', '맹세+', '복수+', '부서진 왕관',
       '별바라기', '황동 날개', '잠들지 않는 불', '번개 숨결', '돌 심장', '용암 비늘', '얼음 발톱',
       '악몽', '[신화] 유폐된 어둠', '[신화] 무형',
-      '고결함', '해방', '위대함', '침묵', '영원한 밤', '빛바랜 별', '초월'
+      '고결함', '해방', '위대함', '침묵',
+      '[신화] 용 사냥꾼', '[신화] 여신', '[신화] 사슬로 묶은 법전', '[신화] 가라앉은 왕국',
+      '영원한 밤', '빛바랜 별', '초월'
     ];
     expect(Object.keys(runeEffectModels)).toEqual(reviewedNames);
 
@@ -150,6 +152,23 @@ describe('rune effect models v2', () => {
     expect(liberation.conditionalEffects[1]).toMatchObject({ directDamage: 13004, cooldownSeconds: 1, triggerScope: 'nightBlessingHit' });
     expect(greatness.conditionalEffects[1]).toMatchObject({ directDamage: 10048, cooldownSeconds: 1, triggerScope: 'nightBlessingHit' });
     expect(silence.conditionalEffects[0]).toMatchObject({ directDamage: 229941, damageScalesWithUptime: true, defaultUptime: 0 });
+  });
+
+  it('separates mythic rune permanent DPS stats from manual and mechanics-only conditions', () => {
+    const [dragonHunter, goddess, grimoire, sunkenKingdom] = applyRuneEffectModels([
+      { name: '[신화] 용 사냥꾼', stats: {} },
+      { name: '[신화] 여신', stats: {} },
+      { name: '[신화] 사슬로 묶은 법전', stats: {} },
+      { name: '[신화] 가라앉은 왕국', stats: {} },
+    ]);
+
+    expect(dragonHunter).toMatchObject({ stats: { '치명타확률%': 0.10, '치명타피해%': 0.10, '주는피해%': 0 } });
+    expect(dragonHunter.conditionalEffects[0]).toMatchObject({ directDamage: 17142, durationSeconds: 60, cooldownSeconds: 3, defaultUptime: 0 });
+    expect(goddess.stats).toMatchObject({ '주는피해%': 0.29 });
+    expect(grimoire.stats).toMatchObject({ '주는피해%': 0.29 });
+    expect(grimoire.conditionalEffects).toHaveLength(2);
+    expect(sunkenKingdom).toMatchObject({ stats: { '공격력%': 0.15, '주는피해%': 0 } });
+    expect(sunkenKingdom.conditionalEffects[0]).toMatchObject({ modelStatus: 'mechanics-only', includedInDps: false });
   });
 
   it('preserves all permanent DPS stats for Eternal Night and Faded Star', () => {
