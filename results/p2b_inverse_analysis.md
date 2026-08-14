@@ -53,14 +53,18 @@
 
     node scripts/analyze_p2b_dps_logs.mjs
 
-## References
+## 비식별 참조 기록
 
-[1]: https://mobi-score.com/r/4Qq19MnzmZiC0a7e "허상의 정박지 매우 어려움 · 잊힌 맹약 장착 공개 전투 기록"
-[2]: https://mobi-score.com/r/WKx26orrtszkzEME "허상의 정박지 매우 어려움 · 머리·잊힌 맹약 제거 공개 전투 기록"
-[3]: https://mobi-score.com/r/PeFuIadiNfJVC4sA "광기의 동굴 매우 어려움 · 잊힌 맹약 장착 공개 전투 기록"
-[4]: https://mobi-score.com/r/1AjC9mmQJHCSw8bD "광기의 동굴 매우 어려움 · 머리·잊힌 맹약 제거 공개 전투 기록"
-[5]: https://mobi-score.com/r/uOSkrIy94NhcZfH8 "흩어진 물길 매우 어려움 · 잊힌 맹약 장착 공개 전투 기록"
-[6]: https://mobi-score.com/r/TU0xlhPHmWCBWjCP "흩어진 물길 매우 어려움 · 머리·잊힌 맹약 제거 공개 전투 기록"
-[7]: https://mobi-score.com/r/qEfbzhpgazVcqm2N "카브락 입문 · 잊힌 맹약 장착 공개 전투 기록"
-[8]: https://mobi-score.com/r/vGjwTiRp7FlNDokk "카브락 입문 · 잊힌 맹약 장착 공개 전투 기록"
-[9]: https://mobi-score.com/r/HlrVreU9CzMZwmlt "카브락 입문 · 머리·잊힌 맹약 제거 공개 전투 기록"
+원본 기록 주소와 원시 응답은 저장소에 보관하지 않는다. 이 분석은 로컬 `results/p2b_raw_logs/`의 비공개 원본을 읽되, 보고서에서는 다음 비식별 분석 ID만 사용한다.
+
+| 분석 ID | 대상·난이도 | 장비 상태 |
+| --- | --- | --- |
+| LEGACY-A01 | 허상의 정박지 매우 어려움 | 잊힌 맹약 장착 |
+| LEGACY-A02 | 허상의 정박지 매우 어려움 | 머리·잊힌 맹약 제거 |
+| LEGACY-A03 | 광기의 동굴 매우 어려움 | 잊힌 맹약 장착 |
+| LEGACY-A04 | 광기의 동굴 매우 어려움 | 머리·잊힌 맹약 제거 |
+| LEGACY-A05 | 흩어진 물길 매우 어려움 | 잊힌 맹약 장착 |
+| LEGACY-A06 | 흩어진 물길 매우 어려움 | 머리·잊힌 맹약 제거 |
+| LEGACY-A07 | 카브락 입문 | 잊힌 맹약 장착 |
+| LEGACY-A08 | 카브락 입문 | 잊힌 맹약 장착 |
+| LEGACY-A09 | 카브락 입문 | 머리·잊힌 맹약 제거 |

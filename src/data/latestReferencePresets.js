@@ -87,7 +87,7 @@ const createReferenceSeals = () => ({
   shoes: { type: 'red_moon', redMoonStatValue: 5 }
 });
 
-const createReferenceData = ({ cycle, label, sourceUrl, observedDps, skillStances, accessoryRunes }) => ({
+const createReferenceData = ({ cycle, label, referenceId, observedDps, skillStances, accessoryRunes }) => ({
   stats: createReferenceStats(),
   selectedRunes: createReferenceRunes(accessoryRunes),
   transcendLevels: createReferenceTranscendLevels(),
@@ -109,7 +109,7 @@ const createReferenceData = ({ cycle, label, sourceUrl, observedDps, skillStance
     hasSpdBuff: false
   },
   seals: createReferenceSeals(),
-  reference: { label, sourceUrl, observedDps }
+  reference: { label, referenceId, observedDps }
 });
 
 export const createLatestReferencePresets = () => [
@@ -117,7 +117,7 @@ export const createLatestReferencePresets = () => [
     name: '예시 1 · 함선허수 약승열 풀오토 (991.7만)',
     data: createReferenceData({
       label: '함선허수1 약승열 풀오토',
-      sourceUrl: 'https://mobi-score.com/r/2rA4Ozk3cs5UQPtK',
+      referenceId: 'TRAINING-01',
       observedDps: 9916757,
       skillStances: { skill_1: '약점', skill_2: '순정', skill_3: '순정', skill_4: '승천', skill_5: '열혈' },
       cycle: { ordinary: '1 3 4 2 3 5 2', ordinaryBreak: '1 3 4 2 3 5 2', ultimate: '445', ultimateBreak: '445' }
@@ -127,7 +127,7 @@ export const createLatestReferencePresets = () => [
     name: '예시 2 · 함선허수 약승열 풀오토 (946.2만)',
     data: createReferenceData({
       label: '함선허수2 약승열 풀오토',
-      sourceUrl: 'https://mobi-score.com/r/a45ep94tqYHtjSVZ',
+      referenceId: 'TRAINING-02',
       observedDps: 9462052,
       skillStances: { skill_1: '약점', skill_2: '순정', skill_3: '순정', skill_4: '승천', skill_5: '열혈' },
       cycle: { ordinary: '1 3 4 2 3 5 2', ordinaryBreak: '1 3 4 2 3 5 2', ultimate: '445', ultimateBreak: '445' }
@@ -137,7 +137,7 @@ export const createLatestReferencePresets = () => [
     name: '예시 3 · 함선허수 전승강 (1059.4만)',
     data: createReferenceData({
       label: '함선허수3 전승강',
-      sourceUrl: 'https://mobi-score.com/r/08aQG7NnfNXVpTVj',
+      referenceId: 'TRAINING-03',
       observedDps: 10593957,
       skillStances: { skill_1: '순정', skill_2: '전진', skill_3: '순정', skill_4: '승천', skill_5: '강격' },
       accessoryRunes: ['승천+', '전진+', '강격+'],
@@ -148,7 +148,7 @@ export const createLatestReferencePresets = () => [
     name: '예시 4 · 함선허수 전승강 (1117.8만)',
     data: createReferenceData({
       label: '함선허수4 전승강',
-      sourceUrl: 'https://mobi-score.com/r/bA903LtPSxYhtcst',
+      referenceId: 'TRAINING-04',
       observedDps: 11177554,
       skillStances: { skill_1: '순정', skill_2: '전진', skill_3: '순정', skill_4: '승천', skill_5: '강격' },
       accessoryRunes: ['승천+', '전진+', '강격+'],
@@ -159,7 +159,7 @@ export const createLatestReferencePresets = () => [
     name: '예시 5 · 함선허수 전승강 (1083.5만)',
     data: createReferenceData({
       label: '함선허수5 전승강',
-      sourceUrl: 'https://mobi-score.com/r/4GlO5T5ex5GeNlOf',
+      referenceId: 'TRAINING-05',
       observedDps: 10835203,
       skillStances: { skill_1: '순정', skill_2: '전진', skill_3: '순정', skill_4: '승천', skill_5: '강격' },
       accessoryRunes: ['승천+', '전진+', '강격+'],

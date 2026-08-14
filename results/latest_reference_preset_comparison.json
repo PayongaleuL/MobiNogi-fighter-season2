@@ -1,7 +1,7 @@
 [
   {
     "name": "예시 1 · 함선허수 약승열 풀오토 (991.7만)",
-    "sourceUrl": "https://mobi-score.com/r/2rA4Ozk3cs5UQPtK",
+    "referenceId": "TRAINING-01",
     "observedDps": 9916757,
     "modeledDps": 9777913,
     "variancePct": -1.4,
@@ -80,7 +80,7 @@
   },
   {
     "name": "예시 2 · 함선허수 약승열 풀오토 (946.2만)",
-    "sourceUrl": "https://mobi-score.com/r/a45ep94tqYHtjSVZ",
+    "referenceId": "TRAINING-02",
     "observedDps": 9462052,
     "modeledDps": 9777913,
     "variancePct": 3.34,
@@ -159,7 +159,7 @@
   },
   {
     "name": "예시 3 · 함선허수 전승강 (1059.4만)",
-    "sourceUrl": "https://mobi-score.com/r/08aQG7NnfNXVpTVj",
+    "referenceId": "TRAINING-03",
     "observedDps": 10593957,
     "modeledDps": 11403780,
     "variancePct": 7.64,
@@ -238,7 +238,7 @@
   },
   {
     "name": "예시 4 · 함선허수 전승강 (1117.8만)",
-    "sourceUrl": "https://mobi-score.com/r/bA903LtPSxYhtcst",
+    "referenceId": "TRAINING-04",
     "observedDps": 11177554,
     "modeledDps": 11403780,
     "variancePct": 2.02,
@@ -317,7 +317,7 @@
   },
   {
     "name": "예시 5 · 함선허수 전승강 (1083.5만)",
-    "sourceUrl": "https://mobi-score.com/r/4GlO5T5ex5GeNlOf",
+    "referenceId": "TRAINING-05",
     "observedDps": 10835203,
     "modeledDps": 11403780,
     "variancePct": 5.25,

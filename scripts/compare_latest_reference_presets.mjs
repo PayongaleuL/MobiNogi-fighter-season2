@@ -38,7 +38,7 @@ const result = createLatestReferencePresets().map((preset) => {
   const observed = data.reference.observedDps;
   return {
     name: preset.name,
-    sourceUrl: data.reference.sourceUrl,
+    referenceId: data.reference.referenceId,
     observedDps: observed,
     modeledDps: output.weightedDps,
     variancePct: Number((((output.weightedDps - observed) / observed) * 100).toFixed(2)),

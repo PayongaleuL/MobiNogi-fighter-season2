@@ -42,3 +42,10 @@ results/e2e/*.png
 # P2-B 개인 전투 기록과 일회성 역산 중간 산출물
 results/p2b_raw_logs/
 results/p2b_tmp/
+
+# 방별·모드별 DPS 로그 원본·URL 매핑·수집 캐시(비공개)
+results/private_dps_logs/
+results/private_dps_log_cache/
+
+# 과거 원시 참조 응답(비식별 파생 보고서만 버전 관리)
+results/latest_reference_records.json
