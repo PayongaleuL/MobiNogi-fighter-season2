@@ -1,3 +1,5 @@
+import { deriveRuneDescriptionEffects } from './runeDescriptionEffects.js';
+
 const models = {
   '오랜 광기': {
     id: 'weapon-old-madness',
@@ -1224,11 +1226,28 @@ const models = {
   }
 };
 
+const createSourceDerivedFallbackEffects = (rune) => deriveRuneDescriptionEffects(rune).map((effect) => ({
+  ...effect,
+  // 근거 없는 평균 가동률을 자동 적용하지 않는다. 사용자가 전투 설정에서 명시할 때만 반영한다.
+  defaultUptime: 0,
+  forceDefaultUptime: true,
+  damageScalesWithUptime: Boolean(effect.directDamage || effect.dotDamage),
+  modelStatus: 'source-derived-manual',
+  includedInDps: true,
+}));
+
 export function applyRuneEffectModels(runes = []) {
   return runes.map((rune) => {
     if (!rune) return rune;
     const model = models[rune.name];
-    if (!model) return rune;
+    if (!model) {
+      const conditionalEffects = rune.conditionalEffects ?? createSourceDerivedFallbackEffects(rune);
+      return {
+        ...rune,
+        effectModelVersion: 2,
+        conditionalEffects,
+      };
+    }
     return {
       ...rune,
       ...model,

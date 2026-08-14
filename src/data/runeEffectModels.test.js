@@ -26,7 +26,28 @@ describe('rune effect models v2', () => {
     const applied = applyRuneEffectModels(input);
 
     expect(applied.slice(0, reviewedNames.length).every((rune) => rune.effectModelVersion === 2)).toBe(true);
-    expect(applied.at(-1)).toEqual(input.at(-1));
+    expect(applied.at(-1)).toEqual({
+      ...input.at(-1),
+      effectModelVersion: 2,
+      conditionalEffects: [],
+    });
+  });
+
+  it('routes an unmapped source condition through a conservative manual DPS fallback', () => {
+    const [fallback] = applyRuneEffectModels([{
+      name: '원문 fallback 검증',
+      stats: { '가동률': 1 },
+      cleaned_text: ['공격 시 10초 동안 적에게 주는 피해가 21% 증가한다.'],
+    }]);
+
+    expect(fallback.effectModelVersion).toBe(2);
+    expect(fallback.conditionalEffects).toHaveLength(1);
+    expect(fallback.conditionalEffects[0]).toMatchObject({
+      defaultUptime: 0,
+      forceDefaultUptime: true,
+      modelStatus: 'source-derived-manual',
+      includedInDps: true,
+    });
   });
 
   it('keeps permanent victory stats and marks non-event-modeled effects as excluded', () => {
