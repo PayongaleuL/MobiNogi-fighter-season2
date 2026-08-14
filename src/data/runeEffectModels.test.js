@@ -10,7 +10,7 @@ describe('rune effect models v2', () => {
       '거두는 손길', '맹세+', '복수+', '부서진 왕관',
       '별바라기', '황동 날개', '잠들지 않는 불', '번개 숨결', '돌 심장', '용암 비늘', '얼음 발톱',
       '악몽', '[신화] 유폐된 어둠', '[신화] 무형',
-      '고결함', '해방', '위대함', '침묵', '초월'
+      '고결함', '해방', '위대함', '침묵', '영원한 밤', '빛바랜 별', '초월'
     ];
     expect(Object.keys(runeEffectModels)).toEqual(reviewedNames);
 
@@ -150,6 +150,26 @@ describe('rune effect models v2', () => {
     expect(liberation.conditionalEffects[1]).toMatchObject({ directDamage: 13004, cooldownSeconds: 1, triggerScope: 'nightBlessingHit' });
     expect(greatness.conditionalEffects[1]).toMatchObject({ directDamage: 10048, cooldownSeconds: 1, triggerScope: 'nightBlessingHit' });
     expect(silence.conditionalEffects[0]).toMatchObject({ directDamage: 229941, damageScalesWithUptime: true, defaultUptime: 0 });
+  });
+
+  it('preserves all permanent DPS stats for Eternal Night and Faded Star', () => {
+    const [eternalNight, fadedStar] = applyRuneEffectModels([
+      { name: '영원한 밤', stats: { '공격력%': 0.07 } },
+      { name: '빛바랜 별', stats: { '주는피해%': 0.31 } },
+    ]);
+
+    expect(eternalNight.stats).toMatchObject({
+      '공격력%': 0.07,
+      '강타피해%': 0.07,
+      '연타피해%': 0.07,
+      '치명타확률%': 0.07,
+      '추가타확률%': 0.07,
+    });
+    expect(eternalNight.conditionalEffects[0]).toMatchObject({
+      modelStatus: 'mechanics-only',
+      includedInDps: false,
+    });
+    expect(fadedStar.stats).toMatchObject({ '주는피해%': 0.31, '무방비피해%': 0.31 });
   });
 
   it('models Transcendence extra-hit and critical-hit threshold effects from the real cycle event rates', () => {
