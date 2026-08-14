@@ -8,6 +8,7 @@ import { useDpsResult } from '../adapters/useDpsResult';
 import { Sun, Moon } from 'lucide-react';
 import runesData from '../data/runes.json';
 import { parseRuneMarkdown } from '../utils/runeMdParser';
+import { applyRuneEffectModels } from '../data/runeEffectModels';
 import mdText from '../../results/260814_룬설명목록.md?raw';
 
 import { createLatestReferencePresets } from '../data/latestReferencePresets';
@@ -25,6 +26,18 @@ const createDefaultSeals = () => ({
   gloves: { type: 'none', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 40 },
   shoes: { type: 'none', blueStat1Type: 'str', blueStat1Value: 27, blueStat2Type: 'wil', blueStat2Value: 27, redMoonStatValue: 40 }
 });
+
+export const mergeMasterRunes = (parsedRunes = [], curatedRunes = runesData) => {
+  const getCore = (name) => name ? name.replace(/\+/g, '').replace(/\s+/g, '').trim() : '';
+  return parsedRunes.map((parsedRune) => {
+    const curatedRune = curatedRunes.find((candidate) => getCore(candidate.name) === getCore(parsedRune.name)) || {};
+    // 최신 원문은 이름·문구의 권위 기준이고, runes.json은 사용자가 검수한
+    // 계산 수치·조건부 효과의 권위 기준이다. OCR 파서 수치가 수동 보정을 덮어쓰면
+    // 승전 10%가 3%로 축소되는 식의 오류가 발생하므로, 누락 키에만 파서 값을 쓴다.
+    const mergedStats = { ...(parsedRune.stats || {}), ...(curatedRune.stats || {}) };
+    return { ...curatedRune, ...parsedRune, stats: mergedStats };
+  });
+};
 
 const createDefaultGimmicks = () => ({
   boss: DEFAULT_TARGET_ID,
@@ -85,27 +98,12 @@ export default function Calculator() {
     try {
       const parsed = parseRuneMarkdown(mdText);
       if (parsed && parsed.length > 40) {
-        const getCore = (name) => name ? name.replace(/\+/g, '').replace(/\s+/g, '').trim() : '';
-        return parsed.map(p => {
-          const original = runesData.find(o => getCore(o.name) === getCore(p.name)) || {};
-          const mergedStats = { ...(original.stats || {}) };
-          const parserFallbackStatKeys = new Set(['공격력%', '공격력', '방어력', '모든스킬강화', '임의스킬강화', '가동률']);
-          Object.entries(p.stats || {}).forEach(([key, value]) => {
-            if (!parserFallbackStatKeys.has(key) || value !== 0 || mergedStats[key] === undefined) {
-              mergedStats[key] = value;
-            }
-          });
-          return {
-            ...original,
-            ...p,
-            stats: mergedStats
-          };
-        });
+        return applyRuneEffectModels(mergeMasterRunes(parsed));
       }
     } catch (e) {
       console.error("Master markdown parsing failed, falling back to runes.json:", e);
     }
-    return runesData;
+    return applyRuneEffectModels(runesData);
   });
 
 

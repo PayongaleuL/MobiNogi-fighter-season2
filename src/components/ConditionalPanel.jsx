@@ -1,5 +1,6 @@
 import React from 'react';
-import { Info, Sliders } from 'lucide-react';
+import { CircleAlert, Info, Sliders } from 'lucide-react';
+import { applyRuneEffectModels } from '../data/runeEffectModels';
 
 const CONDITIONAL_RUNES = [
   { name: '무너진 경계', desc: '침식 부여 시 추가타 확률 16.5% 증가 (100% 이상 시 2배인 33% 적용, 오염 시 소실)', defaultUptime: 70 },
@@ -16,7 +17,8 @@ const CONDITIONAL_RUNES = [
   { name: '거대한 분노', desc: '강타 적중 시 스킬피해 3% 증가(최대 4회 중첩). 가동률에 비례하여 최대 12.0%의 스킬피증이 기댓값에 반영됩니다.', defaultUptime: 100 }
 ];
 
-function UptimeCard({ name, description, value, onChange, step = 5 }) {
+function UptimeCard({ name, description, value, onChange, step = 5, modelStatus = 'modeled', unresolvedReason }) {
+  const isUnresolved = modelStatus === 'unresolved';
   return (
     <div className="rounded-xl border border-theme bg-theme-subcard p-3 theme-transition">
       <div className="flex items-start justify-between gap-2">
@@ -24,33 +26,46 @@ function UptimeCard({ name, description, value, onChange, step = 5 }) {
           <p className="text-xs font-black text-theme-main">{name}</p>
           <p className="mt-0.5 text-[10px] font-semibold leading-relaxed text-theme-sub">{description}</p>
         </div>
-        <span className="shrink-0 rounded border border-theme bg-theme-card px-2 py-0.5 text-xs font-black text-emerald-600 dark:text-emerald-400 theme-transition">
-          {value}%
-        </span>
+        {isUnresolved ? (
+          <span className="shrink-0 rounded border border-amber-300 bg-amber-500/10 px-2 py-0.5 text-[10px] font-black text-amber-700 dark:border-amber-800/60 dark:text-amber-300">
+            계산 미반영
+          </span>
+        ) : (
+          <span className="shrink-0 rounded border border-theme bg-theme-card px-2 py-0.5 text-xs font-black text-emerald-600 dark:text-emerald-400 theme-transition">
+            {value}%
+          </span>
+        )}
       </div>
-      <div className="mt-3 flex items-center gap-2.5">
-        <Sliders className="h-4 w-4 shrink-0 text-theme-muted" />
-        <input
-          type="range"
-          min="0"
-          max="100"
-          step={step}
-          value={value}
-          onChange={(event) => onChange(parseInt(event.target.value, 10))}
-          className="h-1.5 flex-1 cursor-pointer appearance-none rounded-lg bg-slate-200 accent-orange-500 theme-transition dark:bg-slate-800"
-        />
-        <button
-          type="button"
-          onClick={() => onChange(value === 100 ? 0 : 100)}
-          className={`rounded border px-2 py-1 text-[10px] font-bold transition-all focus:outline-none ${
-            value === 100
-              ? 'border-emerald-300 bg-emerald-500/10 text-emerald-700 dark:border-emerald-800/40 dark:text-emerald-400'
-              : 'border-theme bg-theme-card text-theme-sub hover:text-theme-main'
-          }`}
-        >
-          {value === 100 ? '항시' : '100%'}
-        </button>
-      </div>
+      {isUnresolved ? (
+        <div className="mt-3 flex items-start gap-2 rounded-lg border border-amber-300/70 bg-amber-500/5 px-2.5 py-2 text-[10px] font-semibold leading-relaxed text-amber-800 dark:border-amber-800/50 dark:text-amber-200">
+          <CircleAlert className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+          <span>{unresolvedReason || '평타·적중 이벤트 또는 직접 피해의 계산 모델이 확정되기 전까지 DPS에 포함하지 않습니다.'}</span>
+        </div>
+      ) : (
+        <div className="mt-3 flex items-center gap-2.5">
+          <Sliders className="h-4 w-4 shrink-0 text-theme-muted" />
+          <input
+            type="range"
+            min="0"
+            max="100"
+            step={step}
+            value={value}
+            onChange={(event) => onChange(parseInt(event.target.value, 10))}
+            className="h-1.5 flex-1 cursor-pointer appearance-none rounded-lg bg-slate-200 accent-orange-500 theme-transition dark:bg-slate-800"
+          />
+          <button
+            type="button"
+            onClick={() => onChange(value === 100 ? 0 : 100)}
+            className={`rounded border px-2 py-1 text-[10px] font-bold transition-all focus:outline-none ${
+              value === 100
+                ? 'border-emerald-300 bg-emerald-500/10 text-emerald-700 dark:border-emerald-800/40 dark:text-emerald-400'
+                : 'border-theme bg-theme-card text-theme-sub hover:text-theme-main'
+            }`}
+          >
+            {value === 100 ? '항시' : '100%'}
+          </button>
+        </div>
+      )}
     </div>
   );
 }
@@ -62,34 +77,44 @@ export default function ConditionalPanel({ selectedRunes, conditionalUptimes, on
     if (!slotList) return;
     slotList.forEach((rune) => {
       if (!rune) return;
-      const conditionalEffects = Array.isArray(rune.conditionalEffects)
-        ? rune.conditionalEffects.filter((effect) => effect?.id && effect?.label)
+      // selectedRunes에는 이전 프리셋의 원본 룬 객체가 들어올 수 있다.
+      // 계산 코어와 같은 v2 모델을 먼저 적용해 전투 설정도 동일한 조건부 효과를 보여 준다.
+      const effectiveRune = applyRuneEffectModels([rune])[0];
+      const conditionalEffects = Array.isArray(effectiveRune.conditionalEffects)
+        ? effectiveRune.conditionalEffects.filter((effect) => effect?.id && effect?.label && (
+          effect.defaultUptime !== 1 || effect.forceUptimeControl || effect.modelStatus === 'unresolved'
+        ))
         : [];
 
       if (conditionalEffects.length > 0) {
         conditionalEffects.forEach((effect) => {
           activeConditionalRunes.push({
-            name: `${rune.name} · ${effect.label}`,
-            uptimeKey: `${rune.name}:${effect.id}`,
-            legacyUptimeKey: rune.name,
+            name: `${effectiveRune.name} · ${effect.label}`,
+            uptimeKey: `${effectiveRune.id ?? effectiveRune.name}:${effect.id}`,
+            legacyUptimeKey: `${effectiveRune.name}:${effect.id}`,
+            legacyRuneUptimeKey: effectiveRune.name,
             desc: effect.source || `${effect.label} 조건부 효과`,
-            defaultUptime: Math.round((effect.defaultUptime ?? rune.stats?.가동률 ?? 1) * 100),
-            step: effect.uptimeStep ?? 5
+            defaultUptime: Math.round((effect.defaultUptime ?? effectiveRune.stats?.가동률 ?? 1) * 100),
+            step: effect.uptimeStep ?? 5,
+            modelStatus: effect.modelStatus ?? 'modeled',
+            unresolvedReason: effect.modelStatus === 'unresolved'
+              ? '평타·적중 이벤트, 스택 유지 또는 직접 피해 시점이 딜사이클 엔진에 확정되지 않아 DPS에 반영하지 않습니다.'
+              : undefined
           });
         });
         return;
       }
 
-      const config = CONDITIONAL_RUNES.find((candidate) => candidate.name === rune.name);
+      const config = CONDITIONAL_RUNES.find((candidate) => candidate.name === effectiveRune.name);
       if (config) {
-        activeConditionalRunes.push({ ...rune, ...config, uptimeKey: rune.name });
-      } else if (rune.stats && rune.stats.가동률 !== undefined && rune.stats.가동률 < 1.0) {
+        activeConditionalRunes.push({ ...effectiveRune, ...config, uptimeKey: effectiveRune.name });
+      } else if (effectiveRune.stats && effectiveRune.stats.가동률 !== undefined && effectiveRune.stats.가동률 < 1.0) {
         activeConditionalRunes.push({
-          ...rune,
-          name: rune.name,
-          uptimeKey: rune.name,
-          desc: `실전 가동률 기댓값 반영 대상 룬 (기본 가동률: ${Math.round(rune.stats.가동률 * 100)}%)`,
-          defaultUptime: Math.round(rune.stats.가동률 * 100)
+          ...effectiveRune,
+          name: effectiveRune.name,
+          uptimeKey: effectiveRune.name,
+          desc: `실전 가동률 기댓값 반영 대상 룬 (기본 가동률: ${Math.round(effectiveRune.stats.가동률 * 100)}%)`,
+          defaultUptime: Math.round(effectiveRune.stats.가동률 * 100)
         });
       }
     });
@@ -109,7 +134,9 @@ export default function ConditionalPanel({ selectedRunes, conditionalUptimes, on
               ? conditionalUptimes[rune.uptimeKey]
               : (rune.legacyUptimeKey && conditionalUptimes[rune.legacyUptimeKey] !== undefined
                 ? conditionalUptimes[rune.legacyUptimeKey]
-                : rune.defaultUptime);
+                : (rune.legacyRuneUptimeKey && conditionalUptimes[rune.legacyRuneUptimeKey] !== undefined
+                  ? conditionalUptimes[rune.legacyRuneUptimeKey]
+                  : rune.defaultUptime));
             return (
               <UptimeCard
                 key={rune.uptimeKey}
@@ -118,6 +145,8 @@ export default function ConditionalPanel({ selectedRunes, conditionalUptimes, on
                 value={currentValue}
                 onChange={(value) => onUptimeChange(rune.uptimeKey, value)}
                 step={rune.step}
+                modelStatus={rune.modelStatus}
+                unresolvedReason={rune.unresolvedReason}
               />
             );
           })}

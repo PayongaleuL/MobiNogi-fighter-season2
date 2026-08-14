@@ -3,7 +3,8 @@ import '@testing-library/jest-dom/vitest';
 import { cleanup, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import Calculator from './Calculator';
+import Calculator, { mergeMasterRunes } from './Calculator';
+import runesData from '../data/runes.json';
 
 describe('Calculator preset state integrity', () => {
   beforeEach(() => {
@@ -28,6 +29,18 @@ describe('Calculator preset state integrity', () => {
 
     await waitFor(() => expect(screen.getAllByDisplayValue('60607')).toHaveLength(2));
     expect(JSON.parse(localStorage.getItem('mabi_calculator_seals')).weapon).toMatchObject({ type: 'red_moon', baseAtkOverride: 800 });
+  });
+
+  it('keeps user-curated permanent rune stats over OCR parser candidates', () => {
+    const victory = runesData.find((rune) => rune.name === '승전');
+    const parserCandidate = {
+      name: '승전',
+      stats: { ...victory.stats, '치명타피해%': 0.03 }
+    };
+
+    const [merged] = mergeMasterRunes([parserCandidate], [victory]);
+    expect(merged.stats['주는피해%']).toBe(0.05);
+    expect(merged.stats['치명타피해%']).toBe(0.1);
   });
 
   it('shows dungeon-first combat target labels while preserving stable internal target ids', async () => {

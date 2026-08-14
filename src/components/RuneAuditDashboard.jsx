@@ -125,7 +125,9 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate, selectedRunes
         status,
         isCustomized,
         mismatches,
-        isEquipped
+        isEquipped,
+        effectModelVersion: existing?.effectModelVersion ?? 1,
+        conditionalEffects: existing?.conditionalEffects ?? []
       };
     });
   }, [parsedRunes, runes, equippedRuneNames]);
@@ -454,6 +456,11 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate, selectedRunes
                         <span className={`px-1.5 py-0.5 rounded text-[9px] font-black border whitespace-nowrap ${rowVisual.badgeClass}`}>
                           {rowVisual.label}
                         </span>
+                        {item.effectModelVersion >= 2 && (
+                          <span className="rounded border border-indigo-300 bg-indigo-500/10 px-1.5 py-0.5 text-[9px] font-black text-indigo-700 dark:border-indigo-800/60 dark:text-indigo-300">
+                            효과 분리 v2
+                          </span>
+                        )}
                       </div>
                       {/* 줄 2: 부위 및 속성 뱃지 */}
                       <div className="flex flex-row items-center gap-1">
@@ -499,19 +506,21 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate, selectedRunes
                           <input
                             type="number"
                             step={col.isPercent ? "0.1" : "1"}
-                            disabled={item.status === 'MISSING'} // 누락된 룬은 먼저 싱크를 맞춰서 추가해야 수정 가능
+                            disabled={item.status === 'MISSING' || (item.effectModelVersion >= 2 && col.key === '가동률')}
                             value={item.status === 'MISSING' ? (col.isPercent ? (masterVal * 100).toFixed(1) : masterVal) : displayVal}
                             onChange={(e) => handleStatChange(item.name, col.key, e.target.value, col.isPercent)}
                             className={`w-24 text-center py-1 bg-transparent text-sm font-mono font-black rounded focus:outline-none transition-all ${
-                              item.status === 'MISSING' ? 'text-theme-muted/50 cursor-not-allowed' :
-                              isCustomCell 
+                              item.status === 'MISSING' || (item.effectModelVersion >= 2 && col.key === '가동률') ? 'text-theme-muted/50 cursor-not-allowed' :
+                              isCustomCell
                                 ? 'text-amber-700 dark:text-amber-400 bg-amber-500/10 border border-amber-300 dark:border-amber-800/40 shadow-inner' 
                                 : isActive 
                                   ? 'text-emerald-700 dark:text-emerald-400 focus:bg-theme-card focus:border focus:border-emerald-500/60' 
                                   : 'text-theme-sub dark:text-theme-main focus:bg-theme-card focus:text-theme-main focus:border focus:border-theme'
                             }`}
                             placeholder="0"
-                            title={isCustomCell ? `마스터 기본값: ${col.isPercent ? (masterVal * 100).toFixed(1) + '%' : masterVal}` : `기본값`}
+                            title={item.effectModelVersion >= 2 && col.key === '가동률'
+                              ? '효과 모델 v2 룬은 룬 단위 가동률을 사용하지 않습니다. 조건부 효과는 전투 설정에서 개별 조정합니다.'
+                              : (isCustomCell ? `마스터 기본값: ${col.isPercent ? (masterVal * 100).toFixed(1) + '%' : masterVal}` : '기본값')}
                           />
                           
                           {/* 스탯 변경 시 마스터 값과 미세하게 다른 경우 뱃지 제공 */}
@@ -605,6 +614,33 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate, selectedRunes
                       );
                     })}
                   </dl>
+                  {selectedDictionaryRune.effectModelVersion >= 2 && (
+                    <div className="mt-3 rounded-lg border border-indigo-300 bg-indigo-500/5 p-2.5 text-[10px] leading-relaxed text-indigo-800 dark:border-indigo-800/60 dark:text-indigo-200">
+                      <p className="font-black">효과 모델 v2</p>
+                      <p className="mt-0.5">위 표는 상시 스탯입니다. 룬 단위 가동률은 사용하지 않으며, 아래 조건부 효과만 전투 설정에서 개별 가동률을 조정합니다.</p>
+                    </div>
+                  )}
+                  {selectedDictionaryRune.conditionalEffects.length > 0 && (
+                    <section className="mt-3 rounded-xl border border-theme bg-theme-card p-3 theme-transition" aria-labelledby="rune-dictionary-effects-title">
+                      <h5 id="rune-dictionary-effects-title" className="text-xs font-black text-theme-main">조건부 효과·가동률 정책</h5>
+                      <div className="mt-2 space-y-2">
+                        {selectedDictionaryRune.conditionalEffects.map((effect) => {
+                          const unresolved = effect.modelStatus === 'unresolved' || effect.includedInDps === false;
+                          return (
+                            <div key={effect.id} className={`rounded-lg border px-2.5 py-2 ${unresolved ? 'border-amber-300 bg-amber-500/5 dark:border-amber-800/60' : 'border-emerald-300 bg-emerald-500/5 dark:border-emerald-800/60'}`}>
+                              <div className="flex flex-wrap items-center justify-between gap-1.5">
+                                <p className="font-black text-theme-main">{effect.label}</p>
+                                <span className={unresolved ? 'rounded border border-amber-300 px-1.5 py-0.5 font-black text-amber-700 dark:border-amber-800/60 dark:text-amber-300' : 'rounded border border-emerald-300 px-1.5 py-0.5 font-black text-emerald-700 dark:border-emerald-800/60 dark:text-emerald-300'}>
+                                  {unresolved ? '계산 미반영' : `기본 가동률 ${Math.round((effect.defaultUptime ?? 0) * 100)}%`}
+                                </span>
+                              </div>
+                              <p className="mt-1 text-theme-sub">{effect.source || '원문 근거가 등록되지 않았습니다.'}</p>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </section>
+                  )}
                 </section>
               </div>
             </div>

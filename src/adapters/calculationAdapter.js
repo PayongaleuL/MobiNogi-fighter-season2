@@ -6,10 +6,14 @@ import parseSkillMarkdown from '../utils/skillMdParser.js';
 
 const parsedSkills = parseSkillMarkdown(skillMdText);
 
-const normalizeRuneName = (name) => String(name ?? '')
-  .replace(/\+/g, '')
-  .replace(/\s+/g, '')
-  .trim();
+const normalizeRuneName = (name) => {
+  const normalized = String(name ?? '')
+    .replace(/\+/g, '')
+    .replace(/\s+/g, '')
+    .trim();
+  // 최신 260814 마스터 원문의 정식 표기를 우선하며, 이전 저장 프리셋의 OCR 오타만 읽기 호환한다.
+  return normalized === '그음달' ? '그믐달' : normalized;
+};
 
 export function flattenSelectedRunes({ selectedRunes = {}, customRunes = [], transcendLevels = {} }) {
   const flattened = [];
