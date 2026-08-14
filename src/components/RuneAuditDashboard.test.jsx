@@ -32,7 +32,7 @@ const renderDashboard = (dashboardRunes = baseDashboardRunes) => {
 };
 
 describe('RuneAuditDashboard light-mode equipped rune and dictionary', () => {
-  it('uses a white surface for non-equipped rows and an emerald surface only for equipped rows', () => {
+  it('uses distinct light and dark surfaces for equipped and non-equipped rows', () => {
     renderDashboard();
 
     const equippedRow = screen.getByRole('button', { name: '타오르는 영광 사전 데이터 보기' }).closest('tr');
@@ -41,6 +41,11 @@ describe('RuneAuditDashboard light-mode equipped rune and dictionary', () => {
     expect(equippedRow).toHaveClass('bg-emerald-50');
     expect(inactiveRow).toHaveClass('bg-white');
     expect(inactiveRow).not.toHaveClass('bg-emerald-50');
+
+    expect(equippedRow).toHaveClass('dark:bg-emerald-950/80');
+    expect(equippedRow).toHaveClass('dark:border-emerald-300');
+    expect(inactiveRow).toHaveClass('dark:bg-slate-900/70');
+    expect(inactiveRow).not.toHaveClass('dark:bg-emerald-950/80');
   });
 
   it('marks effect-model v2 runes and describes their individual conditional effects', () => {

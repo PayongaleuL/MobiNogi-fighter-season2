@@ -180,10 +180,10 @@ export default function RuneAuditDashboard({ runes, selectedRunes, canonicalRune
     if (item.isEquipped) {
       return {
         label: '장착 중',
-        rowClass: 'bg-emerald-50 border-l-4 border-emerald-500 dark:bg-emerald-500/8',
-        stickyClass: 'bg-emerald-100 dark:bg-emerald-500/15',
-        cellClass: 'bg-emerald-50 dark:bg-emerald-500/8',
-        badgeClass: 'bg-emerald-100 border-emerald-400 dark:bg-emerald-500/10 dark:border-emerald-800 text-emerald-800 dark:text-emerald-400'
+        rowClass: 'bg-emerald-50 border-l-4 border-emerald-500 dark:bg-emerald-950/80 dark:border-emerald-300 dark:shadow-[inset_0_0_0_1px_rgba(52,211,153,0.18)]',
+        stickyClass: 'bg-emerald-100 dark:bg-emerald-950 dark:border-emerald-400/60',
+        cellClass: 'bg-emerald-50 dark:bg-emerald-950/80',
+        badgeClass: 'bg-emerald-100 border-emerald-400 dark:bg-emerald-400/15 dark:border-emerald-300/80 text-emerald-800 dark:text-emerald-200'
       };
     }
     if (item.status === 'MISSING') {
@@ -206,9 +206,9 @@ export default function RuneAuditDashboard({ runes, selectedRunes, canonicalRune
     }
     return {
       label: '기준 일치',
-      rowClass: 'bg-white border-l-4 border-slate-200 dark:bg-slate-500/5 dark:border-slate-700',
-      stickyClass: 'bg-white dark:bg-slate-500/10',
-      cellClass: 'bg-white dark:bg-slate-500/5',
+      rowClass: 'bg-white border-l-4 border-slate-200 dark:bg-slate-900/70 dark:border-slate-700',
+      stickyClass: 'bg-white dark:bg-slate-900',
+      cellClass: 'bg-white dark:bg-slate-900/70',
       badgeClass: 'bg-slate-500/10 border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-300'
     };
   };
