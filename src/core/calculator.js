@@ -688,6 +688,7 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
       requiredMagicResistance: targetDefinition?.requiredMagicResistance ?? 0,
       magicPressure: targetDefinition?.magicPressure ?? 0,
       defenseStatus: targetDefinition?.defenseStatus ?? '미확정',
+      calibration: targetDefinition?.calibration ?? null,
       armorApplied: armorVal,
       critResistanceApplied: targetDefinition?.critResistance ?? null,
     },

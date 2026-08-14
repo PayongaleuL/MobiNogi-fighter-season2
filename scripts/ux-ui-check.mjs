@@ -55,7 +55,13 @@ try {
     const dpsWithExcess = await dpsSection.innerText();
     const magicResistanceUpdatesDps = dpsAtPressure !== dpsWithExcess && dpsWithExcess.includes('+14.6%');
     const targetDataDisclosureVisible = await combatSection.getByLabel('선택 대상 데이터 상태').innerText()
-      .then((text) => text.includes('방어도·치명타저항: P2-B 로그만으로 미확정'));
+      .then((text) => text.includes('방어도 7,203 · 치명타저항 0.0% · P2-B 로그 기반 근사치 · 낮은 신뢰도')
+        && text.includes('로그 3건, 방어도 범위 7,039–9,542'));
+    const abyssTargetsRemainSeparate = [
+      '칼드레드 · 허상의 정박지 매우 어려움',
+      '데스펠 · 광기의 동굴 매우 어려움',
+      '테로사 · 흩어진 물길 매우 어려움',
+    ].every((boss) => bossOptionValues.includes(boss));
 
     let conditionalSettingsBehavior = false;
     let stanceSettingsBehavior = false;
@@ -161,6 +167,7 @@ try {
       dpsHasStickyAncestor,
             legacyBossOptionsHidden,
       currentSeasonTargetsVisible,
+      abyssTargetsRemainSeparate,
       magicResistanceUpdatesDps,
       targetDataDisclosureVisible,
       gemstoneTabVisible,
@@ -182,6 +189,7 @@ try {
     result.dpsHasStickyAncestor ||
         !result.legacyBossOptionsHidden ||
     !result.currentSeasonTargetsVisible ||
+    !result.abyssTargetsRemainSeparate ||
     !result.magicResistanceUpdatesDps ||
     !result.targetDataDisclosureVisible ||
     !result.dpsUpdatesWhenStatChanges ||

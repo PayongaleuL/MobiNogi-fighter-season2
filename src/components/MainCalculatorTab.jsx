@@ -73,10 +73,14 @@ function SectionIntro({ step, title, description, icon: Icon, badge }) {
 export function DpsOverview({ dpsResult, equippedRuneCount }) {
   const magicEffect = dpsResult?.magicResistanceEffect;
   const targetPressure = dpsResult?.target?.magicPressure ?? 0;
+  const targetArmor = dpsResult?.target?.armorApplied;
+  const targetCritResistance = dpsResult?.target?.critResistanceApplied;
   const metrics = [
     { label: '적용 공격력', value: dpsResult ? dpsResult.totalAtk.toLocaleString() : '0', accent: 'text-theme-main' },
     { label: '마도저항 / 압력', value: `${(dpsResult?.totalMagicResistance ?? 0).toLocaleString()} / ${targetPressure.toLocaleString()}`, accent: 'text-sky-600 dark:text-sky-300' },
     { label: '마도저항 최종피해', value: `+${magicEffect ? magicEffect.excessFinalDamagePct.toFixed(1) : '0.0'}%`, accent: 'text-cyan-600 dark:text-cyan-300' },
+    { label: '적용 방어도', value: targetArmor === null || targetArmor === undefined ? '미적용' : targetArmor.toLocaleString(), accent: 'text-amber-600 dark:text-amber-300' },
+    { label: '적용 치명저항', value: targetCritResistance === null || targetCritResistance === undefined ? '미적용' : `${(targetCritResistance * 100).toFixed(1)}%`, accent: 'text-amber-600 dark:text-amber-300' },
     { label: '룬 공격력 가산', value: `+${dpsResult ? dpsResult.runeAtkAdd.toLocaleString() : '0'}`, accent: 'text-orange-600 dark:text-orange-300' },
     { label: '치명타 확률', value: `${dpsResult ? dpsResult.critProb : '0.0'}%`, accent: 'text-violet-600 dark:text-violet-300' },
     { label: '추가타 확률', value: `${dpsResult ? dpsResult.extraProb : '0.0'}%`, accent: 'text-emerald-600 dark:text-emerald-300' }
@@ -176,6 +180,7 @@ export function StancePanel({ skillStances, onStanceChange }) {
 function CombatScenarioPanel({ gimmicks, onGimmickChange, cycles, onCycleChange }) {
   const target = getTargetDefinition(gimmicks.boss);
   const hasMagicPressure = (target?.magicPressure ?? 0) > 0;
+  const calibration = target?.calibration;
 
   return (
 
@@ -201,8 +206,9 @@ function CombatScenarioPanel({ gimmicks, onGimmickChange, cycles, onCycleChange 
               ) : (
                 <p className="mt-0.5">훈련 대상은 마도압력 0으로 계산합니다. 마도저항 입력 시에도 공식 초과 보정 규칙은 적용됩니다.</p>
               )}
-              <p className="mt-0.5 text-amber-700 dark:text-amber-300">방어도·치명타저항: {target?.defenseStatus}. 미확정 대상에는 임의 보정을 적용하지 않습니다.</p>
-              {target?.source && <a className="mt-1 inline-flex font-black text-sky-700 underline underline-offset-2 dark:text-sky-300" href={target.source} target="_blank" rel="noreferrer">공식 수치 근거 확인</a>}
+              <p className="mt-0.5 text-amber-700 dark:text-amber-300">방어도 {target?.armor === null || target?.armor === undefined ? '미적용' : target.armor.toLocaleString()} · 치명타저항 {target?.critResistance === null || target?.critResistance === undefined ? '미적용' : `${(target.critResistance * 100).toFixed(1)}%`} · {target?.defenseStatus}</p>
+              {calibration && <p className="mt-0.5 text-amber-700 dark:text-amber-300">{calibration.source}: 로그 {calibration.sampleCount}건, 방어도 범위 {calibration.armorRange[0].toLocaleString()}–{calibration.armorRange[1].toLocaleString()}, 치명타저항 범위 {(calibration.critResistanceRange[0] * 100).toFixed(1)}–{(calibration.critResistanceRange[1] * 100).toFixed(1)}%. 공식 수치가 아닌 낮은 신뢰도의 근사 보정입니다.</p>}
+              {target?.source && <a className="mt-1 inline-flex font-black text-sky-700 underline underline-offset-2 dark:text-sky-300" href={target.source} target="_blank" rel="noreferrer">공식 마도저항 수치 근거 확인</a>}
             </div>
           </div>
         </div>
