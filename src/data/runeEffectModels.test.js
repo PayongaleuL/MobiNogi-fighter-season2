@@ -13,6 +13,7 @@ describe('rune effect models v2', () => {
       '고결함', '해방', '위대함', '침묵',
       '[신화] 용 사냥꾼', '[신화] 여신', '[신화] 사슬로 묶은 법전', '[신화] 가라앉은 왕국',
       '수호자', '서광', '끓는 피', '숲 길잡이',
+      '바다뱀+', '계승자', '잠든 땅', '비늘 덮인 현자',
       '영원한 밤', '빛바랜 별', '초월'
     ];
     expect(Object.keys(runeEffectModels)).toEqual(reviewedNames);
@@ -168,6 +169,23 @@ describe('rune effect models v2', () => {
     expect(dawn.conditionalEffects[0]).toMatchObject({ stats: { '주는피해%': 0.20 }, defaultUptime: 0.70 });
     expect(boilingBlood.conditionalEffects[0]).toMatchObject({ stats: { '스킬피해%': 0.24 }, defaultUptime: 0 });
     expect(forestGuide.conditionalEffects[0]).toMatchObject({ triggerScope: 'tenHits', hitsPerTrigger: 10, stats: { '주는피해%': 0.21 } });
+  });
+
+  it('maps channeling, reset-stack, recovery reduction, and healing triggers to explicit DPS or mechanics paths', () => {
+    const [seaSerpent, successor, sleepingLand, scaledSage] = applyRuneEffectModels([
+      { name: '바다뱀+', stats: {} },
+      { name: '계승자', stats: {} },
+      { name: '잠든 땅', stats: {} },
+      { name: '비늘 덮인 현자', stats: {} },
+    ]);
+
+    expect(seaSerpent).toMatchObject({ stats: { '공격력%': 0.05, '스킬속도%': 0.05, '주는피해%': 0 } });
+    expect(seaSerpent.conditionalEffects[0].stats).toEqual({ '주는피해%': 0.31 });
+    expect(successor).toMatchObject({ stats: { '주는피해%': 0.13, '스킬피해%': 0 } });
+    expect(successor.conditionalEffects[0]).toMatchObject({ maxStacks: 5, perStack: true, stats: { '스킬피해%': 0.065 } });
+    expect(sleepingLand).toMatchObject({ stats: { '강타피해%': 0.13, '연타피해%': 0.13 } });
+    expect(sleepingLand.conditionalEffects[0]).toMatchObject({ modelStatus: 'mechanics-only', includedInDps: false });
+    expect(scaledSage.conditionalEffects).toHaveLength(2);
   });
 
   it('separates mythic rune permanent DPS stats from manual and mechanics-only conditions', () => {
