@@ -3,6 +3,10 @@ import { calculateSealStats } from './sealCalculator.js';
 import { calculateMagicResistanceEffect } from './magicResistance.js';
 import { getTargetDefinition } from '../data/targets.js';
 import { applyRuneEffectModels } from '../data/runeEffectModels.js';
+import {
+  calculateEffectDpsMultiplier,
+  calculateEffectStats,
+} from './runeEffectTimeline.js';
 
 /**
  * 스킬 개조 레벨에 따른 스킬 계수 보정치 계산 (엑셀 R003 수식 참고)
@@ -131,11 +135,15 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
   // 1. 적용된 룬의 스탯 합산
   // 수동 효과 모델은 UI·참조 스크립트·단위 테스트의 선택 경로와 무관하게 동일하게 적용한다.
   const normalizedSelectedRunes = applyRuneEffectModels(selectedRunes || []);
+    const appliedRuneEffects = [];
+  const dynamicRuneEffects = [];
   const runeStats = {
+
     "공격력%": 0.0,
     "조건부공증%": 0.0,
     "주는피해%": 0.0,
     "받는피해%": 0.0,
+    "대상받는피해%": 0.0,
     "강타피해%": 0.0,
     "연타피해%": 0.0,
     "추가타피해%": 0.0,
@@ -201,7 +209,7 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
       }
     });
 
-    // 룬 단위 스탯과 분리된 조건부 효과는 효과별 기본 가동률을 사용한다.
+    // 룬 단위 스탯과 분리된 조건부 효과는 공통 시간축 엔진으로 평균 가동률·스택을 계산한다.
     // 수동 입력은 `룬명:효과ID`를 우선하고 기존 룬명 가동률 입력도 그대로 지원한다.
     (rune.conditionalEffects || []).forEach((effect) => {
       const runeId = rune.id ?? name;
@@ -210,23 +218,61 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
       const configuredUptime = conditionalUptimes[effectKey]
         ?? conditionalUptimes[legacyEffectKey]
         ?? conditionalUptimes[name];
-      const effectUptime = configuredUptime !== undefined
-        ? configuredUptime / 100.0
-        : (effect.defaultUptime ?? (hasEffectModel ? 1.0 : (rune.stats.가동률 ?? 1.0)));
+      if (effect.dynamicByCycle) {
+        dynamicRuneEffects.push({
+          runeName: name,
+          runeId,
+          effectId: effect.id,
+          effectKey,
+          label: effect.label ?? effect.id,
+          effect,
+          configuredUptime,
+          scale,
+        });
+        return;
+      }
 
-      Object.entries(effect.stats || {}).forEach(([key, val]) => {
-        if (val === undefined || val === 0 || key === "가동률") return;
+      const effectResult = calculateEffectStats(
+        effect,
+        configuredUptime !== undefined ? { uptimePercent: configuredUptime } : {},
+      );
+
+      // 기존 수동 검수 스탯이 특정 조건부 효과의 100% 기준값으로 저장된 경우,
+      // 기본 스탯을 먼저 제거한 뒤 시간축 평균값만 다시 더한다. 이 경로로 슬라이더가
+      // 실제 DPS를 바꾸면서도 초기 canonical 기준값은 보존된다.
+      if (effectResult.uptime > 0) {
+        Object.entries(effect.replacesBaseStats ?? {}).forEach(([key, value]) => {
+          if (runeStats[key] !== undefined) runeStats[key] -= Number(value) || 0;
+        });
+      }
+
+      const appliedEffect = {
+        runeName: name,
+        runeId,
+        effectId: effect.id,
+        effectKey,
+        label: effect.label ?? effect.id,
+        includedInDps: effect.includedInDps !== false,
+        ...effectResult,
+        stats: {},
+      };
+      appliedRuneEffects.push(appliedEffect);
+
+      Object.entries(effectResult.stats).forEach(([key, averagedValue]) => {
+        if (averagedValue === undefined || averagedValue === 0 || key === "가동률") return;
         const isBaseAttackPct = key === "공격력%";
         const isMetaKey = ["모든스킬강화", "임의스킬강화", "마도저항"].includes(key);
-        // 상시·조건부 공격력%는 초월 배율을 중복 적용하지 않는다.
-        const finalVal = (isMetaKey || isBaseAttackPct || key === "조건부공증%") ? val : val * scale;
-        const effectiveUptime = isBaseAttackPct ? 1.0 : effectUptime;
+        // 상시·조건부 공격력%는 초월 배율을 중복 적용하지 않는다. 조건부공증%는
+        // 시간축 평균값만 적용 공격력 산식에 한 번 들어간다.
+        const finalVal = (isMetaKey || isBaseAttackPct || key === "조건부공증%") ? averagedValue : averagedValue * scale;
         if (key.startsWith("밤축_")) {
           const targetKey = key.replace("밤축_", "");
           const nbUptime = (characterStats.nightBlessingUptime || 0) / 100.0;
-          if (runeStats[targetKey] !== undefined) runeStats[targetKey] += finalVal * effectiveUptime * nbUptime;
+          if (runeStats[targetKey] !== undefined) runeStats[targetKey] += finalVal * nbUptime;
+          appliedEffect.stats[targetKey] = (appliedEffect.stats[targetKey] ?? 0) + finalVal * nbUptime;
         } else if (runeStats[key] !== undefined) {
-          runeStats[key] += finalVal * effectiveUptime;
+          runeStats[key] += finalVal;
+          appliedEffect.stats[key] = (appliedEffect.stats[key] ?? 0) + finalVal;
         }
       });
     });
@@ -284,7 +330,10 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
   const gemFinalDmgPct = (characterStats.extraFinalDmgPct || 0.0) / 100.0;
   const manualFinalDmgPct = (characterStats.manualFinalDmgPct || 0.0) / 100.0;
   const totalGivesDmg = runeStats["주는피해%"] + gimmicksDmgPct + gemFinalDmgPct + manualFinalDmgPct;
-  const totalGetsDmg = runeStats["받는피해%"] + healerDmgPct + (activeGimmicks.skillDebuffDmgPct || 10.0) / 100.0;
+  const totalGetsDmg = runeStats["받는피해%"]
+    + runeStats["대상받는피해%"]
+    + healerDmgPct
+    + (activeGimmicks.skillDebuffDmgPct || 10.0) / 100.0;
 
   // 강타/연타피해
   const baseStrongDmg = (characterStats.strongDmg || 2487.0) / 8500.0;
@@ -592,6 +641,81 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
       ? (1 + (characterStats.comboPower || 1532.0) / 5250.0 + 0.4 + 0.05 + runeStats["무방비피해%"])
       : 1.0;
 
+        // 효과가 실제 딜사이클의 적중·스킬·궁극기 빈도에 의존할 경우 이 상태에서만 평균값을 계산한다.
+    const triggerRateFor = (effect) => {
+      const scope = effect.triggerScope;
+      if (scope === 'skillUseIndividualStack' || scope === 'skillUse') return listSkills.length / totalCycleTime;
+      if (scope === 'eightSkillUse') return (listSkills.length / totalCycleTime) / (effect.skillsPerTrigger ?? 8);
+      if (scope === 'hitStack') return totalHits / totalCycleTime;
+      if (scope === 'attackArmorBreak') return totalHits / totalCycleTime;
+      if (scope === 'unarmedHitArmorBreak') return isUnarmed ? totalHits / totalCycleTime : 0;
+      if (scope === 'ultimateUse') return listSkills.filter((skill) => skill === '6').length / totalCycleTime;
+      return 0;
+    };
+    const staticRuneEffects = appliedRuneEffects.map((effect) => ({
+      ...effect,
+      dpsMultiplier: calculateEffectDpsMultiplier(effect.stats, {
+        totalAtkPct,
+        totalGivesDmg,
+        totalTargetReceivesDmg: totalGetsDmg,
+        totalStrongDmg,
+        totalChainDmg,
+        totalSkillDmg,
+        totalComboDmg,
+        critProbability: finalCritProb,
+        critDamage: totalCritDmg,
+      }),
+    }));
+    const stateRuneEffects = dynamicRuneEffects.map((entry) => {
+      const triggerRatePerSecond = triggerRateFor(entry.effect);
+      const effectContext = entry.configuredUptime !== undefined
+        ? { uptimePercent: entry.configuredUptime }
+        : (entry.effect.triggerScope === 'unarmedHitArmorBreak' && !isUnarmed
+          ? { uptimePercent: 0 }
+          : (triggerRatePerSecond > 0 ? { triggerRatePerSecond } : {}));
+      const result = calculateEffectStats(entry.effect, effectContext);
+      const scaledStats = Object.fromEntries(Object.entries(result.stats).map(([key, value]) => {
+        const unscaled = ['공격력%', '조건부공증%', '대상받는피해%', '마도저항', '모든스킬강화', '임의스킬강화'].includes(key);
+        return [key, unscaled ? value : value * entry.scale];
+      }));
+      const dpsMultiplier = calculateEffectDpsMultiplier(scaledStats, {
+        totalAtkPct,
+        totalGivesDmg,
+        totalTargetReceivesDmg: totalGetsDmg,
+        totalStrongDmg,
+        totalChainDmg,
+        totalSkillDmg,
+        totalComboDmg,
+        critProbability: finalCritProb,
+        critDamage: totalCritDmg,
+      });
+      return { ...entry, ...result, stats: scaledStats, dpsMultiplier };
+    });
+    const stateRuneStats = stateRuneEffects.reduce((stats, effect) => {
+      Object.entries(effect.stats).forEach(([key, value]) => {
+        stats[key] = (stats[key] ?? 0) + value;
+      });
+      return stats;
+    }, {});
+    const stateEffectMultiplier = calculateEffectDpsMultiplier(stateRuneStats, {
+      totalAtkPct,
+      totalGivesDmg,
+      totalTargetReceivesDmg: totalGetsDmg,
+      totalStrongDmg,
+      totalChainDmg,
+      totalSkillDmg,
+      totalComboDmg,
+      critProbability: finalCritProb,
+      critDamage: totalCritDmg,
+    });
+    const stateRuneEffectDps = stateRuneEffects
+      .filter((effect) => effect.includedInDps !== false)
+      .reduce((sum, effect) => sum + effect.directDamagePerSecond + effect.dotDamagePerSecond, 0)
+      * (1 + totalGivesDmg)
+      * (1 + totalGetsDmg)
+      * armorCoeff
+      * unarmedDmgCoeff;
+
     // DPS 계산 (주는피해% 및 치명타 기댓값 배율 반영 - 물리 피해 200% 배율 복원)
     let skillDps = (totalCycleBaseDmg * 2) * (1 + totalGivesDmg) * (1 + totalGetsDmg) * critMultiplier * armorCoeff * unarmedDmgCoeff / totalCycleTime;
 
@@ -630,6 +754,16 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
     const extraProbMultiplier = (1 - totalExtraProb) + (totalExtraDmg * totalExtraProb);
     const directDps = baseDamageMultiplier * critMultiplier * extraProbMultiplier * attack * 2 * totalExtraProb * armorCoeff * unarmedDmgCoeff;
 
+    // 룬 설명에 명시된 직접 피해·도트는 효과별 시간축 엔진이 계산한 초당 발생량을 사용한다.
+    // 치명타 여부가 명시되지 않은 독립 수치는 치명타를 임의 적용하지 않고, 공통 대상·피해 보정만 적용한다.
+    const runeEffectDps = appliedRuneEffects
+      .filter((effect) => effect.includedInDps)
+      .reduce((sum, effect) => sum + effect.directDamagePerSecond + effect.dotDamagePerSecond, 0)
+      * (1 + totalGivesDmg)
+      * (1 + totalGetsDmg)
+      * armorCoeff
+      * unarmedDmgCoeff;
+
     // 지속피해 계산
     const dotDps = (1 + totalGivesDmg + totalSkillDmg + totalComboDmg) * (1 + totalGetsDmg) * totalMultiDmg * attack * 2 * armorCoeff * unarmedDmgCoeff;
 
@@ -637,7 +771,7 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
     const totalTranscendLevel = normalizedSelectedRunes.reduce((acc, r) => acc + (r && r.transcendLevel ? r.transcendLevel : 0), 0);
     const transcendCoeff = 1.015 ** totalTranscendLevel;
 
-    const totalDps = (skillDps + directDps + dotDps)
+    const totalDps = ((skillDps + directDps + dotDps + runeEffectDps) * stateEffectMultiplier + stateRuneEffectDps)
       * transcendCoeff
       * (1 + runeStats["최종피해%"])
       * magicResistanceEffect.finalDamageMultiplier;
@@ -647,6 +781,9 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
       skillDps: Math.round(skillDps * scaleFactor),
       directDps: Math.round(directDps * scaleFactor),
       dotDps: Math.round(dotDps * scaleFactor),
+      runeEffectDps: Math.round((runeEffectDps + stateRuneEffectDps) * scaleFactor),
+      stateEffectMultiplier: parseFloat(stateEffectMultiplier.toFixed(6)),
+      runeEffects: [...staticRuneEffects, ...stateRuneEffects],
       totalDps: Math.round(totalDps * scaleFactor),
       cycleTime: parseFloat(totalCycleTime.toFixed(2)),
       cycleCoeff: parseFloat(totalCycleBaseDmg.toFixed(3)),
@@ -709,6 +846,7 @@ export function calculateDPS(characterStats, selectedRunes, activeGimmicks, cycl
     },
 
     runeAtkAdd: Math.round(runeStats["공격력"]),
+    runeEffects: results.ordinary?.runeEffects ?? appliedRuneEffects,
     attackBreakdown: {
       villageAttack: characterStats.baseAttack || 27166.0,
       nightTraceAtk,

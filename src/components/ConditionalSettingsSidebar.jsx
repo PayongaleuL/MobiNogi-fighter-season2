@@ -11,6 +11,7 @@ function SettingsContent({
   onUptimeChange,
   nightBlessingUptime,
   onNightBlessingChange,
+  dpsResult,
   compact
 }) {
   return (
@@ -27,6 +28,7 @@ function SettingsContent({
           onUptimeChange={onUptimeChange}
           nightBlessingUptime={nightBlessingUptime}
           onNightBlessingChange={onNightBlessingChange}
+          dpsResult={dpsResult}
         />
       </div>
     </div>
@@ -43,7 +45,8 @@ export default function ConditionalSettingsSidebar({
   conditionalUptimes,
   onUptimeChange,
   nightBlessingUptime,
-  onNightBlessingChange
+  onNightBlessingChange,
+  dpsResult
 }) {
   return (
     <>
@@ -61,6 +64,7 @@ export default function ConditionalSettingsSidebar({
             onUptimeChange={onUptimeChange}
             nightBlessingUptime={nightBlessingUptime}
             onNightBlessingChange={onNightBlessingChange}
+            dpsResult={dpsResult}
             compact
           />
         </div>
@@ -116,6 +120,7 @@ export default function ConditionalSettingsSidebar({
             onUptimeChange={onUptimeChange}
             nightBlessingUptime={nightBlessingUptime}
             onNightBlessingChange={onNightBlessingChange}
+            dpsResult={dpsResult}
           />
         </div>
       </aside>

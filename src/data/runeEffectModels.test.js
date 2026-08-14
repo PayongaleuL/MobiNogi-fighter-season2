@@ -5,7 +5,11 @@ describe('rune effect models v2', () => {
   it('applies the reviewed models only to their canonical rune names', () => {
     const reviewedNames = [
       '오랜 광기', '억눌린 충동', '거대한 분노', '바위 칼날', '두 갈래 별',
-      '추적자', '첫 번째 서약', '아귀', '정복자+', '은빛 찬가', '승전'
+      '추적자', '암운+', '부패+', '폭염+', '광채+', '타오르는 영광', '긍지', '공세+', '등대지기',
+      '첫 번째 서약', '흐릿한 형상', '잿빛 장막', '금 간 봉인', '무너진 경계', '아귀', '정복자+', '은빛 찬가', '승전',
+      '거두는 손길', '맹세+', '복수+', '부서진 왕관',
+      '별바라기', '황동 날개', '잠들지 않는 불', '번개 숨결', '돌 심장', '용암 비늘', '얼음 발톱',
+      '악몽', '[신화] 유폐된 어둠', '[신화] 무형'
     ];
     expect(Object.keys(runeEffectModels)).toEqual(reviewedNames);
 
@@ -34,10 +38,126 @@ describe('rune effect models v2', () => {
       defaultUptime: 0,
       modelStatus: 'manual'
     });
-    expect(rockBlade.conditionalEffects[0]).toMatchObject({ modelStatus: 'unresolved', includedInDps: false });
-    expect(tracker.conditionalEffects[0]).toMatchObject({ modelStatus: 'unresolved', includedInDps: false });
+    expect(rockBlade.conditionalEffects[0]).toMatchObject({
+      modelStatus: 'modeled',
+      dynamicByCycle: true,
+      triggerScope: 'hitStack',
+      durationSeconds: 10,
+      maxStacks: 30,
+      perStack: true,
+      stats: { '조건부공증%': 0.007, '치명타확률%': 0.005 },
+    });
+    expect(tracker.conditionalEffects[0]).toMatchObject({ modelStatus: 'modeled', includedInDps: true, directDamage: 66395 });
     expect(maw.stats).toMatchObject({ '공격력%': 0.15, '주는피해%': 0, '콤보피해%': 0, '무방비피해%': 0.12 });
-    expect(maw.conditionalEffects[0]).toMatchObject({ modelStatus: 'unresolved', includedInDps: false });
+    expect(maw.conditionalEffects[0]).toMatchObject({ modelStatus: 'modeled', includedInDps: true, directDamage: 12413, dotDamage: 31328 });
+  });
+
+  it('models the erosion build-up and pollution mechanics at the fixed 70% reference availability', () => {
+    const [erosion, crackedSeal] = applyRuneEffectModels([
+      { name: '흐릿한 형상', stats: {} },
+      { name: '금 간 봉인', stats: {} },
+    ]);
+
+    expect(erosion.conditionalEffects[0]).toMatchObject({
+      durationSeconds: 60,
+      cooldownSeconds: 75,
+      defaultUptime: 0.7,
+      stats: { '강타피해%': 0.18 },
+    });
+    expect(crackedSeal.conditionalEffects[0].stats['치명타확률%'] * 0.7).toBeCloseTo(0.1155, 8);
+  });
+
+  it('keeps kill, low-health, damage-taken, and magic-circle effects as explicit manual DPS inputs', () => {
+    const [reapingTouch, oath, vengeance, crown] = applyRuneEffectModels([
+      { name: '거두는 손길', stats: { '주는피해%': 0.26 } },
+      { name: '맹세+', stats: { '주는피해%': 0.03 } },
+      { name: '복수+', stats: { '공격력%': 0.05 } },
+      { name: '부서진 왕관', stats: { '공격력%': 0.04, '강타피해%': 0.045 } },
+    ]);
+
+    expect(reapingTouch.stats['주는피해%']).toBe(0);
+    expect(oath).toMatchObject({ stats: { '공격력%': 0.10, '주는피해%': 0 } });
+    expect(vengeance.conditionalEffects[0]).toMatchObject({
+      stats: { '조건부공증%': 0.25 },
+      durationSeconds: 12,
+      maxStacks: 5,
+      forceDefaultUptime: true,
+      defaultUptime: 0,
+    });
+    expect(crown).toMatchObject({ stats: { '공격력%': 0, '강타피해%': 0 } });
+    expect(crown.conditionalEffects[0].stats).toEqual({ '조건부공증%': 0.12, '강타피해%': 0.135 });
+  });
+
+  it('separates the dragon-mark permanent give-damage bonus from its active effects', () => {
+    const [stargazer, brassWings, lavaScale] = applyRuneEffectModels([
+      { name: '별바라기', stats: { '공격력%': 0.14, '주는피해%': 0.10 } },
+      { name: '황동 날개', stats: { '주는피해%': 0.10 } },
+      { name: '용암 비늘', stats: { '주는피해%': 0.10 } },
+    ]);
+
+    expect(stargazer).toMatchObject({ stats: { '공격력%': 0.14, '주는피해%': 0.10 } });
+    expect(stargazer.conditionalEffects[0]).toMatchObject({
+      durationSeconds: 10,
+      cooldownSeconds: 20,
+      stats: { '조건부공증%': 0.14 },
+      replacesBaseStats: { '공격력%': 0.14 },
+      defaultUptime: 1,
+      forceDefaultUptime: true,
+      triggerScope: 'dragonMarkAttack',
+    });
+    expect(brassWings.conditionalEffects[0].triggerScope).toBe('dragonMarkUltimate');
+    expect(lavaScale.conditionalEffects[0]).toMatchObject({
+      directDamage: 5911,
+      damageIntervalSeconds: 1,
+      damageScalesWithUptime: true,
+    });
+  });
+
+  it('models nightmare and mythic rune direct damage, armor break, and exclusive equipment effects', () => {
+    const [nightmare, imprisonedDarkness, formless] = applyRuneEffectModels([
+      { name: '악몽', stats: {} },
+      { name: '[신화] 유폐된 어둠', stats: {} },
+      { name: '[신화] 무형', stats: {} },
+    ]);
+
+    expect(nightmare.conditionalEffects[0]).toMatchObject({
+      dotDamage: 8275,
+      dotTicks: 6,
+      intervalSeconds: 4,
+      defaultUptime: 1,
+    });
+    expect(imprisonedDarkness.conditionalEffects[0]).toMatchObject({
+      directDamage: 12413,
+      intervalSeconds: 3,
+      stats: { '대상받는피해%': 0.10 },
+    });
+    expect(formless).toMatchObject({ stats: { '공격력%': 0.29 } });
+    expect(formless.conditionalEffects).toHaveLength(3);
+    expect(formless.conditionalEffects.every((effect) => effect.replacesBaseStats['공격력%'] === 0.29)).toBe(true);
+  });
+
+  it('models Pride armor break and Burning Glory conditional attack as DPS inputs', () => {
+    const [pride, burningGlory] = applyRuneEffectModels([
+      { name: '긍지', stats: {} },
+      { name: '타오르는 영광', stats: {} },
+    ]);
+
+    expect(pride.conditionalEffects).toEqual(expect.arrayContaining([
+      expect.objectContaining({
+        id: 'attack-armor-break-target-damage',
+        durationSeconds: 10,
+        cooldownSeconds: 1,
+        stats: { '대상받는피해%': 0.1 },
+      }),
+    ]));
+    expect(burningGlory.conditionalEffects[0]).toMatchObject({
+      id: 'ember-stack-ultimate-conditional-attack',
+      durationSeconds: 15,
+      intervalSeconds: 5,
+      maxStacks: 12,
+      defaultUptime: 0.13,
+      stats: { '조건부공증%': 0.42 },
+    });
   });
 
   it('preserves empty slots and returns an empty list when the selected rune list is omitted', () => {

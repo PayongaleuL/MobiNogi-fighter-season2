@@ -1,6 +1,7 @@
 import React from 'react';
 import { CircleAlert, Info, Sliders } from 'lucide-react';
 import { applyRuneEffectModels } from '../data/runeEffectModels';
+import { deriveRuneDescriptionEffects } from '../data/runeDescriptionEffects';
 
 const CONDITIONAL_RUNES = [
   { name: '무너진 경계', desc: '침식 부여 시 추가타 확률 16.5% 증가 (100% 이상 시 2배인 33% 적용, 오염 시 소실)', defaultUptime: 70 },
@@ -17,7 +18,7 @@ const CONDITIONAL_RUNES = [
   { name: '거대한 분노', desc: '강타 적중 시 스킬피해 3% 증가(최대 4회 중첩). 가동률에 비례하여 최대 12.0%의 스킬피증이 기댓값에 반영됩니다.', defaultUptime: 100 }
 ];
 
-function UptimeCard({ name, description, value, onChange, step = 5, modelStatus = 'modeled', unresolvedReason }) {
+function UptimeCard({ name, description, value, onChange, step = 5, modelStatus = 'modeled', unresolvedReason, dpsImpact }) {
   const isUnresolved = modelStatus === 'unresolved';
   return (
     <div className="rounded-xl border border-theme bg-theme-subcard p-3 theme-transition">
@@ -42,7 +43,13 @@ function UptimeCard({ name, description, value, onChange, step = 5, modelStatus 
           <span>{unresolvedReason || '평타·적중 이벤트 또는 직접 피해의 계산 모델이 확정되기 전까지 DPS에 포함하지 않습니다.'}</span>
         </div>
       ) : (
-        <div className="mt-3 flex items-center gap-2.5">
+        <>
+          {dpsImpact && (
+            <p className="mt-2 rounded-lg border border-emerald-300/70 bg-emerald-500/5 px-2.5 py-1.5 text-[10px] font-black leading-relaxed text-emerald-800 dark:border-emerald-800/50 dark:text-emerald-200">
+              {dpsImpact}
+            </p>
+          )}
+          <div className="mt-3 flex items-center gap-2.5">
           <Sliders className="h-4 w-4 shrink-0 text-theme-muted" />
           <input
             type="range"
@@ -64,14 +71,19 @@ function UptimeCard({ name, description, value, onChange, step = 5, modelStatus 
           >
             {value === 100 ? '항시' : '100%'}
           </button>
-        </div>
+          </div>
+        </>
       )}
     </div>
   );
 }
 
-export default function ConditionalPanel({ selectedRunes, conditionalUptimes, onUptimeChange, nightBlessingUptime, onNightBlessingChange }) {
+export default function ConditionalPanel({ selectedRunes, conditionalUptimes, onUptimeChange, nightBlessingUptime, onNightBlessingChange, dpsResult }) {
   const activeConditionalRunes = [];
+  const calculatedEffects = [
+    ...(dpsResult?.runeEffects ?? []),
+    ...Object.values(dpsResult?.states ?? {}).flatMap((state) => state?.runeEffects ?? []),
+  ];
 
   Object.values(selectedRunes).forEach((slotList) => {
     if (!slotList) return;
@@ -80,11 +92,15 @@ export default function ConditionalPanel({ selectedRunes, conditionalUptimes, on
       // selectedRunes에는 이전 프리셋의 원본 룬 객체가 들어올 수 있다.
       // 계산 코어와 같은 v2 모델을 먼저 적용해 전투 설정도 동일한 조건부 효과를 보여 준다.
       const effectiveRune = applyRuneEffectModels([rune])[0];
-      const conditionalEffects = Array.isArray(effectiveRune.conditionalEffects)
-        ? effectiveRune.conditionalEffects.filter((effect) => effect?.id && effect?.label && (
-          effect.defaultUptime !== 1 || effect.forceUptimeControl || effect.modelStatus === 'unresolved'
-        ))
+      const explicitEffects = Array.isArray(effectiveRune.conditionalEffects)
+        ? effectiveRune.conditionalEffects
         : [];
+      const sourceDerivedEffects = explicitEffects.length > 0
+        ? []
+        : deriveRuneDescriptionEffects(effectiveRune);
+      const conditionalEffects = [...explicitEffects, ...sourceDerivedEffects].filter((effect) => effect?.id && effect?.label && (
+        effect.defaultUptime !== 1 || effect.forceUptimeControl || effect.dynamicByCycle || effect.modelStatus === 'unresolved'
+      ));
 
       if (conditionalEffects.length > 0) {
         conditionalEffects.forEach((effect) => {
@@ -98,8 +114,9 @@ export default function ConditionalPanel({ selectedRunes, conditionalUptimes, on
             step: effect.uptimeStep ?? 5,
             modelStatus: effect.modelStatus ?? 'modeled',
             unresolvedReason: effect.modelStatus === 'unresolved'
-              ? '평타·적중 이벤트, 스택 유지 또는 직접 피해 시점이 딜사이클 엔진에 확정되지 않아 DPS에 반영하지 않습니다.'
-              : undefined
+              ? '이 효과는 원문 수학 모델 전환 대기 상태입니다. 전수 모델링 완료 전에는 기본 가동률을 임의로 적용하지 않습니다.'
+              : undefined,
+            calculatedEffect: calculatedEffects.find((result) => result.effectKey === `${effectiveRune.id ?? effectiveRune.name}:${effect.id}`),
           });
         });
         return;
@@ -147,6 +164,9 @@ export default function ConditionalPanel({ selectedRunes, conditionalUptimes, on
                 step={rune.step}
                 modelStatus={rune.modelStatus}
                 unresolvedReason={rune.unresolvedReason}
+                dpsImpact={rune.calculatedEffect
+                  ? `현재 계산: DPS 배율 ${(((rune.calculatedEffect.dpsMultiplier ?? 1) - 1) * 100).toFixed(2)}% · 직접/도트 ${Math.round((rune.calculatedEffect.directDamagePerSecond ?? 0) + (rune.calculatedEffect.dotDamagePerSecond ?? 0)).toLocaleString()} /초`
+                  : undefined}
               />
             );
           })}

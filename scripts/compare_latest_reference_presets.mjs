@@ -3,27 +3,16 @@ import { calculateDPS } from '../src/utils/calculator.js';
 import { calculateGemStats } from '../src/utils/gemCalculator.js';
 import { createLatestReferencePresets } from '../src/data/latestReferencePresets.js';
 import runesData from '../src/data/runes.json' with { type: 'json' };
-import { parseRuneMarkdown } from '../src/utils/runeMdParser.js';
+import { createCanonicalRunes } from '../src/data/canonicalRunes.js';
 import parseSkillMarkdown from '../src/utils/skillMdParser.js';
 
-const runeMarkdown = fs.readFileSync(new URL('../results/260814_룬설명목록.md', import.meta.url), 'utf8');
 const skillMarkdown = fs.readFileSync(new URL('../results/260710_패시브_액티브_스킬목록.md', import.meta.url), 'utf8');
-const parsedRunes = parseRuneMarkdown(runeMarkdown);
 const parsedSkills = parseSkillMarkdown(skillMarkdown);
 const coreName = (name) => (name ?? '').replace(/\+/g, '').replace(/\s+/g, '').trim();
 
-function calculatorRunes() {
-  return parsedRunes.map((parsed) => {
-    const original = runesData.find((item) => coreName(item.name) === coreName(parsed.name)) ?? {};
-    // 계산기 UI의 mergeMasterRunes와 같은 계약: 최신 원문은 이름·문구의 기준,
-    // runes.json은 사용자가 검수한 계산 스탯의 기준이다. 원문 OCR 파서가
-    // 승전 치명타 피해 10% 같은 수동 보정을 다시 3%로 축소해서는 안 된다.
-    const mergedStats = { ...(parsed.stats ?? {}), ...(original.stats ?? {}) };
-    return { ...original, ...parsed, stats: mergedStats };
-  });
-}
-
-const appRunes = calculatorRunes();
+// UI의 mergeMasterRunes와 동일하게, 계산 스탯은 canonical 수동 검수 기준선을 사용한다.
+// 원문 파서는 화면 문구 감사용일 뿐 계산 스탯을 덮어쓰지 않는다.
+const appRunes = createCanonicalRunes(runesData);
 const result = createLatestReferencePresets().map((preset) => {
   const data = preset.data;
   const flattenedRunes = Object.entries(data.selectedRunes).flatMap(([type, selected]) => selected.map((rune, index) => {

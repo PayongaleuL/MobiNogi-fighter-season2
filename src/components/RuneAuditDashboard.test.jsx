@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import '@testing-library/jest-dom/vitest';
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it } from 'vitest';
 import runes from '../data/runes.json';
 import RuneAuditDashboard from './RuneAuditDashboard';
 
@@ -25,7 +25,7 @@ const renderDashboard = (dashboardRunes = baseDashboardRunes) => {
   render(
     <RuneAuditDashboard
       runes={dashboardRunes}
-      onRunesUpdate={vi.fn()}
+      canonicalRunes={dashboardRunes}
       selectedRunes={selectedRunes}
     />,
   );
@@ -63,6 +63,14 @@ describe('RuneAuditDashboard light-mode equipped rune and dictionary', () => {
     expect(screen.getByText('조건부 효과·가동률 정책')).toBeInTheDocument();
     expect(screen.getByText('주변 처치 치명타 피해')).toBeInTheDocument();
     expect(screen.getByText('기본 가동률 0%')).toBeInTheDocument();
+  });
+
+  it('reports zero local customizations when current runes match the canonical baseline', () => {
+    renderDashboard();
+
+    expect(screen.getByText('수정됨 (로컬 실험)')).toBeInTheDocument();
+    expect(screen.getByText('수정됨 (로컬 실험)').parentElement).toHaveTextContent('0 개');
+    expect(screen.getByText('기준 데이터 일치').parentElement).toHaveTextContent('2 개');
   });
 
   it('opens a read-only dictionary comparison from the rune name and restores focus after Escape', async () => {
