@@ -6,10 +6,15 @@ describe('season 2 target definitions', () => {
     expect(TARGET_DEFINITIONS.map((target) => target.id)).not.toContain('어비스 지옥2');
   });
 
-  it('keeps the three Lunda very-hard bosses separate because the calibrated common-defense model failed', () => {
+  it('keeps the three Lunda very-hard dungeons separate with dungeon-first labels because the calibrated common-defense model failed', () => {
     const lundaTargets = TARGET_DEFINITIONS.filter((target) => target.content === '룬다 어비스');
 
     expect(lundaTargets.map((target) => target.label)).toEqual([
+      '허상의 정박지 · 매우 어려움',
+      '광기의 동굴 · 매우 어려움',
+      '흩어진 물길 · 매우 어려움',
+    ]);
+    expect(lundaTargets.map((target) => target.id)).toEqual([
       '칼드레드 · 허상의 정박지 매우 어려움',
       '데스펠 · 광기의 동굴 매우 어려움',
       '테로사 · 흩어진 물길 매우 어려움',
@@ -23,6 +28,7 @@ describe('season 2 target definitions', () => {
 
   it('keeps Kabrak intro official magic values and applies the separate log-calibrated defense proxy', () => {
     expect(getTargetDefinition('카브락 · 입문')).toMatchObject({
+      label: '카브락 레이드 · 입문',
       requiredMagicResistance: 2000,
       magicPressure: 2500,
       armor: 7203,

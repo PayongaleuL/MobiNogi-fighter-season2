@@ -30,19 +30,23 @@ try {
       }
       return false;
     });
-    const bossOptionValues = await page
+    const bossOptions = await page
       .locator('section[aria-label="실전 전투 조건"] select')
       .first()
       .locator('option')
-      .evaluateAll((options) => options.map((option) => option.value));
+      .evaluateAll((options) => options.map((option) => ({ value: option.value, text: option.textContent?.trim() ?? '' })));
+    const bossOptionValues = bossOptions.map((option) => option.value);
+    const bossOptionTexts = bossOptions.map((option) => option.text);
     const legacyBossOptionsHidden = !['글라스기브넨', '화이트서큐버스', '바리어비스', '어비스 지옥2']
-      .some((boss) => bossOptionValues.includes(boss));
+      .some((boss) => bossOptionValues.includes(boss) || bossOptionTexts.some((text) => text.includes(boss)));
     const currentSeasonTargetsVisible = [
-      '칼드레드 · 허상의 정박지 매우 어려움',
-      '데스펠 · 광기의 동굴 매우 어려움',
-      '테로사 · 흩어진 물길 매우 어려움',
-      '카브락 · 입문',
-    ].every((boss) => bossOptionValues.includes(boss));
+      '허상의 정박지 · 매우 어려움 · 필요 저항 2,200 / 압력 2,700',
+      '광기의 동굴 · 매우 어려움 · 필요 저항 2,200 / 압력 2,700',
+      '흩어진 물길 · 매우 어려움 · 필요 저항 2,200 / 압력 2,700',
+      '카브락 레이드 · 입문 · 필요 저항 2,000 / 압력 2,500',
+    ].every((targetText) => bossOptionTexts.includes(targetText));
+    const dungeonLabelsHideBossNames = !['칼드레드', '데스펠', '테로사']
+      .some((boss) => bossOptionTexts.some((text) => text.includes(boss)));
     const combatSection = page.locator('section[aria-label="실전 전투 조건"]');
     const bossSelect = combatSection.getByRole('combobox').first();
     await bossSelect.selectOption('카브락 · 입문');
@@ -58,10 +62,10 @@ try {
       .then((text) => text.includes('방어도 7,203 · 치명타저항 0.0% · P2-B 로그 기반 근사치 · 낮은 신뢰도')
         && text.includes('로그 3건, 방어도 범위 7,039–9,542'));
     const abyssTargetsRemainSeparate = [
-      '칼드레드 · 허상의 정박지 매우 어려움',
-      '데스펠 · 광기의 동굴 매우 어려움',
-      '테로사 · 흩어진 물길 매우 어려움',
-    ].every((boss) => bossOptionValues.includes(boss));
+      '허상의 정박지 · 매우 어려움 · 필요 저항 2,200 / 압력 2,700',
+      '광기의 동굴 · 매우 어려움 · 필요 저항 2,200 / 압력 2,700',
+      '흩어진 물길 · 매우 어려움 · 필요 저항 2,200 / 압력 2,700',
+    ].every((targetText) => bossOptionTexts.includes(targetText));
 
     let conditionalSettingsBehavior = false;
     let stanceSettingsBehavior = false;
@@ -167,6 +171,7 @@ try {
       dpsHasStickyAncestor,
             legacyBossOptionsHidden,
       currentSeasonTargetsVisible,
+      dungeonLabelsHideBossNames,
       abyssTargetsRemainSeparate,
       magicResistanceUpdatesDps,
       targetDataDisclosureVisible,
@@ -189,6 +194,7 @@ try {
     result.dpsHasStickyAncestor ||
         !result.legacyBossOptionsHidden ||
     !result.currentSeasonTargetsVisible ||
+    !result.dungeonLabelsHideBossNames ||
     !result.abyssTargetsRemainSeparate ||
     !result.magicResistanceUpdatesDps ||
     !result.targetDataDisclosureVisible ||

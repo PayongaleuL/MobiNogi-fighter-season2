@@ -30,7 +30,7 @@ export const TARGET_DEFINITIONS = [
   },
   {
     id: '칼드레드 · 허상의 정박지 매우 어려움',
-    label: '칼드레드 · 허상의 정박지 매우 어려움',
+    label: '허상의 정박지 · 매우 어려움',
     content: '룬다 어비스',
     requiredMagicResistance: 2200,
     magicPressure: 2700,
@@ -49,7 +49,7 @@ export const TARGET_DEFINITIONS = [
   },
   {
     id: '데스펠 · 광기의 동굴 매우 어려움',
-    label: '데스펠 · 광기의 동굴 매우 어려움',
+    label: '광기의 동굴 · 매우 어려움',
     content: '룬다 어비스',
     requiredMagicResistance: 2200,
     magicPressure: 2700,
@@ -68,7 +68,7 @@ export const TARGET_DEFINITIONS = [
   },
   {
     id: '테로사 · 흩어진 물길 매우 어려움',
-    label: '테로사 · 흩어진 물길 매우 어려움',
+    label: '흩어진 물길 · 매우 어려움',
     content: '룬다 어비스',
     requiredMagicResistance: 2200,
     magicPressure: 2700,
@@ -87,7 +87,7 @@ export const TARGET_DEFINITIONS = [
   },
   {
     id: '카브락 · 입문',
-    label: '카브락 · 입문',
+    label: '카브락 레이드 · 입문',
     content: '카브락 레이드',
     requiredMagicResistance: 2000,
     magicPressure: 2500,

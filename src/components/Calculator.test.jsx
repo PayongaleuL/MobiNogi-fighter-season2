@@ -30,6 +30,21 @@ describe('Calculator preset state integrity', () => {
     expect(JSON.parse(localStorage.getItem('mabi_calculator_seals')).weapon).toMatchObject({ type: 'red_moon', baseAtkOverride: 800 });
   });
 
+  it('shows dungeon-first combat target labels while preserving stable internal target ids', async () => {
+    render(<Calculator />);
+
+    const comboboxes = await screen.findAllByRole('combobox');
+    const targetSelect = comboboxes[5];
+
+    expect(screen.getByRole('option', { name: '허상의 정박지 · 매우 어려움 · 필요 저항 2,200 / 압력 2,700' })).toHaveValue('칼드레드 · 허상의 정박지 매우 어려움');
+    expect(screen.getByRole('option', { name: '광기의 동굴 · 매우 어려움 · 필요 저항 2,200 / 압력 2,700' })).toHaveValue('데스펠 · 광기의 동굴 매우 어려움');
+    expect(screen.getByRole('option', { name: '흩어진 물길 · 매우 어려움 · 필요 저항 2,200 / 압력 2,700' })).toHaveValue('테로사 · 흩어진 물길 매우 어려움');
+    expect(screen.getByRole('option', { name: '카브락 레이드 · 입문 · 필요 저항 2,000 / 압력 2,500' })).toHaveValue('카브락 · 입문');
+    expect(targetSelect).not.toHaveTextContent('칼드레드');
+    expect(targetSelect).not.toHaveTextContent('데스펠');
+    expect(targetSelect).not.toHaveTextContent('테로사');
+  });
+
   it('saves and restores the boss gimmick and seals with a preset', async () => {
     const user = userEvent.setup();
     render(<Calculator />);
