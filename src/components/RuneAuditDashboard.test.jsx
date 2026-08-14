@@ -16,7 +16,12 @@ const selectedRunes = {
   엠블럼: [null],
 };
 
-const renderDashboard = (dashboardRunes = runes) => {
+// 전체 88개 행은 교정실 렌더링 성능을 다루는 별도 UX 검사에서 검증한다.
+// 여기서는 각 계약에 필요한 최소 fixture만 사용해 CI 기본 5초 제한에서도
+// 상태·접근성·모달 계약을 안정적으로 검증한다.
+const baseDashboardRunes = [getRune('타오르는 영광'), getRune('눈부신 잔영')];
+
+const renderDashboard = (dashboardRunes = baseDashboardRunes) => {
   render(
     <RuneAuditDashboard
       runes={dashboardRunes}
@@ -39,8 +44,8 @@ describe('RuneAuditDashboard light-mode equipped rune and dictionary', () => {
   });
 
   it('marks effect-model v2 runes and describes their individual conditional effects', () => {
-    const effectModelRunes = runes.map((rune) => rune.name === '승전' ? {
-      ...rune,
+    const effectModelRunes = [{
+      ...getRune('승전'),
       effectModelVersion: 2,
       conditionalEffects: [{
         id: 'nearby-kill-crit-damage',
@@ -49,7 +54,7 @@ describe('RuneAuditDashboard light-mode equipped rune and dictionary', () => {
         modelStatus: 'manual',
         source: '주위에서 적이 처치될 경우 치명타 피해가 증가한다.'
       }]
-    } : rune);
+    }];
     renderDashboard(effectModelRunes);
 
     expect(screen.getAllByText('효과 분리 v2').length).toBeGreaterThan(0);
