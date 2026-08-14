@@ -1,5 +1,5 @@
-import React, { useState, useMemo } from 'react';
-import { Search, Copy, RotateCcw, Sliders, Info, CheckCircle } from 'lucide-react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { BookOpen, CheckCircle, Copy, Info, RotateCcw, Search, Sliders, X } from 'lucide-react';
 import { parseRuneMarkdown } from '../utils/runeMdParser';
 import mdText from '../../results/260708_룬설명목록.md?raw';
 
@@ -27,6 +27,34 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate, selectedRunes
   const [statusFilter, setStatusFilter] = useState('ALL'); // 'ALL' | 'EQUIPPED' | 'MATCH' | 'MISMATCH' | 'MISSING' | 'CUSTOMIZED'
   const [copySuccess, setCopySuccess] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
+  const [selectedDictionaryRune, setSelectedDictionaryRune] = useState(null);
+  const dictionaryTriggerRef = useRef(null);
+  const dictionaryCloseButtonRef = useRef(null);
+
+  useEffect(() => {
+    if (!selectedDictionaryRune) return undefined;
+
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        closeDictionary();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    dictionaryCloseButtonRef.current?.focus();
+
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedDictionaryRune]);
+
+  const openDictionary = (rune, trigger) => {
+    dictionaryTriggerRef.current = trigger;
+    setSelectedDictionaryRune(rune);
+  };
+
+  const closeDictionary = () => {
+    setSelectedDictionaryRune(null);
+    window.setTimeout(() => dictionaryTriggerRef.current?.focus(), 0);
+  };
 
   // 0. 현재 장착 중인 룬 이름 목록 세트 수집
   const equippedRuneNames = useMemo(() => {
@@ -224,35 +252,35 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate, selectedRunes
     if (item.isEquipped) {
       return {
         label: '장착 중',
-        rowClass: 'bg-emerald-500/8 border-l-4 border-emerald-500',
-        stickyClass: 'bg-emerald-500/10 dark:bg-emerald-500/15',
-        cellClass: 'bg-emerald-500/8',
-        badgeClass: 'bg-emerald-500/10 border-emerald-300 dark:border-emerald-800 text-emerald-700 dark:text-emerald-400'
+        rowClass: 'bg-emerald-50 border-l-4 border-emerald-500 dark:bg-emerald-500/8',
+        stickyClass: 'bg-emerald-100 dark:bg-emerald-500/15',
+        cellClass: 'bg-emerald-50 dark:bg-emerald-500/8',
+        badgeClass: 'bg-emerald-100 border-emerald-400 dark:bg-emerald-500/10 dark:border-emerald-800 text-emerald-800 dark:text-emerald-400'
       };
     }
     if (item.status === 'MISSING') {
       return {
         label: 'JSON 누락',
-        rowClass: 'bg-rose-500/8 border-l-4 border-rose-500',
-        stickyClass: 'bg-rose-500/10 dark:bg-rose-500/15',
-        cellClass: 'bg-rose-500/8',
+        rowClass: 'bg-white border-l-4 border-slate-200 dark:bg-rose-500/8 dark:border-rose-500',
+        stickyClass: 'bg-white dark:bg-rose-500/15',
+        cellClass: 'bg-white dark:bg-rose-500/8',
         badgeClass: 'bg-rose-500/10 border-rose-300 dark:border-rose-800 text-rose-700 dark:text-rose-300'
       };
     }
     if (item.isCustomized) {
       return {
         label: '수정됨',
-        rowClass: 'bg-amber-500/8 border-l-4 border-amber-500',
-        stickyClass: 'bg-amber-500/10 dark:bg-amber-500/15',
-        cellClass: 'bg-amber-500/8',
+        rowClass: 'bg-white border-l-4 border-slate-200 dark:bg-amber-500/8 dark:border-amber-500',
+        stickyClass: 'bg-white dark:bg-amber-500/15',
+        cellClass: 'bg-white dark:bg-amber-500/8',
         badgeClass: 'bg-amber-500/10 border-amber-300 dark:border-amber-800 text-amber-700 dark:text-amber-300'
       };
     }
     return {
       label: '기본 일치',
-      rowClass: 'bg-slate-500/5 border-l-4 border-slate-300 dark:border-slate-700',
-      stickyClass: 'bg-slate-500/5 dark:bg-slate-500/10',
-      cellClass: 'bg-slate-500/5',
+      rowClass: 'bg-white border-l-4 border-slate-200 dark:bg-slate-500/5 dark:border-slate-700',
+      stickyClass: 'bg-white dark:bg-slate-500/10',
+      cellClass: 'bg-white dark:bg-slate-500/5',
       badgeClass: 'bg-slate-500/10 border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-300'
     };
   };
@@ -412,7 +440,17 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate, selectedRunes
                     <div className="flex flex-col gap-1.5 justify-center">
                       {/* 줄 1: 이름 및 누락/장착 뱃지 */}
                       <div className="flex flex-row items-center gap-1.5 flex-wrap">
-                        <span className="text-sm font-black text-theme-main whitespace-nowrap">{item.name}</span>
+                        <button
+                          type="button"
+                          onClick={(event) => openDictionary(item, event.currentTarget)}
+                          aria-haspopup="dialog"
+                          aria-label={`${item.name} 사전 데이터 보기`}
+                          className="group inline-flex min-h-7 items-center gap-1 rounded px-1 -ml-1 text-left text-sm font-black text-theme-main underline-offset-4 transition-colors hover:bg-theme-subcard hover:text-emerald-700 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/70 dark:hover:text-emerald-300"
+                          title={`${item.name} 사전 데이터 보기`}
+                        >
+                          <span className="whitespace-nowrap">{item.name}</span>
+                          <BookOpen aria-hidden="true" className="h-3.5 w-3.5 shrink-0 text-theme-muted transition-colors group-hover:text-emerald-600 dark:group-hover:text-emerald-300" />
+                        </button>
                         <span className={`px-1.5 py-0.5 rounded text-[9px] font-black border whitespace-nowrap ${rowVisual.badgeClass}`}>
                           {rowVisual.label}
                         </span>
@@ -498,6 +536,81 @@ export default function RuneAuditDashboard({ runes, onRunesUpdate, selectedRunes
           </tbody>
         </table>
       </div>
+
+      {selectedDictionaryRune && (
+        <div
+          className="fixed inset-0 z-[80] flex items-end justify-center bg-slate-950/45 p-3 backdrop-blur-sm md:items-center"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="rune-dictionary-title"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) closeDictionary();
+          }}
+        >
+          <div className="w-full max-w-3xl overflow-hidden rounded-2xl border border-theme bg-theme-card shadow-2xl theme-transition" onMouseDown={(event) => event.stopPropagation()}>
+            <div className="flex items-start justify-between gap-3 border-b border-theme bg-theme-subcard px-4 py-3 theme-transition">
+              <div>
+                <p className="text-[10px] font-black tracking-[0.14em] text-emerald-700 dark:text-emerald-300">RUNE DICTIONARY</p>
+                <h4 id="rune-dictionary-title" className="mt-0.5 text-lg font-black text-theme-main">{selectedDictionaryRune.name} 사전 데이터</h4>
+                <p className="mt-0.5 text-xs text-theme-sub">마스터 설명 기준과 현재 저장된 JSON 값을 읽기 전용으로 비교합니다.</p>
+              </div>
+              <button
+                ref={dictionaryCloseButtonRef}
+                type="button"
+                onClick={closeDictionary}
+                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-theme text-theme-sub transition-colors hover:bg-theme-card hover:text-theme-main focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/70"
+                aria-label="룬 사전 데이터 닫기"
+                title="닫기"
+              >
+                <X aria-hidden="true" className="h-4 w-4" />
+              </button>
+            </div>
+
+            <div className="max-h-[72vh] overflow-y-auto p-4">
+              <div className="mb-3 flex flex-wrap gap-1.5">
+                <span className="rounded border border-theme bg-theme-subcard px-2 py-1 text-[10px] font-bold text-theme-sub">{selectedDictionaryRune.type}</span>
+                <span className="rounded border border-theme bg-theme-subcard px-2 py-1 text-[10px] font-bold text-theme-sub">{selectedDictionaryRune.element}</span>
+                <span className={`rounded border px-2 py-1 text-[10px] font-black ${getRowVisual(selectedDictionaryRune).badgeClass}`}>{getRowVisual(selectedDictionaryRune).label}</span>
+              </div>
+
+              <div className="grid gap-3 lg:grid-cols-[0.9fr_1.1fr]">
+                <section className="rounded-xl border border-theme bg-theme-subcard/60 p-3 theme-transition" aria-labelledby="rune-dictionary-description-title">
+                  <h5 id="rune-dictionary-description-title" className="text-xs font-black text-theme-main">마스터 설명 원문</h5>
+                  <div className="mt-2 space-y-1.5 text-xs leading-relaxed text-theme-sub">
+                    {selectedDictionaryRune.cleaned_text.length > 0 ? selectedDictionaryRune.cleaned_text.map((line, index) => (
+                      <p key={`${selectedDictionaryRune.name}-description-${index}`}>{line}</p>
+                    )) : <p>사전 설명이 등록되지 않았습니다.</p>}
+                  </div>
+                </section>
+
+                <section className="rounded-xl border border-theme bg-theme-subcard/60 p-3 theme-transition" aria-labelledby="rune-dictionary-stats-title">
+                  <h5 id="rune-dictionary-stats-title" className="text-xs font-black text-theme-main">저장 데이터 비교</h5>
+                  <p className="mt-1 text-[10px] text-theme-muted">왼쪽은 설명글에서 파싱한 기준값, 오른쪽은 현재 계산기에 저장된 값입니다.</p>
+                  <dl className="mt-2 divide-y divide-theme rounded-lg border border-theme bg-theme-card theme-transition">
+                    {STAT_COLUMNS.map((column) => {
+                      const masterValue = selectedDictionaryRune.parsedStats[column.key] ?? 0;
+                      const storedValue = selectedDictionaryRune.existingRune?.stats?.[column.key];
+                      const hasStoredValue = storedValue !== undefined;
+                      const displayValue = (value) => column.isPercent ? `${(value * 100).toFixed(1)}%` : String(value);
+                      const isMatch = hasStoredValue && Math.abs(masterValue - storedValue) <= 0.0001;
+
+                      return (
+                        <div key={column.key} className="grid grid-cols-[0.8fr_1fr_1fr] gap-2 px-2 py-1.5 text-[10px] sm:text-xs">
+                          <dt className="font-bold text-theme-sub">{column.label}</dt>
+                          <dd className="font-mono font-bold text-theme-main">기준 {displayValue(masterValue)}</dd>
+                          <dd className={hasStoredValue && !isMatch ? 'font-mono font-black text-amber-700 dark:text-amber-300' : 'font-mono font-bold text-emerald-700 dark:text-emerald-300'}>
+                            {hasStoredValue ? `저장 ${displayValue(storedValue)}` : '저장 미등록'}
+                          </dd>
+                        </div>
+                      );
+                    })}
+                  </dl>
+                </section>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
