@@ -8,7 +8,7 @@ import { useDpsResult } from '../adapters/useDpsResult';
 import { Sun, Moon } from 'lucide-react';
 import runesData from '../data/runes.json';
 import { parseRuneMarkdown } from '../utils/runeMdParser';
-import { applyRuneEffectModels } from '../data/runeEffectModels';
+import { createCanonicalRunes, canonicalRuneKey } from '../data/canonicalRunes';
 import mdText from '../../results/260814_룬설명목록.md?raw';
 
 import { createLatestReferencePresets } from '../data/latestReferencePresets';
@@ -28,14 +28,21 @@ const createDefaultSeals = () => ({
 });
 
 export const mergeMasterRunes = (parsedRunes = [], curatedRunes = runesData) => {
-  const getCore = (name) => name ? name.replace(/\+/g, '').replace(/\s+/g, '').trim() : '';
-  return parsedRunes.map((parsedRune) => {
-    const curatedRune = curatedRunes.find((candidate) => getCore(candidate.name) === getCore(parsedRune.name)) || {};
-    // 최신 원문은 이름·문구의 권위 기준이고, runes.json은 사용자가 검수한
-    // 계산 수치·조건부 효과의 권위 기준이다. OCR 파서 수치가 수동 보정을 덮어쓰면
-    // 승전 10%가 3%로 축소되는 식의 오류가 발생하므로, 누락 키에만 파서 값을 쓴다.
-    const mergedStats = { ...(parsedRune.stats || {}), ...(curatedRune.stats || {}) };
-    return { ...curatedRune, ...parsedRune, stats: mergedStats };
+  const canonicalRunes = createCanonicalRunes(curatedRunes);
+
+  return canonicalRunes.map((canonicalRune) => {
+    const parsedRune = parsedRunes.find((candidate) => canonicalRuneKey(candidate.name) === canonicalRuneKey(canonicalRune.name));
+
+    // 원문은 설명·감사 메타데이터를 보완한다. 계산 스탯·효과 모델은 반드시
+    // 수동 검수 canonical 데이터가 소유하므로 OCR 파서가 승전 10% 등을 덮어쓰지 못한다.
+    return {
+      ...(parsedRune ?? {}),
+      ...canonicalRune,
+      cleaned_text: parsedRune?.cleaned_text ?? canonicalRune.cleaned_text,
+      raw_text: parsedRune?.raw_text ?? canonicalRune.raw_text,
+      stats: { ...(canonicalRune.stats ?? {}) },
+      conditionalEffects: canonicalRune.conditionalEffects,
+    };
   });
 };
 
@@ -98,12 +105,12 @@ export default function Calculator() {
     try {
       const parsed = parseRuneMarkdown(mdText);
       if (parsed && parsed.length > 40) {
-        return applyRuneEffectModels(mergeMasterRunes(parsed));
+        return mergeMasterRunes(parsed);
       }
     } catch (e) {
       console.error("Master markdown parsing failed, falling back to runes.json:", e);
     }
-    return applyRuneEffectModels(runesData);
+    return createCanonicalRunes(runesData);
   });
 
 
@@ -575,6 +582,7 @@ export default function Calculator() {
           onUptimeChange={handleUptimeChange}
           nightBlessingUptime={stats.nightBlessingUptime}
           onNightBlessingChange={(value) => handleStatsChange('nightBlessingUptime', value)}
+          dpsResult={dpsResult}
         />
       )}
 
